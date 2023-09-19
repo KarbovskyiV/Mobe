@@ -23,3 +23,6 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
+
+Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
