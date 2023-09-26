@@ -124,4 +124,53 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/products/{product}",
+     *     operationId="showProduct",
+     *     tags={"Products"},
+     *     summary="Show product details with category",
+     *     description="Retrieve details of a product along with its associated category",
+     *     @OA\Parameter(
+     *         name="product",
+     *         in="path",
+     *         description="Product ID",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Product details with category",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="created_at", type="string", format="date-time"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time"),
+     *             @OA\Property(property="category_id", type="integer"),
+     *             @OA\Property(
+     *                 property="category",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Product not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Product not found"),
+     *         ),
+     *     ),
+     * )
+     */
+    public function show(Product $product): JsonResponse
+    {
+        $product->load('category');
+
+        return response()->json($product);
+    }
 }
