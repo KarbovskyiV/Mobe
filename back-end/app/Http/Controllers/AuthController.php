@@ -94,7 +94,7 @@ class AuthController extends Controller
         $request->validated();
 
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->has('remember'))) {
             $user = Auth::user();
 
             if ($user) {
