@@ -21,3 +21,4 @@ Create db with name 'mobe' wherever you want
 
 After it in OSPanel console type: `php artisan migrate` - it's create DB 
 
+Next type: `php artisan db:seed` for fill out DB with basic data
