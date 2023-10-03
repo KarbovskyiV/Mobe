@@ -26,23 +26,29 @@ class PasswordController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"email"},
-     *             @OA\Property(property="email", type="string", format="email", example="johndoe@example.com", description="User's email address")
+     *             @OA\Property(property="email", type="string", format="email")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Password reset email sent successfully",
+     *         description="Success",
      *         @OA\JsonContent(
-     *             @OA\Property(property="msg", type="string", example="If you've provided a registered e-mail, you should get a recovery e-mail shortly."),
-     *             @OA\Property(property="token", type="string", example="string")
+     *             required={"message", "token"},
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="token", type="string")
      *         )
      *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Validation error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *             @OA\Property(property="errors", type="object", example={"email":"The email field is required."})
+     *             required={"message"},
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="errors", type="object",
+     *                   @OA\Property(property="field_name", type="array",
+     *                       @OA\Items(type="string")
+     *                   ),
+     *               ),
      *         )
      *     )
      * )
@@ -60,7 +66,7 @@ class PasswordController extends Controller
         Mail::to($email)->send(new ResetPasswordEmail($resetLink));
 
         return response()->json([
-            'msg' => "If you've provided registered e-mail, you should get recovery e-mail shortly.",
+            'message' => "If you've provided registered e-mail, you should get recovery e-mail shortly.",
             'token' => $token,
         ]);
     }
@@ -76,34 +82,33 @@ class PasswordController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"email", "password", "password_confirmation", "token"},
-     *             @OA\Property(property="email", type="string", format="email", example="johndoe@example.com", description="User's email address"),
-     *             @OA\Property(property="password", type="string", format="password", description="New password"),
-     *             @OA\Property(property="password_confirmation", type="string", format="password", description="Password confirmation"),
-     *             @OA\Property(property="token", type="string", description="Reset token received in the email")
+     *             @OA\Property(property="email", type="string", format="email"),
+     *             @OA\Property(property="password", type="string", format="password"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password"),
+     *             @OA\Property(property="token", type="string")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="New password set successfully",
+     *         description="Success",
      *         @OA\JsonContent(
-     *             @OA\Property(property="msg", type="string", example="New password successfully set")
+     *             required={"message"},
+     *             @OA\Property(property="message", type="string")
      *         )
      *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Validation error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *             @OA\Property(property="errors", type="object", example={"email":"The email field is required."})
+     *             required={"message"},
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="errors", type="object",
+     *             @OA\Property(property="field_name", type="array",
+     *                 @OA\Items(type="string")
+     *                 ),
+     *             ),
      *         )
      *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal server error",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="msg", type="string", example="An internal server error occurred.")
-     *         )
-     *     )
      * )
      */
     public function resetPassword(ResetPasswordRequest $request)
@@ -125,12 +130,12 @@ class PasswordController extends Controller
 
         if ($status == Password::PASSWORD_RESET) {
             return response([
-                'msg' => 'New password successfully set',
+                'message' => 'New password successfully set',
             ]);
         }
 
         return response([
-            'msg' => $status
-        ], 500);
+            'message' => $status
+        ], 422);
     }
 }

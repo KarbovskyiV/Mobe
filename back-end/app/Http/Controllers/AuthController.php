@@ -20,25 +20,38 @@ class AuthController extends Controller
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
-     *              @OA\Property(property="name", type="string", example="John Doe"),
-     *              @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="secret123"),
+     *              required={"name", "email", "password"},
+     *              @OA\Property(property="name", type="string"),
+     *              @OA\Property(property="email", type="string", format="email"),
+     *              @OA\Property(property="password", type="string", format="password"),
      *          )
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="User successfully created",
+     *          description="Success",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="User successfully created"),
-     *              @OA\Property(property="data", type="object"),
+     *              required={"message"},
+     *              @OA\Property(property="message", type="string"),
+     *              @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="name", type="string"),
+     *                  @OA\Property(property="email", type="string"),
+     *                  @OA\Property(property="created_at", type="string", format="date-time"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                  @OA\Property(property="id", type="integer"),
+     *              ),
      *          ),
      *      ),
      *      @OA\Response(
      *          response=422,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(property="errors", type="object"),
+     *              required={"message"},
+     *              @OA\Property(property="message", type="string"),
+     *              @OA\Property(property="errors", type="object",
+     *                  @OA\Property(property="field_name", type="array",
+     *                      @OA\Items(type="string")
+     *                  ),
+     *              ),
      *          ),
      *      ),
      * )
@@ -65,26 +78,37 @@ class AuthController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="secret123"),
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email"),
+     *             @OA\Property(property="password", type="string", format="password"),
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Login successful",
+     *         description="Success",
      *         @OA\JsonContent(
-     *             @OA\Property(property="user", type="object"),
+     *             @OA\Property(property="user", type="object",
+     *                 required={"id", "name", "email", "created_at", "updated_at"},
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="email_verified_at", type="string", format="date-time"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
+     *             ),
      *             @OA\Property(property="authorization", type="object",
-     *                 @OA\Property(property="token", type="string", example="your_access_token"),
-     *                 @OA\Property(property="type", type="string", example="bearer"),
+     *                 required={"token", "type"},
+     *                 @OA\Property(property="token", type="string"),
+     *                 @OA\Property(property="type", type="string"),
      *             ),
      *         ),
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Invalid credentials",
+     *         description="Unauthorized",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Invalid credentials"),
+     *             required={"message"},
+     *             @OA\Property(property="message", type="string"),
      *         ),
      *     ),
      * )
@@ -123,16 +147,16 @@ class AuthController extends Controller
      *     security={{ "bearerAuth":{} }},
      *     @OA\Response(
      *         response=200,
-     *         description="Logout successful",
+     *         description="Success",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Successfully logged out"),
+     *             @OA\Property(property="message", type="string"),
      *         ),
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Unauthenticated",
+     *         description="Unauthorized",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated"),
+     *             @OA\Property(property="message", type="string"),
      *         ),
      *     ),
      * )
