@@ -22,7 +22,9 @@ class AuthController extends Controller
      *          @OA\JsonContent(
      *              required={"name", "email", "password"},
      *              @OA\Property(property="name", type="string"),
+     *              @OA\Property(property="surname", type="string"),
      *              @OA\Property(property="email", type="string", format="email"),
+     *              @OA\Property(property="phone", type="string", format=""),
      *              @OA\Property(property="password", type="string", format="password"),
      *          )
      *      ),
@@ -34,7 +36,9 @@ class AuthController extends Controller
      *              @OA\Property(property="message", type="string"),
      *              @OA\Property(property="data", type="object",
      *                  @OA\Property(property="name", type="string"),
+     *                  @OA\Property(property="surname", type="string"),
      *                  @OA\Property(property="email", type="string"),
+     *                  @OA\Property(property="phone", type="string"),
      *                  @OA\Property(property="created_at", type="string", format="date-time"),
      *                  @OA\Property(property="updated_at", type="string", format="date-time"),
      *                  @OA\Property(property="id", type="integer"),
