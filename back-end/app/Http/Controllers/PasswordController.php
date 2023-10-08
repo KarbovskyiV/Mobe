@@ -111,31 +111,31 @@ class PasswordController extends Controller
      *     ),
      * )
      */
-    public function resetPassword(ResetPasswordRequest $request)
-    {
-        $request->validated();
-
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, string $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
-
-                $user->save();
-
-                event(new PasswordReset($user));
-            }
-        );
-
-        if ($status == Password::PASSWORD_RESET) {
-            return response([
-                'message' => 'New password successfully set',
-            ]);
-        }
-
-        return response([
-            'message' => $status
-        ], 422);
-    }
+//    public function resetPassword(ResetPasswordRequest $request)
+//    {
+//        $request->validated();
+//
+//        $status = Password::reset(
+//            $request->only('email', 'password', 'password_confirmation', 'token'),
+//            function (User $user, string $password) {
+//                $user->forceFill([
+//                    'password' => Hash::make($password)
+//                ])->setRememberToken(Str::random(60));
+//
+//                $user->save();
+//
+//                event(new PasswordReset($user));
+//            }
+//        );
+//
+//        if ($status == Password::PASSWORD_RESET) {
+//            return response([
+//                'message' => 'New password successfully set',
+//            ]);
+//        }
+//
+//        return response([
+//            'message' => $status
+//        ], 422);
+//    }
 }

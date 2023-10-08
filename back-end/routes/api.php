@@ -30,7 +30,7 @@ Route::get('/link/gmail', [AuthController::class, 'link'])->name('link.gmail');
 Route::get('/token/gmail', [AuthController::class, 'getGoogleToken'])->name('token.gmail');
 
 Route::post('/forgot-password', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::post('/reset-password', [PasswordController::class, 'resetPassword'])->name('password.reset');
+//Route::post('/reset-password', [PasswordController::class, 'resetPassword'])->name('password.reset');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
