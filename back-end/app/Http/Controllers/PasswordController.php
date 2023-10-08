@@ -61,7 +61,7 @@ class PasswordController extends Controller
 
         $token = Password::createToken(User::where('email', $email)->first());
 
-        $resetLink = env('APP_URL') . '/reset-password?token=' . $token;
+        $resetLink = config('app.url') . '/reset-password?token=' . $token;
 
         Mail::to($email)->send(new ResetPasswordEmail($resetLink));
 

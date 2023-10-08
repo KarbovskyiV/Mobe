@@ -6,6 +6,7 @@ use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -179,5 +180,37 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Unauthenticated',
         ], 401);
+    }
+
+    public function link(): string
+    {
+        $parameters = [
+            'redirect_uri' => config('oauth.google.redirect_uri'),
+            'response_type' => 'code',
+            'client_id' => config('oauth.google.client_it'),
+            'scope' => implode(' ', config('oauth.google.scopes')),
+        ];
+
+        return config('oauth.google.auth_api') . '?' . http_build_query($parameters);
+    }
+
+    public function getGoogleToken(Request $request)
+    {
+        dd($request->get('code'));
+//        $parameters = [
+//            'client_id'     => config('oauth.google.client_it'),
+//            'client_secret' => config('oauth.google.client_secret'),
+//            'redirect_uri'  => config('oauth.google.redirect_uri'),
+//            'grant_type'    => 'authorization_code',
+//            'code'          => $_GET['code'],
+//        ];
+//
+//        $client = new \GuzzleHttp\Client();
+//
+//        $response = $client->post(config('oauth.google.token_api'), ['form_params' => $parameters]);
+//
+//        $data = json_decode($response->getBody()->getContents(), true);
+//
+//        return $data;
     }
 }
