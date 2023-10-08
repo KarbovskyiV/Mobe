@@ -20,7 +20,7 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, [categoryValue]);
   console.log(items);
-  return <div>Test</div>;
+  return <div></div>;
 };
 
 export default Home;
