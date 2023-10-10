@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -124,6 +126,7 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials, $request->has('remember'))) {
+            /** @var User $user */
             $user = Auth::user();
 
             if ($user) {
@@ -168,6 +171,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
+        /** @var User $user */
         $user = Auth::user();
 
         if ($user) {
@@ -182,6 +186,22 @@ class AuthController extends Controller
         ], 401);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/link/gmail",
+     *     operationId="linkWithGoogle",
+     *     tags={"Authentication"},
+     *     summary="Generate a Google OAuth link",
+     *     description="Generates a Google OAuth link for linking your account.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="link", type="string", description="Google OAuth link"),
+     *         ),
+     *     ),
+     * )
+     */
     public function link(): string
     {
         $parameters = [
@@ -194,23 +214,49 @@ class AuthController extends Controller
         return config('oauth.google.auth_api') . '?' . http_build_query($parameters);
     }
 
-    public function getGoogleToken(Request $request)
+    /**
+     * @throws GuzzleException
+     * @throws \JsonException
+     */
+    public function authenticateWithGoogle(Client $client): RedirectResponse
     {
-        dd($request->get('code'));
-//        $parameters = [
-//            'client_id'     => config('oauth.google.client_it'),
-//            'client_secret' => config('oauth.google.client_secret'),
-//            'redirect_uri'  => config('oauth.google.redirect_uri'),
-//            'grant_type'    => 'authorization_code',
-//            'code'          => $_GET['code'],
-//        ];
-//
-//        $client = new \GuzzleHttp\Client();
-//
-//        $response = $client->post(config('oauth.google.token_api'), ['form_params' => $parameters]);
-//
-//        $data = json_decode($response->getBody()->getContents(), true);
-//
-//        return $data;
+        $parameters = [
+            'client_id' => config('oauth.google.client_it'),
+            'client_secret' => config('oauth.google.client_secret'),
+            'redirect_uri' => config('oauth.google.redirect_uri'),
+            'grant_type' => 'authorization_code',
+            'code' => $_GET['code'],
+        ];
+
+        $request = $client->post(config('oauth.google.token_api'), ['form_params' => $parameters]);
+
+        $response = json_decode($request->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+
+        $token = $response['access_token'];
+
+        $userResponse = $client->get(config('oauth.google.user_info_uri'), [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token
+            ]
+        ]);
+
+        $data = json_decode($userResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+
+        $user = User::query()->where('email', $data['email'])->first();
+
+        if ($user === null) {
+            $user = User::query()->create([
+                'name' => $data['given_name'],
+                'surname' => $data['family_name'] ?: null,
+                'email' => $data['email'],
+                'password' => 'password',
+            ]);
+        }
+
+        // @todo what to do with pass next?
+
+        Auth::login($user);
+
+        return back();
     }
 }

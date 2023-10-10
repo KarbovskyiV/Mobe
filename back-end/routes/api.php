@@ -27,7 +27,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 
 Route::get('/link/gmail', [AuthController::class, 'link'])->name('link.gmail');
-Route::get('/token/gmail', [AuthController::class, 'getGoogleToken'])->name('token.gmail');
+Route::get('/token/gmail', [AuthController::class, 'authenticateWithGoogle'])->name('token.gmail');
 
 Route::post('/forgot-password', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 //Route::post('/reset-password', [PasswordController::class, 'resetPassword'])->name('password.reset');

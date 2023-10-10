@@ -289,6 +289,34 @@
                 ]
             }
         },
+        "/api/link/gmail": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Generate a Google OAuth link",
+                "description": "Generates a Google OAuth link for linking your account.",
+                "operationId": "linkWithGoogle",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "link": {
+                                            "description": "Google OAuth link",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/categories": {
             "get": {
                 "tags": [
