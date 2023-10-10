@@ -126,6 +126,7 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials, $request->has('remember'))) {
+            /** @var User $user */
             $user = Auth::user();
 
             if ($user) {
@@ -170,6 +171,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
+        /** @var User $user */
         $user = Auth::user();
 
         if ($user) {
