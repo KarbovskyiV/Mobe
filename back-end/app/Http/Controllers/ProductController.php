@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -172,5 +175,124 @@ class ProductController extends Controller
         $product->load('category');
 
         return response()->json($product);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/products/{product}/add-to-favourites",
+     *     operationId="addToFavourites",
+     *     tags={"Favourite"},
+     *     summary="Add a product to favourites",
+     *     description="Adds a product to the user's list of favourite products.",
+     *     security={{ "bearerAuth":{} }},
+     *     @OA\Parameter(
+     *         name="product",
+     *         in="path",
+     *         required=true,
+     *         description="Product ID",
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="Conflict",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     * )
+     */
+    public function addToFavourites(Product $product): JsonResponse
+    {
+        // Get authorized user
+        $user = Auth::user();
+
+        if (DB::table('product_user')
+            ->where('user_id', $user->id)
+            ->where('product_id', $product->id)
+            ->exists()) {
+            return response()->json([
+                'message' => 'Product is already in favourites'
+            ], 409);
+        }
+
+        /** @var User $user */
+        $user->favouriteProducts()->attach($product->id);
+
+        return response()->json([
+            'message' => 'Product added to favourites'
+        ]);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/products/{product}/remove-from-favourites",
+     *     operationId="removeFromFavourites",
+     *     tags={"Favourite"},
+     *     summary="Remove a product from favourites",
+     *     description="Remove a product from the user's list of favourite products.",
+     *     security={{ "bearerAuth":{} }},
+     *     @OA\Parameter(
+     *         name="product",
+     *         in="path",
+     *         required=true,
+     *         description="Product ID",
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     * )
+     */
+    public function removeFromFavourites(Product $product): JsonResponse
+    {
+        $user = Auth::user();
+
+        if (DB::table('product_user')
+            ->where('user_id', $user->id)
+            ->where('product_id', $product->id)
+            ->exists()) {
+            /** @var User $user */
+            $user->favouriteProducts()->detach($product->id);
+
+            return response()->json([
+                'message' => 'Product remove from favourites'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'This product is not on your favourite list'
+        ], 404);
     }
 }
