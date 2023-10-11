@@ -1,0 +1,24 @@
+@import "./_variables.scss";
+@import "./libs/normalize.scss";
+@import "./components/_all.scss";
+
+.unterline {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.notfound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $violet;
+  height: 100%;
+}
+
+.goback {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

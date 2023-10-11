@@ -1,0 +1,30 @@
+@import '../../scss/variables';
+
+swiper-container{
+    margin-top: 12px;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    &::part(bullet-active) {
+        background-color: $violet;
+    }
+
+    &::part(bullet-active) {
+        background-color: $violet;
+    }
+    
+    &::part(bullet) {
+        background-color: $white;
+    }
+    &::part(bullet), &::part(button-prev), &::part(button-next) {
+        opacity: 1;
+    }
+    
+    &::part(button-prev), &::part(button-next) {
+        color: $white;
+    }
+    swiper-slide img {
+        max-width: 100%;
+    }
+}
+

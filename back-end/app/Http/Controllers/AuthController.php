@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -20,25 +23,42 @@ class AuthController extends Controller
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
-     *              @OA\Property(property="name", type="string", example="John Doe"),
-     *              @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="secret123"),
+     *              required={"name", "email", "password"},
+     *              @OA\Property(property="name", type="string"),
+     *              @OA\Property(property="surname", type="string"),
+     *              @OA\Property(property="email", type="string", format="email"),
+     *              @OA\Property(property="phone", type="string", format=""),
+     *              @OA\Property(property="password", type="string", format="password"),
      *          )
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="User successfully created",
+     *          description="Success",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="User successfully created"),
-     *              @OA\Property(property="data", type="object"),
+     *              required={"message"},
+     *              @OA\Property(property="message", type="string"),
+     *              @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="name", type="string"),
+     *                  @OA\Property(property="surname", type="string"),
+     *                  @OA\Property(property="email", type="string"),
+     *                  @OA\Property(property="phone", type="string"),
+     *                  @OA\Property(property="created_at", type="string", format="date-time"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                  @OA\Property(property="id", type="integer"),
+     *              ),
      *          ),
      *      ),
      *      @OA\Response(
      *          response=422,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(property="errors", type="object"),
+     *              required={"message"},
+     *              @OA\Property(property="message", type="string"),
+     *              @OA\Property(property="errors", type="object",
+     *                  @OA\Property(property="field_name", type="array",
+     *                      @OA\Items(type="string")
+     *                  ),
+     *              ),
      *          ),
      *      ),
      * )
@@ -65,26 +85,37 @@ class AuthController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="secret123"),
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email"),
+     *             @OA\Property(property="password", type="string", format="password"),
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Login successful",
+     *         description="Success",
      *         @OA\JsonContent(
-     *             @OA\Property(property="user", type="object"),
+     *             @OA\Property(property="user", type="object",
+     *                 required={"id", "name", "email", "created_at", "updated_at"},
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="email_verified_at", type="string", format="date-time"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
+     *             ),
      *             @OA\Property(property="authorization", type="object",
-     *                 @OA\Property(property="token", type="string", example="your_access_token"),
-     *                 @OA\Property(property="type", type="string", example="bearer"),
+     *                 required={"token", "type"},
+     *                 @OA\Property(property="token", type="string"),
+     *                 @OA\Property(property="type", type="string"),
      *             ),
      *         ),
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Invalid credentials",
+     *         description="Unauthorized",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Invalid credentials"),
+     *             required={"message"},
+     *             @OA\Property(property="message", type="string"),
      *         ),
      *     ),
      * )
@@ -94,7 +125,8 @@ class AuthController extends Controller
         $request->validated();
 
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            /** @var User $user */
             $user = Auth::user();
 
             if ($user) {
@@ -123,22 +155,23 @@ class AuthController extends Controller
      *     security={{ "bearerAuth":{} }},
      *     @OA\Response(
      *         response=200,
-     *         description="Logout successful",
+     *         description="Success",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Successfully logged out"),
+     *             @OA\Property(property="message", type="string"),
      *         ),
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Unauthenticated",
+     *         description="Unauthorized",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated"),
+     *             @OA\Property(property="message", type="string"),
      *         ),
      *     ),
      * )
      */
     public function logout(): JsonResponse
     {
+        /** @var User $user */
         $user = Auth::user();
 
         if ($user) {
@@ -151,5 +184,79 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Unauthenticated',
         ], 401);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/link/gmail",
+     *     operationId="linkWithGoogle",
+     *     tags={"Authentication"},
+     *     summary="Generate a Google OAuth link",
+     *     description="Generates a Google OAuth link for linking your account.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="link", type="string", description="Google OAuth link"),
+     *         ),
+     *     ),
+     * )
+     */
+    public function link(): string
+    {
+        $parameters = [
+            'redirect_uri' => config('oauth.google.redirect_uri'),
+            'response_type' => 'code',
+            'client_id' => config('oauth.google.client_it'),
+            'scope' => implode(' ', config('oauth.google.scopes')),
+        ];
+
+        return config('oauth.google.auth_api') . '?' . http_build_query($parameters);
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws \JsonException
+     */
+    public function authenticateWithGoogle(Client $client): RedirectResponse
+    {
+        $parameters = [
+            'client_id' => config('oauth.google.client_it'),
+            'client_secret' => config('oauth.google.client_secret'),
+            'redirect_uri' => config('oauth.google.redirect_uri'),
+            'grant_type' => 'authorization_code',
+            'code' => $_GET['code'],
+        ];
+
+        $request = $client->post(config('oauth.google.token_api'), ['form_params' => $parameters]);
+
+        $response = json_decode($request->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+
+        $token = $response['access_token'];
+
+        $userResponse = $client->get(config('oauth.google.user_info_uri'), [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token
+            ]
+        ]);
+
+        $data = json_decode($userResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+
+        $user = User::query()->where('email', $data['email'])->first();
+
+        if ($user === null) {
+            $user = User::query()->create([
+                'name' => $data['given_name'],
+                'surname' => $data['family_name'] ?: null,
+                'email' => $data['email'],
+                'password' => 'password',
+            ]);
+        }
+
+        // @todo what to do with pass next?
+
+        Auth::login($user);
+
+        return back();
     }
 }

@@ -19,20 +19,29 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
                                 "properties": {
                                     "name": {
-                                        "type": "string",
-                                        "example": "John Doe"
+                                        "type": "string"
+                                    },
+                                    "surname": {
+                                        "type": "string"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "format": "email",
-                                        "example": "johndoe@example.com"
+                                        "format": "email"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "format": ""
                                     },
                                     "password": {
                                         "type": "string",
-                                        "format": "password",
-                                        "example": "secret123"
+                                        "format": "password"
                                     }
                                 },
                                 "type": "object"
@@ -42,16 +51,43 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "User successfully created",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
-                                            "type": "string",
-                                            "example": "User successfully created"
+                                            "type": "string"
                                         },
                                         "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "surname": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "phone": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
                                             "type": "object"
                                         }
                                     },
@@ -65,12 +101,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
+                                            "type": "string"
                                         },
                                         "errors": {
+                                            "properties": {
+                                                "field_name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
                                             "type": "object"
                                         }
                                     },
@@ -95,16 +141,18 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
                                 "properties": {
                                     "email": {
                                         "type": "string",
-                                        "format": "email",
-                                        "example": "johndoe@example.com"
+                                        "format": "email"
                                     },
                                     "password": {
                                         "type": "string",
-                                        "format": "password",
-                                        "example": "secret123"
+                                        "format": "password"
                                     }
                                 },
                                 "type": "object"
@@ -114,23 +162,55 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Login successful",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "user": {
+                                            "required": [
+                                                "id",
+                                                "name",
+                                                "email",
+                                                "created_at",
+                                                "updated_at"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
                                             "type": "object"
                                         },
                                         "authorization": {
+                                            "required": [
+                                                "token",
+                                                "type"
+                                            ],
                                             "properties": {
                                                 "token": {
-                                                    "type": "string",
-                                                    "example": "your_access_token"
+                                                    "type": "string"
                                                 },
                                                 "type": {
-                                                    "type": "string",
-                                                    "example": "bearer"
+                                                    "type": "string"
                                                 }
                                             },
                                             "type": "object"
@@ -142,14 +222,16 @@
                         }
                     },
                     "401": {
-                        "description": "Invalid credentials",
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
-                                            "type": "string",
-                                            "example": "Invalid credentials"
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -170,14 +252,13 @@
                 "operationId": "logoutUser",
                 "responses": {
                     "200": {
-                        "description": "Logout successful",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "type": "string",
-                                            "example": "Successfully logged out"
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -186,14 +267,13 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated",
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated"
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -207,6 +287,34 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/link/gmail": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Generate a Google OAuth link",
+                "description": "Generates a Google OAuth link for linking your account.",
+                "operationId": "linkWithGoogle",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "link": {
+                                            "description": "Google OAuth link",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/categories": {
@@ -325,6 +433,88 @@
                                             "description": "Total number of records",
                                             "type": "integer",
                                             "example": 2
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forgot-password": {
+            "post": {
+                "tags": [
+                    "Password"
+                ],
+                "summary": "Send a password reset email",
+                "description": "Sends a password reset email to the user's registered email address.",
+                "operationId": "sendResetLinkEmail",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "message",
+                                        "token"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "field_name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -482,6 +672,239 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/products/{product}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Show product details with category",
+                "description": "Retrieve details of a product along with its associated category",
+                "operationId": "showProduct",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details with category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "category_id": {
+                                            "type": "integer"
+                                        },
+                                        "category": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{product}/add-to-favourites": {
+            "get": {
+                "tags": [
+                    "Favourite"
+                ],
+                "summary": "Add a product to favourites",
+                "description": "Adds a product to the user's list of favourite products.",
+                "operationId": "addToFavourites",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/{product}/remove-from-favourites": {
+            "post": {
+                "tags": [
+                    "Favourite"
+                ],
+                "summary": "Remove a product from favourites",
+                "description": "Remove a product from the user's list of favourite products.",
+                "operationId": "removeFromFavourites",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
