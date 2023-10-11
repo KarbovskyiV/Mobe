@@ -7,7 +7,6 @@ import Footer from "./components/Footer.jsx";
 import LoginPage from "./pages/Signin.jsx";
 import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import Slider from "./components/Slider/Slider";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -65,7 +64,7 @@ function App() {
                       value={{ categoryValue, setCategoryValue }}
                     >
                       <Header />
-                      <Slider />
+
                       <Routes>
                         <Route path="/NotFound" element={<NotFound />} />
                         <Route path="/" element={<Home />} />
