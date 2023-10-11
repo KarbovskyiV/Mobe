@@ -22,11 +22,11 @@ function App() {
   const [categoryValue, setCategoryValue] = React.useState("");
   const [registrationActive, setRegistrationActive] = React.useState(false);
   const [signInActive, setSignInActive] = React.useState(false);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(
-    localStorage.getItem("isLoggedIn") === "true"
-  );
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [user, setUser] = React.useState({
     name: "",
+    surname: "",
+    phone: "",
     email: "",
     password: "",
   });
@@ -37,19 +37,20 @@ function App() {
   const [surname, setSurname] = React.useState({
     surname: "",
   });
-  const [phonenumber, setPhonenumber] = React.useState({
-    phonenumber: 0,
+  const [phone, setPhone] = React.useState({
+    phone: "",
   });
 
   useEffect(() => {
     if (localStorage.getItem("user") !== null) {
       setUser(JSON.parse(localStorage.getItem("user")));
+      setIsLoggedIn(true);
     }
   }, []);
 
   return (
     <div className="App">
-      <PhonenumberContext.Provider value={{ phonenumber, setPhonenumber }}>
+      <PhonenumberContext.Provider value={{ phone, setPhone }}>
         <SurnameContext.Provider value={{ surname, setSurname }}>
           <NameContext.Provider value={{ name, setName }}>
             <userContext.Provider value={{ user, setUser }}>
