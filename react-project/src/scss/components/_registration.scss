@@ -87,6 +87,9 @@
 }
 
 .registration-button2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: $white;
   border: 1px solid var(--grey, #747474);
   color: $black;
@@ -99,14 +102,14 @@
   margin-top: 16px;
   gap: 16px;
   margin-bottom: 100px;
+}
 
-  button {
-    width: 50%;
-    padding: 8px 24px;
-    border-radius: 4px;
-    border: 1px solid var(--grey, #747474);
-    background: var(--foundation-gray-neutral-100, #fff);
-  }
+.registration-buttons {
+  width: 50%;
+  padding: 8px 24px;
+  border-radius: 4px;
+  border: 1px solid var(--grey, #747474);
+  background: var(--foundation-gray-neutral-100, #fff);
 }
 
 .registration-links1 {
@@ -131,10 +134,8 @@
 }
 
 @media (max-width: 1100px) {
-  .registration-links {
-    button {
-      padding: 6px 12px;
-    }
+  .registration-buttons {
+    padding: 6px 12px;
   }
 }
 
@@ -152,11 +153,11 @@
 @media (max-width: 770px) {
   .registration-links {
     display: block;
+  }
 
-    button {
-      width: 100%;
-      margin-bottom: 5px;
-    }
+  .registration-buttons {
+    width: 100%;
+    margin-bottom: 5px;
   }
 
   .registration-links1 {

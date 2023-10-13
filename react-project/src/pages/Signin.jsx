@@ -4,8 +4,10 @@ import {
   SignInActiveContext,
   RegistrationActiveContext,
   userContext,
+  isLoggedInContext,
 } from "../App";
-import axios from "../utils/axios.js";
+import axios from "axios";
+import styles from "./Signin.module.scss";
 
 const useValidation = (value, validations) => {
   const [isEmpty, setIsEmpty] = React.useState(true);
@@ -56,13 +58,14 @@ const useInput = (initialValue, validations) => {
   };
 };
 
-const SignIn = (props) => {
+const SignIn = () => {
+  const navigate = useNavigate();
   const { setSignInActive } = React.useContext(SignInActiveContext);
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
   const { setUser } = React.useContext(userContext);
   const [eye, setEye] = React.useState(true);
-
-  const navigate = useNavigate();
+  const { setIsLoggedIn } = React.useContext(isLoggedInContext);
+  const [error, setError] = React.useState(false);
 
   const onClickLinkRegistration = () => {
     setSignInActive(false);
@@ -72,33 +75,32 @@ const SignIn = (props) => {
   const loginUser = (e) => {
     e.preventDefault();
 
-    let newUser = {
-      email: e.target[0].value,
-      password: e.target[1].value,
-    };
-
     axios
-      .post("/login", newUser)
-      .then(({ data }) => {
+      .post("http://mobe.local/api/login", {
+        email: e.target[0].value,
+        password: e.target[1].value,
+      })
+      .then((res) => {
         setUser({
-          token: data.accessToken,
-          ...data.user,
+          ...res.user,
         });
 
         localStorage.setItem(
           "user",
           JSON.stringify({
-            token: data.accessToken,
-            ...data.user,
+            email: e.target[0].value,
+            password: e.target[1].value,
           })
         );
 
+        setSignInActive(false);
+        setIsLoggedIn(true);
         navigate("/");
       })
       .catch((err) => console.log(err.message));
   };
 
-  const emailValid = useInput("", { isEmpty: true, minLength: 3 });
+  const emailValid = useInput("", { isEmpty: true, minLength: 2 });
   const passwordValid = useInput("", { isEmpty: true, minLength: 5 });
 
   return (
@@ -137,19 +139,21 @@ const SignIn = (props) => {
           value={emailValid.value}
           onChange={(e) => emailValid.onChange(e)}
           onBlur={(e) => emailValid.onBlur(e)}
-          /* value={login}
-          onChange={(e) => setLogin(e.target.value)} */
           type="email"
           placeholder="example@email.com"
-          className="input__box"
+          className={
+            emailValid.isDirty && emailValid.isEmpty
+              ? "input__error"
+              : "input__box"
+          }
         ></input>
         {emailValid.isDirty && emailValid.isEmpty && (
-          <div style={{ color: "red" }}>The field is not filled</div>
+          <div className={styles.error}>The field is not filled</div>
         )}
         {emailValid.isDirty &&
-          emailValid.value.length < 3 &&
+          emailValid.value.length < 2 &&
           emailValid.value.length !== 0 && (
-            <div style={{ color: "red" }}>Invalid field length</div>
+            <div className={styles.error}>Invalid field length</div>
           )}
 
         <p>Password</p>
@@ -164,14 +168,13 @@ const SignIn = (props) => {
             className="input__box"
           ></input>
           {passwordValid.isDirty && passwordValid.isEmpty && (
-            <div style={{ color: "red" }}>The field is not filled</div>
+            <div className={styles.error}>The field is not filled</div>
           )}
           {passwordValid.isDirty &&
             passwordValid.value.length < 5 &&
             passwordValid.value.length !== 0 && (
-              <div style={{ color: "red" }}>Invalid field length</div>
+              <div className={styles.error}>Invalid field length</div>
             )}
-
           <span
             onClick={() => setEye((prev) => !prev)}
             className="signin-form-eye"
@@ -259,7 +262,7 @@ const SignIn = (props) => {
           <a href="##">or</a>
         </div>
         <div className="signin-links">
-          <button>
+          <div className="signin-buttons">
             <div className="signin-links1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -299,8 +302,8 @@ const SignIn = (props) => {
               </svg>
               <p>Google</p>
             </div>
-          </button>
-          <button>
+          </div>
+          <div className="signin-buttons">
             <div className="signin-links1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -327,7 +330,7 @@ const SignIn = (props) => {
               </svg>
               <p>Facebook</p>
             </div>
-          </button>
+          </div>
         </div>
         <div className="signin-up">
           <p>Don’t have an account?</p>

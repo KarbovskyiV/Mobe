@@ -125,13 +125,13 @@
   padding: 0;
   margin: 0;
   gap: 16px;
+}
 
-  button {
-    width: 50%;
-    border-radius: 4px;
-    border: 1px solid var(--grey, #747474);
-    background: var(--foundation-gray-neutral-100, #fff);
-  }
+.signin-buttons {
+  width: 50%;
+  border-radius: 4px;
+  border: 1px solid var(--grey, #747474);
+  background: var(--foundation-gray-neutral-100, #fff);
 }
 
 .signin-links1 {
@@ -142,6 +142,7 @@
   justify-content: center;
   padding: 0;
   margin: 0;
+  cursor: pointer;
 }
 
 .signin-a {
@@ -182,15 +183,20 @@
   }
 }
 
+.error__input {
+  border: 1px solid red;
+}
+
 @media (max-width: 750px) {
   .signin-links {
     display: block;
-
-    button {
-      width: 100%;
-      margin-bottom: 5px;
-    }
   }
+
+  .signin-buttons {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
   .signin-field {
     width: 90%;
   }

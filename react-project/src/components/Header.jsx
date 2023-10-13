@@ -1,25 +1,32 @@
 import React from "react";
 import Logo from "./Logo";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   SignInActiveContext,
   userContext,
   RegistrationActiveContext,
+  isLoggedInContext,
 } from "../App";
 
 function Header() {
   const { setSignInActive } = React.useContext(SignInActiveContext);
-  const navigate = useNavigate();
+
   const { user, setUser } = React.useContext(userContext);
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
 
   const logOutUser = () => {
     setUser({
+      name: "",
+      surname: "",
+      phone: "",
       email: "",
+      password: "",
     });
     localStorage.removeItem("user");
 
     setSignInActive(true);
+    setIsLoggedIn(false);
   };
 
   const onClickSignin = () => {
@@ -70,8 +77,8 @@ function Header() {
               />
             </svg>
           </button>
-
-          {user.email.length ? (
+          <input type="text"></input>
+          {isLoggedIn ? (
             <button className="header__signin" onClick={logOutUser}>
               Sign out
             </button>
