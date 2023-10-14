@@ -3,25 +3,19 @@ import {
   SignInActiveContext,
   RegistrationActiveContext,
   userContext,
-  NameContext,
-  SurnameContext,
-  PhonenumberContext,
   isLoggedInContext,
 } from "../App";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+/* import axios from "axios"; */
+import axios from "../utils/axios.js";
+import useInput from "../components/Validation";
+import styles from "./Signin.module.scss";
 
 const Registration = () => {
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
   const { setSignInActive } = React.useContext(SignInActiveContext);
-  const { name, setName } = React.useContext(NameContext);
-  const { surname, setSurname } = React.useContext(SurnameContext);
-  const { phone, setPhone } = React.useContext(PhonenumberContext);
-  const { user, setUser } = React.useContext(userContext);
-  const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
-
-  const [login, setLogin] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { setUser } = React.useContext(userContext);
+  const { setIsLoggedIn } = React.useContext(isLoggedInContext);
   const [eye, setEye] = React.useState(true);
 
   const onClickLinkRegistration = () => {
@@ -35,12 +29,12 @@ const Registration = () => {
     e.preventDefault();
 
     axios
-      .post("http://mobe.local/api/register", {
-        name,
-        surname,
-        phone,
-        email: login,
-        password,
+      .post("/register", {
+        name: e.target[0].value,
+        surname: e.target[1].value,
+        phone: e.target[2].value,
+        email: e.target[3].value,
+        password: e.target[4].value,
       })
       .then((res) => {
         setUser({
@@ -50,14 +44,13 @@ const Registration = () => {
         localStorage.setItem(
           "user",
           JSON.stringify({
-            name,
-            surname,
-            phone,
-            email: login,
-            password,
+            name: e.target[0].value,
+            surname: e.target[1].value,
+            phone: e.target[2].value,
+            email: e.target[3].value,
+            password: e.target[4].value,
           })
         );
-
         navigate("/");
       });
 
@@ -69,6 +62,60 @@ const Registration = () => {
     navigate("/NotFound");
     setRegistrationActive(false);
   };
+
+  const nameValid = useInput("", {
+    isEmpty: true,
+    minLength: 2,
+    nameSymbols: true,
+  });
+
+  const surenameValid = useInput("", {
+    isEmpty: true,
+    minLength: 2,
+    nameSymbols: true,
+  });
+
+  const phoneValid = useInput("", {
+    minLength: 10,
+    maxLength: 15,
+  });
+
+  const emailValid = useInput("", {
+    isEmpty: true,
+    minLength: 2,
+    falseSymbols: true,
+  });
+  const passwordValid = useInput("", {
+    isEmpty: true,
+    minLength: 8,
+  });
+
+  const redColor = (e, x, y) =>
+    e.isDirty &&
+    (e.isEmpty ||
+      e.falseSymbols ||
+      e.nameSymbols ||
+      (e.value.length < x && e.value.length !== 0))
+      ? `input__error${y}`
+      : `input__box${y}`;
+
+  const isEmpty = (e) =>
+    e.isDirty &&
+    e.isEmpty && <div className={styles.error}>The field is not filled</div>;
+
+  const isLendth = (e, x) =>
+    e.isDirty &&
+    e.value.length < x &&
+    e.value.length !== 0 && (
+      <div className={styles.error}>Invalid field length</div>
+    );
+
+  const maxLength = (e, x) =>
+    e.isDirty &&
+    e.value.length > x &&
+    e.value.length !== 0 && (
+      <div className={styles.error}>Maximum number of 15 characters</div>
+    );
 
   return (
     <form onSubmit={registerUser} className="registration-window">
@@ -104,45 +151,86 @@ const Registration = () => {
         <h2>Registration</h2>
         <p>Name</p>
         <input
-          onChange={(e) => setName(e.target.value)}
+          value={nameValid.value}
+          onChange={(e) => nameValid.onChange(e)}
+          onBlur={(e) => nameValid.onBlur(e)}
           type="text"
           placeholder="your name"
-          className="input__box"
+          className={redColor(nameValid, 2, "")}
         ></input>
+        {isEmpty(nameValid)}
+        {isLendth(nameValid, 2)}
+        {nameValid.isDirty && nameValid.nameSymbols && (
+          <div className={styles.error}>The field is not valid</div>
+        )}
         <p>Surname</p>
         <input
-          onChange={(e) => setSurname(e.target.value)}
+          value={surenameValid.value}
+          onChange={(e) => surenameValid.onChange(e)}
+          onBlur={(e) => surenameValid.onBlur(e)}
           type="text"
           placeholder="your surname"
-          className="input__box"
+          className={redColor(surenameValid, 2, "")}
         ></input>
+        {isEmpty(surenameValid)}
+        {isLendth(surenameValid, 2)}
+        {surenameValid.isDirty && surenameValid.nameSymbols && (
+          <div className={styles.error}>The field is not valid</div>
+        )}
         <p>Phone number</p>
         <input
-          onChange={(e) => setPhone(e.target.value)}
+          value={phoneValid.value}
+          onChange={(e) => phoneValid.onChange(e)}
+          onBlur={(e) => phoneValid.onBlur(e)}
           type="number"
           placeholder="+380"
-          className="input__box"
+          className={
+            phoneValid.isDirty &&
+            ((phoneValid.value.length < 10 && phoneValid.value.length !== 0) ||
+              phoneValid.value.length > 15)
+              ? "input__error"
+              : "input__box"
+          }
         ></input>
+        {isLendth(phoneValid, 10)}
+        {maxLength(phoneValid, 15)}
         <p>Email</p>
         <input
-          onChange={(e) => setLogin(e.target.value)}
+          value={emailValid.value}
+          onChange={(e) => emailValid.onChange(e)}
+          onBlur={(e) => emailValid.onBlur(e)}
           type="email"
           placeholder="example@email.com"
-          className="input__box"
+          className={redColor(emailValid, 2, "")}
         ></input>
+        {isEmpty(emailValid)}
+        {isLendth(emailValid, 2)}
+        {emailValid.isDirty && emailValid.falseSymbols && (
+          <div className={styles.error}>The field is not valid</div>
+        )}
         <p>Password</p>
         <div className="registration-eye">
           <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={passwordValid.value}
+            onChange={(e) => passwordValid.onChange(e)}
+            onBlur={(e) => passwordValid.onBlur(e)}
             type={eye ? "password" : "text"}
             autoComplete="on"
             placeholder="your password"
-            className="input__box"
+            className={redColor(passwordValid, 2, "2")}
           ></input>
+          {isEmpty(passwordValid)}
+          {isLendth(passwordValid, 8)}
           <span
             onClick={() => setEye((prev) => !prev)}
-            className="registration-form-eye"
+            className={
+              passwordValid.isDirty &&
+              (passwordValid.isEmpty ||
+                (passwordValid.value.length < 8 &&
+                  passwordValid.value.length !== 0))
+                ? "registration-form-eye-error"
+                : "registration-form-eye"
+            }
           >
             {eye ? (
               <svg
