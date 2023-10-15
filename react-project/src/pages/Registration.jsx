@@ -6,6 +6,7 @@ import {
   NameContext,
   SurnameContext,
   PhonenumberContext,
+  isLoggedInContext,
 } from "../App";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,16 +16,17 @@ const Registration = () => {
   const { setSignInActive } = React.useContext(SignInActiveContext);
   const { name, setName } = React.useContext(NameContext);
   const { surname, setSurname } = React.useContext(SurnameContext);
-  const { phonenumber, setPhonenumber } = React.useContext(PhonenumberContext);
+  const { phone, setPhone } = React.useContext(PhonenumberContext);
   const { user, setUser } = React.useContext(userContext);
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
 
   const [login, setLogin] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [eye, setEye] = React.useState(true);
 
   const onClickLinkRegistration = () => {
-    setSignInActive(true);
     setRegistrationActive(false);
+    setSignInActive(true);
   };
 
   const navigate = useNavigate();
@@ -32,34 +34,35 @@ const Registration = () => {
   const registerUser = (e) => {
     e.preventDefault();
 
-    let newUser = {
-      /*  surname,
-      phonenumber, */
-      name,
-      email: login,
-      password: e.target[4].value,
-    };
+    axios
+      .post("http://mobe.local/api/register", {
+        name,
+        surname,
+        phone,
+        email: login,
+        password,
+      })
+      .then((res) => {
+        setUser({
+          ...res.user,
+        });
 
-    axios.post("http://mobe.local/api/register", newUser).then(({ data }) => {
-      setUser({
-        token: data.accessToken,
-        ...data.user,
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name,
+            surname,
+            phone,
+            email: login,
+            password,
+          })
+        );
+
+        navigate("/");
       });
 
-      console.log(user.email.length);
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          token: data.accessToken,
-          ...data.user,
-        })
-      );
-
-      navigate("/");
-    });
-
     setRegistrationActive(false);
+    setIsLoggedIn(true);
   };
 
   const changePage = () => {
@@ -115,7 +118,7 @@ const Registration = () => {
         ></input>
         <p>Phone number</p>
         <input
-          onChange={(e) => setPhonenumber(e.target.value)}
+          onChange={(e) => setPhone(e.target.value)}
           type="number"
           placeholder="+380"
           className="input__box"
@@ -184,26 +187,23 @@ const Registration = () => {
           </span>
         </div>
         <span>
-          By registering, you agree to the
+          By registering, you agree to the&nbsp;
           <a href="##" className="unterline" onClick={changePage}>
             terms of the provision on the processing and
           </a>
-          protection of personal data and the user agreement
+          &nbsp; protection of personal data and the user agreement
         </span>
         <button className="registration-button">Register</button>
-        <button
-          onClick={onClickLinkRegistration}
-          className="registration-button2"
-        >
+        <div onClick={onClickLinkRegistration} className="registration-button2">
           I am already registered
-        </button>
+        </div>
         <button className="registration-a">
           <a href="##">
             <span>or sign in</span>
           </a>
         </button>
         <div className="registration-links">
-          <button>
+          <div className="registration-buttons">
             <div className="registration-links1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -243,9 +243,9 @@ const Registration = () => {
               </svg>
               <p>Google</p>
             </div>
-          </button>
+          </div>
 
-          <button>
+          <div className="registration-buttons">
             <div className="registration-links1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +272,7 @@ const Registration = () => {
               </svg>
               <p>Facebook</p>
             </div>
-          </button>
+          </div>
         </div>
       </div>
     </form>
