@@ -35,7 +35,7 @@ const Registration = () => {
     e.preventDefault();
 
     axios
-      .post("http://mobe.publicvm.com/api/register", {
+      .post("http://localhost:8080/api/register", {
         name,
         surname,
         phone,
