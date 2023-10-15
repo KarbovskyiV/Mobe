@@ -10,7 +10,7 @@ const Home = () => {
   React.useEffect(() => {
     setIsLoading(true);
 
-    fetch(`http://mobe.local/api/products`)
+    fetch(`http://mobe.publicvm.com/api/products`)
       .then((res) => {
         return res.json();
       })

@@ -76,7 +76,7 @@ const SignIn = () => {
     e.preventDefault();
 
     axios
-      .post("http://mobe.local/api/login", {
+      .post("http://mobe.publicvm.com/api/login", {
         email: e.target[0].value,
         password: e.target[1].value,
       })
