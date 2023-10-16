@@ -5,6 +5,7 @@ import {
   RegistrationActiveContext,
   userContext,
   isLoggedInContext,
+  ForgotPasswordActiveContext,
 } from "../App";
 import axios from "../utils/axios.js";
 import styles from "./Signin.module.scss";
@@ -17,13 +18,14 @@ const SignIn = () => {
   const { setUser } = React.useContext(userContext);
   const [eye, setEye] = React.useState(true);
   const { setIsLoggedIn } = React.useContext(isLoggedInContext);
+  const { setForgotPasswordActive } = React.useContext(
+    ForgotPasswordActiveContext
+  );
 
   const onClickLinkRegistration = () => {
     setSignInActive(false);
     setRegistrationActive(true);
   };
-
-  console.log(22, { axios });
 
   const loginUser = (e) => {
     e.preventDefault();
@@ -81,6 +83,11 @@ const SignIn = () => {
     e.value.length !== 0 && (
       <div className={styles.error}>Invalid field length</div>
     );
+
+  const onClickForgotPassword = () => {
+    setForgotPasswordActive(true);
+    setSignInActive(false);
+  };
 
   return (
     <form onSubmit={loginUser} className="signin-window">
@@ -226,8 +233,9 @@ const SignIn = () => {
             </svg>
             <p>Remember me</p>
           </div>
-          <div className="signin-forgot">
-            <p>Forgot password?</p>
+
+          <div className="signin-forgot" onClick={onClickForgotPassword}>
+            Forgot password?
           </div>
         </div>
         <button className="signin-button">Sign in</button>
