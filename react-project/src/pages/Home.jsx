@@ -1,6 +1,7 @@
 import React from "react";
 import { CategoryContext } from "../App";
 import Slider from "../components/Sliders/Slider";
+import LogosBlock from "../components/LogosBlock/LogosBlock";
 
 const Home = () => {
   /* const [isLoading, setIsLoading] = React.useState(true);
@@ -24,6 +25,7 @@ const Home = () => {
   return (
     <div>
       <Slider />;
+      <LogosBlock />
     </div>
   );
 };
