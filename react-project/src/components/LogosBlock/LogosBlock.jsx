@@ -33,7 +33,7 @@ const logosItem = [
 const LogosBlock = () => {
     const logosRender = logosItem.map(({src, title}, i) => {
         return (
-            <li>
+            <li key={i}>
                 <a href="">
                     <img src={src} alt={title} />
                 </a>
