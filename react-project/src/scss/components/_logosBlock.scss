@@ -1,0 +1,12 @@
+.logos__block{
+    margin-top: 40px;
+    ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        list-style: none;
+        width: fit-content;
+        margin: 0 auto;
+        gap: 100px;
+    }
+}
