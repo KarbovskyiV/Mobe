@@ -52,7 +52,10 @@ const Registration = () => {
           })
         );
         navigate("/");
-      });
+      })
+        .catch((error) => {
+        console.log("Error response:", error.response.data);
+    });
 
     setRegistrationActive(false);
     setIsLoggedIn(true);
