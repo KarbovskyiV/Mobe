@@ -29,7 +29,7 @@ const slides = [
 const Slider = () => {
   const swiperElRef = useRef(null);
 
-  useEffect(() => {
+  /* useEffect(() => {
     swiperElRef.current.addEventListener("progres", (e) => {
       const [swiper, progress] = e.detail;
       console.log(progress);
@@ -38,7 +38,7 @@ const Slider = () => {
     swiperElRef.current.addEventListener("slidechange", (e) => {
       console.log("slide change");
     });
-  }, []);
+  }, []); */
 
   const slidesRender = slides.map(({ src, title, oldPrice, newPrice }, i) => {
     return (

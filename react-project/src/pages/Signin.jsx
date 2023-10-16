@@ -6,57 +6,9 @@ import {
   userContext,
   isLoggedInContext,
 } from "../App";
-import axios from "axios";
+import axios from "../utils/axios.js";
 import styles from "./Signin.module.scss";
-
-const useValidation = (value, validations) => {
-  const [isEmpty, setIsEmpty] = React.useState(true);
-  const [minLengthError, setMinLengthError] = React.useState(false);
-
-  useEffect(() => {
-    for (const validation in validations) {
-      switch (validation) {
-        case "minLengthError":
-          value.length < validations[validation]
-            ? setMinLengthError(true)
-            : setMinLengthError(false);
-          break;
-        case "isEmpty":
-          value ? setIsEmpty(false) : setIsEmpty(true);
-          break;
-        default:
-        // do nothing
-      }
-    }
-  }, [value]);
-
-  return {
-    isEmpty,
-    minLengthError,
-  };
-};
-
-const useInput = (initialValue, validations) => {
-  const [value, setValue] = React.useState(initialValue);
-  const [isDirty, setDirty] = React.useState(false);
-  const valid = useValidation(value, validations);
-
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  const onBlur = (e) => {
-    setDirty(true);
-  };
-
-  return {
-    value,
-    onChange,
-    onBlur,
-    isDirty,
-    ...valid,
-  };
-};
+import useInput from "../components/Validation";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -65,18 +17,19 @@ const SignIn = () => {
   const { setUser } = React.useContext(userContext);
   const [eye, setEye] = React.useState(true);
   const { setIsLoggedIn } = React.useContext(isLoggedInContext);
-  const [error, setError] = React.useState(false);
 
   const onClickLinkRegistration = () => {
     setSignInActive(false);
     setRegistrationActive(true);
   };
 
+  console.log(22, { axios });
+
   const loginUser = (e) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/api/login", {
+      .post("/login", {
         email: e.target[0].value,
         password: e.target[1].value,
       })
@@ -100,8 +53,34 @@ const SignIn = () => {
       .catch((err) => console.log(err.message));
   };
 
-  const emailValid = useInput("", { isEmpty: true, minLength: 2 });
-  const passwordValid = useInput("", { isEmpty: true, minLength: 5 });
+  const emailValid = useInput("", {
+    isEmpty: true,
+    minLength: 2,
+    falseSymbols: true,
+  });
+  const passwordValid = useInput("", {
+    isEmpty: true,
+    minLength: 8,
+  });
+
+  const redColor = (e, x) =>
+    e.isDirty &&
+    (e.isEmpty ||
+      e.falseSymbols ||
+      (e.value.length < x && e.value.length !== 0))
+      ? "input__error"
+      : "input__box";
+
+  const isEmpty = (e) =>
+    e.isDirty &&
+    e.isEmpty && <div className={styles.error}>The field is not filled</div>;
+
+  const isLendth = (e, x) =>
+    e.isDirty &&
+    e.value.length < x &&
+    e.value.length !== 0 && (
+      <div className={styles.error}>Invalid field length</div>
+    );
 
   return (
     <form onSubmit={loginUser} className="signin-window">
@@ -141,20 +120,13 @@ const SignIn = () => {
           onBlur={(e) => emailValid.onBlur(e)}
           type="email"
           placeholder="example@email.com"
-          className={
-            emailValid.isDirty && emailValid.isEmpty
-              ? "input__error"
-              : "input__box"
-          }
+          className={redColor(emailValid, 2)}
         ></input>
-        {emailValid.isDirty && emailValid.isEmpty && (
-          <div className={styles.error}>The field is not filled</div>
+        {isEmpty(emailValid)}
+        {isLendth(emailValid, 2)}
+        {emailValid.isDirty && emailValid.falseSymbols && (
+          <div className={styles.error}>The field is not valid</div>
         )}
-        {emailValid.isDirty &&
-          emailValid.value.length < 2 &&
-          emailValid.value.length !== 0 && (
-            <div className={styles.error}>Invalid field length</div>
-          )}
 
         <p>Password</p>
         <div className="signin-eye">
@@ -165,19 +137,20 @@ const SignIn = () => {
             type={eye ? "password" : "text"}
             autoComplete="on"
             placeholder="your password"
-            className="input__box"
+            className={redColor(passwordValid, 8)}
           ></input>
-          {passwordValid.isDirty && passwordValid.isEmpty && (
-            <div className={styles.error}>The field is not filled</div>
-          )}
-          {passwordValid.isDirty &&
-            passwordValid.value.length < 5 &&
-            passwordValid.value.length !== 0 && (
-              <div className={styles.error}>Invalid field length</div>
-            )}
+          {isEmpty(passwordValid)}
+          {isLendth(passwordValid, 8)}
           <span
             onClick={() => setEye((prev) => !prev)}
-            className="signin-form-eye"
+            className={
+              passwordValid.isDirty &&
+              (passwordValid.isEmpty ||
+                (passwordValid.value.length < 8 &&
+                  passwordValid.value.length !== 0))
+                ? "signin-form-eye-error"
+                : "signin-form-eye"
+            }
           >
             {eye ? (
               <svg
