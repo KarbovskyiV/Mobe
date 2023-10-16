@@ -15,8 +15,7 @@
 
 .signin-window {
   position: absolute;
-  width: 55%; /* 
-  height: 500px; */
+  width: 55%;
   background-color: $white;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
   border-radius: 4px;
@@ -24,7 +23,6 @@
   flex-direction: column;
   padding: 32px 32px 96px 32px;
   align-items: center;
-  /* margin-top: 100px; */
 }
 
 .signin-box {
@@ -46,7 +44,7 @@
     font-family: Inter;
     font-size: 32px;
     font-style: normal;
-    font-weight: 500;
+    /* font-weight: 500; */
     line-height: 40px;
     color: $black;
   }
@@ -87,7 +85,6 @@
 
 .signin-password {
   display: flex;
-  /* height: 44px; */
   margin: 26px 0;
   width: 100%;
   justify-content: space-between;
@@ -107,18 +104,22 @@
 }
 
 .signin-forgot {
-  p {
-    color: $violet;
-  }
+  color: $violet;
 }
 
 .signin-button {
   width: 100%;
-  height: 42px;
+  /* height: 42px; */
+  padding: 14px 0;
   background-color: $violet;
   color: $white;
   border-radius: 4px;
   cursor: pointer;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
 
   &:hover {
     background-color: $violetDark2;

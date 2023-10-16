@@ -2,7 +2,8 @@
 
 swiper-container {
   margin-top: 12px;
-  max-width: 850px;
+  /*  max-width: 850px; */
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
   &::part(bullet-active) {
