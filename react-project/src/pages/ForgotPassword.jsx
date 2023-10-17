@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { ForgotPasswordActiveContext } from "../App";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "../utils/axios.js";
 
 const ForgotPassword = () => {
   const { setForgotPasswordActive } = React.useContext(
     ForgotPasswordActiveContext
   );
+
+  const forgotPassword = (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: e.target[0].value,
+    };
+
+    axios
+      .post("/forgot-password", data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-    <form className="forgotPassword-window">
+    <form onSubmit={forgotPassword} className="forgotPassword-window">
       <div className="forgotPassword-box">
         <Link to="/">
           <svg
