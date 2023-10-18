@@ -24,7 +24,7 @@ export const useValidation = (value, validations) => {
             : setFalseSymbols(false);
           break;
         case "nameSymbols":
-          /[^a-z]+$/i.test(value)
+          /[^a-z0-9]+$/i.test(value)
             ? setNameSymbols(true)
             : setNameSymbols(false);
           break;

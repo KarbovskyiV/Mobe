@@ -1,4 +1,8 @@
-/* php artisan migrate:fresh --seed  */
+/* domains/Mobe/back-end  php artisan migrate:fresh --seed  */
+
+/* mobe  
+mobe.test.mobe.test@gmail.com 
+ mobe123456789 */
 import React, { useEffect } from "react";
 import "./scss/app.scss";
 import Home from "./pages/Home.jsx";
@@ -29,7 +33,7 @@ function App() {
   const [registrationActive, setRegistrationActive] = React.useState(false);
   const [signInActive, setSignInActive] = React.useState(false);
   const [forgotPasswordActive, setForgotPasswordActive] = React.useState(false);
-  const [resetPasswordActive, setResetPasswordActive] = React.useState(false);
+  const [resetPasswordActive, setResetPasswordActive] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [user, setUser] = React.useState({
     name: "",

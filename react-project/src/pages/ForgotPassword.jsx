@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ForgotPasswordActiveContext } from "../App";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "../utils/axios.js";
+import styles from "./Signin.module.scss";
+import useInput from "../components/Validation";
 
 const ForgotPassword = () => {
   const { setForgotPasswordActive } = React.useContext(
@@ -18,12 +20,37 @@ const ForgotPassword = () => {
     axios
       .post("/forgot-password", data)
       .then((res) => {
-        console.log(res);
+        console.log(11, res);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(22, err);
       });
   };
+
+  const emailValid = useInput("", {
+    isEmpty: true,
+    minLength: 2,
+    falseSymbols: true,
+  });
+
+  const redColor = (e, x) =>
+    e.isDirty &&
+    (e.isEmpty ||
+      e.falseSymbols ||
+      (e.value.length < x && e.value.length !== 0))
+      ? "input__error"
+      : "input__box";
+
+  const isEmpty = (e) =>
+    e.isDirty &&
+    e.isEmpty && <div className={styles.error}>The field is not filled</div>;
+
+  const isLendth = (e, x) =>
+    e.isDirty &&
+    e.value.length < x &&
+    e.value.length !== 0 && (
+      <div className={styles.error}>Invalid field length</div>
+    );
 
   return (
     <form onSubmit={forgotPassword} className="forgotPassword-window">
@@ -63,10 +90,18 @@ const ForgotPassword = () => {
         <div className="forgotPassword-input">
           <label>Email address</label>
           <input
+            value={emailValid.value}
+            onChange={(e) => emailValid.onChange(e)}
+            onBlur={(e) => emailValid.onBlur(e)}
             type="email"
             placeholder="example@email.com"
-            className="input__box"
+            className={redColor(emailValid, 2)}
           ></input>
+          {isEmpty(emailValid)}
+          {isLendth(emailValid, 2)}
+          {emailValid.isDirty && emailValid.falseSymbols && (
+            <div className={styles.error}>The field is not valid</div>
+          )}
         </div>
         <button className="forgotPassword-button">Get new password</button>
       </div>

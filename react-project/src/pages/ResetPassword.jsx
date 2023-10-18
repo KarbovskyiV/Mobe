@@ -2,6 +2,8 @@ import React from "react";
 import { ResetPasswordActiveContext } from "../App";
 import { Link } from "react-router-dom";
 import axios from "../utils/axios.js";
+import styles from "./Signin.module.scss";
+import useInput from "../components/Validation";
 
 const ResetPassword = () => {
   const { setResetPasswordActive } = React.useContext(
@@ -13,6 +15,30 @@ const ResetPassword = () => {
   const onClickResetPassword = (e) => {
     e.preventDefault();
   };
+
+  const passwordValid = useInput("", {
+    isEmpty: true,
+    minLength: 8,
+  });
+
+  const redColor = (e, x) =>
+    e.isDirty &&
+    (e.isEmpty ||
+      e.falseSymbols ||
+      (e.value.length < x && e.value.length !== 0))
+      ? "input__error"
+      : "input__box";
+
+  const isEmpty = (e) =>
+    e.isDirty &&
+    e.isEmpty && <div className={styles.error}>The field is not filled</div>;
+
+  const isLendth = (e, x) =>
+    e.isDirty &&
+    e.value.length < x &&
+    e.value.length !== 0 && (
+      <div className={styles.error}>Invalid field length</div>
+    );
 
   return (
     <form onSubmit={onClickResetPassword} className="resetpassword-window">
@@ -50,14 +76,26 @@ const ResetPassword = () => {
           <label>New password</label>
           <div className="resetpassword-eye">
             <input
+              value={passwordValid.value}
+              onChange={(e) => passwordValid.onChange(e)}
+              onBlur={(e) => passwordValid.onBlur(e)}
               type={eye1 ? "password" : "text"}
               autoComplete="on"
               placeholder="your password"
-              className="input__box"
+              className={redColor(passwordValid, 8)}
             ></input>
+            {isEmpty(passwordValid)}
+            {isLendth(passwordValid, 8)}
             <span
               onClick={() => setEye1((prev) => !prev)}
-              className="resetpassword-form-eye"
+              className={
+                passwordValid.isDirty &&
+                (passwordValid.isEmpty ||
+                  (passwordValid.value.length < 8 &&
+                    passwordValid.value.length !== 0))
+                  ? "resetpassword-form-eye-error"
+                  : "resetpassword-form-eye"
+              }
             >
               {eye1 ? (
                 <svg
@@ -106,14 +144,26 @@ const ResetPassword = () => {
           <label>New password (confirmation)</label>
           <div className="resetpassword-eye">
             <input
+              value={passwordValid.value}
+              onChange={(e) => passwordValid.onChange(e)}
+              onBlur={(e) => passwordValid.onBlur(e)}
               type={eye2 ? "password" : "text"}
               autoComplete="on"
               placeholder="confirm your password"
-              className="input__box"
+              className={redColor(passwordValid, 8)}
             ></input>
+            {isEmpty(passwordValid)}
+            {isLendth(passwordValid, 8)}
             <span
               onClick={() => setEye2((prev) => !prev)}
-              className="resetpassword-form-eye"
+              className={
+                passwordValid.isDirty &&
+                (passwordValid.isEmpty ||
+                  (passwordValid.value.length < 8 &&
+                    passwordValid.value.length !== 0))
+                  ? "resetpassword-form-eye-error"
+                  : "resetpassword-form-eye"
+              }
             >
               {eye2 ? (
                 <svg

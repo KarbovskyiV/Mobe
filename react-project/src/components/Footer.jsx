@@ -95,7 +95,7 @@ function Footer() {
                     viewBox="0 0 24 24"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_649_861)">
+                    <g clipPath="url(#clip0_649_861)">
                       <path
                         d="M24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 17.9895 4.3882 22.954 10.125 23.8542V15.4688H7.07812V12H10.125V9.35625C10.125 6.34875 11.9166 4.6875 14.6576 4.6875C15.9701 4.6875 17.3438 4.92188 17.3438 4.92188V7.875H15.8306C14.34 7.875 13.875 8.80008 13.875 9.75V12H17.2031L16.6711 15.4688H13.875V23.8542C19.6118 22.954 24 17.9895 24 12Z"
                         fill="#1877F2"
@@ -143,10 +143,10 @@ function Footer() {
                         gradientUnits="userSpaceOnUse"
                         gradientTransform="translate(6.375 25.8485) rotate(-90) scale(23.7858 22.1227)"
                       >
-                        <stop stop-color="#FFDD55" />
-                        <stop offset="0.1" stop-color="#FFDD55" />
-                        <stop offset="0.5" stop-color="#FF543E" />
-                        <stop offset="1" stop-color="#C837AB" />
+                        <stop stopColor="#FFDD55" />
+                        <stop offset="0.1" stopColor="#FFDD55" />
+                        <stop offset="0.5" stopColor="#FF543E" />
+                        <stop offset="1" stopColor="#C837AB" />
                       </radialGradient>
                       <radialGradient
                         id="paint1_radial_649_866"
@@ -156,13 +156,9 @@ function Footer() {
                         gradientUnits="userSpaceOnUse"
                         gradientTransform="translate(-4.02009 1.72884) rotate(78.681) scale(10.6324 43.827)"
                       >
-                        <stop stop-color="#3771C8" />
-                        <stop offset="0.128" stop-color="#3771C8" />
-                        <stop
-                          offset="1"
-                          stop-color="#6600FF"
-                          stop-opacity="0"
-                        />
+                        <stop stopColor="#3771C8" />
+                        <stop offset="0.128" stopColor="#3771C8" />
+                        <stop offset="1" stopColor="#6600FF" stopOpacity="0" />
                       </radialGradient>
                     </defs>
                   </svg>
@@ -198,8 +194,8 @@ function Footer() {
                       fill="url(#paint0_linear_649_875)"
                     />
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M5.43189 11.8733C8.93014 10.3492 11.2628 9.3444 12.43 8.85893C15.7626 7.47282 16.455 7.23203 16.9064 7.22408C17.0056 7.22234 17.2276 7.24694 17.3714 7.3636C17.4928 7.46211 17.5262 7.59518 17.5422 7.68857C17.5581 7.78197 17.578 7.99473 17.5622 8.16097C17.3816 10.0585 16.6002 14.6631 16.2027 16.7884C16.0345 17.6876 15.7032 17.9891 15.3826 18.0186C14.6857 18.0828 14.1566 17.5581 13.4816 17.1157C12.4255 16.4233 11.8288 15.9924 10.8036 15.3168C9.61884 14.536 10.3869 14.1069 11.0621 13.4056C11.2388 13.2221 14.3092 10.4294 14.3686 10.176C14.376 10.1443 14.3829 10.0262 14.3128 9.96385C14.2426 9.90148 14.139 9.92281 14.0643 9.93977C13.9584 9.96381 12.2712 11.079 9.00264 13.2853C8.52373 13.6142 8.08994 13.7744 7.70129 13.766C7.27283 13.7568 6.44864 13.5238 5.83594 13.3246C5.08444 13.0803 4.48716 12.9512 4.53917 12.5363C4.56626 12.3202 4.86383 12.0992 5.43189 11.8733Z"
                       fill="white"
                     />
@@ -212,8 +208,8 @@ function Footer() {
                         y2="23.822"
                         gradientUnits="userSpaceOnUse"
                       >
-                        <stop stop-color="#2AABEE" />
-                        <stop offset="1" stop-color="#229ED9" />
+                        <stop stopColor="#2AABEE" />
+                        <stop offset="1" stopColor="#229ED9" />
                       </linearGradient>
                     </defs>
                   </svg>
