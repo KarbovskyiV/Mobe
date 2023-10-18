@@ -1,3 +1,4 @@
+/* php artisan migrate:fresh --seed  */
 import React, { useEffect } from "react";
 import "./scss/app.scss";
 import Home from "./pages/Home.jsx";
@@ -6,6 +7,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import LoginPage from "./pages/Signin.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
@@ -19,6 +21,7 @@ export const SurnameContext = React.createContext();
 export const PhonenumberContext = React.createContext();
 export const SearchContext = React.createContext();
 export const ForgotPasswordActiveContext = React.createContext();
+export const ResetPasswordActiveContext = React.createContext();
 
 function App() {
   const [searchValue, setSearchValue] = React.useState("");
@@ -26,6 +29,7 @@ function App() {
   const [registrationActive, setRegistrationActive] = React.useState(false);
   const [signInActive, setSignInActive] = React.useState(false);
   const [forgotPasswordActive, setForgotPasswordActive] = React.useState(false);
+  const [resetPasswordActive, setResetPasswordActive] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [user, setUser] = React.useState({
     name: "",
@@ -76,48 +80,69 @@ function App() {
                           setForgotPasswordActive,
                         }}
                       >
-                        <CategoryContext.Provider
-                          value={{ categoryValue, setCategoryValue }}
+                        <ResetPasswordActiveContext.Provider
+                          value={{
+                            resetPasswordActive,
+                            setResetPasswordActive,
+                          }}
                         >
-                          <Header />
+                          <CategoryContext.Provider
+                            value={{ categoryValue, setCategoryValue }}
+                          >
+                            <Header />
 
-                          <Routes>
-                            <Route path="/NotFound" element={<NotFound />} />
-                            <Route path="/" element={<Home />} />
-                            <Route path="/*" element={<Home />} />
-                          </Routes>
-                          <Footer />
-                          <div
-                            style={
-                              signInActive === true
-                                ? { display: "flex" }
-                                : { display: "none" }
-                            }
-                            className="overlaySignIn"
-                          >
-                            <LoginPage />
-                          </div>
-                          <div
-                            style={
-                              registrationActive === true
-                                ? { display: "flex" }
-                                : { display: "none" }
-                            }
-                            className="overlayRegistration"
-                          >
-                            <Registration />
-                          </div>
-                          <div
-                            style={
-                              forgotPasswordActive === true
-                                ? { display: "flex" }
-                                : { display: "none" }
-                            }
-                            className="overlayForgotPassword"
-                          >
-                            <ForgotPassword />
-                          </div>
-                        </CategoryContext.Provider>
+                            <Routes>
+                              <Route path="/NotFound" element={<NotFound />} />
+                              <Route path="/" element={<Home />} />
+                              <Route path="/*" element={<Home />} />
+                              <Route
+                                path="/reset/:id"
+                                element={<ResetPassword />}
+                              />
+                            </Routes>
+                            <Footer />
+                            <div
+                              style={
+                                signInActive === true
+                                  ? { display: "flex" }
+                                  : { display: "none" }
+                              }
+                              className="overlaySignIn"
+                            >
+                              <LoginPage />
+                            </div>
+                            <div
+                              style={
+                                registrationActive === true
+                                  ? { display: "flex" }
+                                  : { display: "none" }
+                              }
+                              className="overlayRegistration"
+                            >
+                              <Registration />
+                            </div>
+                            <div
+                              style={
+                                forgotPasswordActive === true
+                                  ? { display: "flex" }
+                                  : { display: "none" }
+                              }
+                              className="overlayForgotPassword"
+                            >
+                              <ForgotPassword />
+                            </div>
+                            <div
+                              style={
+                                resetPasswordActive === true
+                                  ? { display: "flex" }
+                                  : { display: "none" }
+                              }
+                              className="overlayResetPassword"
+                            >
+                              <ResetPassword />
+                            </div>
+                          </CategoryContext.Provider>
+                        </ResetPasswordActiveContext.Provider>
                       </ForgotPasswordActiveContext.Provider>
                     </SignInActiveContext.Provider>
                   </RegistrationActiveContext.Provider>

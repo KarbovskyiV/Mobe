@@ -17,7 +17,7 @@ class PasswordController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/forgot-password",
+     *     path="/api/forgot-password",
      *     operationId="sendResetLinkEmail",
      *     tags={"Password"},
      *     summary="Send a password reset email",

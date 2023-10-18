@@ -1,10 +1,8 @@
 import React from "react";
 import Logo from "./Logo";
-import { Link } from "react-router-dom";
 import {
   SignInActiveContext,
   userContext,
-  RegistrationActiveContext,
   isLoggedInContext,
   SearchContext,
 } from "../App";
