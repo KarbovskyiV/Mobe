@@ -49,37 +49,43 @@ function Footer() {
               </svg>
             </a>
           </div>
-          <div>
-            <h4 className="clients">To clients</h4>
-            <ul className="item">
-              <li className="text">Catalog of goods</li>
-              <li className="text">Delivery and payment</li>
-              <li className="text">Contacts</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="clients">Information</h4>
-            <ul className="item">
-              <li className="text">Returns and exchanges</li>
-              <li className="text">Privacy Policy</li>
-              <li className="text">Security Policy</li>
-              <li className="text">Terms of use</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="clients">Work schedule of the call center</h4>
-            <ul className="item">
-              <li className="text">Mon - Fri: 09:00 - 20:00</li>
-              <li className="text">Sut: 09:00 - 18:00</li>
-              <li className="text">San: 09:00 - 18:00</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="clients">Contacts</h4>
-            <ul className="item">
-              <li className="text">0 800 00 00 00</li>
-              <li className="text">Free in Ukraine</li>
-            </ul>
+          <div className="footer-box">
+            <div className="footer-box1">
+              <div className="footer-inter1">
+                <h4 className="clients">To clients</h4>
+                <ul className="item">
+                  <li className="text">Catalog of goods</li>
+                  <li className="text">Delivery and payment</li>
+                  <li className="text">Contacts</li>
+                </ul>
+              </div>
+              <div className="footer-inter2">
+                <h4 className="clients">Information</h4>
+                <ul className="item">
+                  <li className="text">Returns and exchanges</li>
+                  <li className="text">Privacy Policy</li>
+                  <li className="text">Security Policy</li>
+                  <li className="text">Terms of use</li>
+                </ul>
+              </div>
+            </div>
+            <div className="footer-box2">
+              <div className="footer-inter1">
+                <h4 className="clients">Work schedule of the call center</h4>
+                <ul className="item">
+                  <li className="text">Mon - Fri: 09:00 - 20:00</li>
+                  <li className="text">Sut: 09:00 - 18:00</li>
+                  <li className="text">San: 09:00 - 18:00</li>
+                </ul>
+              </div>
+              <div className="footer-inter2">
+                <h4 className="clients">Contacts</h4>
+                <ul className="item">
+                  <li className="text">0 800 00 00 00</li>
+                  <li className="text">Free in Ukraine</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
 

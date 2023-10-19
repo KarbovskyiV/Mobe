@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   SignInActiveContext,
@@ -17,6 +17,7 @@ const SignIn = () => {
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
   const { setUser } = React.useContext(userContext);
   const [eye, setEye] = React.useState(true);
+  const [yes, setYes] = React.useState(false);
   const { setIsLoggedIn } = React.useContext(isLoggedInContext);
   const { setForgotPasswordActive } = React.useContext(
     ForgotPasswordActiveContext
@@ -34,6 +35,7 @@ const SignIn = () => {
       .post("/login", {
         email: e.target[0].value,
         password: e.target[1].value,
+        rememberMe: { yes },
       })
       .then((res) => {
         setUser({
@@ -45,6 +47,7 @@ const SignIn = () => {
           JSON.stringify({
             email: e.target[0].value,
             password: e.target[1].value,
+            rememberMe: { yes },
           })
         );
 
@@ -52,9 +55,9 @@ const SignIn = () => {
         setIsLoggedIn(true);
         navigate("/");
       })
-        .catch((error) => {
-            console.log("Error response:", error.response.data);
-        })
+      .catch((error) => {
+        console.log("Error response:", error.response.data);
+      });
   };
 
   const emailValid = useInput("", {
@@ -96,7 +99,9 @@ const SignIn = () => {
       <div className="signin-box">
         <Link to="/">
           <svg
-            onClick={() => setSignInActive(false)}
+            onClick={() => {
+              setSignInActive(false);
+            }}
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -204,36 +209,44 @@ const SignIn = () => {
           </span>
         </div>
         <div className="signin-password">
-          <div className="signin-remember">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect width="28" height="28" rx="4" fill="#433E5A" />
-              <g clipPath="url(#clip0_257_10091)">
-                <path
-                  d="M22 8L11 19L6 14"
-                  stroke="#FDFDFD"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_257_10091">
-                  <rect
-                    width="24"
-                    height="24"
-                    fill="white"
-                    transform="translate(2 2)"
+          <div
+            onClick={() => setYes((prev) => !prev)}
+            className="signin-remember"
+          >
+            {yes ? (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="28" height="28" rx="4" fill="#433E5A" />
+                <g clipPath="url(#clip0_257_10091)">
+                  <path
+                    d="M22 8L11 19L6 14"
+                    stroke="#FDFDFD"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
-                </clipPath>
-              </defs>
-            </svg>
-            <p>Remember me</p>
+                </g>
+                <defs>
+                  <clipPath id="clip0_257_10091">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(2 2)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            ) : (
+              <div className="remember"></div>
+            )}
+
+            <div>Remember me</div>
           </div>
 
           <div className="signin-forgot" onClick={onClickForgotPassword}>
@@ -242,7 +255,7 @@ const SignIn = () => {
         </div>
         <button className="signin-button">Sign in</button>
         <div className="signin-a">
-          <a href="##">or</a>
+          <p>or</p>
         </div>
         <div className="signin-links">
           <div className="signin-buttons">

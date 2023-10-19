@@ -41,6 +41,7 @@ function App() {
     phone: "",
     email: "",
     password: "",
+    rememberMe: false,
   });
 
   const [name, setName] = React.useState({
@@ -59,8 +60,6 @@ function App() {
       setIsLoggedIn(true);
     }
   }, []);
-
-  console.log(forgotPasswordActive);
 
   return (
     <div className="App">
@@ -118,7 +117,7 @@ function App() {
                             <div
                               style={
                                 registrationActive === true
-                                  ? { display: "flex" }
+                                  ? { display: "flex", zIndex: "1500" }
                                   : { display: "none" }
                               }
                               className="overlayRegistration"
@@ -128,22 +127,12 @@ function App() {
                             <div
                               style={
                                 forgotPasswordActive === true
-                                  ? { display: "flex" }
+                                  ? { display: "flex", zIndex: "1500" }
                                   : { display: "none" }
                               }
                               className="overlayForgotPassword"
                             >
                               <ForgotPassword />
-                            </div>
-                            <div
-                              style={
-                                resetPasswordActive === true
-                                  ? { display: "flex" }
-                                  : { display: "none" }
-                              }
-                              className="overlayResetPassword"
-                            >
-                              <ResetPassword />
                             </div>
                           </CategoryContext.Provider>
                         </ResetPasswordActiveContext.Provider>

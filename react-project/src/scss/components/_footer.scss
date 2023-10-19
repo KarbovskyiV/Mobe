@@ -32,9 +32,11 @@ p {
 
 .footer-menu {
   display: flex;
-  gap: 85px;
-  justify-content: center;
+  flex-direction: row;
+  gap: 60px;
+  justify-content: space-between;
   margin-bottom: 65px;
+  width: 100%;
 }
 
 .icons {
@@ -94,4 +96,51 @@ section {
   align-items: center;
   justify-content: center;
   gap: 32px;
+}
+
+.footer-box {
+  display: flex;
+  flex-direction: row;
+  width: 85%;
+  gap: 60px;
+}
+
+.footer-box1,
+.footer-box2 {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  gap: 60px;
+}
+
+@media (max-width: 850px) {
+  .footer {
+    &-conteiner {
+      width: 90%;
+    }
+
+    &-inter1,
+    &-inter2 {
+      width: 50%;
+    }
+
+    &-box {
+      flex-direction: column-reverse;
+      width: 100%;
+    }
+
+    &-box1,
+    &-box2 {
+      width: 100%;
+      gap: none;
+    }
+
+    &-inter1 {
+      width: 60%;
+    }
+
+    &-inter2 {
+      width: 40%;
+    }
+  }
 }

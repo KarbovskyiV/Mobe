@@ -23,9 +23,11 @@ const Home = () => {
   }, [categoryValue]);
   console.log(items); */
   return (
-    <div>
-      <Slider />;
-      <LogosBlock />
+    <div className="home">
+      <div className="home__slider-logos">
+        <Slider />
+        <LogosBlock />
+      </div>
     </div>
   );
 };

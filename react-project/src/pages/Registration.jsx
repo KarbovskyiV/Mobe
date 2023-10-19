@@ -55,7 +55,7 @@ const Registration = () => {
         setIsLoggedIn(true);
       })
       .catch((error) => {
-        console.log("Error response:", error.response.data);
+        console.log("Error response:", error);
       });
   };
 

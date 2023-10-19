@@ -2,6 +2,15 @@
 @import "./libs/normalize.scss";
 @import "./components/_all.scss";
 
+.home {
+  margin-top: 180px;
+
+  &__slider-logos {
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
 .unterline {
   text-decoration: underline;
   cursor: pointer;
