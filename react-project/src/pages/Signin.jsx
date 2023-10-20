@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   SignInActiveContext,
@@ -12,16 +12,21 @@ import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
 
 const SignIn = () => {
+  const wrapRef = useRef(null);
   const navigate = useNavigate();
   const { setSignInActive } = React.useContext(SignInActiveContext);
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
   const { setUser } = React.useContext(userContext);
   const [eye, setEye] = React.useState(true);
-  const [yes, setYes] = React.useState(false);
   const { setIsLoggedIn } = React.useContext(isLoggedInContext);
   const { setForgotPasswordActive } = React.useContext(
     ForgotPasswordActiveContext
   );
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked(!checked);
+  };
 
   const onClickLinkRegistration = () => {
     setSignInActive(false);
@@ -35,7 +40,7 @@ const SignIn = () => {
       .post("/login", {
         email: e.target[0].value,
         password: e.target[1].value,
-        rememberMe: { yes },
+        rememberMe: { checked },
       })
       .then((res) => {
         setUser({
@@ -47,7 +52,7 @@ const SignIn = () => {
           JSON.stringify({
             email: e.target[0].value,
             password: e.target[1].value,
-            rememberMe: { yes },
+            rememberMe: { checked },
           })
         );
 
@@ -94,8 +99,20 @@ const SignIn = () => {
     setSignInActive(false);
   };
 
+  const handClick = (event) => {
+    if (wrapRef.current && !wrapRef.current.contains(event.target))
+      setSignInActive(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handClick);
+    return () => {
+      document.removeEventListener("mousedown", handClick);
+    };
+  }, []);
+
   return (
-    <form onSubmit={loginUser} className="signin-window">
+    <form onSubmit={loginUser} className="signin-window" ref={wrapRef}>
       <div className="signin-box">
         <Link to="/">
           <svg
@@ -209,44 +226,16 @@ const SignIn = () => {
           </span>
         </div>
         <div className="signin-password">
-          <div
-            onClick={() => setYes((prev) => !prev)}
-            className="signin-remember"
-          >
-            {yes ? (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 28 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="28" height="28" rx="4" fill="#433E5A" />
-                <g clipPath="url(#clip0_257_10091)">
-                  <path
-                    d="M22 8L11 19L6 14"
-                    stroke="#FDFDFD"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_257_10091">
-                    <rect
-                      width="24"
-                      height="24"
-                      fill="white"
-                      transform="translate(2 2)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            ) : (
-              <div className="remember"></div>
-            )}
-
-            <div>Remember me</div>
+          <div className="signin-remember">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              name="rememberMe"
+              checked={checked}
+              onChange={handleChange}
+              className="remember"
+            />
+            <label>Remember me</label>
           </div>
 
           <div className="signin-forgot" onClick={onClickForgotPassword}>
