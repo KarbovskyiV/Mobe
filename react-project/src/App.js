@@ -99,7 +99,7 @@ function App() {
                               <Route path="/" element={<Home />} />
                               <Route path="/*" element={<Home />} />
                               <Route
-                                path="/reset/:id"
+                                path="/reset-password"
                                 element={<ResetPassword />}
                               />
                             </Routes>
