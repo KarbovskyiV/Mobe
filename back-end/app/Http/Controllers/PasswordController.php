@@ -8,7 +8,9 @@ use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -61,7 +63,7 @@ class PasswordController extends Controller
 
         $token = Password::createToken(User::where('email', $email)->first());
 
-        $resetLink = config('app.url') . '/reset-password?token=' . $token;
+        $resetLink = config('app.url') . '/reset-password?token=' . $token . '&email=' . $email;
 
         Mail::to($email)->send(new ResetPasswordEmail($resetLink));
 
@@ -73,7 +75,7 @@ class PasswordController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/reset-password",
+     *     path="/api/reset-password",
      *     operationId="resetPassword",
      *     tags={"Password"},
      *     summary="Reset the user's password",
@@ -111,31 +113,31 @@ class PasswordController extends Controller
      *     ),
      * )
      */
-//    public function resetPassword(ResetPasswordRequest $request)
-//    {
-//        $request->validated();
-//
-//        $status = Password::reset(
-//            $request->only('email', 'password', 'password_confirmation', 'token'),
-//            function (User $user, string $password) {
-//                $user->forceFill([
-//                    'password' => Hash::make($password)
-//                ])->setRememberToken(Str::random(60));
-//
-//                $user->save();
-//
-//                event(new PasswordReset($user));
-//            }
-//        );
-//
-//        if ($status == Password::PASSWORD_RESET) {
-//            return response([
-//                'message' => 'New password successfully set',
-//            ]);
-//        }
-//
-//        return response([
-//            'message' => $status
-//        ], 422);
-//    }
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $request->validated();
+
+        $status = Password::reset(
+            $request->only('password', 'password_confirmation', 'token', 'email'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status == Password::PASSWORD_RESET) {
+            return response([
+                'message' => 'New password successfully set',
+            ]);
+        }
+
+        return response([
+            'message' => 'Something gone wrong :('
+        ], 422);
+    }
 }

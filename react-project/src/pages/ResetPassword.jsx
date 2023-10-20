@@ -1,6 +1,6 @@
 import React from "react";
 import { ResetPasswordActiveContext } from "../App";
-import { Link } from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
 import axios from "../utils/axios.js";
@@ -12,22 +12,24 @@ const ResetPassword = () => {
 
   const [eye1, setEye1] = React.useState(true);
   const [eye2, setEye2] = React.useState(true);
+  const [searchParams] = useSearchParams();
 
   const onClickResetPassword = (e) => {
     e.preventDefault();
     const data = {
-      password_1: e.target[0].value,
-      password_2: e.target[1].value,
+      password: e.target[0].value,
+      password_confirmation: e.target[1].value,
+      token: searchParams.get('token'),
+      email: searchParams.get('email'),
     };
-
     axios
-      .post("/reset-password", data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .post("/reset-password", data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log("Error response:", error.response.data);
+        });
   };
 
   const passwordValid = useInput("", {
