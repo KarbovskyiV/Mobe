@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { ForgotPasswordActiveContext } from "../App";
 import { Link } from "react-router-dom";
 import axios from "../utils/axios.js";
@@ -6,6 +6,8 @@ import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
 
 const ForgotPassword = () => {
+  const wrapRef = useRef(null);
+
   const { setForgotPasswordActive } = React.useContext(
     ForgotPasswordActiveContext
   );
@@ -52,8 +54,24 @@ const ForgotPassword = () => {
       <div className={styles.error}>Invalid field length</div>
     );
 
+  const handClick = (event) => {
+    if (wrapRef.current && !wrapRef.current.contains(event.target))
+      setForgotPasswordActive(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handClick);
+    return () => {
+      document.removeEventListener("mousedown", handClick);
+    };
+  }, []);
+
   return (
-    <form onSubmit={forgotPassword} className="forgotPassword-window">
+    <form
+      onSubmit={forgotPassword}
+      className="forgotPassword-window"
+      ref={wrapRef}
+    >
       <div className="forgotPassword-box">
         <Link to="/">
           <svg

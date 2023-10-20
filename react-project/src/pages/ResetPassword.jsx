@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { ResetPasswordActiveContext } from "../App";
-import {Link, useSearchParams} from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
 import axios from "../utils/axios.js";
 
 const ResetPassword = () => {
+  const wrapRef = useRef(null);
+
   const { resetPasswordActive, setResetPasswordActive } = React.useContext(
     ResetPasswordActiveContext
   );
@@ -19,17 +21,17 @@ const ResetPassword = () => {
     const data = {
       password: e.target[0].value,
       password_confirmation: e.target[1].value,
-      token: searchParams.get('token'),
-      email: searchParams.get('email'),
+      token: searchParams.get("token"),
+      email: searchParams.get("email"),
     };
     axios
-        .post("/reset-password", data)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((error) => {
-          console.log("Error response:", error.response.data);
-        });
+      .post("/reset-password", data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log("Error response:", error.response.data);
+      });
   };
 
   const passwordValid = useInput("", {
@@ -56,6 +58,18 @@ const ResetPassword = () => {
       <div className={styles.error}>Invalid field length</div>
     );
 
+  const handClick = (event) => {
+    if (wrapRef.current && !wrapRef.current.contains(event.target))
+      setResetPasswordActive(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handClick);
+    return () => {
+      document.removeEventListener("mousedown", handClick);
+    };
+  }, []);
+
   return (
     <div
       style={
@@ -65,7 +79,11 @@ const ResetPassword = () => {
       }
       className="overlayResetPassword"
     >
-      <form onSubmit={onClickResetPassword} className="resetpassword-window">
+      <form
+        onSubmit={onClickResetPassword}
+        className="resetpassword-window"
+        ref={wrapRef}
+      >
         <div className="resetpassword-box">
           <Link to="/">
             <svg

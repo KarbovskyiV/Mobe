@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   SignInActiveContext,
   RegistrationActiveContext,
@@ -11,6 +11,7 @@ import useInput from "../components/Validation";
 import styles from "./Signin.module.scss";
 
 const Registration = () => {
+  const wrapRef = useRef(null);
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
   const { setSignInActive } = React.useContext(SignInActiveContext);
   const { setUser } = React.useContext(userContext);
@@ -118,8 +119,20 @@ const Registration = () => {
       <div className={styles.error}>Maximum number of 15 characters</div>
     );
 
+  const handClick = (event) => {
+    if (wrapRef.current && !wrapRef.current.contains(event.target))
+      setRegistrationActive(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handClick);
+    return () => {
+      document.removeEventListener("mousedown", handClick);
+    };
+  }, []);
+
   return (
-    <form onSubmit={registerUser} className="registration-window">
+    <form onSubmit={registerUser} className="registration-window" ref={wrapRef}>
       <div className="registration-box">
         <Link to="/">
           <svg
