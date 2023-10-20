@@ -1,4 +1,8 @@
-/* php artisan migrate:fresh --seed  */
+/* domains/Mobe/back-end  php artisan migrate:fresh --seed  */
+
+/* mobe  
+mobe.test.mobe.test@gmail.com 
+ mobe123456789 */
 import React, { useEffect } from "react";
 import "./scss/app.scss";
 import Home from "./pages/Home.jsx";
@@ -29,7 +33,7 @@ function App() {
   const [registrationActive, setRegistrationActive] = React.useState(false);
   const [signInActive, setSignInActive] = React.useState(false);
   const [forgotPasswordActive, setForgotPasswordActive] = React.useState(false);
-  const [resetPasswordActive, setResetPasswordActive] = React.useState(false);
+  const [resetPasswordActive, setResetPasswordActive] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [user, setUser] = React.useState({
     name: "",
@@ -37,6 +41,7 @@ function App() {
     phone: "",
     email: "",
     password: "",
+    rememberMe: false,
   });
 
   const [name, setName] = React.useState({
@@ -55,8 +60,6 @@ function App() {
       setIsLoggedIn(true);
     }
   }, []);
-
-  console.log(forgotPasswordActive);
 
   return (
     <div className="App">
@@ -96,7 +99,7 @@ function App() {
                               <Route path="/" element={<Home />} />
                               <Route path="/*" element={<Home />} />
                               <Route
-                                path="/reset/:id"
+                                path="/reset-password"
                                 element={<ResetPassword />}
                               />
                             </Routes>
@@ -114,7 +117,7 @@ function App() {
                             <div
                               style={
                                 registrationActive === true
-                                  ? { display: "flex" }
+                                  ? { display: "flex", zIndex: "1500" }
                                   : { display: "none" }
                               }
                               className="overlayRegistration"
@@ -124,22 +127,12 @@ function App() {
                             <div
                               style={
                                 forgotPasswordActive === true
-                                  ? { display: "flex" }
+                                  ? { display: "flex", zIndex: "1500" }
                                   : { display: "none" }
                               }
                               className="overlayForgotPassword"
                             >
                               <ForgotPassword />
-                            </div>
-                            <div
-                              style={
-                                resetPasswordActive === true
-                                  ? { display: "flex" }
-                                  : { display: "none" }
-                              }
-                              className="overlayResetPassword"
-                            >
-                              <ResetPassword />
                             </div>
                           </CategoryContext.Provider>
                         </ResetPasswordActiveContext.Provider>

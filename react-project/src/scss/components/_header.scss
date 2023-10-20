@@ -1,6 +1,12 @@
 @import "../_variables.scss";
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
   &__light {
     background-color: #d4d9e8;
     display: flex;
@@ -33,7 +39,6 @@
   &__dark {
     display: flex;
     height: 64px;
-    /* padding: 8px 150px; */
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
@@ -60,6 +65,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: 20px;
+    cursor: pointer;
   }
 
   &__signin {
@@ -74,7 +80,6 @@
     background: $violet;
     color: $white;
     text-align: center;
-
     line-height: 20px;
   }
 
@@ -126,5 +131,13 @@
     display: flex;
     width: 100%;
     align-items: center;
+  }
+}
+
+@media (max-width: 1180px) {
+  .header {
+    &__buttons {
+      width: 90%;
+    }
   }
 }

@@ -26,7 +26,9 @@ class RegisterUserRequest extends FormRequest
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'surname' => ['string', 'min:2', 'max:255'],
             'email' => ['required', 'string', 'email', 'min:2', 'max:255', 'unique:users'],
-            'phone' => ['string', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:15'],
+            /* 'phone' => ['string', 'regex:/^([0-9\s\-\+\(\)] */
+            /* 'phone' => ['regex:/^([0-9\s\-\+\(\)]
+            *)$/', 'min:10', 'max:15'], */
             'password' => ['required', Password::defaults()],
         ];
     }

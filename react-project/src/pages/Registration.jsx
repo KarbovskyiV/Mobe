@@ -6,7 +6,6 @@ import {
   isLoggedInContext,
 } from "../App";
 import { Link, useNavigate } from "react-router-dom";
-/* import axios from "axios"; */
 import axios from "../utils/axios.js";
 import useInput from "../components/Validation";
 import styles from "./Signin.module.scss";
@@ -52,13 +51,12 @@ const Registration = () => {
           })
         );
         navigate("/");
+        setRegistrationActive(false);
+        setIsLoggedIn(true);
       })
-        .catch((error) => {
-        console.log("Error response:", error.response.data);
-    });
-
-    setRegistrationActive(false);
-    setIsLoggedIn(true);
+      .catch((error) => {
+        console.log("Error response:", error);
+      });
   };
 
   const changePage = () => {
