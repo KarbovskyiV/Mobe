@@ -1,0 +1,80 @@
+@import "../_variables.scss";
+
+.overlayShoppingCart {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shoppingcart__window {
+  position: absolute;
+  width: 55%;
+  background-color: $white;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 97px 80px 97px;
+  align-items: center;
+  gap: 26px;
+}
+
+.shoppingcart__box {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  height: 100%;
+  padding: 0 65px;
+}
+
+.shoppingcart__krestik {
+  display: flex;
+  justify-content: flex-end;
+  width: 115%;
+}
+
+.shoppingcart__cart {
+  display: flex;
+  flex-direction: column;
+  height: 55%;
+  width: 100%;
+  background-color: red;
+
+  h4 {
+    margin-bottom: 32px;
+  }
+}
+
+.shoppingcart__cheaper {
+  height: 45%;
+  width: 100%;
+  background-color: $violet;
+
+  h5 {
+    margin-bottom: 20px;
+  }
+}
+
+.shoppingcart__up {
+  display: flex;
+  height: 170px;
+  width: 100%;
+  background-color: green;
+  margin-bottom: 42px;
+}
+
+.shoppingcart__down {
+  display: flex;
+  height: 44px;
+  width: 100%;
+  background-color: greenyellow;
+  gap: 95px;
+}

@@ -132,6 +132,25 @@
     width: 100%;
     align-items: center;
   }
+
+  &__wagen {
+    display: flex;
+    cursor: pointer;
+  }
+
+  &__count {
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    border-radius: 50%;
+    background-color: $violet;
+    margin-left: 20px;
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 1180px) {
