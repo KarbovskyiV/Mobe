@@ -39,7 +39,7 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
-            'remember' => now()->addMonth(),
+            'remember' => 43800, // month, так як було повертало помилку Object of class Illuminate\Support\Carbon could not be converted to int
         ],
     ],
 

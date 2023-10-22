@@ -10,6 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -125,7 +126,7 @@ class AuthController extends Controller
         $request->validated();
 
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials, $request->has('remember'))) {
+        if (Auth::attempt($credentials, $request->input('rememberMe', false))) {
             /** @var User $user */
             $user = Auth::user();
 

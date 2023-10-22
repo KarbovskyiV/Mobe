@@ -40,7 +40,7 @@ const SignIn = () => {
       .post("/login", {
         email: e.target[0].value,
         password: e.target[1].value,
-        rememberMe: { checked },
+        rememberMe: checked,
       })
       .then((res) => {
         setUser({
