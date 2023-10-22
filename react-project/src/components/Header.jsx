@@ -32,6 +32,7 @@ function Header() {
       phone: "",
       email: "",
       password: "",
+      rememberMe: false,
     });
     localStorage.removeItem("user");
 

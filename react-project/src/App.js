@@ -15,6 +15,8 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
+import rendering from "./utils/render.js";
+import global from "./pages/Signin.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -59,12 +61,39 @@ function App() {
   const [totalCountShoppingCart, setTotalCountShoppingCart] = React.useState(0);
   const [shoppingCartActive, setShoppingCartActive] = React.useState(false);
 
-  console.log(shoppingCartActive);
+  console.log(isLoggedIn);
 
   useEffect(() => {
-    if (localStorage.getItem("user") !== null) {
-      setUser(JSON.parse(localStorage.getItem("user")));
-      setIsLoggedIn(true);
+    if (JSON.parse(sessionStorage.getItem("newSession")) === null) {
+      if (
+        localStorage.getItem("user") !== null &&
+        JSON.parse(localStorage.getItem("user")).rememberMe === true
+      ) {
+        console.log(1);
+        setUser(JSON.parse(localStorage.getItem("user")));
+        setIsLoggedIn(true);
+      } else if (
+        localStorage.getItem("user") !== null &&
+        JSON.parse(localStorage.getItem("user")).rememberMe !== true
+      ) {
+        setUser({
+          name: "",
+          surname: "",
+          phone: "",
+          email: "",
+          password: "",
+          rememberMe: false,
+        });
+        console.log(3);
+        localStorage.removeItem("user");
+        setIsLoggedIn(false);
+      }
+    } else {
+      if (localStorage.getItem("user") !== null) {
+        console.log(4);
+        setUser(JSON.parse(localStorage.getItem("user")));
+        setIsLoggedIn(true);
+      }
     }
   }, []);
 
