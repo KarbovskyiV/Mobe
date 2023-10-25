@@ -46,7 +46,6 @@
   flex-direction: column;
   height: 55%;
   width: 100%;
-  background-color: red;
 
   h4 {
     margin-bottom: 32px;
@@ -56,25 +55,110 @@
 .shoppingcart__cheaper {
   height: 45%;
   width: 100%;
-  background-color: $violet;
-
-  h5 {
-    margin-bottom: 20px;
-  }
 }
 
 .shoppingcart__up {
   display: flex;
   height: 170px;
   width: 100%;
-  background-color: green;
   margin-bottom: 42px;
+  justify-content: space-between;
 }
 
 .shoppingcart__down {
   display: flex;
-  height: 44px;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  background-color: greenyellow;
-  gap: 95px;
+  gap: 32px;
+  padding: 0;
+
+  h5 {
+    font-weight: 700;
+  }
+}
+
+.shoppingcart__add {
+  display: flex;
+  flex-direction: column;
+  /* width: 50%; */
+  justify-content: space-between;
+
+  label {
+    font-size: 20px;
+  }
+}
+
+.shoppingcart__service {
+  display: flex;
+}
+
+.shoppingcart__plusminus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shoppingcart__number {
+  height: 16px;
+  display: flex;
+  border-radius: 8px;
+  padding: 10px 14px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid $grey;
+}
+
+.auto-button {
+  border: 1px solid $greyLight;
+}
+
+.button-color {
+  background: $white;
+}
+
+.shoppingcart__down-summ,
+.shoppingcart__down-summ2 {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  padding: 24px 48px;
+  justify-content: flex-end;
+  border-radius: 4px;
+  background-color: $gray-100;
+  gap: 32px;
+  h5 {
+    font-weight: 700;
+  }
+}
+
+.shoppingcart__down-summ2 {
+  padding: 0;
+  background-color: transparent;
+  width: 100%;
+}
+
+.shoppingcart__summ {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 20%;
+  justify-content: space-between;
+}
+
+.shoppingcart__summs {
+  display: flex;
+  flex-direction: column;
+}
+
+.shoppingcart__summ1 {
+  font-size: 14px;
+  text-decoration: line-through;
+}
+
+.shoppingcart__summ2 {
+  font-size: 16px;
+  font-weight: 700;
 }

@@ -1,0 +1,52 @@
+@import "../_variables.scss";
+
+.productscart {
+  width: 267px;
+  height: 428px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  image {
+    width: 267px;
+    height: 280px;
+  }
+
+  &__rating {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    span {
+      color: $violetDark2;
+      font-size: 12px;
+    }
+  }
+
+  &__rating-stars {
+    display: flex;
+    align-items: center;
+  }
+
+  &__rating-box {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+    p {
+      color: $violetDark2;
+    }
+  }
+
+  &__price {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 32px;
+    align-items: center;
+    p {
+      font-weight: 700;
+    }
+  }
+}

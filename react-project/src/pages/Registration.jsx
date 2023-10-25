@@ -300,9 +300,7 @@ const Registration = () => {
           I am already registered
         </div>
         <button className="registration-a">
-          <a href="##">
-            <span>or sign in</span>
-          </a>
+          <p>or sign in</p>
         </button>
         <div className="registration-links">
           <div className="registration-buttons">
