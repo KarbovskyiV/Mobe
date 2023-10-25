@@ -10,9 +10,6 @@ import {
 import axios from "../utils/axios.js";
 import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
-import rendering from "../utils/render.js";
-
-let global;
 
 const SignIn = () => {
   const wrapRef = useRef(null);

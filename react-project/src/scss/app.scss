@@ -35,4 +35,21 @@
 .auto-button {
   padding: 12px 24px;
   border-radius: 4px;
+  cursor: pointer;
+
+  &[type="white"] {
+    background: $white;
+
+    &:hover {
+      background-color: $violet;
+    }
+  }
+
+  &[type="violet"] {
+    background: $violet;
+    color: $white;
+    &:hover {
+      background-color: $violetDark;
+    }
+  }
 }
