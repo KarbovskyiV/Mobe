@@ -9,7 +9,7 @@ const ShoppingCart = () => {
   const wrapRef = useRef(null);
 
   const [countValue, setCountValue] = React.useState(0);
-  const [totalCount, setTotalCount] = React.useState();
+  const [totalCount] = React.useState();
 
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
 
