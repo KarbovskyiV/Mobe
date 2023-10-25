@@ -10,6 +10,9 @@ import {
 import axios from "../utils/axios.js";
 import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
+import rendering from "../utils/render.js";
+
+let global;
 
 const SignIn = () => {
   const wrapRef = useRef(null);
@@ -40,7 +43,7 @@ const SignIn = () => {
       .post("/login", {
         email: e.target[0].value,
         password: e.target[1].value,
-        rememberMe: checked,
+        rememberMe: checked ? true : false,
       })
       .then((res) => {
         setUser({
@@ -52,7 +55,14 @@ const SignIn = () => {
           JSON.stringify({
             email: e.target[0].value,
             password: e.target[1].value,
-            rememberMe: { checked },
+            rememberMe: checked ? true : false,
+          })
+        );
+
+        sessionStorage.setItem(
+          "newSession",
+          JSON.stringify({
+            newCurrent: true,
           })
         );
 
@@ -61,7 +71,7 @@ const SignIn = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log("Error response:", error.response.data);
+        alert(error.response.data.message);
       });
   };
 

@@ -322,117 +322,90 @@
                 "tags": [
                     "Categories"
                 ],
-                "summary": "Get a list of categories with pagination",
-                "operationId": "3f5817a34833d0a1f4af4548dd3aeaba",
+                "summary": "List categories",
+                "description": "Get a list of categories with pagination.",
+                "operationId": "getCategories",
                 "responses": {
                     "200": {
-                        "description": "List of categories with pagination",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "current_page": {
-                                            "description": "Current page number",
-                                            "type": "integer",
-                                            "example": 1
+                                            "type": "integer"
                                         },
                                         "data": {
-                                            "description": "List of categories",
                                             "type": "array",
                                             "items": {
                                                 "properties": {
                                                     "id": {
-                                                        "type": "integer",
-                                                        "example": 1
+                                                        "type": "integer"
                                                     },
                                                     "name": {
-                                                        "type": "string",
-                                                        "example": "Смартфони Apple"
+                                                        "type": "string"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-19T17:44:33.000000Z"
+                                                        "format": "date-time"
                                                     },
                                                     "updated_at": {
                                                         "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-19T17:44:34.000000Z"
+                                                        "format": "date-time"
                                                     }
                                                 },
                                                 "type": "object"
                                             }
                                         },
                                         "first_page_url": {
-                                            "description": "URL of the first page",
-                                            "type": "string",
-                                            "example": "http://mobe.local/api/categories?page=1"
+                                            "type": "string"
                                         },
                                         "from": {
-                                            "description": "Starting record number",
-                                            "type": "integer",
-                                            "example": 1
+                                            "type": "integer"
                                         },
                                         "last_page": {
-                                            "description": "Last page number",
-                                            "type": "integer",
-                                            "example": 1
+                                            "type": "integer"
                                         },
                                         "last_page_url": {
-                                            "description": "URL of the last page",
-                                            "type": "string",
-                                            "example": "http://mobe.local/api/categories?page=1"
+                                            "type": "string"
                                         },
                                         "links": {
-                                            "description": "Pagination links",
                                             "type": "array",
                                             "items": {
                                                 "properties": {
                                                     "url": {
                                                         "type": "string",
-                                                        "example": null
+                                                        "nullable": true
                                                     },
                                                     "label": {
-                                                        "type": "string",
-                                                        "example": "&laquo; Previous"
+                                                        "type": "string"
                                                     },
                                                     "active": {
-                                                        "type": "boolean",
-                                                        "example": false
+                                                        "type": "boolean"
                                                     }
                                                 },
                                                 "type": "object"
                                             }
                                         },
                                         "next_page_url": {
-                                            "description": "URL of the next page",
                                             "type": "string",
-                                            "example": null
+                                            "nullable": true
                                         },
                                         "path": {
-                                            "description": "Base path of the URL",
-                                            "type": "string",
-                                            "example": "http://mobe.local/api/categories"
+                                            "type": "string"
                                         },
                                         "per_page": {
-                                            "description": "Number of records per page",
-                                            "type": "integer",
-                                            "example": 15
+                                            "type": "integer"
                                         },
                                         "prev_page_url": {
-                                            "description": "URL of the previous page",
                                             "type": "string",
-                                            "example": null
+                                            "nullable": true
                                         },
                                         "to": {
-                                            "description": "Ending record number",
-                                            "type": "integer",
-                                            "example": 2
+                                            "type": "integer"
                                         },
                                         "total": {
-                                            "description": "Total number of records",
-                                            "type": "integer",
-                                            "example": 2
+                                            "type": "integer"
                                         }
                                     },
                                     "type": "object"
@@ -623,61 +596,54 @@
                     "Products"
                 ],
                 "summary": "Get a list of products with pagination and category information",
+                "description": "Get a list of products with pagination.",
                 "operationId": "1bfaa78d1c2c3848ab8165c5dadcad3e",
                 "responses": {
                     "200": {
-                        "description": "List of products with pagination and category information",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "current_page": {
-                                            "description": "Current page number",
-                                            "type": "integer",
-                                            "example": 1
+                                            "type": "integer"
                                         },
                                         "data": {
-                                            "description": "List of products",
                                             "type": "array",
                                             "items": {
                                                 "properties": {
                                                     "id": {
-                                                        "type": "integer",
-                                                        "example": 1
+                                                        "type": "integer"
+                                                    },
+                                                    "category_id": {
+                                                        "type": "integer"
                                                     },
                                                     "name": {
-                                                        "type": "string",
-                                                        "example": "iPhone 13"
+                                                        "type": "string"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-19T17:45:46.000000Z"
+                                                        "format": "date-time"
                                                     },
                                                     "updated_at": {
                                                         "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-19T17:45:47.000000Z"
+                                                        "format": "date-time"
                                                     },
                                                     "category": {
                                                         "properties": {
                                                             "id": {
-                                                                "type": "integer",
-                                                                "example": 1
+                                                                "type": "integer"
                                                             },
                                                             "name": {
-                                                                "type": "string",
-                                                                "example": "Смартфони Apple"
+                                                                "type": "string"
                                                             },
                                                             "created_at": {
                                                                 "type": "string",
-                                                                "format": "date-time",
-                                                                "example": "2023-09-19T17:44:33.000000Z"
+                                                                "format": "date-time"
                                                             },
                                                             "updated_at": {
                                                                 "type": "string",
-                                                                "format": "date-time",
-                                                                "example": "2023-09-19T17:44:34.000000Z"
+                                                                "format": "date-time"
                                                             }
                                                         },
                                                         "type": "object"
@@ -687,75 +653,54 @@
                                             }
                                         },
                                         "first_page_url": {
-                                            "description": "URL of the first page",
-                                            "type": "string",
-                                            "example": "http://mobe.local/api/products?page=1"
+                                            "type": "string"
                                         },
                                         "from": {
-                                            "description": "Starting record number",
-                                            "type": "integer",
-                                            "example": 1
+                                            "type": "integer"
                                         },
                                         "last_page": {
-                                            "description": "Last page number",
-                                            "type": "integer",
-                                            "example": 1
+                                            "type": "integer"
                                         },
                                         "last_page_url": {
-                                            "description": "URL of the last page",
-                                            "type": "string",
-                                            "example": "http://mobe.local/api/products?page=1"
+                                            "type": "string"
                                         },
                                         "links": {
-                                            "description": "Pagination links",
                                             "type": "array",
                                             "items": {
                                                 "properties": {
                                                     "url": {
                                                         "type": "string",
-                                                        "example": null
+                                                        "nullable": true
                                                     },
                                                     "label": {
-                                                        "type": "string",
-                                                        "example": "&laquo; Previous"
+                                                        "type": "string"
                                                     },
                                                     "active": {
-                                                        "type": "boolean",
-                                                        "example": false
+                                                        "type": "boolean"
                                                     }
                                                 },
                                                 "type": "object"
                                             }
                                         },
                                         "next_page_url": {
-                                            "description": "URL of the next page",
                                             "type": "string",
-                                            "example": null
+                                            "nullable": true
                                         },
                                         "path": {
-                                            "description": "Base path of the URL",
-                                            "type": "string",
-                                            "example": "http://mobe.local/api/products"
+                                            "type": "string"
                                         },
                                         "per_page": {
-                                            "description": "Number of records per page",
-                                            "type": "integer",
-                                            "example": 15
+                                            "type": "integer"
                                         },
                                         "prev_page_url": {
-                                            "description": "URL of the previous page",
                                             "type": "string",
-                                            "example": null
+                                            "nullable": true
                                         },
                                         "to": {
-                                            "description": "Ending record number",
-                                            "type": "integer",
-                                            "example": 3
+                                            "type": "integer"
                                         },
                                         "total": {
-                                            "description": "Total number of records",
-                                            "type": "integer",
-                                            "example": 3
+                                            "type": "integer"
                                         }
                                     },
                                     "type": "object"
@@ -787,7 +732,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Product details with category",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -835,14 +780,13 @@
                         }
                     },
                     "404": {
-                        "description": "Product not found",
+                        "description": "Not found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "type": "string",
-                                            "example": "Product not found"
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"

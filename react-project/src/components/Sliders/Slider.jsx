@@ -1,44 +1,31 @@
 import { useRef } from "react";
 import { register } from "swiper/element/bundle";
 
-import src from "../../assets/img/slides.png";
+import slide_1 from "../../assets/img/slider/slide_1.png";
+import slide_2 from "../../assets/img/slider/slide_2.png";
+
 
 register();
 
 const slides = [
   {
-    src,
+    src: slide_1,
     title: "IPhone 12",
-    oldPrice: 30000,
-    newPrice: 27999,
+
   },
   {
-    src,
-    title: "IPhone 12",
-    oldPrice: 30000,
-    newPrice: 27999,
+    src: slide_2,
+    title: "Samsung Galaxy 22",
+
   },
   {
-    src,
-    title: "IPhone 12",
-    oldPrice: 30000,
-    newPrice: 27999,
+    src: slide_2,
+    title: "Samsung Galaxy 22",
   },
 ];
 
 const Slider = () => {
   const swiperElRef = useRef(null);
-
-  /* useEffect(() => {
-    swiperElRef.current.addEventListener("progres", (e) => {
-      const [swiper, progress] = e.detail;
-      console.log(progress);
-    });
-
-    swiperElRef.current.addEventListener("slidechange", (e) => {
-      console.log("slide change");
-    });
-  }, []); */
 
   const slidesRender = slides.map(({ src, title, oldPrice, newPrice }, i) => {
     return (
