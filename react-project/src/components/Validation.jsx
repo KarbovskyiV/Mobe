@@ -7,7 +7,7 @@ export const useValidation = (value, validations) => {
   const [falseSymbols, setFalseSymbols] = React.useState(false);
   const [nameSymbols, setNameSymbols] = React.useState(false);
   const [maxLengthError, setMaxLengthError] = React.useState(false);
-  const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
+  const [falsePhoneSymbols, setFalsePhoneSymbols] = React.useState(false);
 
   useEffect(() => {
     for (const validation in validations) {
@@ -35,6 +35,11 @@ export const useValidation = (value, validations) => {
             ? setMaxLengthError(true)
             : setMaxLengthError(false);
           break;
+        case "falsePhoneSymbols":
+          /[^0-9-+()]$/i.test(value)
+            ? setFalsePhoneSymbols(true)
+            : setFalsePhoneSymbols(false);
+          break;
 
         default:
         // do nothing
@@ -48,6 +53,7 @@ export const useValidation = (value, validations) => {
     falseSymbols,
     nameSymbols,
     maxLengthError,
+    falsePhoneSymbols,
   };
 };
 

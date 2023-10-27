@@ -80,6 +80,7 @@ const Registration = () => {
   const phoneValid = useInput("", {
     minLength: 10,
     maxLength: 15,
+    falsePhoneSymbols: true,
   });
 
   const emailValid = useInput("", {
@@ -199,9 +200,11 @@ const Registration = () => {
           type="number"
           placeholder="+380"
           className={
-            phoneValid.isDirty &&
-            ((phoneValid.value.length < 10 && phoneValid.value.length !== 0) ||
-              phoneValid.value.length > 15)
+            (phoneValid.isDirty &&
+              ((phoneValid.value.length < 10 &&
+                phoneValid.value.length !== 0) ||
+                phoneValid.value.length > 15)) ||
+            phoneValid.falsePhoneSymbols
               ? "input__error"
               : "input__box"
           }
