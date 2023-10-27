@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "../components/Sliders/Slider";
 import LogosBlock from "../components/LogosBlock/LogosBlock";
-import ProductCart from "../components/ProductCart";
+import ProductCart from "../components/ProductCart/index.jsx";
 
 const Home = () => {
   return (
