@@ -18,7 +18,7 @@ const SignIn = () => {
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
   const { setUser } = React.useContext(userContext);
   const [eye, setEye] = React.useState(true);
-  const { setIsLoggedIn } = React.useContext(isLoggedInContext);
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
   const { setForgotPasswordActive } = React.useContext(
     ForgotPasswordActiveContext
   );
@@ -119,7 +119,13 @@ const SignIn = () => {
   }, []);
 
   return (
-    <form onSubmit={loginUser} className="signin-window" ref={wrapRef}>
+    <form
+      id="form"
+      type="submit"
+      onSubmit={loginUser}
+      className="signin-window"
+      ref={wrapRef}
+    >
       <div className="signin-box">
         <Link to="/">
           <svg

@@ -74,9 +74,9 @@ const Slider = () => {
               <path
                 d="M12 5V19M5 12H19"
                 stroke="#28003E"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
             <div className="slide__box">

@@ -21,9 +21,7 @@ function Header() {
   const { totalCountShoppingCart } = React.useContext(
     totalCountShoppingCartContext
   );
-  const { shoppingCartActive, setShoppingCartActive } = React.useContext(
-    ShoppingCartActiveContext
-  );
+  const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
 
   const logOutUser = () => {
     setUser({
@@ -36,7 +34,6 @@ function Header() {
     });
     localStorage.removeItem("user");
 
-    setSignInActive(true);
     setIsLoggedIn(false);
   };
 
@@ -67,7 +64,10 @@ function Header() {
   return (
     <div className="header">
       <div className="header__light">
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
+
         <div className="header__contactus">
           <a href="##">Contact us</a>
 
@@ -95,7 +95,7 @@ function Header() {
               Catalog of goods
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
+                width="16"
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -157,13 +157,35 @@ function Header() {
               <button className="header__signin" onClick={logOutUser}>
                 Sign out
               </button>
-            ) : (
+            ) : window.innerWidth > 820 ? (
               <button className="header__signin" onClick={onClickSignin}>
                 Sign in
               </button>
+            ) : (
+              ""
             )}
           </div>
           <div className="header__icons">
+            {window.innerWidth < 821 ? (
+              <svg
+                onClick={onClickSignin}
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                  stroke="#FDFDFD"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              ""
+            )}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
