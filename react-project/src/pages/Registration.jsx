@@ -299,11 +299,7 @@ const Registration = () => {
         <div onClick={onClickLinkRegistration} className="registration-button2">
           I am already registered
         </div>
-        <button className="registration-a">
-          <a href="##">
-            <span>or sign in</span>
-          </a>
-        </button>
+        <p className="registration-a">or sign in</p>
         <div className="registration-links">
           <div className="registration-buttons">
             <div className="registration-links1">

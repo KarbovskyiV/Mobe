@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { isLoggedInContext } from "../App";
 
 export const useValidation = (value, validations) => {
   const [isEmpty, setIsEmpty] = React.useState(true);
@@ -6,6 +7,7 @@ export const useValidation = (value, validations) => {
   const [falseSymbols, setFalseSymbols] = React.useState(false);
   const [nameSymbols, setNameSymbols] = React.useState(false);
   const [maxLengthError, setMaxLengthError] = React.useState(false);
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
 
   useEffect(() => {
     for (const validation in validations) {

@@ -33,7 +33,7 @@
 
 .registration-field {
   width: 70%;
-  margin-top: 40px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
 
@@ -54,7 +54,7 @@
 .input__box2,
 .input__error2 {
   width: 90%;
-  height: 28px;
+  height: 20px;
   display: flex;
   padding: 4px 5%;
   align-items: center;
@@ -78,7 +78,6 @@
   width: 100%;
   justify-content: center;
   margin-top: 16px;
-  cursor: pointer;
   background-color: $white;
   font-size: 12px;
 }
@@ -90,8 +89,8 @@
   color: $white;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 16px;
-  padding: 14px 0;
+  margin-top: 10px;
+  padding: 10px 0;
 }
 
 .registration-button2 {
@@ -109,7 +108,7 @@
   justify-content: space-between;
   margin-top: 16px;
   gap: 16px;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
 }
 
 .registration-buttons {
