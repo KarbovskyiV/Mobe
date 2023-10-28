@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { isLoggedInContext } from "../App";
 
 export const useValidation = (value, validations) => {
   const [isEmpty, setIsEmpty] = React.useState(true);
@@ -26,7 +25,7 @@ export const useValidation = (value, validations) => {
             : setFalseSymbols(false);
           break;
         case "nameSymbols":
-          /[^a-z0-9]+$/i.test(value)
+          /[^a-z0-9]@[^0-9]+$/i.test(value)
             ? setNameSymbols(true)
             : setNameSymbols(false);
           break;

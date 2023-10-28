@@ -6,10 +6,12 @@ import {
   userContext,
   isLoggedInContext,
   ForgotPasswordActiveContext,
+  ValidFormContext,
 } from "../App";
 import axios from "../utils/axios.js";
 import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
+import useValidation from "../components/Validation";
 
 const SignIn = () => {
   const wrapRef = useRef(null);
@@ -18,11 +20,12 @@ const SignIn = () => {
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
   const { setUser } = React.useContext(userContext);
   const [eye, setEye] = React.useState(true);
-  const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
+  const { setIsLoggedIn } = React.useContext(isLoggedInContext);
   const { setForgotPasswordActive } = React.useContext(
     ForgotPasswordActiveContext
   );
   const [checked, setChecked] = React.useState(false);
+  const { validForm } = React.useContext(ValidFormContext);
 
   const handleChange = () => {
     setChecked(!checked);
@@ -159,6 +162,7 @@ const SignIn = () => {
         <h2>Sign in</h2>
         <p>E-mail</p>
         <input
+          id="myInput"
           value={emailValid.value}
           onChange={(e) => emailValid.onChange(e)}
           onBlur={(e) => emailValid.onBlur(e)}
@@ -255,7 +259,9 @@ const SignIn = () => {
             Forgot password?
           </div>
         </div>
-        <button className="signin-button">Sign in</button>
+        <button disabled={validForm} className="signin-button">
+          Sign in
+        </button>
         <div className="signin-a">
           <p>or</p>
         </div>

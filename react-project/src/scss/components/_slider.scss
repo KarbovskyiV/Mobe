@@ -2,9 +2,10 @@
 
 swiper-container {
   margin-top: 12px;
-  width: 100%;
+  width: auto;
   margin-left: auto;
   margin-right: auto;
+
   &::part(bullet-active) {
     background-color: $violet;
   }
@@ -24,9 +25,18 @@ swiper-container {
 
   &::part(button-prev),
   &::part(button-next) {
-    color: $white;
+    color: $violet;
   }
+
+  .swiper_small {
+    margin-left: 290px;
+    width: auto;
+  }
+  .swiper_big {
+    margin: 0 auto;
+  }
+
   swiper-slide img {
-    width: 100%;
+    width: auto;
   }
 }

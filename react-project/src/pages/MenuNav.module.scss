@@ -1,0 +1,76 @@
+@import "../scss/_variables.scss";
+
+.menu ul {
+  position: relative;
+  a {
+    color: $white;
+  }
+}
+
+.menu ul ul {
+  display: none;
+  position: absolute;
+}
+
+.menu li:hover ul {
+  display: flex;
+  top: 168px;
+  width: 200px;
+  background: $gray-violet;
+  position: fixed;
+  z-index: 100;
+  padding: 12px 0;
+  transform: translate(250px, 0px);
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    background: $grey;
+    align-items: center;
+    margin-left: 8px;
+  }
+  a {
+    color: $white;
+  }
+}
+
+.cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: $black;
+  opacity: 0.2;
+  z-index: 10;
+  display: none;
+}
+
+.coverShow {
+  display: block;
+}
+
+.mobileMenuBox {
+  z-index: 11;
+  position: fixed;
+  visibility: hidden;
+  top: -100%;
+  width: 267px;
+  height: 304px;
+  margin-right: 10px;
+  padding-top: 12px;
+  background-color: $gray-violet;
+  transition-duration: 0.05s;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.mobileMenuBoxShow {
+  visibility: visible;
+  left: 150px;
+  top: 168px;
+}
+
+@media (max-width: 850px) {
+  .mobileMenuBoxShow {
+    left: 40px;
+  }
+}

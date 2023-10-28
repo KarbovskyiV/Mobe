@@ -163,5 +163,32 @@
     &__light {
       padding: 8px 40px;
     }
+
+    &__signin {
+      display: none;
+    }
+  }
+}
+
+nav {
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    li {
+      padding: 1px 16px;
+      background-color: $grey;
+      height: 40px;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: $white;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $violet;
+      }
+    }
   }
 }

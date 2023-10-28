@@ -8,6 +8,7 @@ import {
   SearchContext,
   totalCountShoppingCartContext,
   ShoppingCartActiveContext,
+  CatalogOpenedContext,
 } from "../App";
 import debounce from "lodash.debounce";
 
@@ -22,6 +23,8 @@ function Header() {
     totalCountShoppingCartContext
   );
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
+  const { catalogOpened, setCatalogOpened } =
+    React.useContext(CatalogOpenedContext);
 
   const logOutUser = () => {
     setUser({
@@ -93,22 +96,43 @@ function Header() {
           <div className="header__boxbuttons">
             <button className="header__catalog">
               Catalog of goods
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M6 9L12 15L18 9"
-                  stroke="#FDFDFD"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              {!catalogOpened ? (
+                <svg
+                  onClick={() => setCatalogOpened(true)}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M6 9L12 15L18 9"
+                    stroke="#FDFDFD"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  onClick={() => setCatalogOpened(false)}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M18 15L12 9L6 15"
+                    stroke="#FDFDFD"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
             </button>
+
             <div className="header__searchinput">
               <div className="header__input">
                 <svg
@@ -157,7 +181,7 @@ function Header() {
               <button className="header__signin" onClick={logOutUser}>
                 Sign out
               </button>
-            ) : window.innerWidth > 820 ? (
+            ) : window.innerWidth > 834 ? (
               <button className="header__signin" onClick={onClickSignin}>
                 Sign in
               </button>
