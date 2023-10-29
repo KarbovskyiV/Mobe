@@ -65,7 +65,7 @@ function App() {
     window.innerWidth > 850 ? true : false
   );
   const [tablet, setTablet] = React.useState(false);
-  const [validForm, setValidForm] = React.useState(false);
+  const [validForm, setValidForm] = React.useState(true);
 
   window.addEventListener("scroll", function () {
     const scrollPosition = window.scrollY;
