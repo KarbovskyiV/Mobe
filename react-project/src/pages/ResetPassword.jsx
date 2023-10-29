@@ -28,6 +28,7 @@ const ResetPassword = () => {
       .post("/reset-password", data)
       .then((res) => {
         console.log(res);
+        setResetPasswordActive(false);
       })
       .catch((error) => {
         console.log("Error response:", error.response.data);
@@ -35,6 +36,11 @@ const ResetPassword = () => {
   };
 
   const passwordValid = useInput("", {
+    isEmpty: true,
+    minLength: 8,
+  });
+
+  const passwordValid2 = useInput("", {
     isEmpty: true,
     minLength: 8,
   });
@@ -186,23 +192,23 @@ const ResetPassword = () => {
             <label>New password (confirmation)</label>
             <div className="resetpassword-eye">
               <input
-                value={passwordValid.value}
-                onChange={(e) => passwordValid.onChange(e)}
-                onBlur={(e) => passwordValid.onBlur(e)}
+                value={passwordValid2.value}
+                onChange={(e) => passwordValid2.onChange(e)}
+                onBlur={(e) => passwordValid2.onBlur(e)}
                 type={eye2 ? "password" : "text"}
                 autoComplete="on"
                 placeholder="confirm your password"
-                className={redColor(passwordValid, 8)}
+                className={redColor(passwordValid2, 8)}
               ></input>
-              {isEmpty(passwordValid)}
-              {isLendth(passwordValid, 8)}
+              {isEmpty(passwordValid2)}
+              {isLendth(passwordValid2, 8)}
               <span
                 onClick={() => setEye2((prev) => !prev)}
                 className={
-                  passwordValid.isDirty &&
-                  (passwordValid.isEmpty ||
-                    (passwordValid.value.length < 8 &&
-                      passwordValid.value.length !== 0))
+                  passwordValid2.isDirty &&
+                  (passwordValid2.isEmpty ||
+                    (passwordValid2.value.length < 8 &&
+                      passwordValid2.value.length !== 0))
                     ? "resetpassword-form-eye-error"
                     : "resetpassword-form-eye"
                 }

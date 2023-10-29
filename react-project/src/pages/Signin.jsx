@@ -11,7 +11,6 @@ import {
 import axios from "../utils/axios.js";
 import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
-import useValidation from "../components/Validation";
 
 const SignIn = () => {
   const wrapRef = useRef(null);
@@ -25,7 +24,7 @@ const SignIn = () => {
     ForgotPasswordActiveContext
   );
   const [checked, setChecked] = React.useState(false);
-  const { validForm } = React.useContext(ValidFormContext);
+  const { validForm, setValidForm } = React.useContext(ValidFormContext);
 
   const handleChange = () => {
     setChecked(!checked);
@@ -38,7 +37,6 @@ const SignIn = () => {
 
   const loginUser = (e) => {
     e.preventDefault();
-
     axios
       .post("/login", {
         email: e.target[0].value,
@@ -259,7 +257,7 @@ const SignIn = () => {
             Forgot password?
           </div>
         </div>
-        <button disabled={validForm} className="signin-button">
+        <button id="send" type="button" className="signin-button">
           Sign in
         </button>
         <div className="signin-a">
