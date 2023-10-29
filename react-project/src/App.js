@@ -29,6 +29,9 @@ export const ForgotPasswordActiveContext = React.createContext();
 export const ResetPasswordActiveContext = React.createContext();
 export const totalCountShoppingCartContext = React.createContext();
 export const ShoppingCartActiveContext = React.createContext();
+export const CatalogOpenedContext = React.createContext();
+export const TabletContext = React.createContext();
+export const ValidFormContext = React.createContext();
 
 function App() {
   const [searchValue, setSearchValue] = React.useState("");
@@ -58,6 +61,18 @@ function App() {
   });
   const [totalCountShoppingCart, setTotalCountShoppingCart] = React.useState(0);
   const [shoppingCartActive, setShoppingCartActive] = React.useState(false);
+  const [catalogOpened, setCatalogOpened] = React.useState(
+    window.innerWidth > 850 ? true : false
+  );
+  const [tablet, setTablet] = React.useState(false);
+  const [validForm, setValidForm] = React.useState(false);
+
+  window.addEventListener("scroll", function () {
+    const scrollPosition = window.scrollY;
+    if (scrollPosition > 50) {
+      setCatalogOpened(false);
+    }
+  });
 
   useEffect(() => {
     if (JSON.parse(sessionStorage.getItem("newSession")) === null) {
@@ -92,110 +107,133 @@ function App() {
 
   return (
     <div className="App">
-      <ShoppingCartActiveContext.Provider
-        value={{ shoppingCartActive, setShoppingCartActive }}
-      >
-        <totalCountShoppingCartContext.Provider
-          value={{ totalCountShoppingCart, setTotalCountShoppingCart }}
-        >
-          <SearchContext.Provider value={{ searchValue, setSearchValue }}>
-            <PhonenumberContext.Provider value={{ phone, setPhone }}>
-              <SurnameContext.Provider value={{ surname, setSurname }}>
-                <NameContext.Provider value={{ name, setName }}>
-                  <userContext.Provider value={{ user, setUser }}>
-                    <isLoggedInContext.Provider
-                      value={{ isLoggedIn, setIsLoggedIn }}
-                    >
-                      <RegistrationActiveContext.Provider
-                        value={{ registrationActive, setRegistrationActive }}
-                      >
-                        <SignInActiveContext.Provider
-                          value={{ signInActive, setSignInActive }}
-                        >
-                          <ForgotPasswordActiveContext.Provider
-                            value={{
-                              forgotPasswordActive,
-                              setForgotPasswordActive,
-                            }}
+      <ValidFormContext.Provider value={{ validForm, setValidForm }}>
+        <TabletContext.Provider value={{ tablet, setTablet }}>
+          <CatalogOpenedContext.Provider
+            value={{ catalogOpened, setCatalogOpened }}
+          >
+            <ShoppingCartActiveContext.Provider
+              value={{ shoppingCartActive, setShoppingCartActive }}
+            >
+              <totalCountShoppingCartContext.Provider
+                value={{ totalCountShoppingCart, setTotalCountShoppingCart }}
+              >
+                <SearchContext.Provider value={{ searchValue, setSearchValue }}>
+                  <PhonenumberContext.Provider value={{ phone, setPhone }}>
+                    <SurnameContext.Provider value={{ surname, setSurname }}>
+                      <NameContext.Provider value={{ name, setName }}>
+                        <userContext.Provider value={{ user, setUser }}>
+                          <isLoggedInContext.Provider
+                            value={{ isLoggedIn, setIsLoggedIn }}
                           >
-                            <ResetPasswordActiveContext.Provider
+                            <RegistrationActiveContext.Provider
                               value={{
-                                resetPasswordActive,
-                                setResetPasswordActive,
+                                registrationActive,
+                                setRegistrationActive,
                               }}
                             >
-                              <CategoryContext.Provider
-                                value={{ categoryValue, setCategoryValue }}
+                              <SignInActiveContext.Provider
+                                value={{ signInActive, setSignInActive }}
                               >
-                                <Header />
+                                <ForgotPasswordActiveContext.Provider
+                                  value={{
+                                    forgotPasswordActive,
+                                    setForgotPasswordActive,
+                                  }}
+                                >
+                                  <ResetPasswordActiveContext.Provider
+                                    value={{
+                                      resetPasswordActive,
+                                      setResetPasswordActive,
+                                    }}
+                                  >
+                                    <CategoryContext.Provider
+                                      value={{
+                                        categoryValue,
+                                        setCategoryValue,
+                                      }}
+                                    >
+                                      <Header />
 
-                                <Routes>
-                                  <Route
-                                    path="/NotFound"
-                                    element={<NotFound />}
-                                  />
-                                  <Route path="/" element={<Home />} />
+                                      <Routes>
+                                        <Route
+                                          path="/NotFound"
+                                          element={<NotFound />}
+                                        />
+                                        <Route path="/" element={<Home />} />
 
-                                  <Route path="/*" element={<Home />} />
-                                  <Route
-                                    path="/reset-password"
-                                    element={<ResetPassword />}
-                                  />
-                                </Routes>
-                                <Footer />
-                                <div
-                                  style={
-                                    signInActive === true
-                                      ? { display: "flex" }
-                                      : { display: "none" }
-                                  }
-                                  className="overlaySignIn"
-                                >
-                                  <LoginPage />
-                                </div>
-                                <div
-                                  style={
-                                    registrationActive === true
-                                      ? { display: "flex", zIndex: "1500" }
-                                      : { display: "none" }
-                                  }
-                                  className="overlayRegistration"
-                                >
-                                  <Registration />
-                                </div>
-                                <div
-                                  style={
-                                    forgotPasswordActive === true
-                                      ? { display: "flex", zIndex: "1500" }
-                                      : { display: "none" }
-                                  }
-                                  className="overlayForgotPassword"
-                                >
-                                  <ForgotPassword />
-                                </div>
-                                <div
-                                  style={
-                                    shoppingCartActive === true
-                                      ? { display: "flex", zIndex: "1500" }
-                                      : { display: "none" }
-                                  }
-                                  className="overlayShoppingCart"
-                                >
-                                  <ShoppingCart />
-                                </div>
-                              </CategoryContext.Provider>
-                            </ResetPasswordActiveContext.Provider>
-                          </ForgotPasswordActiveContext.Provider>
-                        </SignInActiveContext.Provider>
-                      </RegistrationActiveContext.Provider>
-                    </isLoggedInContext.Provider>
-                  </userContext.Provider>
-                </NameContext.Provider>
-              </SurnameContext.Provider>
-            </PhonenumberContext.Provider>
-          </SearchContext.Provider>
-        </totalCountShoppingCartContext.Provider>
-      </ShoppingCartActiveContext.Provider>
+                                        <Route path="/*" element={<Home />} />
+                                        <Route
+                                          path="/reset-password"
+                                          element={<ResetPassword />}
+                                        />
+                                      </Routes>
+                                      <Footer />
+                                      <div
+                                        style={
+                                          signInActive === true
+                                            ? { display: "flex" }
+                                            : { display: "none" }
+                                        }
+                                        className="overlaySignIn"
+                                      >
+                                        <LoginPage />
+                                      </div>
+                                      <div
+                                        style={
+                                          registrationActive === true
+                                            ? {
+                                                display: "flex",
+                                                zIndex: "1500",
+                                              }
+                                            : { display: "none" }
+                                        }
+                                        className="overlayRegistration"
+                                      >
+                                        <Registration />
+                                      </div>
+                                      <div
+                                        style={
+                                          forgotPasswordActive === true
+                                            ? {
+                                                display: "flex",
+                                                zIndex: "1500",
+                                              }
+                                            : { display: "none" }
+                                        }
+                                        className="overlayForgotPassword"
+                                      >
+                                        <ForgotPassword />
+                                      </div>
+                                      <div
+                                        style={
+                                          shoppingCartActive === true
+                                            ? {
+                                                display: "flex",
+                                                zIndex: "1500",
+                                              }
+                                            : { display: "none" }
+                                        }
+                                        className="overlayShoppingCart"
+                                      >
+                                        <ShoppingCart />
+                                      </div>
+                                    </CategoryContext.Provider>
+                                  </ResetPasswordActiveContext.Provider>
+                                </ForgotPasswordActiveContext.Provider>
+                              </SignInActiveContext.Provider>
+                            </RegistrationActiveContext.Provider>
+                          </isLoggedInContext.Provider>
+                        </userContext.Provider>
+                      </NameContext.Provider>
+                    </SurnameContext.Provider>
+                  </PhonenumberContext.Provider>
+                </SearchContext.Provider>
+              </totalCountShoppingCartContext.Provider>
+            </ShoppingCartActiveContext.Provider>
+          </CatalogOpenedContext.Provider>
+        </TabletContext.Provider>
+      </ValidFormContext.Provider>
     </div>
   );
 }
