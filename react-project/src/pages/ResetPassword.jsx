@@ -7,7 +7,7 @@ import axios from "../utils/axios.js";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const goBack = () => navigate(-1);
+  const goBack = () => navigate("/");
 
   const wrapRef = useRef(null);
 
