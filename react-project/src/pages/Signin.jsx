@@ -6,7 +6,6 @@ import {
   userContext,
   isLoggedInContext,
   ForgotPasswordActiveContext,
-  ValidFormContext,
 } from "../App";
 import axios from "../utils/axios.js";
 import styles from "./Signin.module.scss";
@@ -24,7 +23,6 @@ const SignIn = () => {
     ForgotPasswordActiveContext
   );
   const [checked, setChecked] = React.useState(false);
-  const { validForm, setValidForm } = React.useContext(ValidFormContext);
 
   const handleChange = () => {
     setChecked(!checked);
@@ -257,9 +255,7 @@ const SignIn = () => {
             Forgot password?
           </div>
         </div>
-        <button id="send" type="button" className="signin-button">
-          Sign in
-        </button>
+        <button className="signin-button">Sign in</button>
         <div className="signin-a">
           <p>or</p>
         </div>

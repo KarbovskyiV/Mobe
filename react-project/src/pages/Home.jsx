@@ -82,6 +82,26 @@ const Home = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
+                <ul>
+                  <li>
+                    <a href="##">Galaxy Fold5 | Flip5</a>
+                  </li>
+                  <li>
+                    <a href="##">Galaxy S23 Ultra | S23+ | S23</a>
+                  </li>
+                  <li>
+                    <a href="##">Galaxy S22 | S21FE</a>
+                  </li>
+                  <li>
+                    <a href="##">Galaxy A54 | A34</a>
+                  </li>
+                  <li>
+                    <a href="##">Galaxy A24 | A14</a>
+                  </li>
+                  <li>
+                    <a href="##">Look all</a>
+                  </li>
+                </ul>
               </li>
               <li>
                 Xiaomi phones
