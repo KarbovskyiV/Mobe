@@ -56,7 +56,7 @@ const Registration = () => {
         setIsLoggedIn(true);
       })
       .catch((error) => {
-        console.log("Error response:", error);
+        alert(error.response.data.message);
       });
   };
 
