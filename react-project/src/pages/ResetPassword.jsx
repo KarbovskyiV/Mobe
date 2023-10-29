@@ -1,11 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import { ResetPasswordActiveContext } from "../App";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import styles from "./Signin.module.scss";
 import useInput from "../components/Validation";
 import axios from "../utils/axios.js";
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
+  const goBack = () => navigate(-1);
+
   const wrapRef = useRef(null);
 
   const { resetPasswordActive, setResetPasswordActive } = React.useContext(
@@ -67,6 +70,7 @@ const ResetPassword = () => {
   const handClick = (event) => {
     if (wrapRef.current && !wrapRef.current.contains(event.target))
       setResetPasswordActive(false);
+    goBack();
   };
 
   useEffect(() => {
