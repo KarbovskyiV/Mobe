@@ -21,7 +21,7 @@
         <p>You've requested to reset your password. Click the button below to reset it:</p>
     </div>
     <div class="button-container">
-        <a href="#" class="reset-button">Reset Password</a>
+        <a href="{{ $resetLink }}" class="reset-button">Reset Password</a>
     </div>
     <div class="disclaimer">
         <p>If you didn't request this, please ignore this email.</p>
