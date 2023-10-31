@@ -60,3 +60,11 @@
     }
   }
 }
+
+@media (max-width: 375px) {
+  .home {
+    &__slider-logos {
+      margin: 0;
+    }
+  }
+}
