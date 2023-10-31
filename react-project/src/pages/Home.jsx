@@ -4,9 +4,10 @@ import LogosBlock from "../components/LogosBlock/LogosBlock";
 import ProductCart from "../components/ProductCart/index.jsx";
 import styles from "./MenuNav.module.scss";
 import cn from "classnames";
-import { CatalogOpenedContext } from "../App";
+import { DesktopContext, CatalogOpenedContext } from "../App";
 
 const Home = () => {
+  const { desktop, setDesktop } = React.useContext(DesktopContext);
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
 

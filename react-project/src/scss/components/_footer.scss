@@ -143,3 +143,34 @@ section {
     }
   }
 }
+
+@media (max-width: 375px) {
+  .footer {
+    &-menu {
+      flex-direction: column;
+      align-items: center;
+    }
+    &-box {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &-box1,
+    &-box2 {
+      flex-direction: column;
+      align-items: center;
+    }
+    .item,
+    &-inter1,
+    &-inter2 {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+    }
+
+    .item {
+      text-align: center;
+    }
+  }
+}

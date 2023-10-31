@@ -8,6 +8,9 @@ import {
   SearchContext,
   totalCountShoppingCartContext,
   ShoppingCartActiveContext,
+  DesktopContext,
+  TabletContext,
+  MobileContext,
   CatalogOpenedContext,
 } from "../App";
 import debounce from "lodash.debounce";
@@ -23,6 +26,9 @@ function Header() {
     totalCountShoppingCartContext
   );
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
+  const { desktop } = React.useContext(DesktopContext);
+  const { tablet } = React.useContext(TabletContext);
+  const { mobile, setMobile } = React.useContext(MobileContext);
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
 
@@ -67,13 +73,45 @@ function Header() {
   return (
     <div className="header">
       <div className="header__light">
+        <svg
+          style={mobile ? { display: "flex" } : { display: "none" }}
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="18"
+          viewBox="0 0 26 18"
+          fill="none"
+        >
+          <path
+            d="M25 9H0.999999"
+            stroke="#28003E"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M21 1H0.999999"
+            stroke="#28003E"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M21 17H0.999999"
+            stroke="#28003E"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
         <Link to="/">
           <Logo />
         </Link>
 
-        <div className="header__contactus">
+        <div
+          style={mobile ? { display: "none" } : { display: "flex" }}
+          className="header__contactus"
+        >
           <a href="##">Contact us</a>
-
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -90,11 +128,30 @@ function Header() {
             />
           </svg>
         </div>
+        <svg
+          style={mobile ? { display: "flex" } : { display: "none" }}
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <path
+            d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6M10 21C10 21.5523 9.55228 22 9 22C8.44772 22 8 21.5523 8 21C8 20.4477 8.44772 20 9 20C9.55228 20 10 20.4477 10 21ZM21 21C21 21.5523 20.5523 22 20 22C19.4477 22 19 21.5523 19 21C19 20.4477 19.4477 20 20 20C20.5523 20 21 20.4477 21 21Z"
+            stroke="#28003E"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
       <div className="header__dark">
         <div className="header__buttons">
           <div className="header__boxbuttons">
-            <button className="header__catalog">
+            <button
+              style={mobile ? { display: "none" } : { display: "flex" }}
+              className="header__catalog"
+            >
               Catalog of goods
               {!catalogOpened ? (
                 <svg
@@ -181,7 +238,7 @@ function Header() {
               <button className="header__signin" onClick={logOutUser}>
                 Sign out
               </button>
-            ) : window.innerWidth > 834 ? (
+            ) : desktop ? (
               <button className="header__signin" onClick={onClickSignin}>
                 Sign in
               </button>
@@ -189,8 +246,11 @@ function Header() {
               ""
             )}
           </div>
-          <div className="header__icons">
-            {window.innerWidth < 821 ? (
+          <div
+            style={mobile ? { display: "none" } : { display: "flex" }}
+            className="header__icons"
+          >
+            {tablet ? (
               <svg
                 onClick={onClickSignin}
                 xmlns="http://www.w3.org/2000/svg"
