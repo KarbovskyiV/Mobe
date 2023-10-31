@@ -64,8 +64,32 @@ p {
     margin: 40px 40px 0 40px;
 }
 
-@media (max-width: 768px) {
-    .logo {
-        margin-top: 100px;
+@media (max-width: 375px) {
+    p {
+        font-size: 14px;
+    }
+
+    .container {
+        width: 280px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .password-description {
+        margin: 40px 20px 0 20px;
+    }
+
+    .button-container {
+        margin-top: 40px;
+    }
+
+    .disclaimer {
+        margin: 40px 20px 0 20px;
+    }
+
+    .signature {
+        margin: 40px 20px 0 20px;
     }
 }
