@@ -113,7 +113,7 @@
 
 <div class="container">
     <div class="header">
-        <img src="{{ asset('images/logo_mobe.svg') }}" alt="Logo" class="logo">
+        <img src="https://i.imgur.com/FTolg3p.png" alt="Logo" class="logo">
         <h2 class="title">Password Reset</h2>
     </div>
     <div class="password-description">
