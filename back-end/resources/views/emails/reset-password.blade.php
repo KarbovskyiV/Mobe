@@ -58,7 +58,6 @@
         .reset-button {
             font-weight: 400;
             background-color: #8732C9;
-            color: #FDFDFD;
             width: 170px;
             height: 44px;
             text-decoration: none;
