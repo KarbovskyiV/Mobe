@@ -35,9 +35,7 @@ export const useValidation = (value, validations) => {
             : setMaxLengthError(false);
           break;
         case "falsePhoneSymbols":
-          /[^0-9-+()]$/i.test(value)
-            ? setFalsePhoneSymbols(true)
-            : setFalsePhoneSymbols(false);
+          setFalsePhoneSymbols(/^\+?\d{1,3}[-\s]?\d{1,15}$/i.test(value));
           break;
 
         default:
