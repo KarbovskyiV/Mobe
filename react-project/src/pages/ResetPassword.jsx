@@ -70,15 +70,17 @@ const ResetPassword = () => {
   const handClick = (event) => {
     if (wrapRef.current && !wrapRef.current.contains(event.target))
       setResetPasswordActive(false);
-    goBack();
   };
 
   useEffect(() => {
+    if (!resetPasswordActive) {
+      goBack();
+    }
     document.addEventListener("mousedown", handClick);
     return () => {
       document.removeEventListener("mousedown", handClick);
     };
-  }, []);
+  }, [resetPasswordActive]);
 
   return (
     <div

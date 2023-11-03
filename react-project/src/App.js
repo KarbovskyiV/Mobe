@@ -1,4 +1,4 @@
-/* domains/Mobe/back-end  php artisan migrate:fresh --seed  */
+/* cd domains/Mobe/back-end  php artisan migrate:fresh --seed  */
 
 /* mobee  
 mobe.test.mobe.test@gmail.com 
@@ -33,6 +33,8 @@ export const DesktopContext = React.createContext();
 export const TabletContext = React.createContext();
 export const MobileContext = React.createContext();
 export const CatalogOpenedContext = React.createContext();
+export const ProductsOpenedContext = React.createContext();
+export const GetCatalogContext = React.createContext();
 
 function App() {
   const [searchValue, setSearchValue] = React.useState("");
@@ -79,10 +81,15 @@ function App() {
     desktop ? true : false
   );
 
+  const [productsOpened, setProductsOpened] = React.useState(false);
+
+  const [category, setCategory] = React.useState([]);
+
   window.addEventListener("scroll", function () {
     const scrollPosition = window.scrollY;
     if (scrollPosition > 50) {
       setCatalogOpened(false);
+      setProductsOpened(false);
     }
   });
 
@@ -119,137 +126,156 @@ function App() {
 
   return (
     <div className="App">
-      <CatalogOpenedContext.Provider
-        value={{ catalogOpened, setCatalogOpened }}
+      <ProductsOpenedContext.Provider
+        value={{ productsOpened, setProductsOpened }}
       >
-        <MobileContext.Provider value={{ mobile, setMobile }}>
-          <TabletContext.Provider value={{ tablet, setTablet }}>
-            <DesktopContext.Provider value={{ desktop, setDesktop }}>
-              <ShoppingCartActiveContext.Provider
-                value={{ shoppingCartActive, setShoppingCartActive }}
-              >
-                <totalCountShoppingCartContext.Provider
-                  value={{ totalCountShoppingCart, setTotalCountShoppingCart }}
-                >
-                  <SearchContext.Provider
-                    value={{ searchValue, setSearchValue }}
+        <GetCatalogContext.Provider value={{ category, setCategory }}>
+          <CatalogOpenedContext.Provider
+            value={{ catalogOpened, setCatalogOpened }}
+          >
+            <MobileContext.Provider value={{ mobile, setMobile }}>
+              <TabletContext.Provider value={{ tablet, setTablet }}>
+                <DesktopContext.Provider value={{ desktop, setDesktop }}>
+                  <ShoppingCartActiveContext.Provider
+                    value={{ shoppingCartActive, setShoppingCartActive }}
                   >
-                    <PhonenumberContext.Provider value={{ phone, setPhone }}>
-                      <SurnameContext.Provider value={{ surname, setSurname }}>
-                        <NameContext.Provider value={{ name, setName }}>
-                          <userContext.Provider value={{ user, setUser }}>
-                            <isLoggedInContext.Provider
-                              value={{ isLoggedIn, setIsLoggedIn }}
-                            >
-                              <RegistrationActiveContext.Provider
-                                value={{
-                                  registrationActive,
-                                  setRegistrationActive,
-                                }}
-                              >
-                                <SignInActiveContext.Provider
-                                  value={{ signInActive, setSignInActive }}
+                    <totalCountShoppingCartContext.Provider
+                      value={{
+                        totalCountShoppingCart,
+                        setTotalCountShoppingCart,
+                      }}
+                    >
+                      <SearchContext.Provider
+                        value={{ searchValue, setSearchValue }}
+                      >
+                        <PhonenumberContext.Provider
+                          value={{ phone, setPhone }}
+                        >
+                          <SurnameContext.Provider
+                            value={{ surname, setSurname }}
+                          >
+                            <NameContext.Provider value={{ name, setName }}>
+                              <userContext.Provider value={{ user, setUser }}>
+                                <isLoggedInContext.Provider
+                                  value={{ isLoggedIn, setIsLoggedIn }}
                                 >
-                                  <ForgotPasswordActiveContext.Provider
+                                  <RegistrationActiveContext.Provider
                                     value={{
-                                      forgotPasswordActive,
-                                      setForgotPasswordActive,
+                                      registrationActive,
+                                      setRegistrationActive,
                                     }}
                                   >
-                                    <ResetPasswordActiveContext.Provider
-                                      value={{
-                                        resetPasswordActive,
-                                        setResetPasswordActive,
-                                      }}
+                                    <SignInActiveContext.Provider
+                                      value={{ signInActive, setSignInActive }}
                                     >
-                                      <CategoryContext.Provider
+                                      <ForgotPasswordActiveContext.Provider
                                         value={{
-                                          categoryValue,
-                                          setCategoryValue,
+                                          forgotPasswordActive,
+                                          setForgotPasswordActive,
                                         }}
                                       >
-                                        <Header />
+                                        <ResetPasswordActiveContext.Provider
+                                          value={{
+                                            resetPasswordActive,
+                                            setResetPasswordActive,
+                                          }}
+                                        >
+                                          <CategoryContext.Provider
+                                            value={{
+                                              categoryValue,
+                                              setCategoryValue,
+                                            }}
+                                          >
+                                            <Header />
 
-                                        <Routes>
-                                          <Route
-                                            path="/NotFound"
-                                            element={<NotFound />}
-                                          />
-                                          <Route path="/" element={<Home />} />
+                                            <Routes>
+                                              <Route
+                                                path="/NotFound"
+                                                element={<NotFound />}
+                                              />
+                                              <Route
+                                                path="/"
+                                                element={<Home />}
+                                              />
 
-                                          <Route path="/*" element={<Home />} />
-                                          <Route
-                                            path="/reset-password"
-                                            element={<ResetPassword />}
-                                          />
-                                        </Routes>
-                                        <Footer />
-                                        <div
-                                          style={
-                                            signInActive === true
-                                              ? { display: "flex" }
-                                              : { display: "none" }
-                                          }
-                                          className="overlaySignIn"
-                                        >
-                                          <LoginPage />
-                                        </div>
-                                        <div
-                                          style={
-                                            registrationActive === true
-                                              ? {
-                                                  display: "flex",
-                                                  zIndex: "1500",
-                                                }
-                                              : { display: "none" }
-                                          }
-                                          className="overlayRegistration"
-                                        >
-                                          <Registration />
-                                        </div>
-                                        <div
-                                          style={
-                                            forgotPasswordActive === true
-                                              ? {
-                                                  display: "flex",
-                                                  zIndex: "1500",
-                                                }
-                                              : { display: "none" }
-                                          }
-                                          className="overlayForgotPassword"
-                                        >
-                                          <ForgotPassword />
-                                        </div>
-                                        <div
-                                          style={
-                                            shoppingCartActive === true
-                                              ? {
-                                                  display: "flex",
-                                                  zIndex: "1500",
-                                                }
-                                              : { display: "none" }
-                                          }
-                                          className="overlayShoppingCart"
-                                        >
-                                          <ShoppingCart />
-                                        </div>
-                                      </CategoryContext.Provider>
-                                    </ResetPasswordActiveContext.Provider>
-                                  </ForgotPasswordActiveContext.Provider>
-                                </SignInActiveContext.Provider>
-                              </RegistrationActiveContext.Provider>
-                            </isLoggedInContext.Provider>
-                          </userContext.Provider>
-                        </NameContext.Provider>
-                      </SurnameContext.Provider>
-                    </PhonenumberContext.Provider>
-                  </SearchContext.Provider>
-                </totalCountShoppingCartContext.Provider>
-              </ShoppingCartActiveContext.Provider>
-            </DesktopContext.Provider>
-          </TabletContext.Provider>
-        </MobileContext.Provider>
-      </CatalogOpenedContext.Provider>
+                                              <Route
+                                                path="/*"
+                                                element={<Home />}
+                                              />
+                                              <Route
+                                                path="/reset-password"
+                                                element={<ResetPassword />}
+                                              />
+                                            </Routes>
+                                            <Footer />
+                                            <div
+                                              style={
+                                                signInActive === true
+                                                  ? { display: "flex" }
+                                                  : { display: "none" }
+                                              }
+                                              className="overlaySignIn"
+                                            >
+                                              <LoginPage />
+                                            </div>
+                                            <div
+                                              style={
+                                                registrationActive === true
+                                                  ? {
+                                                      display: "flex",
+                                                      zIndex: "1500",
+                                                    }
+                                                  : { display: "none" }
+                                              }
+                                              className="overlayRegistration"
+                                            >
+                                              <Registration />
+                                            </div>
+                                            <div
+                                              style={
+                                                forgotPasswordActive === true
+                                                  ? {
+                                                      display: "flex",
+                                                      zIndex: "1500",
+                                                    }
+                                                  : { display: "none" }
+                                              }
+                                              className="overlayForgotPassword"
+                                            >
+                                              <ForgotPassword />
+                                            </div>
+                                            <div
+                                              style={
+                                                shoppingCartActive === true
+                                                  ? {
+                                                      display: "flex",
+                                                      zIndex: "1500",
+                                                    }
+                                                  : { display: "none" }
+                                              }
+                                              className="overlayShoppingCart"
+                                            >
+                                              <ShoppingCart />
+                                            </div>
+                                          </CategoryContext.Provider>
+                                        </ResetPasswordActiveContext.Provider>
+                                      </ForgotPasswordActiveContext.Provider>
+                                    </SignInActiveContext.Provider>
+                                  </RegistrationActiveContext.Provider>
+                                </isLoggedInContext.Provider>
+                              </userContext.Provider>
+                            </NameContext.Provider>
+                          </SurnameContext.Provider>
+                        </PhonenumberContext.Provider>
+                      </SearchContext.Provider>
+                    </totalCountShoppingCartContext.Provider>
+                  </ShoppingCartActiveContext.Provider>
+                </DesktopContext.Provider>
+              </TabletContext.Provider>
+            </MobileContext.Provider>
+          </CatalogOpenedContext.Provider>
+        </GetCatalogContext.Provider>
+      </ProductsOpenedContext.Provider>
     </div>
   );
 }

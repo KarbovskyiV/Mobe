@@ -4,12 +4,46 @@ import LogosBlock from "../components/LogosBlock/LogosBlock";
 import ProductCart from "../components/ProductCart/index.jsx";
 import styles from "./MenuNav.module.scss";
 import cn from "classnames";
-import { DesktopContext, CatalogOpenedContext } from "../App";
+import {
+  CatalogOpenedContext,
+  GetCatalogContext,
+  ProductsOpenedContext,
+} from "../App";
+import axios from "../utils/axios.js";
 
 const Home = () => {
-  const { desktop, setDesktop } = React.useContext(DesktopContext);
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
+  const { productsOpened, setProductsOpened } = React.useContext(
+    ProductsOpenedContext
+  );
+
+  const { category } = React.useContext(GetCatalogContext);
+  const [cat_1, setCat_1] = React.useState([]);
+
+  const catalogList = category;
+
+  const getProducts = () => {
+    axios.get("/products?").then((arr) => {
+      setCat_1(arr.data.data);
+    });
+  };
+
+  const boxRef = React.createRef();
+
+  const handleMouseEnter = () => {
+    setProductsOpened(true);
+    getProducts();
+  };
+
+  const handleMouseLeave = () => {
+    setProductsOpened(true);
+    getProducts();
+  };
+
+  const category_1 = cat_1;
+
+  console.log(category_1);
 
   return (
     <div className="home">
@@ -28,154 +62,40 @@ const Home = () => {
             })}
           >
             <ul>
-              <li>
-                <a href="##">Apple phones</a>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
+              {catalogList.map((obj, i) => (
+                <li
+                  ref={boxRef}
+                  key={i}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={handleMouseEnter}
                 >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="#FDFDFD"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <ul>
-                  <li>
-                    <a href="##">iPhone 14 Pro Max</a>
-                  </li>
-                  <li>
-                    <a href="##">iPhone 14 Pro</a>
-                  </li>
-                  <li>
-                    <a href="##">iPhone 14 Plus</a>
-                  </li>
-                  <li>
-                    <a href="##">iPhone 14</a>
-                  </li>
-                  <li>
-                    <a href="##">iPhone 13</a>
-                  </li>
-                  <li>
-                    <a href="##">Look all</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                Samsung phones
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="#FDFDFD"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <ul>
-                  <li>
-                    <a href="##">Galaxy Fold5 | Flip5</a>
-                  </li>
-                  <li>
-                    <a href="##">Galaxy S23 Ultra | S23+ | S23</a>
-                  </li>
-                  <li>
-                    <a href="##">Galaxy S22 | S21FE</a>
-                  </li>
-                  <li>
-                    <a href="##">Galaxy A54 | A34</a>
-                  </li>
-                  <li>
-                    <a href="##">Galaxy A24 | A14</a>
-                  </li>
-                  <li>
-                    <a href="##">Look all</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                Xiaomi phones
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="#FDFDFD"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </li>
-              <li>
-                Motorola phones
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="#FDFDFD"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </li>
-              <li>
-                Nokia phones
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="#FDFDFD"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </li>
-              <li>
-                Phones’ accessories
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="#FDFDFD"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </li>
+                  <a href="##">{obj.name}</a>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M9 18L15 12L9 6"
+                      stroke="#FDFDFD"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <ul>
+                    {category_1
+                      .filter((cat) => cat.category_id === obj.id)
+                      .map((object, i) => (
+                        <li key={i}>
+                          <a href="##">{object.name}</a>
+                        </li>
+                      ))}
+                  </ul>
+                </li>
+              ))}
             </ul>
           </div>
         </nav>

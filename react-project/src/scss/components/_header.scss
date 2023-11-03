@@ -187,7 +187,15 @@ nav {
       cursor: pointer;
 
       &:hover {
-        background-color: $violet;
+        background-color: $violet-400;
+        a {
+          color: $grey;
+        }
+        svg {
+          path {
+            stroke: $grey;
+          }
+        }
       }
     }
   }
