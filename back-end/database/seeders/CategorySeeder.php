@@ -13,12 +13,12 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Смартфони Apple',
-            'Смартфони Samsung',
-            'Смартфони Xiaomi',
-            'Смартфони Motorola',
-            'Смартфони Nokia',
-            'Аксесуари до смартфонів',
+            'Apple phones',
+            'Samsung phones',
+            'Xiaomi phones',
+            'Motorola phones',
+            'Nokia phones',
+            'Phones’ accessories',
         ];
 
         foreach ($categories as $categoryName) {

@@ -103,8 +103,6 @@
                 margin: 40px 20px 0 20px;
             }
         }
-
-
     </style>
 
 </head>
