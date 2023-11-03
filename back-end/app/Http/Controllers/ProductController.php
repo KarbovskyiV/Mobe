@@ -227,4 +227,61 @@ class ProductController extends Controller
             'message' => 'This product is not on your favourite list'
         ], 404);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/recommended/{product}",
+     *     operationId="getRecommendedProducts",
+     *     tags={"Products"},
+     *     summary="Get recommended products",
+     *     description="Get a list of recommended products based on the provided product's category.",
+     *     @OA\Parameter(
+     *         name="product",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the product for which recommendations are needed",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="category_id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             ))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string")
+     *         )
+     *     )
+     * )
+     */
+    public function recommendedProducts($product): JsonResponse
+    {
+        $selectedProduct = Product::find($product);
+
+        if (!$selectedProduct) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+
+        $category_id = $selectedProduct->category_id;
+
+        $recommendedProducts = Product::query()
+            ->where('category_id', $category_id)
+            ->whereNotIn('id', [$product])
+            ->inRandomOrder()
+            ->get();
+
+        return response()->json([
+            'data' => $recommendedProducts,
+        ]);
+    }
 }

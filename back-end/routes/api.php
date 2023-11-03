@@ -34,6 +34,7 @@ Route::post('/reset-password', [PasswordController::class, 'resetPassword'])->na
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/recommended/{product}', [ProductController::class, 'recommendedProducts'])->name('products.recommendedProducts');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products/{product}/add-to-favourites', [ProductController::class, 'addToFavourites'])
