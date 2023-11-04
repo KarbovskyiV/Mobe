@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import {
@@ -12,8 +12,10 @@ import {
   TabletContext,
   MobileContext,
   CatalogOpenedContext,
+  GetCatalogContext,
 } from "../App";
 import debounce from "lodash.debounce";
+import axios from "../utils/axios.js";
 
 function Header() {
   const { setSignInActive } = React.useContext(SignInActiveContext);
@@ -28,9 +30,11 @@ function Header() {
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
   const { desktop } = React.useContext(DesktopContext);
   const { tablet } = React.useContext(TabletContext);
-  const { mobile, setMobile } = React.useContext(MobileContext);
+  const { mobile } = React.useContext(MobileContext);
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
+
+  const { setCategory } = React.useContext(GetCatalogContext);
 
   const logOutUser = () => {
     setUser({
@@ -69,6 +73,18 @@ function Header() {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
+
+  const getCatalog = () => {
+    axios.get("/categories?").then((arr) => {
+      setCategory(arr.data.data);
+    });
+  };
+
+  useEffect(() => {
+    if (catalogOpened) {
+      getCatalog();
+    }
+  }, [catalogOpened]);
 
   return (
     <div className="header">

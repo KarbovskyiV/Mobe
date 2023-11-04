@@ -15,22 +15,23 @@
 .menu li:hover ul {
   display: flex;
   top: 168px;
-  width: 200px;
-  background: $gray-violet;
+  width: 300px;
+  height: 304px;
+  background: $violet-400;
   position: fixed;
   z-index: 100;
-  padding: 12px 0;
+  padding-top: 12px;
   transform: translate(250px, 0px);
 
   li {
     display: flex;
     justify-content: space-between;
-    background: $grey;
+    background: $violet-400;
     align-items: center;
     margin-left: 8px;
   }
   a {
-    color: $white;
+    color: $grey;
   }
 }
 

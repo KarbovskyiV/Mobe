@@ -13,7 +13,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $appleCategory = Category::query()->where('name', 'Смартфони Apple')->first();
+        $appleCategory = Category::query()->where('name', 'Apple phones')->first();
         $appleProducts = [
             ['name' => 'iPhone 14 Pro Max'],
             ['name' => 'iPhone 14 Pro'],
@@ -26,7 +26,7 @@ class ProductSeeder extends Seeder
             Product::query()->firstOrCreate(['name' => $productData['name']], $productData);
         }
 
-        $samsungCategory = Category::query()->where('name', 'Смартфони Samsung')->first();
+        $samsungCategory = Category::query()->where('name', 'Samsung phones')->first();
         $samsungProducts = [
             ['name' => 'Galaxy Fold5 | Flip5'],
             ['name' => 'Galaxy S23 Ultra | S23+ | S23'],
@@ -39,7 +39,7 @@ class ProductSeeder extends Seeder
             Product::query()->firstOrCreate(['name' => $productData['name']], $productData);
         }
 
-        $xiaomiCategory = Category::query()->where('name', 'Смартфони Xiaomi')->first();
+        $xiaomiCategory = Category::query()->where('name', 'Xiaomi phones')->first();
         $xiaomiProducts = [
             ['name' => 'Redmi Note 12 Pro+'],
             ['name' => 'Redmi Note 12 Pro | 12 Pro 5G'],
@@ -52,7 +52,7 @@ class ProductSeeder extends Seeder
             Product::query()->firstOrCreate(['name' => $productData['name']], $productData);
         }
 
-        $motorolaCategory = Category::query()->where('name', 'Смартфони Motorola')->first();
+        $motorolaCategory = Category::query()->where('name', 'Motorola phones')->first();
         $motorolaProducts = [
             ['name' => 'Motorola G13'],
             ['name' => 'Motorola G72'],
@@ -65,7 +65,7 @@ class ProductSeeder extends Seeder
             Product::query()->firstOrCreate(['name' => $productData['name']], $productData);
         }
 
-        $nokiaCategory = Category::query()->where('name', 'Смартфони Nokia')->first();
+        $nokiaCategory = Category::query()->where('name', 'Nokia phones')->first();
         $nokiaProducts = [
             ['name' => 'Nokia C21 Plus'],
             ['name' => 'Nokia C22'],
@@ -78,13 +78,13 @@ class ProductSeeder extends Seeder
             Product::query()->firstOrCreate(['name' => $productData['name']], $productData);
         }
 
-        $accessoriesCategory = Category::query()->where('name', 'Аксесуари до смартфонів')->first();
+        $accessoriesCategory = Category::query()->where('name', 'Phones’ accessories')->first();
         $accessoriesProducts = [
-            ['name' => 'Чохли для телефонів'],
-            ['name' => 'Захисні плівки та скло'],
-            ['name' => 'Навушники'],
-            ['name' => "Карти пам’яті"],
-            ['name' => 'Кабелі та перехідники'],
+            ['name' => 'Phone cases'],
+            ['name' => 'Protective films and glass'],
+            ['name' => 'Earphones'],
+            ['name' => 'Memory cards'],
+            ['name' => 'Cables and adapters'],
         ];
         foreach ($accessoriesProducts as $productData) {
             $productData['category_id'] = $accessoriesCategory->id;
