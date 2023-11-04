@@ -14,9 +14,7 @@ import axios from "../utils/axios.js";
 const Home = () => {
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
-  const { productsOpened, setProductsOpened } = React.useContext(
-    ProductsOpenedContext
-  );
+  const { setProductsOpened } = React.useContext(ProductsOpenedContext);
 
   const { category } = React.useContext(GetCatalogContext);
   const [cat_1, setCat_1] = React.useState([]);
@@ -24,8 +22,8 @@ const Home = () => {
   const catalogList = category;
 
   const getProducts = () => {
-    axios.get("/products?").then((arr) => {
-      setCat_1(arr.data.data);
+    axios.get("/products").then((arr) => {
+      setCat_1(arr.data);
     });
   };
 
