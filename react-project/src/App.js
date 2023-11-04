@@ -1,6 +1,6 @@
 /* cd domains/Mobe/back-end  php artisan migrate:fresh --seed  */
 
-/* mobee  
+/* mobe 
 mobe.test.mobe.test@gmail.com 
  mobe123456789 */
 import React, { useEffect } from "react";
