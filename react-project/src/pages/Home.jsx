@@ -14,9 +14,7 @@ import axios from "../utils/axios.js";
 const Home = () => {
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
-  const { productsOpened, setProductsOpened } = React.useContext(
-    ProductsOpenedContext
-  );
+  const { setProductsOpened } = React.useContext(ProductsOpenedContext);
 
   const { category } = React.useContext(GetCatalogContext);
   const [cat_1, setCat_1] = React.useState([]);
@@ -25,9 +23,12 @@ const Home = () => {
 
   const getProducts = () => {
     axios.get("/products?").then((arr) => {
-      setCat_1(arr.data.data);
+      /*  setCat_1(arr.data.data); */
+      console.log(arr.data.data);
     });
   };
+
+  getProducts();
 
   const boxRef = React.createRef();
 
@@ -84,13 +85,13 @@ const Home = () => {
                     />
                   </svg>
                   <ul>
-                    {category_1
+                    {/*  {category_1
                       .filter((cat) => cat.category_id === obj.id)
                       .map((object, i) => (
                         <li key={i}>
                           <a href="##">{object.name}</a>
                         </li>
-                      ))}
+                      ))} */}
                   </ul>
                 </li>
               ))}
@@ -99,6 +100,9 @@ const Home = () => {
         </nav>
         <Slider />
         <LogosBlock />
+        <button className="vv" onClick={getProducts()}>
+          fghhui
+        </button>
       </div>
       <ProductCart />
     </div>
