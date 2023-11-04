@@ -43,8 +43,6 @@ const Home = () => {
 
   const category_1 = cat_1;
 
-  console.log(category_1);
-
   return (
     <div className="home">
       <div className="home__slider-logos">
