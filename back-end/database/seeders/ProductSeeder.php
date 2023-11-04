@@ -80,11 +80,11 @@ class ProductSeeder extends Seeder
 
         $accessoriesCategory = Category::query()->where('name', 'Phones’ accessories')->first();
         $accessoriesProducts = [
-            ['name' => 'Чохли для телефонів'],
-            ['name' => 'Захисні плівки та скло'],
-            ['name' => 'Навушники'],
-            ['name' => "Карти пам’яті"],
-            ['name' => 'Кабелі та перехідники'],
+            ['name' => 'Phone cases'],
+            ['name' => 'Protective films and glass'],
+            ['name' => 'Earphones'],
+            ['name' => 'Memory cards'],
+            ['name' => 'Cables and adapters'],
         ];
         foreach ($accessoriesProducts as $productData) {
             $productData['category_id'] = $accessoriesCategory->id;
