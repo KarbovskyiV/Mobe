@@ -8,16 +8,25 @@ import {
   CatalogOpenedContext,
   GetCatalogContext,
   ProductsOpenedContext,
+  MobileContext,
 } from "../App";
 import axios from "../utils/axios.js";
 
 const Home = () => {
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
-  const { setProductsOpened } = React.useContext(ProductsOpenedContext);
+  const { productsOpened, setProductsOpened } = React.useContext(
+    ProductsOpenedContext
+  );
 
   const { category } = React.useContext(GetCatalogContext);
   const [cat_1, setCat_1] = React.useState([]);
+
+  const { mobile } = React.useContext(MobileContext);
+
+  const [menuCatalogMobileOpened, setMenuCatalogMobileOpened] = React.useState(
+    mobile ? false : true
+  );
 
   const catalogList = category;
 
@@ -30,13 +39,34 @@ const Home = () => {
   const boxRef = React.createRef();
 
   const handleMouseEnter = () => {
-    setProductsOpened(true);
-    getProducts();
+    if (!mobile) {
+      setProductsOpened(true);
+      getProducts();
+    }
+    return;
   };
 
   const handleMouseLeave = () => {
-    setProductsOpened(true);
-    getProducts();
+    if (!mobile) {
+      setProductsOpened(true);
+      getProducts();
+    }
+    return;
+  };
+
+  const clickIconsOpened = () => {
+    if (mobile) {
+      setProductsOpened(true);
+      getProducts();
+    }
+    return;
+  };
+
+  const clickIconsClosed = () => {
+    if (mobile) {
+      setProductsOpened(false);
+    }
+    return;
   };
 
   const category_1 = cat_1;
@@ -51,37 +81,132 @@ const Home = () => {
               [styles.coverShow]: catalogOpened,
             })}
           />
-
           <div
             className={cn(styles.mobileMenuBox, {
               [styles.mobileMenuBoxShow]: catalogOpened,
             })}
           >
-            <ul>
+            <div
+              className={styles.mobileMenuTitle}
+              style={mobile ? { display: "flex" } : { display: "none" }}
+            >
+              <p>Catalog of goods</p>
+              {!menuCatalogMobileOpened === true ? (
+                <svg
+                  onClick={() => setMenuCatalogMobileOpened(true)}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M6 9L12 15L18 9"
+                    stroke="#30293D"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  onClick={() => setMenuCatalogMobileOpened(false)}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M18 15L12 9L6 15"
+                    stroke="#30293D"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </div>
+            <ul
+              style={
+                menuCatalogMobileOpened
+                  ? { display: "flex" }
+                  : { display: "none" }
+              }
+            >
               {catalogList.map((obj, i) => (
                 <li
                   ref={boxRef}
                   key={i}
                   onMouseLeave={handleMouseLeave}
                   onMouseEnter={handleMouseEnter}
+                  /*  style={
+                    obj.id === 1 ? { marginBottom: 304 } : { marginBottom: 0 }
+                  } */
                 >
                   <a href="##">{obj.name}</a>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
+                  {mobile ? (
+                    productsOpened ? (
+                      <svg
+                        onClick={() => clickIconsClosed()}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M18 15L12 9L6 15"
+                          stroke="#FDFDFD"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        onClick={() => clickIconsOpened()}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M6 9L12 15L18 9"
+                          stroke="#FDFDFD"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M9 18L15 12L9 6"
+                        stroke="#FDFDFD"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                  <ul
+                    style={
+                      mobile
+                        ? productsOpened
+                          ? { visibility: "visible" }
+                          : { visibility: "hidden" }
+                        : { width: 300 }
+                    }
                   >
-                    <path
-                      d="M9 18L15 12L9 6"
-                      stroke="#FDFDFD"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <ul>
                     {category_1
                       .filter((cat) => cat.category_id === obj.id)
                       .map((object, i) => (
@@ -95,6 +220,7 @@ const Home = () => {
             </ul>
           </div>
         </nav>
+
         <Slider />
         <LogosBlock />
       </div>

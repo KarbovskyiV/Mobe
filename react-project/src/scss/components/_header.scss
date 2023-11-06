@@ -8,7 +8,7 @@
   z-index: 1000;
 
   &__light {
-    background-color: #d4d9e8;
+    background-color: $violet-400;
     display: flex;
     height: 88px;
     padding: 8px 150px;
@@ -212,6 +212,29 @@ nav {
 
     &__boxbuttons {
       width: 100%;
+    }
+  }
+
+  nav {
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      li {
+        padding: 1px 15% 1px 25%;
+
+        &:hover {
+          background-color: $grey;
+          a {
+            color: $white;
+          }
+          svg {
+            path {
+              stroke: $white;
+            }
+          }
+        }
+      }
     }
   }
 }
