@@ -37,6 +37,44 @@ export const ProductsOpenedContext = React.createContext();
 export const GetCatalogContext = React.createContext();
 
 function App() {
+  const [mob, setMob] = React.useState(false);
+
+  const myMobile = {
+    Android: function () {
+      return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function () {
+      return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function () {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function () {
+      return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function () {
+      return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function () {
+      return (
+        myMobile.Android() ||
+        myMobile.BlackBerry() ||
+        myMobile.iOS() ||
+        myMobile.Opera() ||
+        myMobile.Windows()
+      );
+    },
+  };
+
+  const aa = () => {
+    if (myMobile.any()) {
+      setMob(true);
+    }
+    setMob(false);
+  };
+
+  console.log(mob, 78);
+
   const [searchValue, setSearchValue] = React.useState("");
   const [categoryValue, setCategoryValue] = React.useState("");
   const [registrationActive, setRegistrationActive] = React.useState(false);
@@ -166,7 +204,10 @@ function App() {
                                     }}
                                   >
                                     <SignInActiveContext.Provider
-                                      value={{ signInActive, setSignInActive }}
+                                      value={{
+                                        signInActive,
+                                        setSignInActive,
+                                      }}
                                     >
                                       <ForgotPasswordActiveContext.Provider
                                         value={{
@@ -208,6 +249,9 @@ function App() {
                                               />
                                             </Routes>
                                             <Footer />
+                                            {mob
+                                              ? "mobile version"
+                                              : "desktop version"}
                                             <div
                                               style={
                                                 signInActive === true

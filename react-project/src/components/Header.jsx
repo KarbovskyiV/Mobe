@@ -89,36 +89,64 @@ function Header() {
   return (
     <div className="header">
       <div className="header__light">
-        <svg
-          style={mobile ? { display: "flex" } : { display: "none" }}
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="18"
-          viewBox="0 0 26 18"
-          fill="none"
-        >
-          <path
-            d="M25 9H0.999999"
-            stroke="#28003E"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M21 1H0.999999"
-            stroke="#28003E"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M21 17H0.999999"
-            stroke="#28003E"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {!catalogOpened === true ? (
+          <svg
+            onClick={() => setCatalogOpened(true)}
+            style={mobile ? { display: "flex" } : { display: "none" }}
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="18"
+            viewBox="0 0 26 18"
+            fill="none"
+          >
+            <path
+              d="M25 9H0.999999"
+              stroke="#28003E"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M21 1H0.999999"
+              stroke="#28003E"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M21 17H0.999999"
+              stroke="#28003E"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ) : (
+          <svg
+            onClick={() => setCatalogOpened(false)}
+            style={mobile ? { display: "flex" } : { display: "none" }}
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+          >
+            <path
+              d="M0.999756 17L16.9996 1.00013"
+              stroke="#28003E"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M16.9998 17L0.999888 1.00013"
+              stroke="#28003E"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
         <Link to="/">
           <Logo />
         </Link>
@@ -161,7 +189,10 @@ function Header() {
           />
         </svg>
       </div>
-      <div className="header__dark">
+      <div
+        className="header__dark"
+        style={mobile ? { display: "none" } : { display: "flex" }}
+      >
         <div className="header__buttons">
           <div className="header__boxbuttons">
             <button

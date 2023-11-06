@@ -87,3 +87,10 @@ h5 {
   font-weight: 500;
   line-height: 40px;
 }
+
+@media (max-width: 375px) {
+  .logo {
+    width: 65px;
+    height: 48px;
+  }
+}
