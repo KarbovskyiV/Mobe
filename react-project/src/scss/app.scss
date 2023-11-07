@@ -53,7 +53,7 @@
   }
 }
 
-@media (max-width: 834px) {
+@media (max-width: 850px) {
   .home {
     &__slider-logos {
       margin: 0 40px;
@@ -61,16 +61,10 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 420px) {
   .home {
     &__slider-logos {
       margin: 0;
     }
   }
-}
-
-.vv {
-  background: red;
-  height: 50px;
-  width: 50px;
 }

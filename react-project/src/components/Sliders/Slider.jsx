@@ -15,7 +15,12 @@ import slide_3m from "../../assets/img/slider/Mobile3.jpg";
 import slide_1t from "../../assets/img/slider/Tablet1.jpg";
 import slide_2t from "../../assets/img/slider/Tablet2.jpg";
 import slide_3t from "../../assets/img/slider/Tablet3.jpg";
-import { CatalogOpenedContext, DesktopContext, TabletContext } from "../../App";
+import {
+  CatalogOpenedContext,
+  DesktopContext,
+  TabletContext,
+  MobileContext,
+} from "../../App";
 
 register();
 
@@ -25,6 +30,7 @@ const Slider = () => {
   const { catalogOpened } = React.useContext(CatalogOpenedContext);
   const { desktop } = React.useContext(DesktopContext);
   const { tablet } = React.useContext(TabletContext);
+  const { mobile } = React.useContext(MobileContext);
 
   const slidesD = [
     {
@@ -84,7 +90,11 @@ const Slider = () => {
   const slidesRender = slides().map(({ src, title, oldPrice, newPrice }, i) => {
     return (
       <swiper-slide key={i}>
-        <img src={src} alt={title} />
+        <img
+          src={src}
+          alt={title}
+          style={mobile ? { width: "100%" } : { width: "auto" }}
+        />
       </swiper-slide>
     );
   });
