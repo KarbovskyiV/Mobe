@@ -39,37 +39,20 @@ const Home = () => {
   const boxRef = React.createRef();
 
   const handleMouseEnter = () => {
-    if (!mobile) {
-      setProductsOpened(true);
-      getProducts();
-    }
-    return;
+    setProductsOpened(true);
+    getProducts();
   };
 
   const handleMouseLeave = () => {
-    if (!mobile) {
-      setProductsOpened(true);
-      getProducts();
-    }
-    return;
-  };
-
-  const clickIconsOpened = () => {
-    if (mobile) {
-      setProductsOpened(true);
-      getProducts();
-    }
-    return;
-  };
-
-  const clickIconsClosed = () => {
-    if (mobile) {
-      setProductsOpened(false);
-    }
-    return;
+    setProductsOpened(true);
+    getProducts();
   };
 
   const category_1 = cat_1;
+
+  const a = (x) => {
+    return 142 + x * 42 + x * 6;
+  };
 
   return (
     <div className="home">
@@ -140,15 +123,28 @@ const Home = () => {
                   key={i}
                   onMouseLeave={handleMouseLeave}
                   onMouseEnter={handleMouseEnter}
-                  /*  style={
-                    obj.id === 1 ? { marginBottom: 304 } : { marginBottom: 0 }
-                  } */
                 >
                   <a href="##">{obj.name}</a>
                   {mobile ? (
-                    productsOpened ? (
+                    <svg
+                      /*  onClick={() => setProductsOpened(!productsOpened)} */
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M6 9L12 15L18 9"
+                        stroke="#FDFDFD"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ) : (
+                    /*  productsOpened ? (
                       <svg
-                        onClick={() => clickIconsClosed()}
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -165,7 +161,6 @@ const Home = () => {
                       </svg>
                     ) : (
                       <svg
-                        onClick={() => clickIconsOpened()}
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -180,8 +175,7 @@ const Home = () => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                    )
-                  ) : (
+                    ) */
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -202,7 +196,11 @@ const Home = () => {
                     style={
                       mobile
                         ? productsOpened
-                          ? { visibility: "visible" }
+                          ? {
+                              visibility: "visible",
+                              top: a(obj.id),
+                              height: 304,
+                            }
                           : { visibility: "hidden" }
                         : { width: 300 }
                     }

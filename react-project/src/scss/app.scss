@@ -3,7 +3,7 @@
 @import "./components/_all.scss";
 
 .home {
-  margin-top: 180px;
+  margin-top: 164px;
 
   &__slider-logos {
     margin: 0 150px;
@@ -61,8 +61,10 @@
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 375px) {
   .home {
+    margin-top: 152px;
+
     &__slider-logos {
       margin: 0;
     }

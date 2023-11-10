@@ -5,6 +5,7 @@ mobe.test.mobe.test@gmail.com
  mobe123456789 */
 import React, { useEffect } from "react";
 import "./scss/app.scss";
+import MobileDetect from "mobile-detect";
 import Home from "./pages/Home.jsx";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header.jsx";
@@ -66,11 +67,11 @@ function App() {
   const [shoppingCartActive, setShoppingCartActive] = React.useState(false);
 
   const [tablet, setTablet] = React.useState(
-    window.innerWidth < 851 && window.innerWidth > 420 ? true : false
+    window.innerWidth < 851 && window.innerWidth > 375 ? true : false
   );
 
   const [mobile, setMobile] = React.useState(
-    window.innerWidth < 421 ? true : false
+    window.innerWidth < 376 ? true : false
   );
 
   const [desktop, setDesktop] = React.useState(
@@ -123,6 +124,16 @@ function App() {
       }
     }
   }, []);
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth < 376) {
+      return setMobile(true) || setTablet(false) || setDesktop(false);
+    } else if (window.innerWidth < 851 && window.innerWidth > 375) {
+      return setTablet(true) || setMobile(false) || setDesktop(false);
+    } else {
+      return setDesktop(true) || setMobile(false) || setTablet(false);
+    }
+  });
 
   return (
     <div className="App">
