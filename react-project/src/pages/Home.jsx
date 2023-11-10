@@ -216,9 +216,19 @@ const Home = () => {
                 </li>
               ))}
             </ul>
+            <div
+              className={styles.mobileMenuFooter}
+              style={mobile ? { display: "flex" } : { display: "none" }}
+            >
+              <a href="##">Contacts</a>
+              <a href="##">Delivery and payment</a>
+              <a href="##">Returns and exchanges</a>
+              <a href="##">Privacy Policy</a>
+              <a href="##">Security Policy</a>
+              <a href="##">Terms of use</a>
+            </div>
           </div>
         </nav>
-
         <Slider />
         <LogosBlock />
       </div>
