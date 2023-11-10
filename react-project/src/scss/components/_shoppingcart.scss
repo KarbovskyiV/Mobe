@@ -1,7 +1,7 @@
 @import "../_variables.scss";
 
 .overlayShoppingCart {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -11,11 +11,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: scroll;
 }
 
 .shoppingcart__window {
-  position: absolute;
   width: 55%;
+  margin: auto 247px;
   background-color: $white;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
   border-radius: 4px;
@@ -63,6 +64,12 @@
   width: 100%;
   margin-bottom: 42px;
   justify-content: space-between;
+}
+
+.shoppingcart__img {
+  img {
+    width: auto;
+  }
 }
 
 .shoppingcart__down {
@@ -164,31 +171,99 @@
 }
 
 .shoppingcart__delete {
-  padding: 5px;
-  width: 100%;
+  padding: 16px 32px;
+  width: 154px;
   height: auto;
   display: flex;
   gap: 10px;
   flex-direction: column;
-  background: $white;
+  background: $gray-100;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .shoppingcart__summDelete {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   width: 20%;
   justify-content: space-between;
-  padding: 10px;
+  padding: 0px;
 }
 
-.delete-box {
+.delete-box1 {
   display: flex;
   flex-direction: row;
   gap: 15px;
   width: 100%;
   align-items: center;
+
+  p {
+    text-decoration-line: underline;
+    font-size: 14px;
+  }
+}
+
+.delete-box2 {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+  align-items: center;
+
+  p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 850px) {
+  .shoppingcart__window {
+    width: 75%;
+    margin: auto 40px;
+    padding: 32px 64px 80px 64px;
+  }
+}
+
+@media (max-width: 430px) {
+  .shoppingcart__cheaper {
+    h5 {
+      font-size: 20px;
+    }
+  }
+
+  .shoppingcart__cart {
+    h4 {
+      font-size: 24px;
+    }
+  }
+
+  .shoppingcart__add {
+    label {
+      font-size: 16px;
+    }
+  }
+
+  .shoppingcart__down {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-end;
+    margin: 0;
+    gap: 20px;
+
+    &-summ {
+      width: 90%;
+      padding: 24px 20px;
+      justify-content: space-between;
+      margin: 0 auto;
+
+      h5 {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .shoppingcart__box {
+    padding: 0 45px;
+  }
 }
