@@ -10,7 +10,7 @@
   &__light {
     background-color: $violet-400;
     display: flex;
-    height: 88px;
+    height: 72px;
     padding: 8px 150px;
     justify-content: space-between;
     align-items: center;
@@ -192,6 +192,7 @@ nav {
           color: $grey;
         }
         svg {
+          transform: rotate(180deg);
           path {
             stroke: $grey;
           }
@@ -201,7 +202,7 @@ nav {
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 375px) {
   .header {
     &__buttons {
       margin: 0 16px;
@@ -212,29 +213,6 @@ nav {
 
     &__boxbuttons {
       width: 100%;
-    }
-  }
-
-  nav {
-    ul {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      li {
-        padding: 1px 15% 1px 25%;
-
-        &:hover {
-          background-color: $grey;
-          a {
-            color: $white;
-          }
-          svg {
-            path {
-              stroke: $white;
-            }
-          }
-        }
-      }
     }
   }
 }

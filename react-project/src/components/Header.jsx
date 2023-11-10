@@ -191,7 +191,9 @@ function Header() {
       </div>
       <div
         className="header__dark"
-        style={mobile ? { display: "none" } : { display: "flex" }}
+        style={
+          catalogOpened && mobile ? { display: "none" } : { display: "flex" }
+        }
       >
         <div className="header__buttons">
           <div className="header__boxbuttons">
