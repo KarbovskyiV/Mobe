@@ -11,6 +11,11 @@ import {
   MobileContext,
 } from "../App";
 import axios from "../utils/axios.js";
+import Promotions from "../components/Promotions/Promotions";
+import New from "../components/New/New";
+import Popular from "../components/Popular/Popular";
+import Subscribe from "../components/Subscribe/Subscribe";
+
 
 const Home = () => {
   const { catalogOpened, setCatalogOpened } =
@@ -224,7 +229,12 @@ const Home = () => {
         <Slider />
         <LogosBlock />
       </div>
-      <ProductCart />
+      {/* <ProductCart /> */}
+      <Promotions />
+      <New />
+      <Popular />
+      <Subscribe/>
+      
     </div>
   );
 };

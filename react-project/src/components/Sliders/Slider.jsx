@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { register } from "swiper/element/bundle";
 
 import slide_1 from "../../assets/img/slider/banerBGbig2.jpg";
@@ -76,7 +76,10 @@ const Slider = () => {
       title: "Samsung Galaxy 22",
     },
   ];
-
+  useEffect(() => {
+    window.addEventListener("resize", console.log("window", window.innerWidth));
+    
+  }, []); 
   const slides = () => {
     if (desktop) {
       return slidesD;
