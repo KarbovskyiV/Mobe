@@ -3,7 +3,7 @@ import React from "react";
 import Title from "../Title/Title";
 import Prod from "./images/prod.jpg";
 
-import MyRating from "../MyRating/MyRating";
+import MyRating from "../MyRating/MyRating.jsx";
 import Button from "../Button";
 
 import IconsHeart from "../IconsHeart/IconsHeart";
