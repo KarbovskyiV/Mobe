@@ -9,27 +9,20 @@ class VerificationController extends Controller
 {
     public function verify($id)
     {
+        /** @var User $user */
         $user = User::find($id);
 
+        // TODO: refactor return
         if ($user->hasVerifiedEmail()) {
             return redirect('http://localhost:3000/')->with([
                 'message' => 'Email already verified.',
-                'verification' => false,
-                'email' => $user->email,
-            ], 400);
+                'email_verified_at' => $user->email_verified_at,
+            ]);
         }
 
-        /** @var User $user */
         $user->markEmailAsVerified();
-
         Auth::login($user);
 
-// redirect('http://localhost:3000/')
-        return response()->json([
-            'message' => 'Email successfully verified.',
-            'verification' => true,
-            'email' => $user->email,
-        ]);
-        // return verification true of false
+        return redirect('http://localhost:3000/login');
     }
 }
