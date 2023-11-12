@@ -9,13 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <title>Password Reset</title>
     <style>
-        body {
-            font-family: "Inter", sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
         p {
             font-weight: 400;
             font-size: 16px;
@@ -74,6 +67,11 @@
             margin: 40px 40px 0 40px;
         }
 
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+        }
+
         @media (max-width: 375px) {
             p {
                 font-size: 14px;
@@ -106,7 +104,7 @@
     </style>
 
 </head>
-<body>
+<body style="background-color: #503061; font-family: Inter, sans-serif; margin: 0; padding: 0;">
 
 <div class="container">
     <div class="header">
@@ -124,6 +122,9 @@
     </div>
     <div class="signature">
         <p>Regards,<br>Your Mobe Team</p>
+    </div>
+    <div class="copyright">
+        <p>© {{ date('Y') }} Mobe. All rights reserved.</p>
     </div>
 </div>
 
