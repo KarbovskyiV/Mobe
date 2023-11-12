@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/link/gmail', [AuthController::class, 'link'])->name('link.gmail');
 Route::get('/token/gmail', [AuthController::class, 'authenticateWithGoogle'])->name('token.gmail');
@@ -41,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ->name('products.add.favourite');
     Route::post('/products/{product}/remove-from-favourites', [ProductController::class, 'removeFromFavourites'])
         ->name('products.remove.favourite');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
