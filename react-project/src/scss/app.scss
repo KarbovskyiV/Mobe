@@ -3,7 +3,7 @@
 @import "./components/_all.scss";
 
 .home {
-  margin-top: 180px;
+  margin-top: 164px;
 
   &__slider-logos {
     margin: 0 150px;
@@ -51,6 +51,14 @@
       background-color: $violetDark;
     }
   }
+
+  &[type="black"] {
+    background: $black;
+    color: $white;
+    &:hover {
+      background-color: $violetDark;
+    }
+  }
 }
 
 @media (max-width: 850px) {
@@ -61,8 +69,10 @@
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 430px) {
   .home {
+    margin-top: 152px;
+
     &__slider-logos {
       margin: 0;
     }

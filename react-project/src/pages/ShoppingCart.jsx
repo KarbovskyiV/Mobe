@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCartActiveContext } from "../App";
+import { ShoppingCartActiveContext, MobileContext } from "../App";
 import Button from "../components/Button";
 import phone from "../assets/img/phone.png";
+import phoneMobile from "../assets/img/imageS.jpg";
 import SliderCart from "../components/Sliders/SliderCart.jsx";
 
 const ShoppingCart = () => {
@@ -13,6 +14,7 @@ const ShoppingCart = () => {
   const [totalCount] = React.useState();
 
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
+  const { mobile } = React.useContext(MobileContext);
 
   const handClick = (event) => {
     if (wrapRef.current && !wrapRef.current.contains(event.target))
@@ -62,7 +64,7 @@ const ShoppingCart = () => {
           <h4>Shopping cart</h4>
           <div className="shoppingcart__up">
             <div className="shoppingcart__img">
-              <img src={phone} alt="img" />
+              <img src={mobile ? phoneMobile : phone} alt="img" />
             </div>
             <div className="shoppingcart__add">
               <label>Smartphone Apple iPhone 12 128Gb White</label>
@@ -96,24 +98,6 @@ const ShoppingCart = () => {
                   />
                 </svg>
               </div>
-              {/* <div className="shoppingcart__service">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6 9L12 15L18 9"
-                    stroke="#28003E"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <p>Additional services (1)</p>
-              </div> */}
             </div>
             <div className="shoppingcart__summDelete">
               <div
@@ -124,26 +108,7 @@ const ShoppingCart = () => {
                     : { display: "flex" }
                 }
               >
-                <div className="delete-box">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      d="M3 6H5M5 6H21M5 6V20C5 20.5304 5.21071 21.0391 5.58579 21.4142C5.96086 21.7893 6.46957 22 7 22H17C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20V6H5ZM8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M10 11V17M14 11V17"
-                      stroke="#28003E"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-
-                  <p>delete</p>
-                </div>
-                <div className="delete-box">
+                <div className="delete-box1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -160,7 +125,26 @@ const ShoppingCart = () => {
                     />
                   </svg>
 
-                  <p>like</p>
+                  <p>Add to favourite</p>
+                </div>
+                <div className="delete-box2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M3 6H5M5 6H21M5 6V20C5 20.5304 5.21071 21.0391 5.58579 21.4142C5.96086 21.7893 6.46957 22 7 22H17C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20V6H5ZM8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M10 11V17M14 11V17"
+                      stroke="#28003E"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+
+                  <p>Delete</p>
                 </div>
               </div>
 

@@ -15,6 +15,7 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
+import ProductCard from "./pages/ProductCard.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -66,11 +67,11 @@ function App() {
   const [shoppingCartActive, setShoppingCartActive] = React.useState(false);
 
   const [tablet, setTablet] = React.useState(
-    window.innerWidth < 851 && window.innerWidth > 420 ? true : false
+    window.innerWidth < 851 && window.innerWidth > 430 ? true : false
   );
 
   const [mobile, setMobile] = React.useState(
-    window.innerWidth < 421 ? true : false
+    window.innerWidth < 431 ? true : false
   );
 
   const [desktop, setDesktop] = React.useState(
@@ -87,7 +88,7 @@ function App() {
 
   window.addEventListener("scroll", function () {
     const scrollPosition = window.scrollY;
-    if (scrollPosition > 50) {
+    if (scrollPosition > 50 || !mobile) {
       setCatalogOpened(false);
       setProductsOpened(false);
     }
@@ -123,6 +124,16 @@ function App() {
       }
     }
   }, []);
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth < 431) {
+      return setMobile(true) || setTablet(false) || setDesktop(false);
+    } else if (window.innerWidth < 851 && window.innerWidth > 430) {
+      return setTablet(true) || setMobile(false) || setDesktop(false);
+    } else {
+      return setDesktop(true) || setMobile(false) || setTablet(false);
+    }
+  });
 
   return (
     <div className="App">
@@ -204,6 +215,10 @@ function App() {
                                               <Route
                                                 path="/*"
                                                 element={<Home />}
+                                              />
+                                              <Route
+                                                path="/product-card"
+                                                element={<ProductCard />}
                                               />
                                               <Route
                                                 path="/reset-password"

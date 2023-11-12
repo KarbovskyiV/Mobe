@@ -10,7 +10,7 @@
   &__light {
     background-color: $violet-400;
     display: flex;
-    height: 88px;
+    height: 72px;
     padding: 8px 150px;
     justify-content: space-between;
     align-items: center;
@@ -25,12 +25,71 @@
       font-size: 20px;
       font-style: normal;
       font-weight: 400;
-      line-height: 24px; /* 120% */
+      line-height: 24px;
     }
   }
 
+  &__contacts {
+    padding: 16px 32px;
+    position: absolute;
+    background: $gray-100;
+    z-index: 1500;
+    right: 150px;
+    top: 66px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    span {
+      font-size: 12px;
+    }
+  }
+
+  &__contacts-spans {
+    display: flex;
+    padding-left: 32px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__contacts-chat,
+  &__contacts-viber,
+  &__contacts-telegram,
+  &__contacts-phone {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__contacts-viber {
+    p {
+      text-decoration-line: underline;
+    }
+  }
+
+  &__contacts-round1,
+  &__contacts-round2,
+  &__contacts-round3,
+  &__contacts-round4 {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__contacts-round1 {
+    background: $violet;
+  }
+
+  &__contacts-round2 {
+    background: #754a91;
+  }
+
   &__contactus {
-    /* display: flex; */
     flex-direction: row;
     gap: 16px;
     align-items: center;
@@ -167,6 +226,10 @@
     &__signin {
       display: none;
     }
+
+    &__contacts {
+      right: 40px;
+    }
   }
 }
 
@@ -192,6 +255,7 @@ nav {
           color: $grey;
         }
         svg {
+          transform: rotate(180deg);
           path {
             stroke: $grey;
           }
@@ -201,7 +265,7 @@ nav {
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 430px) {
   .header {
     &__buttons {
       margin: 0 16px;
@@ -212,29 +276,6 @@ nav {
 
     &__boxbuttons {
       width: 100%;
-    }
-  }
-
-  nav {
-    ul {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      li {
-        padding: 1px 15% 1px 25%;
-
-        &:hover {
-          background-color: $grey;
-          a {
-            color: $white;
-          }
-          svg {
-            path {
-              stroke: $white;
-            }
-          }
-        }
-      }
     }
   }
 }

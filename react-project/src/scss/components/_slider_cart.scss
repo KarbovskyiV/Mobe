@@ -28,3 +28,10 @@
     font-weight: 700;
   }
 }
+
+@media (max-width: 850px) {
+  .slide__boxes {
+    flex-direction: column;
+    margin: 40px 0;
+  }
+}
