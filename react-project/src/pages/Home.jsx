@@ -1,7 +1,6 @@
 import React from "react";
 import Slider from "../components/Sliders/Slider";
 import LogosBlock from "../components/LogosBlock/LogosBlock";
-import ProductCart from "../components/ProductCart/index.jsx";
 import styles from "./MenuNav.module.scss";
 import cn from "classnames";
 import {
@@ -232,7 +231,6 @@ const Home = () => {
         <Slider />
         <LogosBlock />
       </div>
-      <ProductCart />
     </div>
   );
 };

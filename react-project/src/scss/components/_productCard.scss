@@ -1,0 +1,222 @@
+@import "../_variables.scss";
+
+.productCard {
+  margin: 164px 150px 110px 150px;
+
+  &__titlemenu {
+    display: flex;
+    flex-direction: row;
+    padding-top: 24px;
+
+    a {
+      font-size: 14px;
+      color: $grey;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    margin: 42px 0;
+
+    a {
+      color: $grey;
+    }
+  }
+
+  &__cardBox {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  &__cardPart1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__cardPart2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 68px 30px;
+  }
+
+  &__cardSlideAbout {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  &__cardPart3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__cardBlock1,
+  &__cardBlock11 {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    p {
+      span {
+        color: $greyLight;
+        margin-left: 16px;
+      }
+    }
+  }
+
+  /* &__cardBlock11 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  } */
+
+  &__colors {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  &__color1,
+  &__color2,
+  &__color3,
+  &__color4 {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid $greyLight;
+  }
+
+  &__color1 {
+    background-color: $violetDark;
+  }
+
+  &__color2 {
+    background-color: $black;
+  }
+
+  &__color3 {
+    background-color: $white;
+  }
+
+  &__color4 {
+    background-color: $greyLight;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    margin-bottom: 30px;
+
+    button {
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid var(--violet-accent, #8732c9);
+      background: var(--white, #fdfdfd);
+
+      span {
+        color: $violetDark;
+      }
+    }
+  }
+
+  &__cardBlock2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100px;
+  }
+
+  &__cardBlockLeft {
+    display: flex;
+    width: 35%;
+    align-items: flex-end;
+    gap: 24px;
+  }
+
+  &__cardBlockRight {
+    display: flex;
+    width: 55%;
+    flex-direction: column;
+    gap: 16px;
+    p {
+      font-size: 14px;
+    }
+
+    h4 {
+      font-weight: 700;
+    }
+  }
+
+  &__cardBlockPart1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__cardBlockPart2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    button {
+      width: 45%;
+    }
+  }
+
+  &__cardBlockLeft-tip {
+    display: flex;
+    flex-direction: column;
+    width: 55px;
+    height: 55px;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  &__cardBlockEconomy {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__card1 {
+    display: flex;
+    flex-direction: row;
+    gap: 26px;
+  }
+}
+
+@media (max-width: 850px) {
+  .productCard {
+    margin: 164px 40px 110px 40px;
+    &__cardBox {
+      flex-direction: column;
+    }
+    &__cardBlockRight {
+      width: 75%;
+      margin: 40px auto 0 auto;
+    }
+    &__cardBlock11 {
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+    }
+    &__cardPart2 {
+      padding: 24px 83px;
+    }
+  }
+}

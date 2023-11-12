@@ -51,6 +51,14 @@
       background-color: $violetDark;
     }
   }
+
+  &[type="black"] {
+    background: $black;
+    color: $white;
+    &:hover {
+      background-color: $violetDark;
+    }
+  }
 }
 
 @media (max-width: 850px) {
