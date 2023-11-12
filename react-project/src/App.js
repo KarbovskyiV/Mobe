@@ -208,6 +208,10 @@ function App() {
                                                 element={<NotFound />}
                                               />
                                               <Route
+                                                path="/login"
+                                                element={<LoginPage />}
+                                              />
+                                              <Route
                                                 path="/"
                                                 element={<Home />}
                                               />
