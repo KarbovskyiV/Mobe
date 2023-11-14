@@ -9,6 +9,7 @@ export const useValidation = (value, validations) => {
   const [falsePhoneSymbols, setFalsePhoneSymbols] = React.useState(false);
   const [noCyrillic, setHasCyrillic] = React.useState(false);
   const [digits, setDigits] = React.useState(false);
+  const [upperCaseLetter, setUpperCaseLetter] = React.useState(false);
 
   useEffect(() => {
     for (const validation in validations) {
@@ -26,6 +27,9 @@ export const useValidation = (value, validations) => {
           break;
         case "digits":
           /(?=.*\d)/.test(value) ? setDigits(false) : setDigits(true);
+          break;
+        case "upperCaseLetter":
+          /(?=.*[A-Z])/.test(value) ? setUpperCaseLetter(false) : setUpperCaseLetter(true);
           break;
         case "falseSymbols":
           /[^a-z0-9\-@]+$/i.test(value)
@@ -56,6 +60,7 @@ export const useValidation = (value, validations) => {
     isEmpty,
     noCyrillic,
     digits,
+    upperCaseLetter,
     minLengthError,
     falseSymbols,
     nameSymbols,

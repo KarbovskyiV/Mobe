@@ -85,6 +85,7 @@ const SignIn = () => {
     isEmpty: true,
     noCyrillic: true,
     digits: true,
+    upperCaseLetter: true,
     minLength: 8,
   });
 
@@ -94,6 +95,7 @@ const SignIn = () => {
       e.falseSymbols ||
       e.noCyrillic ||
       e.digits ||
+      e.upperCaseLetter ||
       (e.value.length < x && e.value.length !== 0))
       ? "input__error"
       : "input__box";
@@ -109,6 +111,10 @@ const SignIn = () => {
   const digits = (e) =>
     e.isDirty &&
     e.digits && <div className={styles.error}>Must have at least 1 number</div>;
+
+  const upperCaseLetter = (e) =>
+    e.isDirty &&
+    e.upperCaseLetter && <div className={styles.error}>Must have at least 1 upper case letter</div>;
 
   const isLendth = (e, x) =>
     e.isDirty &&
@@ -204,6 +210,7 @@ const SignIn = () => {
           {isLendth(passwordValid, 8)}
           {noCyrillic(passwordValid)}
           {digits(passwordValid)}
+          {upperCaseLetter(passwordValid)}
           <span
             onClick={() => setEye((prev) => !prev)}
             className={
