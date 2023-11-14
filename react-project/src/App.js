@@ -1,4 +1,4 @@
-/* cd domains/Mobe/back-end  php artisan migrate:fresh --seed  */
+/* cd  domains/Mobe/back-end  php artisan migrate:fresh --seed  */
 
 /* mobe 
 mobe.test.mobe.test@gmail.com 
