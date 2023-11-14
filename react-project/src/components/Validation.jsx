@@ -8,6 +8,7 @@ export const useValidation = (value, validations) => {
   const [maxLengthError, setMaxLengthError] = React.useState(false);
   const [falsePhoneSymbols, setFalsePhoneSymbols] = React.useState(false);
   const [noCyrillic, setHasCyrillic] = React.useState(false);
+  const [digits, setDigits] = React.useState(false);
 
   useEffect(() => {
     for (const validation in validations) {
@@ -22,6 +23,9 @@ export const useValidation = (value, validations) => {
           break;
         case "noCyrillic":
           setHasCyrillic(/[а-яА-ЯЁё]/.test(value));
+          break;
+        case "digits":
+          /\d/.test(value) ? setDigits(false) : setDigits(true);
           break;
         case "falseSymbols":
           /[^a-z0-9\-@]+$/i.test(value)
@@ -51,6 +55,7 @@ export const useValidation = (value, validations) => {
   return {
     isEmpty,
     noCyrillic,
+    digits,
     minLengthError,
     falseSymbols,
     nameSymbols,

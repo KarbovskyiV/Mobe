@@ -84,6 +84,7 @@ const SignIn = () => {
   const passwordValid = useInput("", {
     isEmpty: true,
     noCyrillic: true,
+    digits: true,
     minLength: 8,
   });
 
@@ -91,6 +92,8 @@ const SignIn = () => {
     e.isDirty &&
     (e.isEmpty ||
       e.falseSymbols ||
+      e.noCyrillic ||
+      e.digits ||
       (e.value.length < x && e.value.length !== 0))
       ? "input__error"
       : "input__box";
@@ -98,6 +101,14 @@ const SignIn = () => {
   const isEmpty = (e) =>
     e.isDirty &&
     e.isEmpty && <div className={styles.error}>The field is not filled</div>;
+
+  const noCyrillic = (e) =>
+    e.isDirty &&
+    e.noCyrillic && <div className={styles.error}>Cyrillic symbols not allowed</div>;
+
+  const digits = (e) =>
+    e.isDirty &&
+    e.digits && <div className={styles.error}>Must have at least 1 number</div>;
 
   const isLendth = (e, x) =>
     e.isDirty &&
@@ -191,6 +202,8 @@ const SignIn = () => {
           ></input>
           {isEmpty(passwordValid)}
           {isLendth(passwordValid, 8)}
+          {noCyrillic(passwordValid)}
+          {digits(passwordValid)}
           <span
             onClick={() => setEye((prev) => !prev)}
             className={
