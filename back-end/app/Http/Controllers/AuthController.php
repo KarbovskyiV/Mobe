@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
+use App\Notifications\VerifyEmail;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -68,11 +68,13 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
-        $data = User::query()->create($validated);
+        /** @var User $user */
+        $user = User::query()->create($validated);
+        $user->notify(new VerifyEmail());
 
         return response()->json([
-            'message' => 'User successfully created',
-            'data' => $data,
+            'message' => 'User successfully created. Please check your email for verification.',
+            'data' => $user,
         ]);
     }
 

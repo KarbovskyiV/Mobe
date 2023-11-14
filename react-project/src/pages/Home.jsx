@@ -1,7 +1,6 @@
 import React from "react";
 import Slider from "../components/Sliders/Slider";
 import LogosBlock from "../components/LogosBlock/LogosBlock";
-import ProductCart from "../components/ProductCart/index.jsx";
 import styles from "./MenuNav.module.scss";
 import cn from "classnames";
 import {
@@ -11,6 +10,11 @@ import {
   MobileContext,
 } from "../App";
 import axios from "../utils/axios.js";
+import Promotions from "../components/Promotions/Promotions";
+import New from "../components/New/New";
+import Popular from "../components/Popular/Popular";
+import Subscribe from "../components/Subscribe/Subscribe";
+
 
 const Home = () => {
   const { catalogOpened, setCatalogOpened } =
@@ -232,8 +236,12 @@ const Home = () => {
         <Slider />
         <LogosBlock />
       </div>
-      <ProductCart />
-    </div>
+      {/* <ProductCart /> */}
+      <Promotions />
+      <New />
+      <Popular />
+      <Subscribe/>
+      </div>
   );
 };
 

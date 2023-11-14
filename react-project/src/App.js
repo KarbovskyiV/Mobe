@@ -15,6 +15,7 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
+import ProductCard from "./pages/ProductCard.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -207,6 +208,10 @@ function App() {
                                                 element={<NotFound />}
                                               />
                                               <Route
+                                                path="/login"
+                                                element={<LoginPage />}
+                                              />
+                                              <Route
                                                 path="/"
                                                 element={<Home />}
                                               />
@@ -214,6 +219,10 @@ function App() {
                                               <Route
                                                 path="/*"
                                                 element={<Home />}
+                                              />
+                                              <Route
+                                                path="/product-card"
+                                                element={<ProductCard />}
                                               />
                                               <Route
                                                 path="/reset-password"

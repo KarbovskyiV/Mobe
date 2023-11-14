@@ -1,8 +1,16 @@
 import React from "react";
+import Button from "./Button.jsx";
 
 function Footer() {
   return (
     <div className="footer">
+      {/* <div className="footer-emailbox">
+        <p>Find out about new promotions first!</p>
+        <div className="footer-email-button">
+          <input type="email" placeholder="example@email.com"></input>
+          <Button type="grey" title="Subscribe " />
+        </div>
+      </div> */}
       <div className="footer-conteiner">
         <div className="footer-menu">
           <div className="logo-footer">
@@ -88,7 +96,6 @@ function Footer() {
             </div>
           </div>
         </div>
-
         <div className="footer-contenticons">
           <div className="footer-icons">
             <ul className="icons">

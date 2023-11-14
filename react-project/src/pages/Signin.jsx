@@ -16,7 +16,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const { setSignInActive } = React.useContext(SignInActiveContext);
   const { setRegistrationActive } = React.useContext(RegistrationActiveContext);
-  const { setUser } = React.useContext(userContext);
+  const { user, setUser } = React.useContext(userContext);
   const [eye, setEye] = React.useState(true);
   const { setIsLoggedIn } = React.useContext(isLoggedInContext);
   const { setForgotPasswordActive } = React.useContext(
@@ -45,6 +45,11 @@ const SignIn = () => {
         setUser({
           ...res.user,
         });
+
+        if (res.data.user.email_verified_at === null) {
+          alert("Registration not confirmed");
+          return;
+        }
 
         localStorage.setItem(
           "user",

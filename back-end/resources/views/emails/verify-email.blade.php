@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <title>Password Reset</title>
+    <title>Verify Email</title>
     <style>
         p {
             font-weight: 400;
@@ -38,7 +38,7 @@
             margin: 60px 0 0 0;
         }
 
-        .password-description {
+        .verify-description {
             margin: 40px 40px 0 40px;
         }
 
@@ -69,7 +69,7 @@
 
         .copyright {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 50px;
         }
 
         @media (max-width: 375px) {
@@ -85,7 +85,7 @@
                 font-size: 24px;
             }
 
-            .password-description {
+            .verify-description {
                 margin: 40px 20px 0 20px;
             }
 
@@ -109,16 +109,16 @@
 <div class="container">
     <div class="header">
         <img src="https://i.imgur.com/FTolg3p.png" alt="Logo" class="logo">
-        <h2 class="title">Password Reset</h2>
+        <h2 class="title">Verify Email</h2>
     </div>
-    <div class="password-description">
-        <p>You've requested to reset your password. Click the button below to reset it:</p>
+    <div class="verify-description">
+        <p>Please click the button below to verify your email address.</p>
     </div>
     <div class="button-container">
-        <a href="{{ $resetLink }}" class="reset-button" style="color: #FDFDFD">Reset Password</a>
+        <a href="{{ $verificationUrl }}" class="reset-button" style="color: #FDFDFD">Verify Email Address</a>
     </div>
     <div class="disclaimer">
-        <p>If you didn't request this, please ignore this email.</p>
+        <p>If you didn't create an account, please ignore this email.</p>
     </div>
     <div class="signature">
         <p>Regards,<br>Your Mobe Team</p>
