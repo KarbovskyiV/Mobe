@@ -3,12 +3,16 @@ import axios from "axios";
 import Title from "../Title/Title";
 import MyRating from "../MyRating/MyRating.jsx";
 import Button from "../Button";
+
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
+
 import style from "./style.scss";
 
 const Promotions = () => {
   const [data, setData] = useState([]);
+
+  console.log(data);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +29,6 @@ const Promotions = () => {
         console.error("Помилка при завантаженні даних:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -36,8 +39,8 @@ const Promotions = () => {
           <Title text="Акції" />
         </div>
         <div className="promotions__content">
-          {data.map((item, index) => (
-            <div className="promotions__card" key={index}>
+          {data.map((item) => (
+            <div className="promotions__card" key={item.id} data={item.id}>
               <div className="promotions__inner">
                 <div className="promotions__card-photo">
                   <img src={item.images[1]} alt="" />
