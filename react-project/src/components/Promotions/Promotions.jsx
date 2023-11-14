@@ -10,6 +10,17 @@ import style from "./style.scss";
 const Promotions = () => {
   const [data, setData] = useState([]);
 
+   const handleAddToCart = (productId) => {
+   
+     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+     cartItems.push(productId);
+     localStorage.setItem("cart", JSON.stringify(cartItems));
+
+  
+
+     console.log(`Товар з ID ${productId} доданий до кошика!`);
+   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,7 +70,7 @@ const Promotions = () => {
                   <Button type="violet" title="Add to cart" />
                 </div>
                 <IconsHeart />
-                <IconsWeight />
+                <IconsWeight  onClick={() => handleAddToCart(item.id)} />{" "}
               </div>
             </div>
           ))}
