@@ -25,7 +25,7 @@ export const useValidation = (value, validations) => {
           setHasCyrillic(/[а-яА-ЯЁё]/.test(value));
           break;
         case "digits":
-          /\d/.test(value) ? setDigits(false) : setDigits(true);
+          /(?=.*\d)/.test(value) ? setDigits(false) : setDigits(true);
           break;
         case "falseSymbols":
           /[^a-z0-9\-@]+$/i.test(value)
