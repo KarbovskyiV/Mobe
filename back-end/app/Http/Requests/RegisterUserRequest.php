@@ -26,8 +26,12 @@ class RegisterUserRequest extends FormRequest
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'surname' => ['string', 'min:2', 'max:255'],
             'email' => ['required', 'string', 'email', 'min:2', 'max:255', 'unique:users'],
-            'phone' => ['nullable' ,'regex:/^\+?\d{1,3}[-\s]?\d{1,15}$/', 'min:10', 'max:15'],
-            'password' => ['required', Password::defaults()],
+            'phone' => ['nullable', 'regex:/^\+?\d{1,3}[-\s]?\d{1,15}$/', 'min:10', 'max:15'],
+            'password' => [
+                'required',
+                'regex:/^[^\p{Cyrillic}]+$/u',
+                Password::min(8)->mixedCase()->numbers()
+            ],
         ];
     }
 }
