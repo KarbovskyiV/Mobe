@@ -12,8 +12,6 @@ import style from "./style.scss";
 const Promotions = () => {
   const [data, setData] = useState([]);
 
-  console.log(data);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -62,7 +60,7 @@ const Promotions = () => {
                   <Button type="violet" title="Add to cart" />
                 </div>
                 <IconsHeart />
-                <IconsWeight />
+                <IconsWeight  onClick={() => handleAddToCart(item.id)} />{" "}
               </div>
             </div>
           ))}
