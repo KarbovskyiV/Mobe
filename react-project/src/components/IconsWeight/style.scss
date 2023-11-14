@@ -1,6 +1,22 @@
 .weight {
-    position: absolute;
-    top: 40px;
-    right: 8px;
-    
+  position: absolute;
+  top: 40px;
+  right: 8px;
+  cursor: pointer;
+  fill: currentColor;
+  .weight path {
+    stroke: currentColor;
+  }
+}
+
+.weight.relative {
+  position: static;
+}
+
+.weight.relative path {
+  stroke: white;
+}
+
+.weight .relative span {
+  position: absolute;
 }

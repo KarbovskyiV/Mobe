@@ -16,6 +16,7 @@ import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
 import ProductCard from "./pages/ProductCard.jsx";
+import ComparePage from "./pages/ComparePage.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -221,6 +222,10 @@ function App() {
                                                 element={<Home />}
                                               />
                                               <Route
+                                                path="/compare"
+                                                element={<ComparePage />}
+                                              />
+                                              <Route
                                                 path="/product-card"
                                                 element={<ProductCard />}
                                               />
@@ -229,6 +234,7 @@ function App() {
                                                 element={<ResetPassword />}
                                               />
                                             </Routes>
+
                                             <Footer />
 
                                             <div
