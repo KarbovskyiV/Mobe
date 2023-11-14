@@ -7,6 +7,7 @@ export const useValidation = (value, validations) => {
   const [nameSymbols, setNameSymbols] = React.useState(false);
   const [maxLengthError, setMaxLengthError] = React.useState(false);
   const [falsePhoneSymbols, setFalsePhoneSymbols] = React.useState(false);
+  const [noCyrillic, setHasCyrillic] = React.useState(false);
 
   useEffect(() => {
     for (const validation in validations) {
@@ -18,6 +19,9 @@ export const useValidation = (value, validations) => {
           break;
         case "isEmpty":
           value ? setIsEmpty(false) : setIsEmpty(true);
+          break;
+        case "noCyrillic":
+          setHasCyrillic(/[а-яА-ЯЁё]/.test(value));
           break;
         case "falseSymbols":
           /[^a-z0-9\-@]+$/i.test(value)
@@ -46,6 +50,7 @@ export const useValidation = (value, validations) => {
 
   return {
     isEmpty,
+    noCyrillic,
     minLengthError,
     falseSymbols,
     nameSymbols,

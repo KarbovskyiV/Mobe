@@ -90,6 +90,7 @@ const Registration = () => {
   });
   const passwordValid = useInput("", {
     isEmpty: true,
+    noCyrillic: true,
     minLength: 8,
   });
 

@@ -24,7 +24,7 @@ class LoginUserRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email', 'min:2', 'max:255'],
-            'password' => ['required', Password::defaults()],
+            'password' => ['required', 'regex:/^[^\p{Cyrillic}]+$/u',],
             'rememberMe' => 'boolean'
         ];
     }
