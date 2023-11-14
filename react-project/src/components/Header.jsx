@@ -16,6 +16,8 @@ import {
 } from "../App";
 import debounce from "lodash.debounce";
 import axios from "../utils/axios.js";
+import IconsWeight from "./IconsWeight/IconsWeight.jsx";
+import ComparePageLink from "./ComparePageLink/ComparePageLink.jsx";
 
 function Header() {
   const { setSignInActive } = React.useContext(SignInActiveContext);
@@ -441,6 +443,7 @@ function Header() {
             style={mobile ? { display: "none" } : { display: "flex" }}
             className="header__icons"
           >
+           <ComparePageLink/>
             {tablet ? (
               <svg
                 onClick={onClickSignin}
