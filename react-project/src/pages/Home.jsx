@@ -15,7 +15,6 @@ import New from "../components/New/New";
 import Popular from "../components/Popular/Popular";
 import Subscribe from "../components/Subscribe/Subscribe";
 
-
 const Home = () => {
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
@@ -131,7 +130,6 @@ const Home = () => {
                   <a href="##">{obj.name}</a>
                   {mobile ? (
                     <svg
-                      /*  onClick={() => setProductsOpened(!productsOpened)} */
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
@@ -147,39 +145,6 @@ const Home = () => {
                       />
                     </svg>
                   ) : (
-                    /*  productsOpened ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M18 15L12 9L6 15"
-                          stroke="#FDFDFD"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M6 9L12 15L18 9"
-                          stroke="#FDFDFD"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    ) */
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -236,12 +201,11 @@ const Home = () => {
         <Slider />
         <LogosBlock />
       </div>
-      {/* <ProductCart /> */}
       <Promotions />
       <New />
       <Popular />
-      <Subscribe/>
-      </div>
+      <Subscribe />
+    </div>
   );
 };
 

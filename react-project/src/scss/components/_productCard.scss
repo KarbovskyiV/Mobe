@@ -25,10 +25,15 @@
     }
   }
 
+  .h6 {
+    margin-bottom: 20px;
+  }
+
   &__cardBox {
     display: flex;
     flex-direction: row;
     gap: 24px;
+    margin-bottom: 80px;
   }
 
   &__cardPart1 {
@@ -43,6 +48,8 @@
     flex-direction: row;
     align-items: center;
     padding: 68px 30px;
+    border-radius: 4px;
+    border: 1px solid var(--Grey-50, #bababa);
   }
 
   &__cardSlideAbout {
@@ -217,6 +224,50 @@
     }
     &__cardPart2 {
       padding: 24px 83px;
+    }
+  }
+}
+
+@media (max-width: 430px) {
+  .productCard {
+    margin: 164px 16px 110px 16px;
+    &__titlemenu {
+      flex-wrap: wrap;
+      a {
+        font-size: 12px;
+      }
+    }
+    &__cardPart2 {
+      padding: 24px 0px;
+    }
+
+    &__cardSlideAbout2 {
+      width: 100%;
+      height: 80px;
+      gap: 10px;
+      margin: 0;
+
+      img {
+        padding: 2px 20px;
+        border-radius: 4px;
+        border: 1px solid var(--Grey-50, #bababa);
+      }
+    }
+    &__card1 {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    &__cardBlock11 {
+      flex-direction: column-reverse;
+    }
+
+    &__cardBlockLeft {
+      margin-bottom: 24px;
+    }
+
+    &__buttons {
+      flex-wrap: wrap;
     }
   }
 }
