@@ -4,19 +4,25 @@ import slide2 from "../assets/img/slideProduct/image2.jpg";
 import slide3 from "../assets/img/slideProduct/image3.jpg";
 import slide4 from "../assets/img/slideProduct/image4.jpg";
 import slide5 from "../assets/img/slideProduct/image5.jpg";
+
+import slide2_1 from "../assets/img/slideProduct/imageSlide2-1.jpg";
+import slide2_2 from "../assets/img/slideProduct/imageSlide2-2.jpg";
+import slide2_3 from "../assets/img/slideProduct/imageSlide2-3.jpg";
+
 import slideBig1 from "../assets/img/slideProduct/imageBig1.jpg";
 import slideBig1Tablet from "../assets/img/slideProduct/imageBig1Tablet.jpg";
 import slideBig1Mobile from "../assets/img/slideProduct/imageBig1Mobile.jpg";
 
 import Button from "../components/Button";
-import { DesktopContext, MobileContext, TabletContext } from "../App";
+import { DesktopContext, MobileContext } from "../App";
+import Promotions from "../components/Promotions/Promotions";
+import BuyWithUs from "../components/BuyWithUs";
 
 function ProductCard() {
   const { desktop } = React.useContext(DesktopContext);
   const { mobile } = React.useContext(MobileContext);
-  const { tablet } = React.useContext(TabletContext);
 
-  /* const fotoVersion = () => {
+  const fotoVersion = () => {
     if (desktop) {
       return slideBig1;
     } else if (mobile) {
@@ -24,7 +30,7 @@ function ProductCard() {
     } else {
       return slideBig1Tablet;
     }
-  }; */
+  };
   return (
     <div className="productCard">
       <div className="productCard__titlemenu">
@@ -67,9 +73,19 @@ function ProductCard() {
         <a href="##">Characteristics</a>
         <a href="##">Reviews</a>
       </div>
+      {!mobile ? (
+        <h5 style={!desktop ? { marginBottom: 40 } : { display: "none" }}>
+          Apple iPhone 14 Pro 128GB Silver
+        </h5>
+      ) : (
+        <h6 className="h6">Apple iPhone 14 Pro 128GB Silver</h6>
+      )}
       <div className="productCard__cardBox">
         <div className="productCard__card1">
-          <div className="productCard__cardPart1">
+          <div
+            style={!mobile ? { display: "flex" } : { display: "none" }}
+            className="productCard__cardPart1"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -124,7 +140,7 @@ function ProductCard() {
                 strokeLinejoin="round"
               />
             </svg>
-            <img src={slideBig1} alt="slide5" />
+            <img src={fotoVersion()} alt="slide" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -141,9 +157,19 @@ function ProductCard() {
               />
             </svg>
           </div>
+          <div
+            className="productCard__cardSlideAbout2"
+            style={mobile ? { display: "flex" } : { display: "none" }}
+          >
+            <img src={slide2_1} alt="slide1" />
+            <img src={slide2_2} alt="slide2" />
+            <img src={slide2_3} alt="slide3" />
+          </div>
         </div>
         <div className="productCard__cardPart3">
-          <h5>Apple iPhone 14 Pro 128GB Silver</h5>
+          <h5 style={desktop ? { display: "flex" } : { display: "none" }}>
+            Apple iPhone 14 Pro 128GB Silver
+          </h5>
           <div className="productCard__cardBlock1">
             <div className="productCard__cardBlock11">
               <p>
@@ -334,6 +360,8 @@ function ProductCard() {
           </div>
         </div>
       </div>
+      <Promotions />
+      <BuyWithUs />
     </div>
   );
 }
