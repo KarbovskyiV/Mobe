@@ -76,10 +76,7 @@ const Slider = () => {
       title: "Samsung Galaxy 22",
     },
   ];
-  useEffect(() => {
-    window.addEventListener("resize", console.log("window", window.innerWidth));
-    
-  }, []); 
+
   const slides = () => {
     if (desktop) {
       return slidesD;
@@ -103,19 +100,23 @@ const Slider = () => {
   });
 
   return (
-    <swiper-container
-      ref={swiperElRef}
-      slides-per-view="1"
-      navigation="true"
-      pagination="true"
-      autoplay="true"
-      loop="true"
-      style={
-        catalogOpened && desktop ? { marginLeft: 290 } : { marginLeft: "auto" }
-      }
-    >
-      {slidesRender}
-    </swiper-container>
+    <div className="swiper__container">
+      <swiper-container
+        ref={swiperElRef}
+        slides-per-view="1"
+        navigation="true"
+        pagination="true"
+        autoplay="true"
+        loop="true"
+        style={
+          catalogOpened && desktop
+            ? { marginLeft: 290 }
+            : { marginLeft: "auto" }
+        }
+      >
+        {slidesRender}
+      </swiper-container>
+    </div>
   );
 };
 
