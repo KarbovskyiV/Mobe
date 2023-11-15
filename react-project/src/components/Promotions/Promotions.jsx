@@ -44,7 +44,7 @@ const Promotions = () => {
     <section className="promotions">
       <div className="promotions__container">
         <div className="promotions__title">
-          <Title text="Акції" />
+          <Title text="Promotions" />
         </div>
         <div className="promotions__content">
           {data.map((item, index) => (

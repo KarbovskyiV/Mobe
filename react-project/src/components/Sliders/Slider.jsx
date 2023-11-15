@@ -107,6 +107,7 @@ const Slider = () => {
       ref={swiperElRef}
       slides-per-view="1"
       navigation="true"
+      centeredSlides={true}
       pagination="true"
       autoplay="true"
       loop="true"

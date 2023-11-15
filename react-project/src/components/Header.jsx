@@ -277,7 +277,7 @@ function Header() {
                   gradientUnits="userSpaceOnUse"
                 >
                   <stop stopColor="#2AABEE" />
-                  <stop offset="1" stopColor="#229ED9" />                  
+                  <stop offset="1" stopColor="#229ED9" />
                 </linearGradient>
               </defs>
             </svg>
@@ -443,7 +443,6 @@ function Header() {
             style={mobile ? { display: "none" } : { display: "flex" }}
             className="header__icons"
           >
-           <ComparePageLink/>
             {tablet ? (
               <svg
                 onClick={onClickSignin}
@@ -479,48 +478,9 @@ function Header() {
                 strokeLinejoin="round"
               />
             </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M11.9197 1.95312V9.54544M1.71399 12.389L21.8184 6.7874"
-                stroke="#FDFDFD"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-              <path
-                d="M1.88672 17.9715L5.80018 11.3723L9.88629 17.9715H1.88672Z"
-                stroke="#FDFDFD"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M1.86755 18.0098C2.00184 19.3398 2.98788 22 5.85775 22C8.72761 22 9.63052 19.3398 9.8863 18.0098"
-                stroke="#FDFDFD"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M14.3176 14.5184L18.2311 7.91919L22.3172 14.5184H14.3176Z"
-                stroke="#FDFDFD"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M14.2985 14.5568C14.4327 15.8868 15.4188 18.547 18.2887 18.547C21.1585 18.547 22.0614 15.8868 22.3172 14.5568"
-                stroke="#FDFDFD"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+
+            <ComparePageLink />
+
             <div
               onClick={() => {
                 setShoppingCartActive(true);
