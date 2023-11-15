@@ -20,8 +20,9 @@ p {
 }
 
 .footer {
-  background-color: $gray-violet;
-  padding-bottom: 44px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .footer-email-button {
@@ -59,9 +60,10 @@ p {
   }
 }
 
-.footer-conteiner {
-  margin: 0 150px;
-  padding-top: 80px;
+.footer__box {
+  margin: 0 auto;
+  background-color: $gray-violet;
+  padding: 80px 150px 44px 150px;
 }
 
 .footer-menu {

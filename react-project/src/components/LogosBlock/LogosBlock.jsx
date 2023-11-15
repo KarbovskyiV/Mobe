@@ -84,8 +84,10 @@ const LogosBlock = () => {
   });
 
   return (
-    <div className="logos__block">
-      <ul>{logosRender}</ul>
+    <div className="swiper__container2">
+      <div className="logos__block">
+        <ul>{logosRender}</ul>
+      </div>
     </div>
   );
 };
