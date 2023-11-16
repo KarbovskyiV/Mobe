@@ -97,13 +97,25 @@ const ComparePage = () => {
                   <IconsHeart />
                   <IconsWeight />
                 </div>
-                <div className="all-char"></div>
-                <div className="compare__charact">{product.description}</div>
-                <div className="compare__charact">{product.description}</div>
-                <div className="compare__charact">{product.brand}</div>
-                <div className="compare__charact">{product.rating}</div>
-                <div className="compare__charact">{product.rating}</div>
-                <div className="compare__charact">{product.rating}</div>
+
+                <div className="all-char">
+                  <div className="all-char__item-title">
+                    <strong>Бренд:</strong>
+                  </div>
+
+                  <div className="all-char__item-value">{product.brand}</div>
+
+                  <div className="all-char__item-title">
+                    <strong>Опис:</strong>
+                  </div>
+                  <div className="all-char__item-value">
+                    {product.description}
+                  </div>
+                  <div className="all-char__item-title">
+                    <strong>Рейтинг:</strong>
+                  </div>
+                  <div className="all-char__item-value">{product.rating}</div>
+                </div>
               </div>
             ))
           ) : (
