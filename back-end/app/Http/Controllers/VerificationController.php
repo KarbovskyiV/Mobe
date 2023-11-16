@@ -14,7 +14,7 @@ class VerificationController extends Controller
 
         // TODO: refactor return
         if ($user->hasVerifiedEmail()) {
-            return redirect('http://localhost:3000/')->with([
+            return redirect(config('app.frontend_url'))->with([
                 'message' => 'Email already verified.',
                 'email_verified_at' => $user->email_verified_at,
             ]);
@@ -23,6 +23,6 @@ class VerificationController extends Controller
         $user->markEmailAsVerified();
         Auth::login($user);
 
-        return redirect('http://localhost:3000/login');
+        return redirect(config('app.frontend_url') . '/login');
     }
 }
