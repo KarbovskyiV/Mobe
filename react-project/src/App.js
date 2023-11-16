@@ -1,7 +1,7 @@
-/* cd  domains/Mobe/back-end  php artisan migrate:fresh --seed  */
+/* cd domains/Mobe/back-end  php artisan migrate:fresh --seed  */
 
 /* mobe 
-mobe.test.mobe.test@gmail.com 
+mobe.test.mobe.test@gmail.com   1
  mobe123456789 */
 import React, { useEffect } from "react";
 import "./scss/app.scss";
