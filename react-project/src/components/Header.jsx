@@ -209,24 +209,6 @@ function Header() {
                   viewBox="0 0 12 12"
                   fill="none"
                 >
-<<<<<<< HEAD
-                  <stop stopColor="#2AABEE" />
-                  <stop offset="1" stopColor="#229ED9" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <p>Telegram</p>
-          </div>
-          <div className="header__contacts-phone">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <g clipPath="url(#clip0_1048_11844)">
-=======
                   <path
                     d="M3.5 9C3.35833 9 3.23958 8.95208 3.14375 8.85625C3.04792 8.76042 3 8.64167 3 8.5V7.5H9.5V3H10.5C10.6417 3 10.7604 3.04792 10.8562 3.14375C10.9521 3.23958 11 3.35833 11 3.5V11L9 9H3.5ZM1 8.5V1.5C1 1.35833 1.04792 1.23958 1.14375 1.14375C1.23958 1.04792 1.35833 1 1.5 1H8C8.14167 1 8.26042 1.04792 8.35625 1.14375C8.45208 1.23958 8.5 1.35833 8.5 1.5V6C8.5 6.14167 8.45208 6.26042 8.35625 6.35625C8.26042 6.45208 8.14167 6.5 8 6.5H3L1 8.5ZM7.5 5.5V2H2V5.5H7.5Z"
                     fill="#FDFDFD"
@@ -280,7 +262,6 @@ function Header() {
                   d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z"
                   fill="url(#paint0_linear_1167_774)"
                 />
->>>>>>> dev
                 <path
                   fillRule="evenodd"
                   clipRule="evenodd"
@@ -564,104 +545,6 @@ function Header() {
                 </svg>
                 <div className="header__count">{totalCountShoppingCart}</div>
               </div>
-<<<<<<< HEAD
-              {value && (
-                <svg
-                  onClick={onClickClear}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M18 6L6 18M6 6L18 18"
-                    stroke="#28003E"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </div>
-            {isLoggedIn ? (
-              <button className="header__signin" onClick={logOutUser}>
-                Sign out
-              </button>
-            ) : desktop ? (
-              <button className="header__signin" onClick={onClickSignin}>
-                Sign in
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
-          <div
-            style={mobile ? { display: "none" } : { display: "flex" }}
-            className="header__icons"
-          >
-            {tablet ? (
-              <svg
-                onClick={onClickSignin}
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
-                  stroke="#FDFDFD"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            ) : (
-              ""
-            )}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M20.84 4.60999C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.60999L12 5.66999L10.94 4.60999C9.9083 3.5783 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.5783 3.16 4.60999C2.1283 5.64169 1.54871 7.04096 1.54871 8.49999C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.49999C22.4518 7.77751 22.3095 7.0621 22.0329 6.39464C21.7563 5.72718 21.351 5.12075 20.84 4.60999V4.60999Z"
-                stroke="#FDFDFD"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-
-            <ComparePageLink />
-
-            <div
-              onClick={() => {
-                setShoppingCartActive(true);
-              }}
-              className="header__wagen"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6M10 21C10 21.5523 9.55228 22 9 22C8.44772 22 8 21.5523 8 21C8 20.4477 8.44772 20 9 20C9.55228 20 10 20.4477 10 21ZM21 21C21 21.5523 20.5523 22 20 22C19.4477 22 19 21.5523 19 21C19 20.4477 19.4477 20 20 20C20.5523 20 21 20.4477 21 21Z"
-                  stroke="#FDFDFD"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <div className="header__count">{totalCountShoppingCart}</div>
-=======
->>>>>>> dev
             </div>
           </div>
         </div>
