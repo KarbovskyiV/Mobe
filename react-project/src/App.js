@@ -16,7 +16,7 @@ import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
 import ProductCard from "./pages/ProductCard.jsx";
-import ComparePage from "./pages/ComparePage.jsx";
+import ComparePage from "./pages/ComparePage/ComparePage.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
