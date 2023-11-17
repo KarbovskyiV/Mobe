@@ -9,8 +9,8 @@
 }
 
 .compare__clear-btn {
- background: transparent;
- cursor: pointer;
+  background: transparent;
+  cursor: pointer;
 }
 
 .compare__container {
@@ -18,9 +18,8 @@
 }
 .compare__close {
   height: 40px;
-	display: flex;
-	justify-content: end;
-	
+  display: flex;
+  justify-content: end;
 }
 .compare__title {
   margin-top: 240px;
@@ -79,16 +78,60 @@
   line-height: 20px;
 }
 
-.compare__absence{
-	height: 200px;
-	display: flex;
-	align-items: center;
+.compare__absence {
+  height: 200px;
+  display: flex;
+  align-items: center;
 }
-.compare__charact{
-	margin-bottom: 32px;
-	padding-bottom:16px;
-	border-bottom: 1px solid var(--violet-400, #D4D9E8);
+.compare__charact {
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--violet-400, #d4d9e8);
 }
-.all-char{
-	padding: 0;
+.all-char {
+  padding: 0;
+}
+.compare__char {
+  margin-bottom: 160px;
+}
+.compare__char p {
+  color: var(--black, #28003e);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  margin-bottom: 20px;
+}
+.compare__char-inner {
+  display: grid;
+  grid-template-columns: 300px 388px 388px;
+  gap: 10px; /* Додайте відступ між елементами, якщо потрібно */
+}
+
+.all-char__item-title {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 16px;
+}
+
+.compare__char-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.item-title {
+  padding-bottom: 16px;
+  color: var(--black, #28003e);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  border-bottom: 1px solid var(--violet-400, #d4d9e8);
+}
+.all-char__item-value {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--violet-400, #d4d9e8);
+  width: 100%;
 }

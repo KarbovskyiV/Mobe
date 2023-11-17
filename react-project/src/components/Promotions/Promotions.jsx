@@ -91,11 +91,11 @@ const Promotions = () => {
       className="mySwiper"
       breakpoints={{
         320: {
-          slidesPerView: 1.3,
+          slidesPerView: 1.2,
           spaceBetween: 24,
         },
         500: {
-          slidesPerView: 1.3,
+          slidesPerView: 2.2,
           spaceBetween: 10,
         },
         768: {
