@@ -12,101 +12,96 @@ class ProductController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/products",
-     *     summary="Get a list of products with pagination and category information",
-     *     tags={"Products"},
-     *     description="Get a list of products with pagination.",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Success",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="current_page", type="integer"),
-     *             @OA\Property(property="data", type="array", @OA\Items(
-     *                 @OA\Property(property="id", type="integer"),
-     *                 @OA\Property(property="category_id", type="integer"),
-     *                 @OA\Property(property="name", type="string"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time"),
-     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
-     *                 @OA\Property(property="category", type="object",
-     *                     @OA\Property(property="id", type="integer"),
-     *                     @OA\Property(property="name", type="string"),
-     *                     @OA\Property(property="created_at", type="string", format="date-time"),
-     *                     @OA\Property(property="updated_at", type="string", format="date-time")
-     *                 )
-     *             )),
-     *             @OA\Property(property="first_page_url", type="string"),
-     *             @OA\Property(property="from", type="integer"),
-     *             @OA\Property(property="last_page", type="integer"),
-     *             @OA\Property(property="last_page_url", type="string"),
-     *             @OA\Property(property="links", type="array", @OA\Items(
-     *                 @OA\Property(property="url", type="string", nullable=true),
-     *                 @OA\Property(property="label", type="string"),
-     *                 @OA\Property(property="active", type="boolean")
-     *             )),
-     *             @OA\Property(property="next_page_url", type="string", nullable=true),
-     *             @OA\Property(property="path", type="string"),
-     *             @OA\Property(property="per_page", type="integer"),
-     *             @OA\Property(property="prev_page_url", type="string", nullable=true),
-     *             @OA\Property(property="to", type="integer"),
-     *             @OA\Property(property="total", type="integer")
-     *         )
-     *     )
-     * )
+     *      path="/api/products",
+     *      summary="Get a list of all products and category information",
+     *      tags={"Products"},
+     *      description="Get a list of products with category.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(
+     *                  @OA\Property(property="id", type="integer"),
+     *                  @OA\Property(property="category_id", type="integer"),
+     *                  @OA\Property(property="name", type="string"),
+     *                  @OA\Property(property="display_diagonal", type="string"),
+     *                  @OA\Property(property="display_resolution", type="string"),
+     *                  @OA\Property(property="matrix_type", type="string"),
+     *                  @OA\Property(property="screen_refresh_rate", type="string"),
+     *                  @OA\Property(property="screen_material", type="string"),
+     *                  @OA\Property(property="communication_standard", type="string"),
+     *                  @OA\Property(property="sim_card_dimensions", type="string"),
+     *                  @OA\Property(property="category", type="object",
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="name", type="string"),
+     *                  )
+     *              )
+     *          )
+     *      )
+     *  )
      */
     public function index(): JsonResponse
     {
         $products = Product::with('category')->get();
 
+        $products->makeHidden(['created_at', 'updated_at']);
+        $products->each(function ($product) {
+            $product->category->makeHidden(['created_at', 'updated_at']);
+        });
+
         return response()->json($products);
+        // TODO: do resource
     }
 
     /**
      * @OA\Get(
-     *     path="/api/products/{product}",
-     *     operationId="showProduct",
-     *     tags={"Products"},
-     *     summary="Show product details with category",
-     *     description="Retrieve details of a product along with its associated category",
-     *     @OA\Parameter(
-     *         name="product",
-     *         in="path",
-     *         description="Product ID",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Success",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer"),
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="created_at", type="string", format="date-time"),
-     *             @OA\Property(property="updated_at", type="string", format="date-time"),
-     *             @OA\Property(property="category_id", type="integer"),
-     *             @OA\Property(
-     *                 property="category",
-     *                 type="object",
-     *                 @OA\Property(property="id", type="integer"),
-     *                 @OA\Property(property="name", type="string"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time"),
-     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
-     *             ),
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Not found",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *         ),
-     *     ),
-     * )
+     *      path="/api/products/{product}",
+     *      operationId="showProduct",
+     *      tags={"Products"},
+     *      summary="Show product details with category",
+     *      description="Retrieve details of a product along with its associated category",
+     *      @OA\Parameter(
+     *          name="product",
+     *          in="path",
+     *          description="Product ID",
+     *          required=true,
+     *          @OA\Schema(type="integer"),
+     *      ),
+     *          @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(
+     *                  @OA\Property(property="id", type="integer"),
+     *                  @OA\Property(property="category_id", type="integer"),
+     *                  @OA\Property(property="name", type="string"),
+     *                  @OA\Property(property="display_diagonal", type="string"),
+     *                  @OA\Property(property="display_resolution", type="string"),
+     *                  @OA\Property(property="matrix_type", type="string"),
+     *                  @OA\Property(property="screen_refresh_rate", type="string"),
+     *                  @OA\Property(property="screen_material", type="string"),
+     *                  @OA\Property(property="communication_standard", type="string"),
+     *                  @OA\Property(property="sim_card_dimensions", type="string"),
+     *                  @OA\Property(property="category", type="object",
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="name", type="string"),
+     *                  )
+     *              )
+     *          )
+     *      )
+     *  )
      */
     public function show(Product $product): JsonResponse
     {
         $product->load('category');
 
+        $product->makeHidden(['created_at', 'updated_at']);
+        $product->category->makeHidden(['created_at', 'updated_at']);
+
         return response()->json($product);
+        // TODO: do resource same as index
     }
 
     /**
