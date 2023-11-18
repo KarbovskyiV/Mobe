@@ -7,14 +7,14 @@ import React, { useEffect } from "react";
 import "./scss/app.scss";
 import Home from "./pages/Home.jsx";
 import { Routes, Route } from "react-router-dom";
-import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
+import Header from "./components/Header/Header.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 import LoginPage from "./pages/Signin.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import ShoppingCart from "./pages/ShoppingCart.jsx";
+import ShoppingCart from "./pages/ShoppingCart/ShoppingCart.jsx";
 import ProductCard from "./pages/ProductCard.jsx";
 import ComparePage from "./pages/ComparePage/ComparePage.jsx";
 
