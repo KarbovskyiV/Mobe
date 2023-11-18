@@ -104,6 +104,42 @@ class ProductController extends Controller
         // TODO: do resource same as index
     }
 
+    public function new()
+    {
+        $query = Product::query()->where('is_new', '=', 1)->get();
+
+        return response()->json([
+            'data' => $query,
+        ]);
+    }
+
+    public function promotion()
+    {
+        $query = Product::query()->where('is_promotion', '=', 1)->get();
+
+        return response()->json([
+            'data' => $query,
+        ]);
+    }
+
+    public function popular()
+    {
+        $query = Product::query()->where('is_popular', '=', 1)->get();
+
+        return response()->json([
+            'data' => $query,
+        ]);
+    }
+
+    public function hotPrice()
+    {
+        $query = Product::query()->where('is_hot_price', '=', 1)->get();
+
+        return response()->json([
+            'data' => $query,
+        ]);
+    }
+
     /**
      * @OA\Get(
      *     path="/api/products/{product}/add-to-favourites",
