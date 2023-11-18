@@ -1,7 +1,7 @@
 /* cd domains/Mobe/back-end  php artisan migrate:fresh --seed  */
 
 /* mobe 
-mobe.test.mobe.test@gmail.com 
+mobe.test.mobe.test@gmail.com   1
  mobe123456789 */
 import React, { useEffect } from "react";
 import "./scss/app.scss";
@@ -16,7 +16,7 @@ import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
 import ProductCard from "./pages/ProductCard.jsx";
-import ComparePage from "./pages/ComparePage.jsx";
+import ComparePage from "./pages/ComparePage/ComparePage.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();

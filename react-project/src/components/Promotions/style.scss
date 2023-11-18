@@ -24,11 +24,19 @@
 .promotions__card-photo img {
   max-width: 267px;
   height: 260px;
+  width: 100%;
+  
+  object-fit: cover;
+  
 }
+
 .promotions__inner {
   position: relative;
+  padding-bottom: 40px;
 }
 .promotions__card-photo {
+  max-width: 267px;
+
 }
 .promotions__card-content {
   padding: 12px;
@@ -60,3 +68,21 @@
   font-weight: 700;
   line-height: 20px;
 }
+.swiper{
+  width: 100%;
+}
+
+.swiper-pagination{
+ bottom: 0;
+ top: auto !important;
+}
+
+.swiper__slide{
+  max-width: 267px;
+}
+.swiper-slide-active{
+   max-width: 267px !important;
+}
+:root {
+--swiper-theme-color: #8c00ff;}
+

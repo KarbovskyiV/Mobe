@@ -88,6 +88,18 @@ h5 {
   line-height: 40px;
 }
 
+h6 {
+  font-size: 20px;
+  color: $black;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+[class$="__container2"] {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
 @media (max-width: 430px) {
   .logo {
     width: 65px;

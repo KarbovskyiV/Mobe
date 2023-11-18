@@ -1,6 +1,6 @@
 import React from "react";
-import Slider from "../components/Sliders/Slider";
-import LogosBlock from "../components/LogosBlock/LogosBlock";
+import Slider from "../components/Sliders/Slider.jsx";
+import LogosBlock from "../components/LogosBlock/LogosBlock.jsx";
 import styles from "./MenuNav.module.scss";
 import cn from "classnames";
 import {
@@ -8,13 +8,13 @@ import {
   GetCatalogContext,
   ProductsOpenedContext,
   MobileContext,
-} from "../App";
+} from "../App.js";
 import axios from "../utils/axios.js";
-import Promotions from "../components/Promotions/Promotions";
-import New from "../components/New/New";
-import Popular from "../components/Popular/Popular";
-import Subscribe from "../components/Subscribe/Subscribe";
-
+import Promotions from "../components/Promotions/Promotions.jsx";
+import New from "../components/New/New.jsx";
+import Popular from "../components/Popular/Popular.jsx";
+import Subscribe from "../components/Subscribe/Subscribe.jsx";
+import IconClose from "../components/IconsClose/IconClose.jsx";
 
 const Home = () => {
   const { catalogOpened, setCatalogOpened } =
@@ -79,22 +79,9 @@ const Home = () => {
             >
               <p>Catalog of goods</p>
               {!menuCatalogMobileOpened === true ? (
-                <svg
-                  onClick={() => setMenuCatalogMobileOpened(true)}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6 9L12 15L18 9"
-                    stroke="#30293D"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <div onClick={() => setMenuCatalogMobileOpened(true)}>
+                  <IconClose />
+                </div>
               ) : (
                 <svg
                   onClick={() => setMenuCatalogMobileOpened(false)}
@@ -131,7 +118,6 @@ const Home = () => {
                   <a href="##">{obj.name}</a>
                   {mobile ? (
                     <svg
-                      /*  onClick={() => setProductsOpened(!productsOpened)} */
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
@@ -147,39 +133,6 @@ const Home = () => {
                       />
                     </svg>
                   ) : (
-                    /*  productsOpened ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M18 15L12 9L6 15"
-                          stroke="#FDFDFD"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M6 9L12 15L18 9"
-                          stroke="#FDFDFD"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    ) */
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -236,12 +189,11 @@ const Home = () => {
         <Slider />
         <LogosBlock />
       </div>
-      {/* <ProductCart /> */}
       <Promotions />
       <New />
       <Popular />
-      <Subscribe/>
-      </div>
+      <Subscribe />
+    </div>
   );
 };
 

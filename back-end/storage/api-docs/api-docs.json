@@ -595,8 +595,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Get a list of products with pagination and category information",
-                "description": "Get a list of products with pagination.",
+                "summary": "Get a list of all products and category information",
+                "description": "Get a list of products with category.",
                 "operationId": "1bfaa78d1c2c3848ab8165c5dadcad3e",
                 "responses": {
                     "200": {
@@ -604,106 +604,53 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "current_page": {
-                                            "type": "integer"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "category_id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "display_diagonal": {
+                                                "type": "string"
+                                            },
+                                            "display_resolution": {
+                                                "type": "string"
+                                            },
+                                            "matrix_type": {
+                                                "type": "string"
+                                            },
+                                            "screen_refresh_rate": {
+                                                "type": "string"
+                                            },
+                                            "screen_material": {
+                                                "type": "string"
+                                            },
+                                            "communication_standard": {
+                                                "type": "string"
+                                            },
+                                            "sim_card_dimensions": {
+                                                "type": "string"
+                                            },
+                                            "category": {
                                                 "properties": {
                                                     "id": {
                                                         "type": "integer"
                                                     },
-                                                    "category_id": {
-                                                        "type": "integer"
-                                                    },
                                                     "name": {
                                                         "type": "string"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date-time"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date-time"
-                                                    },
-                                                    "category": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer"
-                                                            },
-                                                            "name": {
-                                                                "type": "string"
-                                                            },
-                                                            "created_at": {
-                                                                "type": "string",
-                                                                "format": "date-time"
-                                                            },
-                                                            "updated_at": {
-                                                                "type": "string",
-                                                                "format": "date-time"
-                                                            }
-                                                        },
-                                                        "type": "object"
                                                     }
                                                 },
                                                 "type": "object"
                                             }
                                         },
-                                        "first_page_url": {
-                                            "type": "string"
-                                        },
-                                        "from": {
-                                            "type": "integer"
-                                        },
-                                        "last_page": {
-                                            "type": "integer"
-                                        },
-                                        "last_page_url": {
-                                            "type": "string"
-                                        },
-                                        "links": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "url": {
-                                                        "type": "string",
-                                                        "nullable": true
-                                                    },
-                                                    "label": {
-                                                        "type": "string"
-                                                    },
-                                                    "active": {
-                                                        "type": "boolean"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        },
-                                        "next_page_url": {
-                                            "type": "string",
-                                            "nullable": true
-                                        },
-                                        "path": {
-                                            "type": "string"
-                                        },
-                                        "per_page": {
-                                            "type": "integer"
-                                        },
-                                        "prev_page_url": {
-                                            "type": "string",
-                                            "nullable": true
-                                        },
-                                        "to": {
-                                            "type": "integer"
-                                        },
-                                        "total": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    "type": "object"
+                                        "type": "object"
+                                    }
                                 }
                             }
                         }
@@ -736,60 +683,53 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer"
-                                        },
-                                        "name": {
-                                            "type": "string"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                        },
-                                        "category_id": {
-                                            "type": "integer"
-                                        },
-                                        "category": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                }
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
                                             },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
+                                            "category_id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "display_diagonal": {
+                                                "type": "string"
+                                            },
+                                            "display_resolution": {
+                                                "type": "string"
+                                            },
+                                            "matrix_type": {
+                                                "type": "string"
+                                            },
+                                            "screen_refresh_rate": {
+                                                "type": "string"
+                                            },
+                                            "screen_material": {
+                                                "type": "string"
+                                            },
+                                            "communication_standard": {
+                                                "type": "string"
+                                            },
+                                            "sim_card_dimensions": {
+                                                "type": "string"
+                                            },
+                                            "category": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
                                 }
                             }
                         }
