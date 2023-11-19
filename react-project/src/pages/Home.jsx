@@ -2,10 +2,11 @@ import React from "react";
 import ErrorBoundary from "../components/ErrorBoundary";
 import Slider from "../components/Sliders/SliderHome/Slider.jsx";
 import LogosBlock from "../components/LogosBlock/LogosBlock.jsx";
+
 import { CatalogOpenedContext } from "../App.js";
-import Promotions from "../components/Promotions/Promotions.jsx";
-import New from "../components/New/New.jsx";
-import Popular from "../components/Popular/Popular.jsx";
+import PromotionContainer from "../Containers/Promotions/PromotionContainer.jsx";
+import NewContainer from "../Containers/New/NewContainer.jsx";
+import PopularContainer from "../Containers/Popular/PopularContainer.jsx";
 import Subscribe from "../components/Subscribe/Subscribe.jsx";
 import Catalog from "../components/Catalog/Catalog.jsx";
 
@@ -24,9 +25,10 @@ const Home = () => {
         <Slider />
         <LogosBlock />
       </div>
-      <Promotions />
-      <New />
-      <Popular />
+      <PromotionContainer />
+      <NewContainer />
+      <PopularContainer />
+
       <Subscribe />
     </div>
   );

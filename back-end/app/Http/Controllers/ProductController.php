@@ -45,13 +45,7 @@ class ProductController extends Controller
     {
         $products = Product::with('category')->get();
 
-        $products->makeHidden(['created_at', 'updated_at']);
-        $products->each(function ($product) {
-            $product->category->makeHidden(['created_at', 'updated_at']);
-        });
-
         return response()->json($products);
-        // TODO: do resource
     }
 
     /**
@@ -97,47 +91,7 @@ class ProductController extends Controller
     {
         $product->load('category');
 
-        $product->makeHidden(['created_at', 'updated_at']);
-        $product->category->makeHidden(['created_at', 'updated_at']);
-
         return response()->json($product);
-        // TODO: do resource same as index
-    }
-
-    public function new()
-    {
-        $query = Product::query()->where('is_new', '=', 1)->get();
-
-        return response()->json([
-            'data' => $query,
-        ]);
-    }
-
-    public function promotion()
-    {
-        $query = Product::query()->where('is_promotion', '=', 1)->get();
-
-        return response()->json([
-            'data' => $query,
-        ]);
-    }
-
-    public function popular()
-    {
-        $query = Product::query()->where('is_popular', '=', 1)->get();
-
-        return response()->json([
-            'data' => $query,
-        ]);
-    }
-
-    public function hotPrice()
-    {
-        $query = Product::query()->where('is_hot_price', '=', 1)->get();
-
-        return response()->json([
-            'data' => $query,
-        ]);
     }
 
     /**

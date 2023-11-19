@@ -2,7 +2,7 @@ import React from "react";
 
 import Button from "../components/Button";
 import { DesktopContext, MobileContext } from "../App";
-import Promotions from "../components/Promotions/Promotions";
+
 import BuyWithUs from "../components/BuyWithUs";
 import SwiperSlider1 from "../components/Sliders/SliderProductCard/SwiperSlider1/SwiperSlider1.jsx";
 import SwiperSlider2 from "../components/Sliders/SliderProductCard/SwiperSlider2/SwiperSlider2.jsx";
@@ -313,7 +313,7 @@ function ProductCard() {
             </div>
           </div>
         </div>
-        <Promotions />
+       
         <BuyWithUs />
       </div>
     </div>

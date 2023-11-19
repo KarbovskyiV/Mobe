@@ -1,0 +1,38 @@
+[class$="__container"] {
+  max-width: 1110px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.section {
+  margin-bottom: 112px;
+}
+.section__container {
+  position: relative;
+}
+.section__content {
+  display: flex;
+  gap: 24px;
+}
+.section__title {
+  margin-bottom: 20px;
+}
+
+.swiper {
+  width: 100%;
+}
+
+.swiper-pagination {
+  bottom: 0;
+  top: auto !important;
+}
+
+.swiper__slide {
+  max-width: 267px;
+}
+.swiper-slide-active {
+  max-width: 267px !important;
+}
+:root {
+  --swiper-theme-color: #8c00ff;
+}

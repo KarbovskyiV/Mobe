@@ -1,0 +1,18 @@
+.swiper {
+  width: 100%;
+}
+
+.swiper-pagination {
+  bottom: 0;
+  top: auto !important;
+}
+
+.swiper__slide {
+  max-width: 267px;
+}
+.swiper-slide-active {
+  max-width: 267px !important;
+}
+:root {
+  --swiper-theme-color: #8c00ff;
+}
