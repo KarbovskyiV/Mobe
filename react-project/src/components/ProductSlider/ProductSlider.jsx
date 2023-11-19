@@ -5,12 +5,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import ProductCard from "../ProductCard/ProductCard";
 
+import "./style.scss"
+
 const ProductSlider = ({ data, onAddToCart }) => (
   <Swiper
     pagination={{ type: "progressbar" }}
-    navigation={true}
     slidesPerView={3}
-    className="mySwiper"
+    className="mainSwiper"
     breakpoints={{
       320: {
         slidesPerView: 1.2,

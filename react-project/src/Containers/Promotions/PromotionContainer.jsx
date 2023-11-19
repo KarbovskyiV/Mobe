@@ -11,15 +11,19 @@ import Title from "../../components/Title/Title";
 
 const PromotionContainer = () => {
   const [data, setData] = useState([]);
+     console.log(data);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products/");
+        const response = await axios.get("http://mobe.local.com/api/products/");
+        console.log(response);
+     
 
         if (Array.isArray(response.data.products)) {
           const slicedData = response.data.products.slice(4, 8);
           setData(slicedData);
+         
         } else {
           console.log("Дані не є масивом.");
         }

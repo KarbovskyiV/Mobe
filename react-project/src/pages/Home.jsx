@@ -11,6 +11,10 @@ import {
 } from "../App.js";
 import axios from "../utils/axios.js";
 
+import PromotionContainer from "../Containers/Promotions/PromotionContainer.jsx"
+import NewContainer from "../Containers/New/NewContainer.jsx"
+import PopularContainer from "../Containers/Popular/PopularContainer.jsx"
+
 import Subscribe from "../components/Subscribe/Subscribe.jsx";
 import IconClose from "../components/IconsClose/IconClose.jsx";
 import IconOpen from "../components/IconsClose/IconOpen.jsx";

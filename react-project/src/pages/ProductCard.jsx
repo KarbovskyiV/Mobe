@@ -313,7 +313,7 @@ function ProductCard() {
             </div>
           </div>
         </div>
-        <Promotions />
+       
         <BuyWithUs />
       </div>
     </div>
