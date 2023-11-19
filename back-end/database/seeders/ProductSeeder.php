@@ -32,7 +32,12 @@ class ProductSeeder extends Seeder
                 for ($i = 0; $i < 5; $i++) { // Generate 5 products for each category
                     $productData = [
                         'name' => $faker->unique()->words(3, true),
+                        'price' => $faker->numberBetween(10000, 20000),
                         'category_id' => $category->id,
+                        'is_new' => $faker->boolean(),
+                        'is_promotion' => $faker->boolean(),
+                        'is_popular' => $faker->boolean(),
+                        'is_hot_price' => $faker->boolean(),
                         'display_diagonal' => $faker->randomFloat(1, 5, 7),
                         'display_resolution' => $faker->randomElement(['1920x1080', '2560x1440', '3840x2160']),
                         'matrix_type' => $faker->randomElement(['IPS', 'AMOLED', 'LCD']),
