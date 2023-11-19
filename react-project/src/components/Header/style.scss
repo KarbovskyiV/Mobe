@@ -225,38 +225,6 @@
   }
 }
 
-nav {
-  ul {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    li {
-      padding: 1px 16px;
-      background-color: $grey;
-      height: 40px;
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: $white;
-      cursor: pointer;
-
-      &:hover {
-        background-color: $violet-400;
-        a {
-          color: $grey;
-        }
-        svg {
-          transform: rotate(180deg);
-          path {
-            stroke: $grey;
-          }
-        }
-      }
-    }
-  }
-}
-
 @media (max-width: 430px) {
   .header {
     &__searchinput {

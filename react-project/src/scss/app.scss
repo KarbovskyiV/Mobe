@@ -36,6 +36,12 @@
   border-radius: 4px;
   cursor: pointer;
 
+  .catalog__catalogBox {
+    padding: 0 150px;
+    height: auto;
+    width: auto;
+  }
+
   &[type="white"] {
     background: $white;
 
@@ -77,4 +83,10 @@
       margin: 0;
     }
   }
+}
+
+.uu {
+  width: 50px;
+  height: 50px;
+  background: red;
 }

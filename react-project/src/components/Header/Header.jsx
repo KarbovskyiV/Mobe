@@ -78,7 +78,7 @@ function Header() {
     updateSearchValue(event.target.value);
   };
 
-  const getCatalog = () => {
+  /* const getCatalog = () => {
     axios.get("/categories?").then((arr) => {
       setCategory(arr.data.data);
     });
@@ -88,7 +88,7 @@ function Header() {
     if (catalogOpened) {
       getCatalog();
     }
-  }, [catalogOpened]);
+  }, []); */
 
   return (
     <div className="header">
