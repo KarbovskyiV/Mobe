@@ -8,12 +8,18 @@ import IconsWeight from "../../components/IconsWeight/IconsWeight";
 import Title from "../../components/Title/Title";
 import { ReactComponent as Close } from "./images/close.svg";
 import "./style.scss";
-import Promotions from "../../components/Promotions/Promotions";
+
+import Section from "../../components/Section/Section";
+import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
 
 const ComparePage = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [comparedProducts, setComparedProducts] = useState([]);
   console.log("allProducts", allProducts);
+  const [showDifferences, setShowDifferences] = useState(false);
+   const toggleDifferences = () => {
+    setShowDifferences(!showDifferences);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,8 +97,9 @@ const ComparePage = () => {
                       <div className="promotions__card-newprice">
                         {product.price}$
                       </div>
+                       <Button type="violet" title="Add to cart" />
                     </div>
-                    <Button type="violet" title="Add to cart" />
+                   
                   </div>
                   <IconsHeart />
                   <IconsWeight />
@@ -107,56 +114,56 @@ const ComparePage = () => {
         </div>
         {comparedProductsData.length > 0 && (
           <div className="compare__char">
-            <p>All characteristics</p>
-            <table className="compare__table">
-              <thead></thead>
-              <tbody>
-                <tr>
-                  <td style={{ width: "300px" }}>Бренд</td>
-                  {comparedProductsData.map((product) => (
-                    <td key={product.id} style={{ width: "388px" }}>
-                      {product.brand}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td style={{ width: "300px" }}>Ціна</td>
-                  {comparedProductsData.map((product) => (
-                    <td key={product.id} style={{ width: "388px" }}>
-                      {product.price}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td style={{ width: "300px" }}>Опис</td>
-                  {comparedProductsData.map((product) => (
-                    <td key={product.id} style={{ width: "388px" }}>
-                      {product.description}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td style={{ width: "300px" }}>Опис</td>
-                  {comparedProductsData.map((product) => (
-                    <td key={product.id} style={{ width: "388px" }}>
-                      {product.description}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td style={{ width: "300px" }}>Опис</td>
-                  {comparedProductsData.map((product) => (
-                    <td key={product.id} style={{ width: "388px" }}>
-                      {product.description}
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
+            <div className="choice">
+              <p>All characteristics</p>
+              <p onClick={toggleDifferences}>Differences</p>
+            </div>
+            <div className="compare__table">
+              <div className="compare__row compare__header">
+                <div style={{ width: "300px" }}>Бренд</div>
+                {comparedProductsData.map((product) => (
+                  <div key={product.id} style={{ width: "388px" }}>
+                    {product.brand}
+                  </div>
+                ))}
+              </div>
+              <div className="compare__row">
+                <div style={{ width: "300px" }}>Ціна</div>
+                {comparedProductsData.map((product) => (
+                  <div key={product.id} style={{ width: "388px" }}>
+                    {product.price}
+                  </div>
+                ))}
+              </div>
+              <div className="compare__row">
+                <div style={{ width: "300px" }}>Опис</div>
+                {comparedProductsData.map((product) => (
+                  <div key={product.id} style={{ width: "388px" }}>
+                    {product.description}
+                  </div>
+                ))}
+              </div>
+              <div className="compare__row">
+                <div style={{ width: "300px" }}>Опис</div>
+                {comparedProductsData.map((product) => (
+                  <div key={product.id} style={{ width: "388px" }}>
+                    {product.description}
+                  </div>
+                ))}
+              </div>
+              <div className="compare__row">
+                <div style={{ width: "300px" }}>Опис</div>
+                {comparedProductsData.map((product) => (
+                  <div key={product.id} style={{ width: "388px" }}>
+                    {product.description}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
-        <Promotions />
+        <HotPriceContainer />
       </div>
     </div>
   );

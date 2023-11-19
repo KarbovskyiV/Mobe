@@ -106,32 +106,26 @@
 .compare__char-inner {
   display: grid;
   grid-template-columns: 300px 388px 388px;
-  gap: 10px; /* Додайте відступ між елементами, якщо потрібно */
+  gap: 10px; 
 }
 
-.all-char__item-title {
+.compare__char {
+}
+.compare__table {
+}
+.compare__row {
   display: flex;
-  flex-direction: column;
-  padding-bottom: 16px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  border-bottom: 1px solid var(--violet-400, #D4D9E8);
 }
-
-.compare__char-item {
+.compare__header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
 }
-.item-title {
-  padding-bottom: 16px;
-  color: var(--black, #28003e);
-  font-family: Inter;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-  border-bottom: 1px solid var(--violet-400, #d4d9e8);
+.choice {
+  display: flex;
+  gap: 16px;
 }
-.all-char__item-value {
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--violet-400, #d4d9e8);
-  width: 100%;
+.choice p {
+  cursor: pointer;
 }

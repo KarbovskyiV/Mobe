@@ -15,8 +15,9 @@ import slideBig1Mobile from "../assets/img/slideProduct/imageBig1Mobile.jpg";
 
 import Button from "../components/Button";
 import { DesktopContext, MobileContext } from "../App";
-import Promotions from "../components/Promotions/Promotions";
+
 import BuyWithUs from "../components/BuyWithUs";
+import Section from "../components/Section/Section";
 
 function ProductCard() {
   const { desktop } = React.useContext(DesktopContext);
@@ -360,7 +361,7 @@ function ProductCard() {
           </div>
         </div>
       </div>
-      <Promotions />
+      <Section />
       <BuyWithUs />
     </div>
   );
