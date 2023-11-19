@@ -2,7 +2,6 @@ import React from "react";
 import ErrorBoundary from "../components/ErrorBoundary";
 import Slider from "../components/Sliders/SliderHome/Slider.jsx";
 import LogosBlock from "../components/LogosBlock/LogosBlock.jsx";
-
 import { CatalogOpenedContext } from "../App.js";
 import PromotionContainer from "../Containers/Promotions/PromotionContainer.jsx";
 import NewContainer from "../Containers/New/NewContainer.jsx";
@@ -28,7 +27,7 @@ const Home = () => {
       <PromotionContainer />
       <NewContainer />
       <PopularContainer />
-
+      <PopularContainer />
       <Subscribe />
     </div>
   );
