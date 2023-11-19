@@ -10,9 +10,11 @@ import {
   MobileContext,
 } from "../App.js";
 import axios from "../utils/axios.js";
-import Promotions from "../components/Promotions/Promotions.jsx";
-import New from "../components/New/New.jsx";
-import Popular from "../components/Popular/Popular.jsx";
+
+import PromotionContainer from "../Containers/Promotions/PromotionContainer.jsx"
+import NewContainer from "../Containers/New/NewContainer.jsx"
+import PopularContainer from "../Containers/Popular/PopularContainer.jsx"
+
 import Subscribe from "../components/Subscribe/Subscribe.jsx";
 import IconClose from "../components/IconsClose/IconClose.jsx";
 import IconOpen from "../components/IconsClose/IconOpen.jsx";
@@ -179,9 +181,10 @@ const Home = () => {
         <Slider />
         <LogosBlock />
       </div>
-      <Promotions />
-      <New />
-      <Popular />
+      <PromotionContainer />
+      <NewContainer />
+      <PopularContainer/>
+
       <Subscribe />
     </div>
   );
