@@ -7,6 +7,7 @@ import IconsHeart from "../../components/IconsHeart/IconsHeart";
 import IconsWeight from "../../components/IconsWeight/IconsWeight";
 import Title from "../../components/Title/Title";
 import { ReactComponent as Close } from "./images/close.svg";
+
 import "./style.scss";
 
 import Section from "../../components/Section/Section";
@@ -15,10 +16,10 @@ import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
 const ComparePage = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [comparedProducts, setComparedProducts] = useState([]);
-  console.log("allProducts", allProducts);
   const [showDifferences, setShowDifferences] = useState(false);
-   const toggleDifferences = () => {
-    setShowDifferences(!showDifferences);
+
+  const toggleDifferences = () => {
+    setShowDifferences((prevShowDifferences) => !prevShowDifferences);
   };
 
   useEffect(() => {
@@ -40,7 +41,8 @@ const ComparePage = () => {
 
   useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
-    setComparedProducts(storedItems);
+    const firstTwoItems = storedItems.slice(0, 2);
+    setComparedProducts(firstTwoItems);
   }, []);
 
   const handleClearComparison = (productId) => {
@@ -82,24 +84,21 @@ const ComparePage = () => {
                   <div className="compare__card-photo">
                     <img src={product.images[1]} alt="" />
                   </div>
-                  <div className="promotions__card-content">
-                    <div className="promotions__card-title">
-                      {product.title}
-                    </div>
-                    <div className="promotions__card rating">
+                  <div className="compare__card-content">
+                    <div className="compare__card-title">{product.title}</div>
+                    <div className="compare__card rating">
                       <MyRating />
                       <div className="rating__revews">198 відгуків</div>
                     </div>
                   </div>
-                  <div className="promotions__price">
-                    <div className="promotion__price-inner">
-                      <div className="promotions__card-oldprice">$ 250.99</div>
-                      <div className="promotions__card-newprice">
+                  <div className="compare__price">
+                    <div className="compare__price-inner">
+                      <div className="compare__card-oldprice">$ 250.99</div>
+                      <div className="compare__card-newprice">
                         {product.price}$
                       </div>
-                       <Button type="violet" title="Add to cart" />
                     </div>
-                   
+                    <Button type="violet" title="Add to cart" />
                   </div>
                   <IconsHeart />
                   <IconsWeight />
@@ -115,47 +114,57 @@ const ComparePage = () => {
         {comparedProductsData.length > 0 && (
           <div className="compare__char">
             <div className="choice">
-              <p>All characteristics</p>
+              <p onClick={() => setShowDifferences(false)}>
+                All characteristics
+              </p>
               <p onClick={toggleDifferences}>Differences</p>
             </div>
             <div className="compare__table">
               <div className="compare__row compare__header">
                 <div style={{ width: "300px" }}>Бренд</div>
-                {comparedProductsData.map((product) => (
-                  <div key={product.id} style={{ width: "388px" }}>
-                    {product.brand}
+                {comparedProductsData.map((product, index) => (
+                  <div key={index} style={{ width: "388px" }}>
+                    {showDifferences
+                      ? comparedProductsData.every(
+                          (otherProduct) =>
+                            otherProduct.differences?.brand ===
+                            product.differences?.brand
+                        )
+                        ? "Same"
+                        : product.differences?.brand
+                      : product.brand}
                   </div>
                 ))}
               </div>
               <div className="compare__row">
                 <div style={{ width: "300px" }}>Ціна</div>
-                {comparedProductsData.map((product) => (
-                  <div key={product.id} style={{ width: "388px" }}>
-                    {product.price}
+                {comparedProductsData.map((product, index) => (
+                  <div key={index} style={{ width: "388px" }}>
+                    {showDifferences
+                      ? comparedProductsData.every(
+                          (otherProduct) =>
+                            otherProduct.differences?.price ===
+                            product.differences?.price
+                        )
+                        ? "Same"
+                        : product.differences?.price
+                      : product.price}
                   </div>
                 ))}
               </div>
               <div className="compare__row">
                 <div style={{ width: "300px" }}>Опис</div>
-                {comparedProductsData.map((product) => (
-                  <div key={product.id} style={{ width: "388px" }}>
-                    {product.description}
-                  </div>
-                ))}
-              </div>
-              <div className="compare__row">
-                <div style={{ width: "300px" }}>Опис</div>
-                {comparedProductsData.map((product) => (
-                  <div key={product.id} style={{ width: "388px" }}>
-                    {product.description}
-                  </div>
-                ))}
-              </div>
-              <div className="compare__row">
-                <div style={{ width: "300px" }}>Опис</div>
-                {comparedProductsData.map((product) => (
-                  <div key={product.id} style={{ width: "388px" }}>
-                    {product.description}
+                {comparedProductsData.map((product, index) => (
+                  <div key={index} style={{ width: "388px" }}>
+                    {showDifferences
+                      ? comparedProductsData.every(
+                          (otherProduct) =>
+                            otherProduct.differences?.description ===
+                            product.differences?.description
+                        )
+                        ? "Same"
+                        : product.differences?.description
+                      : product.description}
                   </div>
                 ))}
               </div>

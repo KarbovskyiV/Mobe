@@ -16,8 +16,8 @@ const PromotionContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://mobe.local.com/api/products/");
-        console.log(response);
+        const response = await axios.get("https://dummyjson.com/products/");
+        console.log("response", response);
      
 
         if (Array.isArray(response.data.products)) {
