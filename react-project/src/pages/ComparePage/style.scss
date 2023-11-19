@@ -46,6 +46,7 @@
   margin-bottom: 64px;
 }
 .compare__card-photo {
+  margin-bottom: 10px;
 }
 .compare__card-content {
   padding: 12px;
@@ -106,32 +107,32 @@
 .compare__char-inner {
   display: grid;
   grid-template-columns: 300px 388px 388px;
-  gap: 10px; /* Додайте відступ між елементами, якщо потрібно */
+  gap: 10px;
 }
 
-.all-char__item-title {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 16px;
+.compare__char {
 }
-
-.compare__char-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.compare__table {
 }
-.item-title {
-  padding-bottom: 16px;
-  color: var(--black, #28003e);
-  font-family: Inter;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
+.compare__row {
+  display: flex;
+  padding-bottom: 20px;
+  padding-top: 20px;
   border-bottom: 1px solid var(--violet-400, #d4d9e8);
 }
-.all-char__item-value {
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--violet-400, #d4d9e8);
-  width: 100%;
+.compare__header {
+  display: flex;
+}
+.choice {
+  display: flex;
+  gap: 16px;
+}
+.choice p {
+  display: block;
+  cursor: pointer;
+  border-bottom: 1px solid #28003e00;
+ 
+}
+.choice p:hover{
+ border-bottom: 1px solid #28003e;
 }

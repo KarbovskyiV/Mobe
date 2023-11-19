@@ -1,4 +1,4 @@
-@import "../_variables.scss";
+@import "../../scss/_variables.scss";
 
 li {
   text-decoration: none;
@@ -63,7 +63,7 @@ p {
 .footer__box {
   margin: 0 auto;
   background-color: $gray-violet;
-  padding: 80px 150px 44px 150px;
+  padding: 80px 0px 44px 0px;
 }
 
 .footer-menu {
@@ -72,7 +72,7 @@ p {
   gap: 60px;
   justify-content: space-between;
   margin-bottom: 65px;
-  width: 100%;
+  padding: 0 150px;
 }
 
 .icons {
@@ -87,11 +87,6 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-section {
-  // padding-top: 80px;
-  // padding-bottom: 172px;
 }
 
 .clients {
@@ -178,6 +173,10 @@ section {
     &-inter2 {
       width: 40%;
     }
+
+    &-menu {
+      padding: 0 40px;
+    }
   }
 }
 
@@ -193,6 +192,7 @@ section {
     &-menu {
       flex-direction: column;
       align-items: center;
+      padding: 0 16px;
     }
     &-box {
       flex-direction: column;

@@ -1,4 +1,4 @@
-@import "../_variables.scss";
+@import "../../scss/_variables.scss";
 
 .header {
   position: fixed;
@@ -9,9 +9,12 @@
 
   &__light {
     background-color: $violet-400;
+  }
+
+  &__light2 {
     display: flex;
     height: 72px;
-    padding: 8px 150px;
+    padding: 8px 10%;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
@@ -96,12 +99,8 @@
   }
 
   &__dark {
-    display: flex;
-    height: 64px;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
     background-color: $violetDark2;
+    height: 64px;
   }
 
   &__catalog {
@@ -145,13 +144,13 @@
   }
 
   &__buttons {
-    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 150px;
     gap: 40px;
+    margin: 0 auto;
+    padding: 8px 10%;
   }
 
   &__searchinput {
@@ -216,13 +215,6 @@
 
 @media (max-width: 850px) {
   .header {
-    &__buttons {
-      margin: 0 40px;
-    }
-    &__light {
-      padding: 8px 40px;
-    }
-
     &__signin {
       display: none;
     }
@@ -233,49 +225,20 @@
   }
 }
 
-nav {
-  ul {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    li {
-      padding: 1px 16px;
-      background-color: $grey;
-      height: 40px;
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: $white;
-      cursor: pointer;
-
-      &:hover {
-        background-color: $violet-400;
-        a {
-          color: $grey;
-        }
-        svg {
-          transform: rotate(180deg);
-          path {
-            stroke: $grey;
-          }
-        }
-      }
-    }
-  }
-}
-
 @media (max-width: 430px) {
   .header {
-    &__buttons {
-      margin: 0 16px;
-    }
     &__searchinput {
       width: 100%;
     }
 
     &__boxbuttons {
       width: 100%;
+    }
+    &__buttons {
+      padding: 8px 16px;
+    }
+    &__light2 {
+      padding: 8px 16px;
     }
   }
 }
