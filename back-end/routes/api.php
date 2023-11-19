@@ -34,10 +34,6 @@ Route::post('/forgot-password', [PasswordController::class, 'sendResetLinkEmail'
 Route::post('/reset-password', [PasswordController::class, 'resetPassword'])->name('password.reset');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/new', [ProductController::class, 'new'])->name('products.new');
-Route::get('/products/promotion', [ProductController::class, 'promotion'])->name('products.promotion');
-Route::get('/products/popular', [ProductController::class, 'popular'])->name('products.popular');
-Route::get('/products/hot-price', [ProductController::class, 'hotPrice'])->name('products.hotPrice');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/recommended/{product}', [ProductController::class, 'recommendedProducts'])->name(
     'products.recommendedProducts'
