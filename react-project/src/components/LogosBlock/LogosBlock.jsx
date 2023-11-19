@@ -84,7 +84,7 @@ const LogosBlock = () => {
   });
 
   return (
-    <div className="swiper__container2">
+    <div className="swiper__container">
       <div className="logos__block">
         <ul>{logosRender}</ul>
       </div>

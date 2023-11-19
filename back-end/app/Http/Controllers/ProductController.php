@@ -45,13 +45,7 @@ class ProductController extends Controller
     {
         $products = Product::with('category')->get();
 
-        $products->makeHidden(['created_at', 'updated_at']);
-        $products->each(function ($product) {
-            $product->category->makeHidden(['created_at', 'updated_at']);
-        });
-
         return response()->json($products);
-        // TODO: do resource
     }
 
     /**
@@ -97,11 +91,7 @@ class ProductController extends Controller
     {
         $product->load('category');
 
-        $product->makeHidden(['created_at', 'updated_at']);
-        $product->category->makeHidden(['created_at', 'updated_at']);
-
         return response()->json($product);
-        // TODO: do resource same as index
     }
 
     /**

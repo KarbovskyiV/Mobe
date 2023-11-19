@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCartActiveContext, MobileContext } from "../App";
-import Button from "../components/Button";
-import phone from "../assets/img/phone.png";
-import phoneMobile from "../assets/img/imageS.jpg";
-import SliderCart from "../components/Sliders/SliderCart.jsx";
+import { ShoppingCartActiveContext, MobileContext } from "../../App.js";
+import Button from "../../components/Button.jsx";
+import phone from "../../assets/img/phone.png";
+import phoneMobile from "../../assets/img/imageS.jpg";
+import SliderCart from "../../components/Sliders/SliderCart.jsx";
+import "./style.scss";
 
 const ShoppingCart = () => {
   const wrapRef = useRef(null);
@@ -59,6 +60,7 @@ const ShoppingCart = () => {
           </svg>
         </Link>
       </div>
+
       <div className="shoppingcart__box">
         <div className="shoppingcart__cart">
           <h4>Shopping cart</h4>

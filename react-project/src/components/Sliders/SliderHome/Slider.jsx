@@ -1,26 +1,28 @@
 import React, { useEffect, useRef } from "react";
 import { register } from "swiper/element/bundle";
 
-import slide_1 from "../../assets/img/slider/banerBGbig2.jpg";
-import slide_1s from "../../assets/img/slider/baner_1.jpg";
+import slide_1 from "../../../assets/img/slider/banerBGbig2.jpg";
+import slide_1s from "../../../assets/img/slider/baner_1.jpg";
 
-import slide_2 from "../../assets/img/slider/BanerMainBig2.jpg";
-import slide_2s from "../../assets/img/slider/BanerMain2s.png";
+import slide_2 from "../../../assets/img/slider/BanerMainBig2.jpg";
+import slide_2s from "../../../assets/img/slider/BanerMain2s.png";
 
-import slide_3 from "../../assets/img/slider/BanerMainBig3.jpg";
-import slide_3s from "../../assets/img/slider/BanerMain3s.jpg";
-import slide_1m from "../../assets/img/slider/mobile1.png";
-import slide_2m from "../../assets/img/slider/Mobile2.jpg";
-import slide_3m from "../../assets/img/slider/Mobile3.jpg";
-import slide_1t from "../../assets/img/slider/Tablet1.jpg";
-import slide_2t from "../../assets/img/slider/Tablet2.jpg";
-import slide_3t from "../../assets/img/slider/Tablet3.jpg";
+import slide_3 from "../../../assets/img/slider/BanerMainBig3.jpg";
+import slide_3s from "../../../assets/img/slider/BanerMain3s.jpg";
+import slide_1m from "../../../assets/img/slider/mobile1.png";
+import slide_2m from "../../../assets/img/slider/Mobile2.jpg";
+import slide_3m from "../../../assets/img/slider/Mobile3.jpg";
+import slide_1t from "../../../assets/img/slider/Tablet1.jpg";
+import slide_2t from "../../../assets/img/slider/Tablet2.jpg";
+import slide_3t from "../../../assets/img/slider/Tablet3.jpg";
 import {
   CatalogOpenedContext,
   DesktopContext,
   TabletContext,
   MobileContext,
-} from "../../App";
+} from "../../../App";
+
+import "./style.scss";
 
 register();
 
