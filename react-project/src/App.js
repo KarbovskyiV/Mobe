@@ -3,10 +3,9 @@
 /* mobe 
 mobe.test.mobe.test@gmail.com   1
  mobe123456789 */
- /* 111122*/
+/* 111122*/
 import React, { useEffect } from "react";
 import "./scss/app.scss";
-
 
 import Home from "./pages/Home.jsx";
 import { Routes, Route } from "react-router-dom";
