@@ -46,7 +46,7 @@ const Catalog = () => {
     };
   }, [catalogOpened]);
 
-  console.log(category, "category");
+  console.log(menuData, "MenuData");
 
   const transformData = (data) => {
     const transformedData = [];
@@ -121,7 +121,7 @@ const Catalog = () => {
   };
 
   return (
-    <div className="catalog__container2">
+    <>
       {category && (
         <nav className={styles.menu} role="navigation">
           <div
@@ -231,7 +231,7 @@ const Catalog = () => {
           </div>
         </nav>
       )}
-    </div>
+    </>
   );
 };
 

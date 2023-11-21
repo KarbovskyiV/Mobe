@@ -18,6 +18,8 @@ import debounce from "lodash.debounce";
 import axios from "../../utils/axios.js";
 import IconsWeight from "../IconsWeight/IconsWeight.jsx";
 import ComparePageLink from "../ComparePageLink/ComparePageLink.jsx";
+import ContactUs from "../ContactUs";
+import IconHeart from "../IconsHeart/IconsHeart.jsx";
 import "./style.scss";
 
 function Header() {
@@ -78,22 +80,12 @@ function Header() {
     updateSearchValue(event.target.value);
   };
 
-  /* const getCatalog = () => {
-    axios.get("/categories?").then((arr) => {
-      setCategory(arr.data.data);
-    });
-  };
-
-  useEffect(() => {
-    if (catalogOpened) {
-      getCatalog();
-    }
-  }, []); */
+  console.log(catalogOpened && mobile);
 
   return (
     <div className="header">
       <div className="header__light">
-        <div className="header__container2">
+        <div className="header__container">
           <div className="header__light2">
             {!catalogOpened === true ? (
               <svg
@@ -156,47 +148,8 @@ function Header() {
             <Link to="/">
               <Logo />
             </Link>
-
-            <div
-              style={mobile ? { display: "none" } : { display: "flex" }}
-              className="header__contactus"
-            >
-              <a href="##">Contact us</a>
-              {!openContacts ? (
-                <svg
-                  onClick={() => setOpenContacts(true)}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6 9L12 15L18 9"
-                    stroke="#28003E"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  onClick={() => setOpenContacts(false)}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M18 15L12 9L6 15"
-                    stroke="#28003E"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
+            <div style={mobile ? { display: "none" } : { display: "flex" }}>
+              <ContactUs />
             </div>
             <div
               style={openContacts ? { display: "flex" } : { display: "none" }}
@@ -341,12 +294,10 @@ function Header() {
       <div
         className="header__dark"
         style={
-          catalogOpened && mobile
-            ? { visability: "visible" }
-            : { visability: "hidden" }
+          catalogOpened && mobile ? { display: "none" } : { display: "block" }
         }
       >
-        <div className="header__container2">
+        <div className="header__container">
           <div className="header__buttons">
             <div className="header__boxbuttons">
               <button
@@ -553,6 +504,19 @@ function Header() {
                 <div className="header__count">{totalCountShoppingCart}</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div
+        style={
+          catalogOpened && mobile ? { display: "flex" } : { display: "none" }
+        }
+        className="header__mobile"
+      >
+        <div className="header__container">
+          <div className="header__mobile-box">
+            <ContactUs />
+            <IconHeart className="heart__mobile" />
           </div>
         </div>
       </div>

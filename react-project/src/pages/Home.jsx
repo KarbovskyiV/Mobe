@@ -14,16 +14,16 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="home__slider-logos">
+      <div className="home__container">
         {catalogOpened && (
           <ErrorBoundary>
             <Catalog />
           </ErrorBoundary>
         )}
-
-        <Slider />
-        <LogosBlock />
       </div>
+      <Slider />
+      <LogosBlock />
+
       <PromotionContainer />
       <NewContainer />
       <PopularContainer />
