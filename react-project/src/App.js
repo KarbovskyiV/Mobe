@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart/ShoppingCart.jsx";
 import ProductCard from "./pages/ProductCard.jsx";
 import ComparePage from "./pages/ComparePage/ComparePage.jsx";
+import WishList from "./pages/WishList/WishList.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -226,6 +227,10 @@ function App() {
                                               <Route
                                                 path="/compare"
                                                 element={<ComparePage />}
+                                              />
+                                              <Route
+                                                path="/wishList"
+                                                element={<WishList />}
                                               />
                                               <Route
                                                 path="/product-card"
