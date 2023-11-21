@@ -31,7 +31,7 @@ const ProductCard = ({ item, onAddToCart }) => (
           onClick={() => onAddToCart(item.id)}
         />
       </div>
-      <IconsHeart onClick={() => onAddToCart(item.id)} />
+      <IconsHeart className="heart-product" onClick={() => onAddToCart(item.id)} />
       <IconsWeight onClick={() => onAddToCart(item.id)} />
     </div>
   </div>
