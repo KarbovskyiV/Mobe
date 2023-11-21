@@ -1,8 +1,13 @@
 .heart {
   position: absolute;
-  /* top: 8px;
-  right: 8px; */
+  top: 8px;
+  right: 8px;
 }
 
-.heast__mobile {
+.heart.relative {
+  position: static;
+}
+
+.heart.relative path {
+  stroke: white;
 }

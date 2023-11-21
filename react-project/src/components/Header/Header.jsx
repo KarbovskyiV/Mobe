@@ -21,6 +21,7 @@ import ComparePageLink from "../ComparePageLink/ComparePageLink.jsx";
 import ContactUs from "../ContactUs";
 import IconHeart from "../IconsHeart/IconsHeart.jsx";
 import "./style.scss";
+import WishListPageLink from "../WishListPageLink/WishListPageLink.jsx";
 
 function Header() {
   const { setSignInActive } = React.useContext(SignInActiveContext);
@@ -402,7 +403,9 @@ function Header() {
               style={mobile ? { display: "none" } : { display: "flex" }}
               className="header__icons"
             >
+              <WishListPageLink />
               <ComparePageLink />
+
               {tablet ? (
                 <svg
                   onClick={onClickSignin}
@@ -423,63 +426,7 @@ function Header() {
               ) : (
                 ""
               )}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M20.84 4.60999C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.60999L12 5.66999L10.94 4.60999C9.9083 3.5783 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.5783 3.16 4.60999C2.1283 5.64169 1.54871 7.04096 1.54871 8.49999C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.49999C22.4518 7.77751 22.3095 7.0621 22.0329 6.39464C21.7563 5.72718 21.351 5.12075 20.84 4.60999V4.60999Z"
-                  stroke="#FDFDFD"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M11.9197 1.95312V9.54544M1.71399 12.389L21.8184 6.7874"
-                  stroke="#FDFDFD"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1.88672 17.9715L5.80018 11.3723L9.88629 17.9715H1.88672Z"
-                  stroke="#FDFDFD"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M1.86755 18.0098C2.00184 19.3398 2.98788 22 5.85775 22C8.72761 22 9.63052 19.3398 9.8863 18.0098"
-                  stroke="#FDFDFD"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M14.3176 14.5184L18.2311 7.91919L22.3172 14.5184H14.3176Z"
-                  stroke="#FDFDFD"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M14.2985 14.5568C14.4327 15.8868 15.4188 18.547 18.2887 18.547C21.1585 18.547 22.0614 15.8868 22.3172 14.5568"
-                  stroke="#FDFDFD"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+
               <div
                 onClick={() => {
                   setShoppingCartActive(true);
