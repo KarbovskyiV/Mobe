@@ -5,13 +5,9 @@ import MyRating from "../../components/MyRating/MyRating";
 import Button from "../../components/Button";
 import IconsHeart from "../../components/IconsHeart/IconsHeart";
 import IconsWeight from "../../components/IconsWeight/IconsWeight";
-import Title from "../../components/Title/Title";
-import { ReactComponent as Close } from "./images/close.svg";
 
 import "./style.scss";
-
-import Section from "../../components/Section/Section";
-import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
+import Title from "../../components/Title/Title";
 
 const WishList = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -63,6 +59,9 @@ const WishList = () => {
         <div className="wish-list__title">
           <Title text="Wish list" />
         </div>
+        <div className="wish-list__admin">
+          <h2>Hello, USER</h2>
+        </div>
         <div className="wish-list__content">
           {comparedProductsData.length > 0 ? (
             comparedProductsData.map((product) => (
@@ -71,9 +70,7 @@ const WishList = () => {
                   <button
                     className="wish-list__clear-btn"
                     onClick={() => handleClearComparison(product.id)}
-                  >
-                    <Close />
-                  </button>
+                  ></button>
                 </div>
                 <div className="wish-list__inner">
                   <div className="wish-list__card-photo">
@@ -106,8 +103,6 @@ const WishList = () => {
             </div>
           )}
         </div>
-
-        <HotPriceContainer />
       </div>
     </div>
   );

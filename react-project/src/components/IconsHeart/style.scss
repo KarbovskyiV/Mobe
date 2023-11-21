@@ -1,6 +1,13 @@
 .heart {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.heart.relative {
+  position: static;
+}
+
+.heart.relative path {
+  stroke: white;
 }

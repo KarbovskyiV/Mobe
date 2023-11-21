@@ -4,11 +4,12 @@ import { ReactComponent as Heart } from "./images/heart.svg";
 
 import "./style.scss";
 
-const IconsHeart = () => {
+const IconsHeart = ({onClick, className }) => {
   return (
-    
-     <div className="heart"> <Heart /></div>
-    
+    <div className={`heart ${className}`} onClick={onClick}>
+      
+      <Heart />
+    </div>
   );
 };
 
