@@ -27,6 +27,7 @@
   margin-bottom: 32px;
 }
 .wish-list__content {
+  margin-bottom: 96px;
 }
 .wish-list__title {
   margin-bottom: 20px;
@@ -34,7 +35,6 @@
 
 .wish-list__title h3 {
   margin-top: 0;
- 
 }
 .wish-list__card {
   max-width: 267px;
@@ -88,8 +88,12 @@
 .wish-list__admin h2 {
   margin-bottom: 40px;
 }
-
 .wish-list__box {
   display: flex;
   gap: 24px;
+  flex-wrap: wrap;
+}
+
+.wish-list__admin_inner {
+  margin-bottom: 107px;
 }
