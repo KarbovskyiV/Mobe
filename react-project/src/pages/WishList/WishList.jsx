@@ -81,7 +81,10 @@ const WishList = () => {
                     <button
                       className="wish-list__clear-btn"
                       onClick={() => handleClearComparison(product.id)}
-                    > <Close/> </button>
+                    >
+                      {" "}
+                      <Close />{" "}
+                    </button>
                   </div>
                   <div className="wish-list__inner">
                     <div className="wish-list__card-photo">
@@ -111,9 +114,7 @@ const WishList = () => {
                 </div>
               ))
             ) : (
-              <div className="wish-list__absence">
-                Відсутні товари
-              </div>
+              <div className="wish-list__absence">Відсутні товари</div>
             )}
           </div>
         </div>
