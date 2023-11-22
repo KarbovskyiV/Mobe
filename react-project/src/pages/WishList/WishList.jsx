@@ -13,6 +13,7 @@ import User from "../../components/AdminLink/Images/user.svg";
 import "./style.scss";
 import Title from "../../components/Title/Title";
 import AdminLink from "../../components/AdminLink/AdminLink";
+import AdminExit from "../../components/AdminExit/AdminExit";
 
 const WishList = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -63,11 +64,13 @@ const WishList = () => {
       <div className="wish-list__container">
         <div className="wish-list__admin">
           <h2>Hello, USER</h2>
-
-          <AdminLink iconSrc={User} text="Personal data" link="#" />
-          <AdminLink iconSrc={User} text="My orders" link="#" />
-          <AdminLink iconSrc={User} text="My orders" link="#" />
-          <AdminLink iconSrc={User} text="My orders" link="#" />
+          <div className="wish-list__admin_inner">
+            <AdminLink iconSrc={User} text="Personal data" link="#" />
+            <AdminLink iconSrc={User} text="My orders" link="#" />
+            <AdminLink iconSrc={User} text="My orders" link="#" />
+            <AdminLink iconSrc={User} text="My orders" link="#" />
+          </div>
+          <AdminExit />
         </div>
         <div className="wish-list__content">
           <div className="wish-list__title">
