@@ -1,9 +1,9 @@
 // Section.jsx
 import React, { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+
 import "swiper/css";
 import "swiper/css/pagination";
-import Title from "../Title/Title";
+
 import ProductCard from "../ProductCard/ProductCard";
 import ProductSlider from "../ProductSlider/ProductSlider";
 
@@ -28,11 +28,16 @@ const Section = ({ data }) => {
   }, []);
 
   const handleAddToCart = (productId) => {
-    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    cartItems.push(productId);
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-    console.log(`Товар з ID ${productId} доданий до кошика!`);
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    if (!cartItems.includes(productId)) {
+      cartItems.push(productId);
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      console.log(`Товар з ID ${productId} доданий до кошика!`);
+    } else {
+      console.log(`Товар з ID ${productId} вже є у кошику!`);
+    }
   };
+ 
 
   return (
     <section className="section">

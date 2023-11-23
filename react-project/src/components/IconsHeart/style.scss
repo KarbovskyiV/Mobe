@@ -1,7 +1,17 @@
 .heart {
   /* position: absolute;
-    top: 8px;
+  top: 8px;
   right: 8px; */
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.selected svg,
+  &.selected svg path {
+    fill: red;
+    stroke: red;
+  }
 }
 
 .heart.relative {

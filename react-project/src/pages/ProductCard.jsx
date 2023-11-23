@@ -12,7 +12,7 @@ function ProductCard() {
   const { desktop } = React.useContext(DesktopContext);
   const { mobile } = React.useContext(MobileContext);
 
-  const nameProduct = useSelector((state) => state.cardReducer.name);
+  const nameProduct = useSelector((state) => state.cardReducer.namePr);
 
   const categoryProduct = useSelector((state) => state.cardReducer.category);
 

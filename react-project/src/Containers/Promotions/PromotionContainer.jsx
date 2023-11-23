@@ -5,18 +5,21 @@ import "swiper/css/pagination";
 
 import axios from "axios";
 
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../../actions/productActions";
+
 import Section from "../../components/Section/Section";
 import Title from "../../components/Title/Title";
 
 const PromotionContainer = () => {
   const [data, setData] = useState([]);
-  /* console.log(data); */
+  console.log(data);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("https://dummyjson.com/products/");
-        /* console.log("response", response); */
+        console.log("response", response);
 
         if (Array.isArray(response.data.products)) {
           const slicedData = response.data.products.slice(4, 8);

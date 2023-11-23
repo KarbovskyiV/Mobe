@@ -10,7 +10,7 @@ const cardSlice = createSlice({
   initialState,
   reducers: {
     setNameProduct(state, action) {
-      state.name = action.payload;
+      state.namePr = action.payload;
     },
     setCategoryProduct(state, action) {
       state.category = action.payload;
