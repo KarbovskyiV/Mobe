@@ -31,25 +31,25 @@ const PromotionContainer = () => {
     }
   }, [products]); */
 
-  //useEffect(() => {
-  //  const fetchData = async () => {
-  //    try {
-  //      const response = await axios.get("https://dummyjson.com/products/");
-  //      console.log("response", response);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://dummyjson.com/products/");
+        console.log("response", response);
 
-  //      if (Array.isArray(response.data.products)) {
-  //        const slicedData = response.data.products.slice(4, 8);
-  //        setData(slicedData);
+        if (Array.isArray(response.data.products)) {
+          const slicedData = response.data.products.slice(4, 8);
+          setData(slicedData);
 
-  //      } else {
-  //        console.log("Дані не є масивом.");
-  //      }
-  //    } catch (error) {
-  //      console.error("Помилка при завантаженні даних:", error);
-  //    }
-  //  };
-  //  fetchData();
-  //}, []);
+        } else {
+          console.log("Дані не є масивом.");
+        }
+      } catch (error) {
+        console.error("Помилка при завантаженні даних:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
