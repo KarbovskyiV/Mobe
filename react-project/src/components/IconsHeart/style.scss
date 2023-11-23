@@ -12,6 +12,16 @@
     fill: red;
     stroke: red;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.selected svg,
+  &.selected svg path {
+    fill: red;
+    stroke: red;
+  }
 }
 
 .heart.relative {
