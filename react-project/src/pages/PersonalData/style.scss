@@ -1,3 +1,33 @@
 .personal {
-	margin-top: 152px;
+  margin-top: 240px;
+}
+.personal {
+}
+.personal__container {
+  display: flex;
+  gap: 121px;
+  margin-bottom: 160px;
+}
+.personal__admin {
+}
+.personal__content {
+}
+.personal__data {
+	margin-top: 40px;
+}
+.personal__data-item {
+display: flex;
+}
+.personal__data-item p{
+
+	color: var(--black, #28003E);
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	margin-bottom: 42px;
+}
+.personal__data-const {
+	width: 170px;
 }
