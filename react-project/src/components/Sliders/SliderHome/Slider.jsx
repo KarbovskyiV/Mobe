@@ -95,7 +95,7 @@ const Slider = () => {
         <img
           src={src}
           alt={title}
-          style={mobile ? { width: "100%" } : { width: "auto" }}
+          /*  style={mobile ? { width: "100%" } : { width: "auto" }} */
         />
       </swiper-slide>
     );

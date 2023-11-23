@@ -12,7 +12,7 @@ function Footer() {
   return (
     <div className="footer">
       <div className="footer__box">
-        <div className="footer__container2">
+        <div className="footer__container">
           <div className="footer-menu">
             <div className="logo-footer">
               <Link to="/" className="logo-link">
