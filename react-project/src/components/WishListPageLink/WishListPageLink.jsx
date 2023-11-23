@@ -4,10 +4,10 @@ import IconsHeart from "../IconsHeart/IconsHeart";
 
 import "./style.scss";
 
-const WishListPageLink = () => {
+const WishListPageLink = ({ className }) => {
   return (
     <a href="/wishList">
-      <IconsHeart className="relative" />
+      <IconsHeart className={className} />
     </a>
   );
 };
