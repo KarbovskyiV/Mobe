@@ -19,17 +19,17 @@ const PromotionContainer = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const products = useSelector((state) => state.products.products);
+  /*  const products = useSelector((state) => state.products.products); */
   //const loading = useSelector((state) => state.products.loading);
   //const error = useSelector((state) => state.products.error);
-  console.log("222", products.products);
+  /* console.log("222", products.products); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (products?.length) {
       const slicedData = products.products.slice(4, 8);
       setData(slicedData);
     }
-  }, [products]);
+  }, [products]); */
 
   //useEffect(() => {
   //  const fetchData = async () => {
