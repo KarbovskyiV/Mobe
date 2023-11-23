@@ -19,7 +19,7 @@ import axios from "../../utils/axios.js";
 import IconsWeight from "../IconsWeight/IconsWeight.jsx";
 import ComparePageLink from "../ComparePageLink/ComparePageLink.jsx";
 import ContactUs from "../ContactUs";
-import IconHeart from "../IconsHeart/IconsHeart.jsx";
+import IconsHeart from "../IconsHeart/IconsHeart.jsx";
 import "./style.scss";
 import WishListPageLink from "../WishListPageLink/WishListPageLink.jsx";
 
@@ -80,8 +80,6 @@ function Header() {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
-
-  console.log(catalogOpened && mobile);
 
   return (
     <div className="header">
@@ -150,6 +148,9 @@ function Header() {
               <Logo />
             </Link>
             <div style={mobile ? { display: "none" } : { display: "flex" }}>
+              <ContactUs />
+            </div>
+            {/*  <div style={mobile ? { display: "none" } : { display: "flex" }}>
               <ContactUs />
             </div>
             <div
@@ -269,7 +270,7 @@ function Header() {
                 <span>Sat: 09:00 - 18:00</span>
                 <span>Sun: 09:00 - 18:00</span>
               </div>
-            </div>
+            </div> */}
             <svg
               onClick={() => {
                 setShoppingCartActive(true);
@@ -403,8 +404,8 @@ function Header() {
               style={mobile ? { display: "none" } : { display: "flex" }}
               className="header__icons"
             >
-              <WishListPageLink />
-              <ComparePageLink />
+              <WishListPageLink className="relative" />
+              <ComparePageLink className="relative" />
 
               {tablet ? (
                 <svg
@@ -460,10 +461,11 @@ function Header() {
         }
         className="header__mobile"
       >
-        <div className="header__container">
-          <div className="header__mobile-box">
-            <ContactUs />
-            <IconHeart className="heart__mobile" />
+        <div className="header__mobile-box">
+          <ContactUs />
+          <div className="header__mobile-icons">
+            <WishListPageLink className="mobile" />
+            <ComparePageLink className="mobile" />
           </div>
         </div>
       </div>

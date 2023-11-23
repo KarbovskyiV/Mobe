@@ -20,12 +20,15 @@
   display: flex;
   top: 152px;
   width: 300px;
-  height: 304px;
+  height: 290px;
   background: $violet-400;
   position: fixed;
   z-index: 100;
   padding-top: 12px;
   transform: translate(250px, 0px);
+  overflow-y: scroll;
+  padding-bottom: 16px;
+  cursor: pointer;
 
   li {
     display: flex;
@@ -101,12 +104,6 @@
   }
 }
 
-/* @media (max-width: 850px) {
-  .mobileMenuBoxShow {
-    left: 40px;
-  }
-} */
-
 @media (max-width: 430px) {
   .mobileMenuBoxShow {
     left: 0px;
@@ -119,6 +116,10 @@
       background-color: $gray-violet;
       li {
         color: $grey;
+
+        &:hover {
+          margin-bottom: 375px;
+        }
       }
     }
   }
@@ -127,23 +128,37 @@
     display: flex;
     top: 184px;
     width: 100%;
-    height: 304px;
+    height: 200%;
     background: $violet-400;
     z-index: 100;
-    padding-top: 12px;
+    padding-top: 16px;
+    padding-bottom: 16px;
     left: 0;
     transform: translate(0px, 0px);
+    overflow-y: scroll;
 
     li {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       background: $violet-400;
-      align-items: center;
-      margin-left: 0;
+      align-items: flex-start;
+      width: 50%;
+      margin: 0 auto;
     }
     a {
       color: $grey;
     }
+  }
+}
+
+.cat_log {
+  width: 50%;
+  margin: 0 auto;
+  /*  position: fixed; */
+  bottom: 0;
+  z-index: 1000;
+  span {
+    text-decoration: underline;
   }
 }
 
@@ -169,15 +184,9 @@ nav {
       }
 
       &:hover {
-        background-color: $violet-400;
-        a {
-          color: $grey;
-        }
+        /* margin-bottom: 365px; */
         svg {
           transform: rotate(180deg);
-          path {
-            stroke: $grey;
-          }
         }
       }
     }
