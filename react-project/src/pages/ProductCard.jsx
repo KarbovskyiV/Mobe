@@ -12,9 +12,28 @@ function ProductCard() {
   const { desktop } = React.useContext(DesktopContext);
   const { mobile } = React.useContext(MobileContext);
 
-  const nameProduct = useSelector((state) => state.cardReducer.namePr);
+  const nameProduct = useSelector((state) => state.cardReducer.name);
+  const memoryProduct = useSelector((state) => state.cardReducer.memory);
+
+  const colorProduct = useSelector((state) => state.cardReducer.color);
 
   const categoryProduct = useSelector((state) => state.cardReducer.category);
+
+  const diagonal = useSelector((state) => state.cardReducer.display_diagonal);
+
+  const matrix_type = useSelector((state) => state.cardReducer.matrix_type);
+
+  const screen_refresh_rate = useSelector(
+    (state) => state.cardReducer.screen_refresh_rate
+  );
+
+  const screen_material = useSelector(
+    (state) => state.cardReducer.screen_material
+  );
+
+  const resolution = useSelector(
+    (state) => state.cardReducer.display_resolution
+  );
 
   const [about, setAbout] = React.useState(true);
   const [characteristics, setCharacteristics] = React.useState(false);
@@ -37,6 +56,38 @@ function ProductCard() {
     setCharacteristics(false);
     setReviews(true);
   }
+
+  const titleProduct = () => {
+    return (
+      <>
+        {!mobile ? (
+          <h5 style={!desktop ? { marginBottom: 40 } : { display: "none" }}>
+            {`${nameProduct === null ? "" : nameProduct} ${
+              memoryProduct === null ? "" : memoryProduct
+            } ${colorProduct === null ? "" : colorProduct}`}
+          </h5>
+        ) : (
+          <h6 className="h6">
+            {`${nameProduct === null ? "" : nameProduct} ${
+              memoryProduct === null ? "" : memoryProduct
+            } ${colorProduct === null ? "" : colorProduct}`}
+          </h6>
+        )}
+      </>
+    );
+  };
+
+  const titleProduct2 = () => {
+    return (
+      <>
+        <h5 style={desktop ? { display: "flex" } : { display: "none" }}>
+          {`${nameProduct === null ? "" : nameProduct} ${
+            memoryProduct === null ? "" : memoryProduct
+          } ${colorProduct === null ? "" : colorProduct}`}
+        </h5>
+      </>
+    );
+  };
 
   return (
     <div className="productCard">
@@ -99,13 +150,7 @@ function ProductCard() {
             Reviews
           </a>
         </div>
-        {!mobile ? (
-          <h5 style={!desktop ? { marginBottom: 40 } : { display: "none" }}>
-            Apple iPhone 14 Pro 128GB Silver
-          </h5>
-        ) : (
-          <h6 className="h6">Apple iPhone 14 Pro 128GB Silver</h6>
-        )}
+        {titleProduct()}
         <div
           style={about ? { display: "flex" } : { display: "none" }}
           className="productCard__cardBox"
@@ -114,9 +159,7 @@ function ProductCard() {
             {!mobile ? <SwiperSlider1 /> : <SwiperSlider2 />}
           </div>
           <div className="productCard__cardPart3">
-            <h5 style={desktop ? { display: "flex" } : { display: "none" }}>
-              Apple iPhone 14 Pro 128GB Silver
-            </h5>
+            {titleProduct2()}
             <div className="productCard__cardBlock1">
               <div className="productCard__cardBlock11">
                 <p>
@@ -317,20 +360,24 @@ function ProductCard() {
               <th className="part2"></th>
             </tr>
             <tr>
-              <td>Display diagonal </td>
-              <td>6.1</td>
+              <td>Display diagonal</td>
+              <td>{!diagonal ? "-" : diagonal}</td>
+            </tr>
+            <tr>
+              <td>Display resolution</td>
+              <td>{!resolution ? "-" : resolution}</td>
             </tr>
             <tr>
               <td>Matrix type</td>
-              <td>OLED (Super Retina XDR)</td>
+              <td>{!matrix_type ? "-" : matrix_type}</td>
             </tr>
             <tr>
               <td>Screen refresh rate</td>
-              <td>120 Hz</td>
+              <td>{!screen_refresh_rate ? "-" : screen_refresh_rate}</td>
             </tr>
             <tr>
               <td>Screen material</td>
-              <td>Ceramic Shield</td>
+              <td>{!screen_material ? "-" : screen_material}</td>
             </tr>
             <tr>
               <td>Communication standard</td>

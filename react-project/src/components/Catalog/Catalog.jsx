@@ -10,6 +10,14 @@ import { useDispatch } from "react-redux";
 import {
   setNameProduct,
   setCategoryProduct,
+  setMemoryProduct,
+  setColorProduct,
+  setDiagonal,
+  setResolution,
+  setMatrix_type,
+  setScreen_refresh_rate,
+  setScreen_material,
+  setCommunication_standard,
 } from "../../redux/slices/cardSlice.js";
 
 import {
@@ -35,9 +43,28 @@ const Catalog = () => {
 
   const dispatch = useDispatch();
 
-  const onClickCatalog = (name, category) => {
+  const onClickCatalog = (
+    name,
+    category,
+    memory,
+    color,
+    display_diagonal,
+    display_resolution,
+    matrix_type,
+    screen_refresh_rate,
+    screen_material,
+    communication_standard
+  ) => {
     dispatch(setNameProduct(name));
     dispatch(setCategoryProduct(category));
+    dispatch(setMemoryProduct(memory));
+    dispatch(setColorProduct(color));
+    dispatch(setDiagonal(display_diagonal));
+    dispatch(setResolution(display_resolution));
+    dispatch(setMatrix_type(matrix_type));
+    dispatch(setScreen_refresh_rate(screen_refresh_rate));
+    dispatch(setScreen_material(screen_material));
+    dispatch(setCommunication_standard(communication_standard));
   };
 
   useEffect(() => {
@@ -88,6 +115,8 @@ const Catalog = () => {
   };
 
   const catalogList = category;
+
+  console.log(menuData, "dates");
 
   const MenuItem = ({ item }) => {
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
@@ -226,7 +255,19 @@ const Catalog = () => {
                           <Link
                             to="/product-card"
                             onClick={() =>
-                              onClickCatalog(object.name, obj.label)
+                              onClickCatalog(
+                                object.name,
+                                obj.label,
+                                object.brand_registration_country,
+                                object.color,
+                                object.display_diagonal,
+                                object.display_resolution,
+                                object.matrix_type,
+                                object.screen_refresh_rate,
+                                object.screen_refresh_rate,
+                                object.screen_material,
+                                object.communication_standard
+                              )
                             }
                           >
                             {object.name}
