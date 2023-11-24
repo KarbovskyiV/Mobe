@@ -17,7 +17,7 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart/ShoppingCart.jsx";
-import ProductCard from "./pages/ProductCard.jsx";
+import ProductCard from "./pages/ProductCard/ProductCard.jsx";
 import ComparePage from "./pages/ComparePage/ComparePage.jsx";
 import WishList from "./pages/WishList/WishList.jsx";
 

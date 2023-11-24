@@ -4,10 +4,10 @@ import IconsWeight from "../IconsWeight/IconsWeight";
 
 import "./style.scss";
 
-const ComparePageLink = () => {
+const ComparePageLink = ({ className }) => {
   return (
     <a href="/compare">
-      <IconsWeight className="relative" />
+      <IconsWeight className={className} />
       {/*{comparedProductsCount > 0 && (
         <span className="compare__link"></span>
       )}*/}

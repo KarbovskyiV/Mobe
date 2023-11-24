@@ -8,18 +8,8 @@ import { Link } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import {
-  setNameProduct,
   setCategoryProduct,
-  setMemoryProduct,
-  setColorProduct,
-  setDiagonal,
-  setResolution,
-  setMatrix_type,
-  setScreen_refresh_rate,
-  setScreen_material,
-  setCommunication_standard,
-  setSim_card_dimensions,
-  setFront_camera,
+  setCharacteristics,
 } from "../../redux/slices/cardSlice.js";
 
 import {
@@ -45,32 +35,9 @@ const Catalog = () => {
 
   const dispatch = useDispatch();
 
-  const onClickCatalog = (
-    name,
-    category,
-    memory,
-    color,
-    display_diagonal,
-    display_resolution,
-    matrix_type,
-    screen_refresh_rate,
-    screen_material,
-    communication_standard,
-    sim_card_dimensions,
-    front_camera
-  ) => {
-    dispatch(setNameProduct(name));
+  const onClickCatalog = (category, characteristics) => {
     dispatch(setCategoryProduct(category));
-    dispatch(setMemoryProduct(memory));
-    dispatch(setColorProduct(color));
-    dispatch(setDiagonal(display_diagonal));
-    dispatch(setResolution(display_resolution));
-    dispatch(setMatrix_type(matrix_type));
-    dispatch(setScreen_refresh_rate(screen_refresh_rate));
-    dispatch(setScreen_material(screen_material));
-    dispatch(setCommunication_standard(communication_standard));
-    dispatch(setSim_card_dimensions(sim_card_dimensions));
-    dispatch(setFront_camera(front_camera));
+    dispatch(setCharacteristics(characteristics));
   };
 
   useEffect(() => {
@@ -121,8 +88,6 @@ const Catalog = () => {
   };
 
   const catalogList = category;
-
-  console.log(menuData, "dates");
 
   const MenuItem = ({ item }) => {
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
@@ -260,23 +225,7 @@ const Catalog = () => {
                         <li key={i}>
                           <Link
                             to="/product-card"
-                            onClick={() =>
-                              onClickCatalog(
-                                object.name,
-                                obj.label,
-                                object.brand_registration_country,
-                                object.color,
-                                object.display_diagonal,
-                                object.display_resolution,
-                                object.matrix_type,
-                                object.screen_refresh_rate,
-                                object.screen_refresh_rate,
-                                object.screen_material,
-                                object.communication_standard,
-                                object.sim_card_dimensions,
-                                object.front_camera
-                              )
-                            }
+                            onClick={() => onClickCatalog(obj.label, object)}
                           >
                             {object.name}
                           </Link>

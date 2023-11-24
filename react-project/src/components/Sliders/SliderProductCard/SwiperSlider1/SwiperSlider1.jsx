@@ -14,23 +14,12 @@ import slide3 from "../../../../assets/img/slideProduct/image3.jpg";
 import slide4 from "../../../../assets/img/slideProduct/image4.jpg";
 import slide5 from "../../../../assets/img/slideProduct/image5.jpg";
 
-import slideBig1 from "../../../../assets/img/slideProduct/imageBig1.jpg";
-import slideBig1Tablet from "../../../../assets/img/slideProduct/imageBig1Tablet.jpg";
-
 import "./style.scss";
 
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 export default function SwiperSlider() {
   const { desktop } = React.useContext(DesktopContext);
-
-  const fotoVersion = () => {
-    if (desktop) {
-      return slideBig1;
-    } else {
-      return slideBig1Tablet;
-    }
-  };
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
@@ -87,6 +76,8 @@ export default function SwiperSlider() {
             "--swiper-navigation-color": "#28003e",
             "--swiper-pagination-color": "#28003e",
           }}
+          speed={500}
+          slidestoshow={1}
           slidesPerView={1}
           spaceBetween={10}
           navigation={true}
@@ -95,34 +86,114 @@ export default function SwiperSlider() {
           className="mySwiper2"
         >
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={fotoVersion()} alt="slide" />
+            <img
+              className="slide-img2"
+              src={
+                desktop
+                  ? "./images/imageBig1.jpg"
+                  : "./images/imageBig1Tablet.jpg"
+              }
+              alt="slide"
+            />
           </SwiperSlide>
         </Swiper>
       </div>

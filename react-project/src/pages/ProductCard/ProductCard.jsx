@@ -1,49 +1,25 @@
 import React from "react";
 
-import Button from "../components/Button";
-import { DesktopContext, MobileContext } from "../App";
+import Button from "../../components/Button.jsx";
+import { DesktopContext, MobileContext } from "../../App.js";
 import { useSelector } from "react-redux";
 
-import BuyWithUs from "../components/BuyWithUs";
-import SwiperSlider1 from "../components/Sliders/SliderProductCard/SwiperSlider1/SwiperSlider1.jsx";
-import SwiperSlider2 from "../components/Sliders/SliderProductCard/SwiperSlider2/SwiperSlider2.jsx";
+import BuyWithUs from "../../components/BuyWithUs/index.jsx";
+import SwiperSlider1 from "../../components/Sliders/SliderProductCard/SwiperSlider1/SwiperSlider1.jsx";
+import SwiperSlider2 from "../../components/Sliders/SliderProductCard/SwiperSlider2/SwiperSlider2.jsx";
+import "./style.scss";
 
 function ProductCard() {
   const { desktop } = React.useContext(DesktopContext);
   const { mobile } = React.useContext(MobileContext);
 
-  const nameProduct = useSelector((state) => state.cardReducer.name);
-  const memoryProduct = useSelector((state) => state.cardReducer.memory);
-
-  const colorProduct = useSelector((state) => state.cardReducer.color);
-
   const categoryProduct = useSelector((state) => state.cardReducer.category);
 
-  const diagonal = useSelector((state) => state.cardReducer.display_diagonal);
-
-  const resolution = useSelector(
-    (state) => state.cardReducer.display_resolution
+  const characteristic = useSelector(
+    (state) => state.cardReducer.characteristics
   );
 
-  const matrix_type = useSelector((state) => state.cardReducer.matrix_type);
-
-  const screen_refresh_rate = useSelector(
-    (state) => state.cardReducer.screen_refresh_rate
-  );
-
-  const screen_material = useSelector(
-    (state) => state.cardReducer.screen_material
-  );
-
-  const communication_standard = useSelector(
-    (state) => state.cardReducer.communication_standard
-  );
-
-  const sim_card_dimensions = useSelector(
-    (state) => state.cardReducer.sim_card_dimensions
-  );
-
-  const front_camera = useSelector((state) => state.cardReducer.front_camera);
+  console.log(characteristic, "characteristics2");
 
   const [about, setAbout] = React.useState(true);
   const [characteristics, setCharacteristics] = React.useState(false);
@@ -67,21 +43,25 @@ function ProductCard() {
     setReviews(true);
   }
 
+  const title = () => {
+    return `${
+      characteristic.name === null || undefined
+        ? "no data"
+        : characteristic.name
+    } ${
+      characteristic.name === null ? "no data" : characteristic.built_in_memory
+    } ${characteristic.color === null ? "no data" : characteristic.color}`;
+  };
+
   const titleProduct = () => {
     return (
       <>
         {!mobile ? (
           <h5 style={!desktop ? { marginBottom: 40 } : { display: "none" }}>
-            {`${nameProduct === null ? "" : nameProduct} ${
-              memoryProduct === null ? "" : memoryProduct
-            } ${colorProduct === null ? "" : colorProduct}`}
+            {title()}
           </h5>
         ) : (
-          <h6 className="h6">
-            {`${nameProduct === null ? "" : nameProduct} ${
-              memoryProduct === null ? "" : memoryProduct
-            } ${colorProduct === null ? "" : colorProduct}`}
-          </h6>
+          <h6 className="h6">{title()}</h6>
         )}
       </>
     );
@@ -91,9 +71,7 @@ function ProductCard() {
     return (
       <>
         <h5 style={desktop ? { display: "flex" } : { display: "none" }}>
-          {`${nameProduct === null ? "" : nameProduct} ${
-            memoryProduct === null ? "" : memoryProduct
-          } ${colorProduct === null ? "" : colorProduct}`}
+          {title()}
         </h5>
       </>
     );
@@ -135,7 +113,7 @@ function ProductCard() {
               strokeLinejoin="round"
             />
           </svg>
-          <a href="##">{nameProduct}</a>
+          <a href="##">{characteristic.name}</a>
         </div>
         <div className="productCard__menu">
           <a
@@ -160,7 +138,7 @@ function ProductCard() {
             Reviews
           </a>
         </div>
-        {titleProduct()}
+        {about ? titleProduct() : ""}
         <div
           style={about ? { display: "flex" } : { display: "none" }}
           className="productCard__cardBox"
@@ -169,7 +147,7 @@ function ProductCard() {
             {!mobile ? <SwiperSlider1 /> : <SwiperSlider2 />}
           </div>
           <div className="productCard__cardPart3">
-            {titleProduct2()}
+            {about ? titleProduct2() : ""}
             <div className="productCard__cardBlock1">
               <div className="productCard__cardBlock11">
                 <p>
@@ -360,253 +338,346 @@ function ProductCard() {
             </div>
           </div>
         </div>
+        <div className="productCard__titleBox">
+          {characteristics || reviews ? title() : ""}
+        </div>
         <div
           style={characteristics ? { display: "flex" } : { display: "none" }}
-          className="productCard__cardBox"
+          className={
+            characteristics || reviews
+              ? "productCard__cardBox2"
+              : "productCard__cardBox"
+          }
         >
           <table border="1">
-            <tr>
-              <th className="part1"></th>
-              <th className="part2"></th>
-            </tr>
-            <tr>
-              <td>Display diagonal</td>
-              <td>{!diagonal ? "-" : diagonal}</td>
-            </tr>
-            <tr>
-              <td>Display resolution</td>
-              <td>{!resolution ? "-" : resolution}</td>
-            </tr>
-            <tr>
-              <td>Matrix type</td>
-              <td>{!matrix_type ? "-" : matrix_type}</td>
-            </tr>
-            <tr>
-              <td>Screen refresh rate</td>
-              <td>{!screen_refresh_rate ? "-" : screen_refresh_rate}</td>
-            </tr>
-            <tr>
-              <td>Screen material</td>
-              <td>{!screen_material ? "-" : screen_material}</td>
-            </tr>
-            <tr>
-              <td>Communication standard</td>
-              <td>{!communication_standard ? "-" : communication_standard}</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>SIM card dimensions</td>
-              <td>{!sim_card_dimensions ? "-" : sim_card_dimensions}</td>
-            </tr>
-            <tr>
-              <td>Built-in memory</td>
-              <td>128 GB</td>
-            </tr>
-            <tr>
-              <td>Operating System </td>
-              <td>iOS</td>
-            </tr>
-            <tr>
-              <td>Front camera </td>
-              <td>{!front_camera ? "-" : front_camera}</td>
-            </tr>
-            <tr>
-              <td>Features of the front camera</td>
-              <td>
-                Auto focus Single Support for shooting 4K Stabilization Front
-                flash
-              </td>
-            </tr>
-            <tr>
-              <td>Placement of the front camera</td>
-              <td>Cut out</td>
-            </tr>
-            <tr>
-              <td>Type of frontal flash</td>
-              <td>Program</td>
-            </tr>
-            <tr>
-              <td>Front camera video recording </td>
-              <td>4K/3840x2160/stereo sound</td>
-            </tr>
-            <tr>
-              <td>Additionally</td>
-              <td>
-                Aperture ƒ/1.9 / Autofocus with Focus Pixels / Six-element lens
-                / Flash Retina Flash / Photonic Engine / Deep Fusion technology
-                / Smart HDR 4 / Portrait mode with advanced bokeh and depth
-                control / Portrait lighting with six effects (natural, studio,
-                contour, scene , stage mono, high-quality mono) / Animoji and
-                Memoji / Night mode / Photo styles / Apple ProRAW / Wide color
-                capture for photos and Live Photos / Lens correction / Automatic
-                image stabilization / Burst mode / 4K video recording at 24 fps
-                / s, 25 fps, 30 fps or 60 fps / 1080p HD video recording at 25,
-                30 or 60 fps / Cinema mode up to 4K HDR at 30 fps / HDR
-                recording -video with Dolby Vision up to 4K at 60 frames per
-                second / ProRes video recording / Support for 1080p slow-motion
-                video at 120 fps / Frame-by-frame video with stabilization /
-                Night mode / Slow motion / QuickTake video / Cinematic video
-                stabilization (4K, 1080p and 720p)
-              </td>
-            </tr>
-            <tr>
-              <td>Name of the processor</td>
-              <td>Apple A16 Bionic</td>
-            </tr>
-            <tr>
-              <td>Number of cores</td>
-              <td>2+4</td>
-            </tr>
-            <tr>
-              <td>Apple series </td>
-              <td>Apple Ax Series</td>
-            </tr>
-            <tr>
-              <td>Main camera</td>
-              <td>48 Mp + 12 Мp + 12 Мp + 12 Мp</td>
-            </tr>
-            <tr>
-              <td>Features of the main camera</td>
-              <td>
-                Auto focus Support for shooting 4K Flash Stabilization Telephoto
-                lens Ultra wide angle lens
-              </td>
-            </tr>
-            <tr>
-              <td>Number of main cameras</td>
-              <td>4</td>
-            </tr>
-            <tr>
-              <td>Record video of the main camera</td>
-              <td>4K/3840x2160/stereo sound</td>
-            </tr>
-            <tr>
-              <td>Additional information on the camera</td>
-              <td>
-                Quad camera: Primary 48 MP: 24 mm, aperture ƒ/1.78, optical
-                image stabilization with second-generation sensor shift,
-                seven-element lens, 100% Focus Pixels; Ultra-wide-angle 12 MP:
-                13 mm, ƒ/2.2 aperture and 120° viewing angle, six-element lens,
-                100% Focus Pixels; 2x telephoto lens: - Telephoto 12 MP 2x
-                (provided by a four-pixel sensor): 48 mm, aperture ƒ/1.78,
-                optical image stabilization with second-generation sensor shift,
-                seven-element lens, 100% Focus Pixels; - Telephoto 12 MP 3x: 77
-                mm, aperture ƒ/2.8, optical image stabilization, six-element
-                lens; 3x optical zoom, 2x optical zoom; 6-fold optical zoom
-                range; digital magnification up to 15x; Sapphire glass lens cap
-                / True Tone adaptive flash / Photonic Engine / Deep Fusion
-                technology / Smart HDR 4 / Portrait mode with advanced bokeh and
-                depth control / Portrait lighting with six effects (natural,
-                studio, contour, scene, scene mono, high-quality mono) / Night
-                mode / Portraits in night mode with LiDAR scanner / Panorama (up
-                to 63 MP) / Photo styles / Macro photography / Apple ProRAW
-                format / Wide color capture for photos and Live Photos / Lens
-                correction (Ultra Wide) / Advanced red-eye correction /
-                Automatic image stabilization / Burst shooting mode / Photo
-                geotagging / Captured image formats: HEIF, JPEG and DNG
-              </td>
-            </tr>
-            <tr>
-              <td>Video recording</td>
-              <td>
-                4K video recording at 24 fps, 25 fps, 30 fps or 60 fps; 1080p HD
-                video recording at 25, 30 or 60 frames per second; 720p HD video
-                recording at a speed of 30 frames per second; Cinematic mode up
-                to 4K HDR at 30 fps; Action mode up to 2.8K at 60 frames per
-                second; HDR video recording with Dolby Vision up to 4K at a
-                speed of 60 frames per second; ProRes video recording Macro
-                video recording, including slow-motion and time-lapse; Support
-                for slow-motion 1080p video at 120 or 240 fps. Single-frame
-                video with stabilization / Night mode / Slow-motion shooting /
-                QuickTake video / Optical image stabilization with
-                second-generation sensor shift for video (primary) / Dual
-                optical image stabilization for video (primary and telephoto) /
-                3x optical zoom, 2x optical magnification; 6x optical zoom range
-                / Digital zoom up to 9x / Audio zoom / True Tone flash /
-                Cinematic video stabilization (4K, 1080p and 720p) / Continuous
-                video with autofocus / Take 8MP photos while recording 4K video
-                / Playback zoom / Recorded video formats: HEVC, H.264 and ProRes
-                / Stereo recording
-              </td>
-            </tr>
-            <tr>
-              <td>Stabilization method</td>
-              <td>Optical</td>
-            </tr>
-            <tr>
-              <td>Body material</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Connectors</td>
-              <td>Lightning</td>
-            </tr>
-            <tr>
-              <td>Navigation</td>
-              <td>A-GPS BDS GPS GLONASS Digital compass</td>
-            </tr>
-            <tr>
-              <td>Weight, g</td>
-              <td>206</td>
-            </tr>
-            <tr>
-              <td>Dimensions</td>
-              <td>71.5*147.5*7.85 mm</td>
-            </tr>
-            <tr>
-              <td>Security</td>
-              <td>Face unlock</td>
-            </tr>
-            <tr>
-              <td>Degree of dust/moisture protection</td>
-              <td>IP68</td>
-            </tr>
-            <tr>
-              <td>Sensors</td>
-              <td>
-                Accelerometer Barometer Gyroscope Proximity sensor Light sensor
-                LiDAR scanner
-              </td>
-            </tr>
-            <tr>
-              <td>Supply set </td>
-              <td>Documentation Synchronization cable Phone</td>
-            </tr>
-            <tr>
-              <td>Wireless technologies</td>
-              <td>Bluetooth 5.3 NFC Wi-Fi Wireless charging</td>
-            </tr>
-            <tr>
-              <td>Equipment</td>
-              <td>e-SIM support Fast charging</td>
-            </tr>
-            <tr>
-              <td>Form factor</td>
-              <td>Monobloc</td>
-            </tr>
-            <tr>
-              <td>Features of the case</td>
-              <td>Frameless display Waterproof</td>
-            </tr>
-            <tr>
-              <td>Color</td>
-              <td>Silver</td>
-            </tr>
-            <tr>
-              <td>Brand registration country</td>
-              <td>USA</td>
-            </tr>
-            <tr>
-              <td>Warranty</td>
-              <td>12 months</td>
-            </tr>
-            <tr>
-              <td>Country-producer of the product</td>
-              <td>China</td>
-            </tr>
+            <tbody>
+              <tr>
+                <th className="part1"></th>
+                <th className="part2"></th>
+              </tr>
+              <tr>
+                <td>
+                  <span>Display diagonal</span>
+                </td>
+                <td>
+                  {!characteristic.display_diagonal
+                    ? "-"
+                    : characteristic.display_diagonal}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Display resolution</span>
+                </td>
+                <td>
+                  {!characteristic.display_resolution
+                    ? "-"
+                    : characteristic.display_resolution}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Matrix type</span>
+                </td>
+                <td>
+                  {!characteristic.matrix_type
+                    ? "-"
+                    : characteristic.matrix_type}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Screen refresh rate</span>
+                </td>
+                <td>
+                  {!characteristic.screen_refresh_rate
+                    ? "-"
+                    : characteristic.screen_refresh_rate}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Screen material</span>
+                </td>
+                <td>
+                  {!characteristic.screen_material
+                    ? "-"
+                    : characteristic.screen_material}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Communication standard</span>
+                </td>
+                <td>
+                  {!characteristic.communication_standard
+                    ? "-"
+                    : characteristic.communication_standard}
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <span>SIM card dimensions</span>
+                </td>
+                <td>
+                  {!characteristic.sim_card_dimensions
+                    ? "-"
+                    : characteristic.sim_card_dimensions}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Built-in memory</span>
+                </td>
+                <td>
+                  {!characteristic.built_in_memory
+                    ? "-"
+                    : characteristic.built_in_memory}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Operating System</span>
+                </td>
+                <td>
+                  {!characteristic.operating_system
+                    ? "-"
+                    : characteristic.operating_system}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Front camera</span>
+                </td>
+                <td>
+                  {!characteristic.front_camera
+                    ? "-"
+                    : characteristic.front_camera}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Features of the front camera</span>
+                </td>
+                <td>
+                  {!characteristic.features_of_the_front_camera
+                    ? "-"
+                    : characteristic.features_of_the_front_camera}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Placement of the front camera</span>
+                </td>
+                <td>
+                  {!characteristic.placement_of_the_front_camera
+                    ? "-"
+                    : characteristic.placement_of_the_front_camera}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Type of frontal flash</span>
+                </td>
+                <td>
+                  {!characteristic.type_of_frontal_flash
+                    ? "-"
+                    : characteristic.type_of_frontal_flash}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Front camera video recording</span>
+                </td>
+                <td>
+                  {!characteristic.front_camera_video_recording
+                    ? "-"
+                    : characteristic.front_camera_video_recording}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Additionally</span>
+                </td>
+                <td>
+                  {!characteristic.additionally
+                    ? "-"
+                    : characteristic.additionally}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Name of the processor</span>
+                </td>
+                <td>Apple A16 Bionic</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Number of cores</span>
+                </td>
+                <td>2+4</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Apple series</span>
+                </td>
+                <td>Apple Ax Series</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Main camera</span>
+                </td>
+                <td>48 Mp + 12 Мp + 12 Мp + 12 Мp</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Features of the main camera</span>
+                </td>
+                <td>
+                  Auto focus Support for shooting 4K Flash Stabilization
+                  Telephoto lens Ultra wide angle lens
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Number of main cameras</span>
+                </td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Record video of the main camera</span>
+                </td>
+                <td>4K/3840x2160/stereo sound</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Additional information on the camera</span>
+                </td>
+                <td>formats: HEIF, JPEG and DNG</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Video recording</span>
+                </td>
+                <td>Stereo recording</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Stabilization method</span>
+                </td>
+                <td>Optical</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Body material</span>
+                </td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Connectors</span>
+                </td>
+                <td>Lightning</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Navigation</span>
+                </td>
+                <td>A-GPS BDS GPS GLONASS Digital compass</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Weight, g</span>
+                </td>
+                <td>206</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Dimensions</span>
+                </td>
+                <td>71.5*147.5*7.85 mm</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Security</span>
+                </td>
+                <td>Face unlock</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Degree of dust/moisture protection</span>
+                </td>
+                <td>IP68</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Sensors</span>
+                </td>
+                <td>
+                  Accelerometer Barometer Gyroscope Proximity sensor Light
+                  sensor LiDAR scanner
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Supply set</span>
+                </td>
+                <td>Documentation Synchronization cable Phone</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Wireless technologies</span>
+                </td>
+                <td>Bluetooth 5.3 NFC Wi-Fi Wireless charging</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Equipment</span>
+                </td>
+                <td>e-SIM support Fast charging</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Form factor</span>
+                </td>
+                <td>Monobloc</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Features of the case</span>
+                </td>
+                <td>Frameless display Waterproof</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Color</span>
+                </td>
+                <td>Silver</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Brand registration country</span>
+                </td>
+                <td>USA</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Warranty</span>
+                </td>
+                <td>12 months</td>
+              </tr>
+              <tr>
+                <td>
+                  <span>Country-producer of the product</span>
+                </td>
+                <td>China</td>
+              </tr>
+            </tbody>
           </table>
         </div>
 

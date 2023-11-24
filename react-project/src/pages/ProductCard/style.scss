@@ -1,4 +1,4 @@
-@import "../_variables.scss";
+@import "../../scss/_variables.scss";
 
 .productCard {
   margin: 164px 10% 110px 10%;
@@ -10,7 +10,7 @@
     align-items: center;
     a {
       font-size: 14px;
-      color: $grey;
+      color: var(--dark-grey, #30293d);
     }
   }
 
@@ -21,7 +21,7 @@
     margin: 42px 0;
 
     a {
-      color: $grey;
+      color: var(--violet-200, #776ea4);
       cursor: pointer;
     }
   }
@@ -29,17 +29,23 @@
   .unterline {
     text-decoration: underline;
     font-weight: 700;
+    color: var(--black, #28003e);
   }
 
   .h6 {
     margin-bottom: 20px;
   }
 
-  &__cardBox {
+  &__cardBox,
+  &__cardBox2 {
     display: flex;
     flex-direction: row;
     gap: 24px;
     margin-bottom: 80px;
+  }
+
+  &__cardBox2 {
+    flex-direction: column;
   }
 
   &__cardPart1 {
@@ -210,10 +216,29 @@
     flex-direction: row;
     gap: 26px;
   }
+  &__titleBox {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px;
+    color: $violetDark2;
+  }
 }
 
 table {
   width: 100%;
+  tr {
+    height: 72px;
+    border-bottom: 1px solid $greyLight;
+
+    td {
+      border-bottom: 1px solid $violet-400;
+
+      span {
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 .part1 {
