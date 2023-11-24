@@ -63,7 +63,7 @@ const WishList = () => {
         <div className="wish-list__admin">
           <h2>Hello, USER</h2>
           <div className="wish-list__admin_inner">
-            <AdminLink/>
+            <AdminLink />
           </div>
         </div>
         <div className="wish-list__content">

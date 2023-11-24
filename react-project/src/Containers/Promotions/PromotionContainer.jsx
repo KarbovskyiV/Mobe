@@ -34,7 +34,7 @@ const PromotionContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products/");
+        const response = await axios.get("http://public/api/products");
         console.log("response", response);
 
         if (Array.isArray(response.data.products)) {
