@@ -42,7 +42,10 @@ const ProductCard = ({ item, onAddToCart }) => {
           className={`heart-product ${isHeartSelected ? "selected" : ""}`}
           onClick={handleHeartClick}
         />
-        <IconsWeight onClick={() => onAddToCart(item.id)} />
+        <IconsWeight
+          className="weght-product"
+          onClick={() => onAddToCart(item.id)}
+        />
       </div>
     </div>
   );

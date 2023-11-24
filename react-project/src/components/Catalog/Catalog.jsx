@@ -26,6 +26,7 @@ const Catalog = () => {
   );
   const { category, setCategory } = React.useContext(GetCatalogContext);
 
+
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
   const [menuData, setMenuData] = useState([]);
