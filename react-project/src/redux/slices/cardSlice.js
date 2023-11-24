@@ -46,6 +46,12 @@ const cardSlice = createSlice({
     setCommunication_standard(state, action) {
       state.communication_standard = action.payload;
     },
+    setSim_card_dimensions(state, action) {
+      state.sim_card_dimensions = action.payload;
+    },
+    setFront_camera(state, action) {
+      state.front_camera = action.payload;
+    },
   },
 });
 
@@ -60,6 +66,8 @@ export const {
   setScreen_refresh_rate,
   setScreen_material,
   setCommunication_standard,
+  setSim_card_dimensions,
+  setFront_camera,
 } = cardSlice.actions;
 
 export default cardSlice.reducer;

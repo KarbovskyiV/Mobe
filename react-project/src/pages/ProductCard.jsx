@@ -21,6 +21,10 @@ function ProductCard() {
 
   const diagonal = useSelector((state) => state.cardReducer.display_diagonal);
 
+  const resolution = useSelector(
+    (state) => state.cardReducer.display_resolution
+  );
+
   const matrix_type = useSelector((state) => state.cardReducer.matrix_type);
 
   const screen_refresh_rate = useSelector(
@@ -31,9 +35,15 @@ function ProductCard() {
     (state) => state.cardReducer.screen_material
   );
 
-  const resolution = useSelector(
-    (state) => state.cardReducer.display_resolution
+  const communication_standard = useSelector(
+    (state) => state.cardReducer.communication_standard
   );
+
+  const sim_card_dimensions = useSelector(
+    (state) => state.cardReducer.sim_card_dimensions
+  );
+
+  const front_camera = useSelector((state) => state.cardReducer.front_camera);
 
   const [about, setAbout] = React.useState(true);
   const [characteristics, setCharacteristics] = React.useState(false);
@@ -381,7 +391,7 @@ function ProductCard() {
             </tr>
             <tr>
               <td>Communication standard</td>
-              <td>2G (GPRS/EDGE) 3G (WCDMA/UMTS/HSPA) 4G (LTE) 5G</td>
+              <td>{!communication_standard ? "-" : communication_standard}</td>
             </tr>
             <tr>
               <td></td>
@@ -389,7 +399,7 @@ function ProductCard() {
             </tr>
             <tr>
               <td>SIM card dimensions</td>
-              <td>Nano-SIM</td>
+              <td>{!sim_card_dimensions ? "-" : sim_card_dimensions}</td>
             </tr>
             <tr>
               <td>Built-in memory</td>
@@ -401,7 +411,7 @@ function ProductCard() {
             </tr>
             <tr>
               <td>Front camera </td>
-              <td>12 Мp</td>
+              <td>{!front_camera ? "-" : front_camera}</td>
             </tr>
             <tr>
               <td>Features of the front camera</td>

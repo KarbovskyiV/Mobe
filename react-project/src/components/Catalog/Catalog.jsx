@@ -18,6 +18,8 @@ import {
   setScreen_refresh_rate,
   setScreen_material,
   setCommunication_standard,
+  setSim_card_dimensions,
+  setFront_camera,
 } from "../../redux/slices/cardSlice.js";
 
 import {
@@ -53,7 +55,9 @@ const Catalog = () => {
     matrix_type,
     screen_refresh_rate,
     screen_material,
-    communication_standard
+    communication_standard,
+    sim_card_dimensions,
+    front_camera
   ) => {
     dispatch(setNameProduct(name));
     dispatch(setCategoryProduct(category));
@@ -65,6 +69,8 @@ const Catalog = () => {
     dispatch(setScreen_refresh_rate(screen_refresh_rate));
     dispatch(setScreen_material(screen_material));
     dispatch(setCommunication_standard(communication_standard));
+    dispatch(setSim_card_dimensions(sim_card_dimensions));
+    dispatch(setFront_camera(front_camera));
   };
 
   useEffect(() => {
@@ -266,7 +272,9 @@ const Catalog = () => {
                                 object.screen_refresh_rate,
                                 object.screen_refresh_rate,
                                 object.screen_material,
-                                object.communication_standard
+                                object.communication_standard,
+                                object.sim_card_dimensions,
+                                object.front_camera
                               )
                             }
                           >
