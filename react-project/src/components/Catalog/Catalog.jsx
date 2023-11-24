@@ -8,8 +8,8 @@ import { Link } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import {
-  setNameProduct,
   setCategoryProduct,
+  setCharacteristics,
 } from "../../redux/slices/cardSlice.js";
 
 import {
@@ -36,9 +36,9 @@ const Catalog = () => {
 
   const dispatch = useDispatch();
 
-  const onClickCatalog = (name, category) => {
-    dispatch(setNameProduct(name));
+  const onClickCatalog = (category, characteristics) => {
     dispatch(setCategoryProduct(category));
+    dispatch(setCharacteristics(characteristics));
   };
 
   useEffect(() => {
@@ -226,9 +226,7 @@ const Catalog = () => {
                         <li key={i}>
                           <Link
                             to="/product-card"
-                            onClick={() =>
-                              onClickCatalog(object.name, obj.label)
-                            }
+                            onClick={() => onClickCatalog(obj.label, object)}
                           >
                             {object.name}
                           </Link>
