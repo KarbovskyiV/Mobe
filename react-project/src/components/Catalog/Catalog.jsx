@@ -4,6 +4,13 @@ import styles from "./MenuNav.module.scss";
 import cn from "classnames";
 import IconClose from "../IconsClose/IconClose.jsx";
 import IconOpen from "../IconsClose/IconOpen.jsx";
+import { Link } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import {
+  setCategoryProduct,
+  setCharacteristics,
+} from "../../redux/slices/cardSlice.js";
 
 import {
   MobileContext,
@@ -19,12 +26,20 @@ const Catalog = () => {
   );
   const { category, setCategory } = React.useContext(GetCatalogContext);
 
+
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
   const [menuData, setMenuData] = useState([]);
   const { productsOpened, setProductsOpened } = React.useContext(
     ProductsOpenedContext
   );
+
+  const dispatch = useDispatch();
+
+  const onClickCatalog = (category, characteristics) => {
+    dispatch(setCategoryProduct(category));
+    dispatch(setCharacteristics(characteristics));
+  };
 
   useEffect(() => {
     if (catalogOpened === true) {
@@ -45,8 +60,6 @@ const Catalog = () => {
       /* setCatalogOpened(false); */
     };
   }, [catalogOpened]);
-
-  console.log(category, "category");
 
   const transformData = (data) => {
     const transformedData = [];
@@ -117,11 +130,11 @@ const Catalog = () => {
   };
 
   const a = (x) => {
-    return 142 + x * 42 + x * 6;
+    return 200 + x * 42 + x * 6;
   };
 
   return (
-    <div className="catalog__container2">
+    <>
       {category && (
         <nav className={styles.menu} role="navigation">
           <div
@@ -193,14 +206,15 @@ const Catalog = () => {
                       />
                     </svg>
                   )}
+
                   <ul
                     style={
                       mobile
                         ? productsOpened
                           ? {
                               visibility: "visible",
-                              top: a(obj.id),
-                              height: 304,
+                              top: a(obj.category_id),
+                              height: 336,
                             }
                           : { visibility: "hidden" }
                         : { width: 300 }
@@ -210,9 +224,17 @@ const Catalog = () => {
                       .filter((cat) => cat.category_id === obj.category_id)
                       .map((object, i) => (
                         <li key={i}>
-                          <a href="##">{object.name}</a>
+                          <Link
+                            to="/product-card"
+                            onClick={() => onClickCatalog(obj.label, object)}
+                          >
+                            {object.name}
+                          </Link>
                         </li>
                       ))}
+                    <div className={styles.cat_log}>
+                      <span>View all</span>
+                    </div>
                   </ul>
                 </li>
               ))}
@@ -231,7 +253,7 @@ const Catalog = () => {
           </div>
         </nav>
       )}
-    </div>
+    </>
   );
 };
 

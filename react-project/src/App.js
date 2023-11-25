@@ -17,9 +17,10 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart/ShoppingCart.jsx";
-import ProductCard from "./pages/ProductCard.jsx";
+import ProductCard from "./pages/ProductCard/ProductCard.jsx";
 import ComparePage from "./pages/ComparePage/ComparePage.jsx";
 import WishList from "./pages/WishList/WishList.jsx";
+import PersonalData from "./pages/PersonalData/PersonalData.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -231,6 +232,10 @@ function App() {
                                               <Route
                                                 path="/wishList"
                                                 element={<WishList />}
+                                              />
+                                              <Route
+                                                path="/personal-data"
+                                                element={<PersonalData />}
                                               />
                                               <Route
                                                 path="/product-card"
