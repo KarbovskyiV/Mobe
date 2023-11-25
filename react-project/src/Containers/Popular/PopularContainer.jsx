@@ -14,11 +14,13 @@ const PopularContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products/");
+        const response = await axios.get("http://mobe.local.com/api/products");
+        console.log("popular", data);
 
-        if (Array.isArray(response.data.products)) {
-          const slicedData = response.data.products.slice(12, 16);
+        if (Array.isArray(response.data)) {
+          const slicedData = response.data.slice(12, 16);
           setData(slicedData);
+          
         } else {
           console.log("Дані не є масивом.");
         }

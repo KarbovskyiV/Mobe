@@ -4,9 +4,20 @@ import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
 
+import { useDispatch } from "react-redux";
+import { addToCompare } from "../../redux/slices/compareSlice"
+
+import Image from "./Images/image.jpg"
+
 import "./style.scss";
 
 const ProductCard = ({ item, onAddToCart }) => {
+  const dispatch = useDispatch();
+  const handleAddToCompare = () => {
+   
+    dispatch(addToCompare());
+  };
+
   const [isHeartSelected, setHeartSelected] = useState(false);
 
   const handleHeartClick = () => {
@@ -18,10 +29,10 @@ const ProductCard = ({ item, onAddToCart }) => {
     <div className="section__card">
       <div className="section__inner">
         <div className="section__card-photo">
-          <img src={item.images[1]} alt="" />
+          <img src={Image} alt="" />
         </div>
         <div className="section__card-content">
-          <div className="section__card-title">{item.title}</div>
+          <div className="section__card-title">{item.name}</div>
           <div className="section__card rating">
             <MyRating />
             <div className="rating__revews">198 відгуків</div>
@@ -44,7 +55,10 @@ const ProductCard = ({ item, onAddToCart }) => {
         />
         <IconsWeight
           className="weght-product"
-          onClick={() => onAddToCart(item.id)}
+          onClick={() => {
+            onAddToCart(item.id);
+            handleAddToCompare();
+          }}
         />
       </div>
     </div>
