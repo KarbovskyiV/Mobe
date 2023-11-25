@@ -14,10 +14,10 @@ const NewContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products/");
+        const response = await axios.get("http://mobe.local.com/api/products");
 
-        if (Array.isArray(response.data.products)) {
-          const slicedData = response.data.products.slice(8, 12);
+        if (Array.isArray(response.data)) {
+          const slicedData = response.data.slice(8, 12);
           setData(slicedData);
         } else {
           console.log("Дані не є масивом.");
