@@ -11,7 +11,6 @@ import slide2 from "../../../../assets/img/slideProduct/image2.jpg";
 import slide3 from "../../../../assets/img/slideProduct/image3.jpg";
 import slide4 from "../../../../assets/img/slideProduct/image4.jpg";
 import slide5 from "../../../../assets/img/slideProduct/image5.jpg";
-import slideBig1Mobile from "../../../../assets/img/slideProduct/imageBig1Mobile.jpg";
 
 import "./style2.scss";
 
@@ -35,37 +34,77 @@ export default function SwiperSlider() {
           navigation={true}
           thumbs={{ swiper: thumbsSwiper }}
           modules={[FreeMode, Navigation, Thumbs]}
-          className="mySwiper2"
+          className="mySwiper3"
         >
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <img className="slide-img" src={slideBig1Mobile} alt="slide" />
+            <img
+              className="slide-img"
+              src="./images/imageBig1Mobile.jpg"
+              alt="slide"
+            />
           </SwiperSlide>
         </Swiper>
       </div>
