@@ -8,6 +8,8 @@ import IconsWeight from "../../components/IconsWeight/IconsWeight";
 import Title from "../../components/Title/Title";
 import { ReactComponent as Close } from "./images/close.svg";
 
+import Image from "./images/1.jpg"
+
 import "./style.scss";
 
 import Section from "../../components/Section/Section";
@@ -25,9 +27,11 @@ const ComparePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products/");
-        if (Array.isArray(response.data.products)) {
-          setAllProducts(response.data.products);
+        const response = await axios.get(
+          "http://mobe.publicvm.com:81/api/products"
+        );
+        if (Array.isArray(response.data)) {
+          setAllProducts(response.data);
         } else {
           console.log("Дані не є масивом.");
         }
@@ -82,7 +86,7 @@ const ComparePage = () => {
                 </div>
                 <div className="compare__inner">
                   <div className="compare__card-photo">
-                    <img src={product.images[1]} alt="" />
+                    <img src={Image} alt="" />
                   </div>
                   <div className="compare__card-content">
                     <div className="compare__card-title">{product.title}</div>
@@ -100,8 +104,8 @@ const ComparePage = () => {
                     </div>
                     <Button type="violet" title="Add to cart" />
                   </div>
-                  <IconsHeart />
-                  <IconsWeight />
+                  <IconsHeart className="compare-heart" />
+                  <IconsWeight className="compare-weight" />
                 </div>
               </div>
             ))
