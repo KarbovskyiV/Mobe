@@ -10,6 +10,8 @@ import { ReactComponent as Close } from "../ComparePage/images/close.svg";
 
 import Title from "../../components/Title/Title";
 
+import Image from "./Images/1.jpg"
+
 import "./style.scss";
 import AdminLink from "../../components/AdminLink/AdminLink";
 
@@ -20,9 +22,9 @@ const WishList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products/");
-        if (Array.isArray(response.data.products)) {
-          setAllProducts(response.data.products);
+        const response = await axios.get("http://mobe.local.com/api/products");
+        if (Array.isArray(response.data)) {
+          setAllProducts(response.data);
         } else {
           console.log("Дані не є масивом.");
         }
@@ -85,11 +87,11 @@ const WishList = () => {
                   </div>
                   <div className="wish-list__inner">
                     <div className="wish-list__card-photo">
-                      <img src={product.images[1]} alt="" />
+                      <img src={Image} alt="" />
                     </div>
                     <div className="wish-list__card-content">
                       <div className="wish-list__card-title">
-                        {product.title}
+                        {product.name}
                       </div>
                       <div className="wish-list__card rating">
                         <MyRating />
@@ -105,8 +107,8 @@ const WishList = () => {
                       </div>
                       <Button type="violet" title="Add to cart" />
                     </div>
-                    <IconsHeart />
-                    <IconsWeight />
+                    <IconsHeart className="heart-wish" />
+                    <IconsWeight className="weight-wish" />
                   </div>
                 </div>
               ))
