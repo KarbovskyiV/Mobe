@@ -10,10 +10,18 @@ import { ReactComponent as Close } from "../ComparePage/images/close.svg";
 
 import Title from "../../components/Title/Title";
 
-import Image from "./Images/1.jpg"
+import Image from "./Images/1.png";
+
+import Buy from "./Images/2.png";
 
 import "./style.scss";
 import AdminLink from "../../components/AdminLink/AdminLink";
+import Chat from "../../components/Chat/Chat";
+import Subscribe from "../../components/Subscribe/Subscribe";
+import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
+import Btn from "../../components/Btn/Btn";
+import More from "../../components/IconMore/IconMore";
+import MoreBtn from "../../components/IconMore/IconMore";
 
 const WishList = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -78,6 +86,7 @@ const WishList = () => {
             {comparedProductsData.length > 0 ? (
               comparedProductsData.map((product) => (
                 <div className="wish-list__card" key={product.id}>
+                  <MoreBtn />
                   <div className="wish-list__close">
                     <button
                       className="wish-list__clear-btn"
@@ -91,23 +100,27 @@ const WishList = () => {
                     <div className="wish-list__card-photo">
                       <img src={Image} alt="" />
                     </div>
-                    <div className="wish-list__card-content">
-                      <div className="wish-list__card-title">
-                        {product.name}
-                      </div>
-                      <div className="wish-list__card rating">
-                        <MyRating />
-                        <div className="rating__revews">198 відгуків</div>
-                      </div>
-                    </div>
-                    <div className="wish-list__price">
-                      <div className="wish-list__price-inner">
-                        <div className="wish-list__card-oldprice">$ 250.99</div>
-                        <div className="wish-list__card-newprice">
-                          {product.price}$
+                    <div className="wish-flex">
+                      <div className="wish-list__card-content">
+                        <div className="wish-list__card-title">
+                          {product.name}
+                        </div>
+                        <div className="wish-list__card rating">
+                          <MyRating />
+                          <div className="rating__revews">198 відгуків</div>
                         </div>
                       </div>
-                      <Button type="violet" title="Add to cart" />
+                      <div className="wish-list__price">
+                        <div className="wish-list__price-inner">
+                          <div className="wish-list__card-oldprice">
+                            250.99$
+                          </div>
+                          <div className="wish-list__card-newprice">
+                            {product.price}$
+                          </div>
+                        </div>
+                        <Btn />
+                      </div>
                     </div>
                     <IconsHeart className="heart-wish" />
                     <IconsWeight className="weight-wish" />
@@ -120,6 +133,9 @@ const WishList = () => {
           </div>
         </div>
       </div>
+      <HotPriceContainer className="wish-hotprice" />
+      <Chat className="wish-chat" />
+      <Subscribe className="wish__sub" />
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import React from "react";
 
-const Button = ({ title, type }) => {
+const Button = ({ title, type ,className }) => {
   return (
-    <button type={type} className="auto-button">
+    <button type={type} className={`auto-button ${className}`}>
       {title}
     </button>
   );
