@@ -13,9 +13,12 @@ const compareSlice = createSlice({
     addToCompare: (state) => {
       state.comparedProductsCount += 1;
     },
-    removeFromCompare: (state) => {
-      if (state.comparedProductsCount > 0) {
-        state.comparedProductsCount -= 1;
+    removeFromCompare: (state, action) => {
+      const index = state.comparedProducts.findIndex(
+        (product) => product.id === action.payload
+      );
+      if (index !== -1) {
+        state.comparedProducts.splice(index, 1);
       }
     },
   },
