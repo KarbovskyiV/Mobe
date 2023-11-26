@@ -25,9 +25,9 @@ export const fetchProducts = () => {
     dispatch(fetchProductsRequest());
 
     axios
-      .get("http://mobe.local.com/api/products")
-		 .then((response) => {
-			 console.log("111",response);
+      .get("http://mobe.publicvm.com:81/api/products")
+      .then((response) => {
+        console.log("111", response);
         const products = response.data;
         dispatch(fetchProductsSuccess(products));
       })

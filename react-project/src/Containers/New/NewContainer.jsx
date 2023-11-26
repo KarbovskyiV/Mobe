@@ -14,7 +14,9 @@ const NewContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://mobe.local.com/api/products");
+        const response = await axios.get(
+          "http://mobe.publicvm.com:81/api/products"
+        );
 
         if (Array.isArray(response.data)) {
           const slicedData = response.data.slice(8, 12);
