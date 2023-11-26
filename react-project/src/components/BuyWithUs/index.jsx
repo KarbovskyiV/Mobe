@@ -10,7 +10,7 @@ import Button from "../Button";
 
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
-import style from "./style.scss";
+import "./style.scss";
 
 function BuyWithUs() {
   return (

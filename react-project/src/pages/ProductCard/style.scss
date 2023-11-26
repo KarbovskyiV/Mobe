@@ -38,6 +38,7 @@
 
   &__cardBox,
   &__cardBox2 {
+    position: relative;
     display: flex;
     flex-direction: row;
     gap: 24px;
@@ -46,6 +47,23 @@
 
   &__cardBox2 {
     flex-direction: column;
+  }
+
+  &__absoluteDesktop {
+    position: fixed;
+    z-index: 1500;
+    right: 0;
+    /* top: 50%; */
+  }
+
+  &__absoluteMobileTablet {
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    z-index: 1500;
+    top: 50%;
+    background: var(--white, #fdfdfd);
+    box-shadow: 0px -2px 10px 0px rgba(0, 0, 0, 0.25);
   }
 
   &__cardPart1 {
