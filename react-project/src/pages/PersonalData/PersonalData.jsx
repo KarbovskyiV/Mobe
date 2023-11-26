@@ -78,7 +78,7 @@ const PersonalData = () => {
             </div>
           </div>
         </div>
-        <HotPriceContainer />
+        <HotPriceContainer className="hotprice-personal" />
         <Subscribe customClass="personal__subscribe" />
       </section>
     </>

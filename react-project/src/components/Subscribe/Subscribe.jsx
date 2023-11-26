@@ -2,10 +2,10 @@ import React from "react";
 
 import style from "./style.scss";
 
-const Subscribe = ({customClass}) => {
+const Subscribe = ({className}) => {
   return (
     <>
-      <section className={`subscribe ${customClass}`}>
+      <section className={`subscribe ${className}`}>
         <div className="subscribe__container">
           <form className="subscribe__form" action="/process">
             <label className="subscribe__label">
