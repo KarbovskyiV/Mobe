@@ -5,16 +5,15 @@ import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
 
 import { useDispatch } from "react-redux";
-import { addToCompare } from "../../redux/slices/compareSlice"
+import { addToCompare } from "../../redux/slices/compareSlice";
 
-import Image from "./Images/image.jpg"
+import Image from "./Images/image.jpg";
 
 import "./style.scss";
 
 const ProductCard = ({ item, onAddToCart }) => {
   const dispatch = useDispatch();
   const handleAddToCompare = () => {
-   
     dispatch(addToCompare());
   };
 
