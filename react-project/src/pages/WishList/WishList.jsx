@@ -22,7 +22,9 @@ const WishList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://mobe.local.com/api/products");
+        const response = await axios.get(
+          "http://mobe.publicvm.com:81/api/products"
+        );
         if (Array.isArray(response.data)) {
           setAllProducts(response.data);
         } else {
