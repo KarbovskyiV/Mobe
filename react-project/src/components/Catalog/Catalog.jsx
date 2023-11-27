@@ -26,7 +26,6 @@ const Catalog = () => {
   );
   const { category, setCategory } = React.useContext(GetCatalogContext);
 
-
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
   const [menuData, setMenuData] = useState([]);
@@ -89,6 +88,8 @@ const Catalog = () => {
   };
 
   const catalogList = category;
+
+  console.log(menuData);
 
   const MenuItem = ({ item }) => {
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);

@@ -4,11 +4,13 @@ import Button from "../../components/Button.jsx";
 import { DesktopContext, MobileContext } from "../../App.js";
 import { useSelector } from "react-redux";
 
+import Promotions from "../../Containers/Promotions/PromotionContainer.jsx";
 import BuyWithUs from "../../components/BuyWithUs/index.jsx";
 import SwiperSlider1 from "../../components/Sliders/SliderProductCard/SwiperSlider1/SwiperSlider1.jsx";
 import SwiperSlider2 from "../../components/Sliders/SliderProductCard/SwiperSlider2/SwiperSlider2.jsx";
 import "./style.scss";
 import ProductCardBox from "../../components/ProductCardBox";
+import IconTick from "../../components/IconTick/";
 
 function ProductCard() {
   const { desktop } = React.useContext(DesktopContext);
@@ -25,6 +27,7 @@ function ProductCard() {
   const [about, setAbout] = React.useState(true);
   const [characteristics, setCharacteristics] = React.useState(false);
   const [reviews, setReviews] = React.useState(false);
+  const [colorActive, setColorActive] = React.useState(1);
 
   function onClickAbout() {
     setAbout(true);
@@ -146,14 +149,18 @@ function ProductCard() {
             className="productCard__cardBox"
           >
             <div className="productCard__card1">
-              {!mobile ? <SwiperSlider1 /> : <SwiperSlider2 />}
+              {!mobile ? (
+                <SwiperSlider1 colorActive={colorActive} />
+              ) : (
+                <SwiperSlider2 colorActive={colorActive} />
+              )}
             </div>
             <div className="productCard__cardPart3">
               {about ? titleProduct2() : ""}
               <div className="productCard__cardBlock1">
                 <div className="productCard__cardBlock11">
                   <p>
-                    Color: <span>Silver</span>
+                    Color: <span>{characteristic.color}</span>
                   </p>
                   <div
                     style={!desktop ? { display: "flex" } : { display: "none" }}
@@ -225,14 +232,28 @@ function ProductCard() {
                   </div>
                 </div>
                 <div className="productCard__colors">
-                  <div className="productCard__color1"></div>
-                  <div className="productCard__color2"></div>
-                  <div className="productCard__color3"></div>
-                  <div className="productCard__color4"></div>
+                  <div
+                    onClick={() => setColorActive(1)}
+                    className="productCard__color1"
+                  >
+                    {colorActive === 1 ? <IconTick /> : ""}
+                  </div>
+                  <div
+                    onClick={() => setColorActive(2)}
+                    className="productCard__color2"
+                  >
+                    {colorActive === 2 ? <IconTick /> : ""}
+                  </div>
+                  <div
+                    onClick={() => setColorActive(3)}
+                    className="productCard__color3"
+                  >
+                    {colorActive === 3 ? <IconTick /> : ""}
+                  </div>
                 </div>
 
                 <p>
-                  Series: <span>iPhone 14 Pro</span>
+                  Series: <span>{characteristic.name}</span>
                 </p>
                 <div className="productCard__buttons">
                   <button>
@@ -242,7 +263,7 @@ function ProductCard() {
                   <button>iPhone 14</button>
                 </div>
                 <p>
-                  Internal memory: <span>256 GB</span>
+                  Internal memory: <span>{characteristic.built_in_memory}</span>
                 </p>
                 <div className="productCard__buttons">
                   <button>
@@ -325,8 +346,8 @@ function ProductCard() {
                 </div>
                 <div className="productCard__cardBlockRight">
                   <div className="productCard__cardBlockPart1">
-                    <p>$ 1194</p>
-                    <h4>$ 1094</h4>
+                    <p>$ {characteristic.price}</p>
+                    <h4>$ {characteristic.price}</h4>
                     <div className="productCard__cardBlockEconomy">
                       <p>Economy:</p>
                       <p>- $ 100</p>
@@ -522,173 +543,260 @@ function ProductCard() {
                   <td>
                     <span>Name of the processor</span>
                   </td>
-                  <td>Apple A16 Bionic</td>
+                  <td>
+                    {!characteristic.name_of_the_processor
+                      ? "-"
+                      : characteristic.name_of_the_processor}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Number of cores</span>
                   </td>
-                  <td>2+4</td>
+                  <td>
+                    {!characteristic.number_of_cores
+                      ? "-"
+                      : characteristic.number_of_cores}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Apple series</span>
                   </td>
-                  <td>Apple Ax Series</td>
+                  <td>Apple series</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Main camera</span>
                   </td>
-                  <td>48 Mp + 12 Мp + 12 Мp + 12 Мp</td>
+                  <td>
+                    {!characteristic.main_camera
+                      ? "-"
+                      : characteristic.main_camera}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Features of the main camera</span>
                   </td>
                   <td>
-                    Auto focus Support for shooting 4K Flash Stabilization
-                    Telephoto lens Ultra wide angle lens
+                    {!characteristic.features_of_the_main_camera
+                      ? "-"
+                      : characteristic.features_of_the_main_camera}
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Number of main cameras</span>
                   </td>
-                  <td>4</td>
+                  <td>
+                    {" "}
+                    {!characteristic.number_of_main_cameras
+                      ? "-"
+                      : characteristic.number_of_main_cameras}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Record video of the main camera</span>
                   </td>
-                  <td>4K/3840x2160/stereo sound</td>
+                  <td>
+                    {" "}
+                    {!characteristic.record_video_of_the_main_camera
+                      ? "-"
+                      : characteristic.record_video_of_the_main_camera}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Additional information on the camera</span>
                   </td>
-                  <td>formats: HEIF, JPEG and DNG</td>
+                  <td>
+                    {!characteristic.additional_information_on_the_camera
+                      ? "-"
+                      : characteristic.additional_information_on_the_camera}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Video recording</span>
                   </td>
-                  <td>Stereo recording</td>
+                  <td>
+                    {!characteristic.video_recording
+                      ? "-"
+                      : characteristic.video_recording}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Stabilization method</span>
                   </td>
-                  <td>Optical</td>
+                  <td>
+                    {!characteristic.stabilization_method
+                      ? "-"
+                      : characteristic.stabilization_method}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Body material</span>
                   </td>
-                  <td>-</td>
+                  <td>
+                    {!characteristic.body_material
+                      ? "-"
+                      : characteristic.body_material}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Connectors</span>
                   </td>
-                  <td>Lightning</td>
+                  <td>
+                    {!characteristic.connectors
+                      ? "-"
+                      : characteristic.connectors}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Navigation</span>
                   </td>
-                  <td>A-GPS BDS GPS GLONASS Digital compass</td>
+                  <td>
+                    {!characteristic.navigation
+                      ? "-"
+                      : characteristic.navigation}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Weight, g</span>
                   </td>
-                  <td>206</td>
+                  <td>
+                    {!characteristic.weight_g ? "-" : characteristic.weight_g}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Dimensions</span>
                   </td>
-                  <td>71.5*147.5*7.85 mm</td>
+                  <td>
+                    {!characteristic.dimensions
+                      ? "-"
+                      : characteristic.dimensions}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Security</span>
                   </td>
-                  <td>Face unlock</td>
+                  <td>
+                    {!characteristic.security ? "-" : characteristic.security}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Degree of dust/moisture protection</span>
                   </td>
-                  <td>IP68</td>
+                  <td>
+                    {!characteristic.degree_of_dust_moisture_protection
+                      ? "-"
+                      : characteristic.degree_of_dust_moisture_protection}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Sensors</span>
                   </td>
                   <td>
-                    Accelerometer Barometer Gyroscope Proximity sensor Light
-                    sensor LiDAR scanner
+                    {!characteristic.sensors ? "-" : characteristic.sensors}
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Supply set</span>
                   </td>
-                  <td>Documentation Synchronization cable Phone</td>
+                  <td>
+                    {!characteristic.supply_set
+                      ? "-"
+                      : characteristic.supply_set}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Wireless technologies</span>
                   </td>
-                  <td>Bluetooth 5.3 NFC Wi-Fi Wireless charging</td>
+                  <td>
+                    {!characteristic.wireless_technologies
+                      ? "-"
+                      : characteristic.wireless_technologies}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Equipment</span>
                   </td>
-                  <td>e-SIM support Fast charging</td>
+                  <td>
+                    {!characteristic.equipment ? "-" : characteristic.equipment}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Form factor</span>
                   </td>
-                  <td>Monobloc</td>
+                  <td>
+                    {!characteristic.form_factor
+                      ? "-"
+                      : characteristic.form_factor}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Features of the case</span>
                   </td>
-                  <td>Frameless display Waterproof</td>
+                  <td>
+                    {!characteristic.features_of_the_case
+                      ? "-"
+                      : characteristic.features_of_the_case}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Color</span>
                   </td>
-                  <td>Silver</td>
+                  <td>{!characteristic.color ? "-" : characteristic.color}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Brand registration country</span>
                   </td>
-                  <td>USA</td>
+                  <td>
+                    {!characteristic.brand_registration_country
+                      ? "-"
+                      : characteristic.brand_registration_country}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Warranty</span>
                   </td>
-                  <td>12 months</td>
+                  <td>
+                    {!characteristic.warranty ? "-" : characteristic.warranty}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Country-producer of the product</span>
                   </td>
-                  <td>China</td>
+                  <td>
+                    {!characteristic.country_producer_of_the_product
+                      ? "-"
+                      : characteristic.country_producer_of_the_product}
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <Promotions />
           <BuyWithUs />
         </div>
       </div>

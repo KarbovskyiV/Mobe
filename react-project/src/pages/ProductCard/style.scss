@@ -123,16 +123,20 @@
 
   &__color1,
   &__color2,
-  &__color3,
-  &__color4 {
+  &__color3 {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    border: 1px solid $greyLight;
-  }
-
-  &__color1 {
     background-color: $violetDark;
+    border: 2px solid $greyLight;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      border: 1px solid $violet;
+    }
   }
 
   &__color2 {
@@ -140,11 +144,7 @@
   }
 
   &__color3 {
-    background-color: $white;
-  }
-
-  &__color4 {
-    background-color: $greyLight;
+    background-color: $violet-400;
   }
 
   &__buttons {
