@@ -67,6 +67,11 @@
 .personal__left {
   display: none;
 }
+.hotprice-personal {
+  max-width: 1110px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
 @media (max-width: 760px) {
   .personal__container {
     gap: 16px;
@@ -96,7 +101,7 @@
   .personal__left {
     display: block;
   }
-  .personal__title-inner{
+  .personal__title-inner {
     display: flex;
     align-items: center;
   }
