@@ -8,7 +8,7 @@ import axios from "axios";
 import Section from "../../components/Section/Section";
 import Title from "../../components/Title/Title";
 
-const HotPriceContainer = () => {
+const HotPriceContainer = ({ className }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const HotPriceContainer = () => {
     fetchData();
   }, []);
   return <>
-    <div className="hotprice__container">
+    <div className={`hotprice__container ${className}`}>
       <Title text="HOT price"/>
       {!data.length ? <div>Loading</div> : <Section data={data} />}
     </div>
