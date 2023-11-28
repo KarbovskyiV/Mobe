@@ -4,6 +4,8 @@ import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
 
+import { useParams } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCompare,
@@ -13,8 +15,13 @@ import {
 import Image from "./Images/image.jpg";
 
 import "./style.scss";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ item, onAddToCart }) => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+
+  const { id } = useParams();
   const dispatch = useDispatch();
   const comparedProducts = useSelector(
     (state) => state.compare.comparedProducts
@@ -36,6 +43,7 @@ const ProductCard = ({ item, onAddToCart }) => {
   useEffect(() => {
     // Перевірка, чи товар вже є у локальному сховищі
     const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
+
     setIsInCart(storedItems.includes(item.id));
   }, [item.id]);
 
@@ -66,7 +74,10 @@ const ProductCard = ({ item, onAddToCart }) => {
           <img src={Image} alt="" />
         </div>
         <div className="section__card-content">
-          <div className="section__card-title">{item.name}</div>
+          <Link to={`/product-card/${item.id}`} className="section__card-title">
+            {item.name}
+          </Link>
+
           <div className="section__card rating">
             <MyRating />
             <div className="rating__revews">198 відгуків</div>
@@ -87,9 +98,9 @@ const ProductCard = ({ item, onAddToCart }) => {
           className={`heart-product ${isHeartSelected ? "selected" : ""}`}
           onClick={() => {
             handleHeartClick();
-            
           }}
         />
+
         <IconsWeight
           className="weght-product"
           onClick={() => {

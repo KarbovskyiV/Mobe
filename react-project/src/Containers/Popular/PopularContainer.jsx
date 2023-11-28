@@ -1,43 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchProducts } from "../../actions/productActions";
 
 import "swiper/css";
 import "swiper/css/pagination";
-
-import axios from "axios";
 
 import Section from "../../components/Section/Section";
 import Title from "../../components/Title/Title";
 
 const PopularContainer = () => {
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://mobe.publicvm.com:81/api/products"
-        );
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-        if (Array.isArray(response.data)) {
-          const slicedData = response.data.slice(12, 16);
-          setData(slicedData);
-        } else {
-          console.log("Дані не є масивом.");
-        }
-      } catch (error) {
-        console.error("Помилка при завантаженні даних:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  const products = useSelector((state) => state.products.products.slice(16, 20));
+  const loading = useSelector((state) => state.products.loading);
+  const error = useSelector((state) => state.products.error);
+
   return (
     <>
       <div className="popular__container">
         <Title text="Popular" />
-        {!data.length ? <div>Loading</div> : <Section data={data} />}
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error: {error}</div>
+        ) : (
+          <Section data={products} />
+        )}
       </div>
     </>
   );
 };
 
 export default PopularContainer;
+

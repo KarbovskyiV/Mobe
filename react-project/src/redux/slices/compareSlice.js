@@ -1,21 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  comparedProducts: [],
-};
-
 const compareSlice = createSlice({
   name: "compare",
-  initialState,
+  initialState: {
+    comparedProducts: [],
+  },
   reducers: {
     addToCompare: (state, action) => {
       const productId = action.payload;
-      const isProductInComparison = state.comparedProducts.includes(productId);
 
-      if (!isProductInComparison) {
+      if (
+        state.comparedProducts.length < 2 &&
+        !state.comparedProducts.includes(productId)
+      ) {
         state.comparedProducts.push(productId);
       } else {
-        console.log("Product already in comparison");
+        console.log(
+          "Cannot add more than 2 products to comparison or product already in comparison"
+        );
       }
     },
     removeFromCompare: (state, action) => {
