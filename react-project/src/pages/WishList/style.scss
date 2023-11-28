@@ -127,9 +127,23 @@
 .wish-hotprice {
   display: none;
 }
+.wish-list__content.hidden {
+display: none;
+}
+.title-inner svg{
+  display: none;
+}
+
+
+
 @media (max-width: 850px) {
   .wish-chat {
     display: flex;
+    margin-bottom: 32px;
+    padding-right: 16px;
+  }
+  .wish-list__card{
+    max-width: 343px;
   }
   .wish-subscribe {
     display: block;
@@ -147,26 +161,48 @@
     padding-left: 15px;
   }
   .wish-list__card {
-    max-width: 240px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    
   }
   .wish-list__card-photo img {
-    max-width: 240px;
+  
     margin-bottom: 0;
   }
   .wish-list__box {
-    gap: 16px;
+    gap: 24px;
     flex-wrap: nowrap;
     flex-direction: column;
+    
+  }
+  .title-inner {
+    display: flex;
+    align-items: center;
+  }
+  .title-inner h3 {
+    margin-bottom: 0;
   }
 }
 @media (max-width: 490px) {
+  .wish-list__close{
+display: none;
+  }
+  .title-inner svg{
+    display: block;
+  }
+  .wish-list__title{
+    background: var(--violet-400, #D4D9E8);
+    cursor: pointer;
+    margin-bottom: 40px;
+  }
   .wish-list__inner {
     display: flex;
+   
   }
-  .wish-list__card-content{
+  .wish-list__card-content {
     padding: 0;
   }
-  .wish-list__container{
+  .wish-list__container {
     display: block;
   }
   .wish-list__admin {
@@ -213,11 +249,14 @@
   .wish-flex {
     padding: 5px;
   }
-  .wish-list__price{
-gap: 30px;
+  .wish-list__price {
+    gap: 30px;
   }
-  .wish-list__title h3{
-font-size: 16px;
+  .wish-list__title h3 {
+    font-size: 16px;
   }
-
-}
+  .wish-list__admin.visible{
+    display: block;
+  }
+ 
+ }

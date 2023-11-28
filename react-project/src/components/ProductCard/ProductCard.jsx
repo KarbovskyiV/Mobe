@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
 
-import { useDispatch } from "react-redux";
-import { addToCompare } from "../../redux/slices/compareSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCompare,
+  removeFromCompare,
+} from "../../redux/slices/compareSlice";
 
 import Image from "./Images/image.jpg";
 
@@ -13,15 +16,47 @@ import "./style.scss";
 
 const ProductCard = ({ item, onAddToCart }) => {
   const dispatch = useDispatch();
-  const handleAddToCompare = () => {
-    dispatch(addToCompare());
+  const comparedProducts = useSelector(
+    (state) => state.compare.comparedProducts
+  );
+
+  const handleAddToCompare = (productId) => {
+    dispatch(addToCompare(productId));
   };
 
+  const handleRemoveFromCompare = (productId) => {
+    dispatch(removeFromCompare(productId));
+  };
+
+  const isProductInComparison = comparedProducts.includes(item.id);
+
   const [isHeartSelected, setHeartSelected] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
+
+  useEffect(() => {
+    // Перевірка, чи товар вже є у локальному сховищі
+    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
+    setIsInCart(storedItems.includes(item.id));
+  }, [item.id]);
 
   const handleHeartClick = () => {
     setHeartSelected(!isHeartSelected);
     onAddToCart(item.id);
+  };
+
+  const handleAddToCartClick = () => {
+    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (isInCart) {
+      // Видалення товару з локального сховища
+      const updatedItems = storedItems.filter((id) => id !== item.id);
+      localStorage.setItem("cart", JSON.stringify(updatedItems));
+      setIsInCart(false);
+    } else {
+      // Додавання товару до локального сховища
+      localStorage.setItem("cart", JSON.stringify([...storedItems, item.id]));
+      setIsInCart(true);
+    }
   };
 
   return (
@@ -44,19 +79,26 @@ const ProductCard = ({ item, onAddToCart }) => {
           </div>
           <Button
             type="violet"
-            title="Add to cart"
-            onClick={() => onAddToCart(item.id)}
+            title={"Add to Cart"}
+            onClick={handleAddToCartClick}
           />
         </div>
         <IconsHeart
           className={`heart-product ${isHeartSelected ? "selected" : ""}`}
-          onClick={handleHeartClick}
+          onClick={() => {
+            handleHeartClick();
+            
+          }}
         />
         <IconsWeight
           className="weght-product"
           onClick={() => {
             onAddToCart(item.id);
-            handleAddToCompare();
+            if (isProductInComparison) {
+              handleRemoveFromCompare(item.id);
+            } else {
+              handleAddToCompare(item.id);
+            }
           }}
         />
       </div>

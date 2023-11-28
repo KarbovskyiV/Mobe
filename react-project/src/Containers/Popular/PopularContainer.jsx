@@ -17,12 +17,10 @@ const PopularContainer = () => {
         const response = await axios.get(
           "http://mobe.publicvm.com:81/api/products"
         );
-        console.log("popular", data);
 
         if (Array.isArray(response.data)) {
           const slicedData = response.data.slice(12, 16);
           setData(slicedData);
-          
         } else {
           console.log("Дані не є масивом.");
         }
@@ -32,14 +30,14 @@ const PopularContainer = () => {
     };
     fetchData();
   }, []);
-  return <>
-    <div className="popular__container">
-      <Title text="Popular"/>
-      {!data.length ? <div>Loading</div> : <Section data={data} />}
-    </div>
-  
-  
-  </>;
+  return (
+    <>
+      <div className="popular__container">
+        <Title text="Popular" />
+        {!data.length ? <div>Loading</div> : <Section data={data} />}
+      </div>
+    </>
+  );
 };
 
 export default PopularContainer;

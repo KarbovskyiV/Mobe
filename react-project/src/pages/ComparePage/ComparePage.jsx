@@ -8,18 +8,27 @@ import IconsWeight from "../../components/IconsWeight/IconsWeight";
 import Title from "../../components/Title/Title";
 import { ReactComponent as Close } from "./images/close.svg";
 
+import { useSelector } from "react-redux";
+
 import Image from "./images/1.jpg"
 
-import "./style.scss";
+
 
 import Section from "../../components/Section/Section";
 import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
+
+import "./style.scss";
 
 const ComparePage = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [comparedProducts, setComparedProducts] = useState([]);
   const [showDifferences, setShowDifferences] = useState(false);
 
+  const characteristic = useSelector(
+    (state) => state.cardReducer.characteristics
+  );
+  console.log(characteristic, "characteristics2");
+  
   const toggleDifferences = () => {
     setShowDifferences((prevShowDifferences) => !prevShowDifferences);
   };
@@ -89,7 +98,7 @@ const ComparePage = () => {
                     <img src={Image} alt="" />
                   </div>
                   <div className="compare__card-content">
-                    <div className="compare__card-title">{product.title}</div>
+                    <div className="compare__card-title">{product.name}</div>
                     <div className="compare__card rating">
                       <MyRating />
                       <div className="rating__revews">198 відгуків</div>
@@ -177,6 +186,7 @@ const ComparePage = () => {
         )}
 
         <HotPriceContainer />
+        
       </div>
     </div>
   );
