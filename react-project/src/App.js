@@ -242,6 +242,10 @@ function App() {
                                                 element={<ProductCard />}
                                               />
                                               <Route
+                                                path={`/product-card/:id`}
+                                                element={<ProductCard />}
+                                              />
+                                              <Route
                                                 path="/reset-password"
                                                 element={<ResetPassword />}
                                               />

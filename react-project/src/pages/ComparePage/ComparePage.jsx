@@ -1,52 +1,82 @@
 // ComparePage.jsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
+//import axios from "axios";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import MyRating from "../../components/MyRating/MyRating";
 import Button from "../../components/Button";
 import IconsHeart from "../../components/IconsHeart/IconsHeart";
 import IconsWeight from "../../components/IconsWeight/IconsWeight";
 import Title from "../../components/Title/Title";
 import { ReactComponent as Close } from "./images/close.svg";
+import { fetchProducts } from "../../actions/productActions";
 
-import Image from "./images/1.jpg"
-
-import "./style.scss";
+import Image from "./images/1.jpg";
 
 import Section from "../../components/Section/Section";
 import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
 
+import "./style.scss";
+import PageLink from "../../components/PageLink/PageLink";
+
 const ComparePage = () => {
-  const [allProducts, setAllProducts] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  const products = useSelector((state) => state.products.products);
+  console.log("products", products);
+  //const loading = useSelector((state) => state.products.loading);
+  //const error = useSelector((state) => state.products.error);
+
+  //const [allProducts, setAllProducts] = useState([]);
   const [comparedProducts, setComparedProducts] = useState([]);
+
   const [showDifferences, setShowDifferences] = useState(false);
 
   const toggleDifferences = () => {
     setShowDifferences((prevShowDifferences) => !prevShowDifferences);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://mobe.publicvm.com:81/api/products"
-        );
-        if (Array.isArray(response.data)) {
-          setAllProducts(response.data);
-        } else {
-          console.log("Дані не є масивом.");
-        }
-      } catch (error) {
-        console.error("Помилка при завантаженні даних:", error);
-      }
-    };
+  //useEffect(() => {
+  //  const fetchData = async () => {
+  //    try {
+  //      const response = await axios.get(
+  //        "http://mobe.publicvm.com:81/api/products"
+  //      );
+  //      if (Array.isArray(response.data)) {
+  //        setAllProducts(response.data);
+  //      } else {
+  //        console.log("Дані не є масивом.");
+  //      }
+  //    } catch (error) {
+  //      console.error("Помилка при завантаженні даних:", error);
+  //    }
+  //  };
 
-    fetchData();
+  //  fetchData();
+  //}, []);
+
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("cart"); // Викликається при виході з компоненту
+    };
   }, []);
 
   useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
-    const firstTwoItems = storedItems.slice(0, 2);
-    setComparedProducts(firstTwoItems);
+    console.log("storedItems", storedItems);
+    if (storedItems.length > 2) {
+      const lastTwoItems = storedItems.slice(-2);
+      localStorage.setItem("cart", JSON.stringify(lastTwoItems));
+      setComparedProducts(lastTwoItems);
+    } else {
+      setComparedProducts(storedItems);
+    }
   }, []);
 
   const handleClearComparison = (productId) => {
@@ -58,17 +88,19 @@ const ComparePage = () => {
     setComparedProducts(updatedComparedProducts);
   };
 
-  if (!Array.isArray(allProducts)) {
+  if (!Array.isArray(products)) {
     return <div>Завантаження...</div>;
   }
 
-  const comparedProductsData = allProducts.filter((product) =>
+  const comparedProductsData = products.filter((product) =>
     comparedProducts.includes(product.id)
   );
+  console.log("comparedProducts", comparedProducts);
 
   return (
     <div className="compare__section">
       <div className="compare__container">
+        <PageLink />
         <div className="compare__title">
           <Title text="Comparable goods" />
         </div>
@@ -89,7 +121,7 @@ const ComparePage = () => {
                     <img src={Image} alt="" />
                   </div>
                   <div className="compare__card-content">
-                    <div className="compare__card-title">{product.title}</div>
+                    <div className="compare__card-title">{product.name}</div>
                     <div className="compare__card rating">
                       <MyRating />
                       <div className="rating__revews">198 відгуків</div>

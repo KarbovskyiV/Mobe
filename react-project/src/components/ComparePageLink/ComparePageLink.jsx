@@ -5,8 +5,9 @@ import "./style.scss";
 
 const ComparePageLink = () => {
   const comparedProductsCount = useSelector(
-    (state) => state.compare.comparedProductsCount
+    (state) => state.compare.comparedProducts.length
   );
+
 
   return (
     <a href="/compare">
