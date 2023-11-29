@@ -4,12 +4,12 @@ import Right from "./Images/right.png";
 
 import style from "./style.scss"
 
-const PageLink = () => {
+const PageLink = ({text}) => {
 	return (
     <div className="link__page">
       <a href="/">Main</a>
       <img src={Right} alt="" />
-      <a href="">Comparable goods</a>
+      <a href="">{text}</a>
     </div>
   );
 };

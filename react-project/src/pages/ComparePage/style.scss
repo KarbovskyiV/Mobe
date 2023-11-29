@@ -137,3 +137,13 @@
   top: 8px;
   right: 8px;
 }
+@media(max-width:1000px){
+  .compare__content{
+    padding-left: 0;
+    gap: 80px;
+    justify-content: center;
+  }
+  .choice {
+    justify-content: center;
+  }
+}
