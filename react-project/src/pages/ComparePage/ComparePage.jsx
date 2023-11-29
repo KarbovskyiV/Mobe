@@ -100,7 +100,7 @@ const ComparePage = () => {
   return (
     <div className="compare__section">
       <div className="compare__container">
-        <PageLink />
+        <PageLink text="Comparable goods" />
         <div className="compare__title">
           <Title text="Comparable goods" />
         </div>

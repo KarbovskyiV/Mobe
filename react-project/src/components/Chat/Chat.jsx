@@ -11,12 +11,14 @@ const Chat = ({ onClick, className, selected }) => {
     }
   };
   return (
-    <div
-      className={`chat ${className} ${selected ? "selected" : ""}`}
-      onClick={handleClick}
-    >
-     <Chats/>
-    </div>
+   <a href="/order-page">
+      <div
+        className={`chat ${className} ${selected ? "selected" : ""}`}
+        onClick={handleClick}
+      >
+       <Chats/>
+      </div>
+   </a>
   );
 };
 
