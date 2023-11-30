@@ -4,7 +4,7 @@ import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
 
-import { useParams } from "react-router-dom";
+import { likeProduct } from "../../actions/toogleLike";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,14 +18,12 @@ import "./style.scss";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ item, onAddToCart }) => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-
-  const { id } = useParams();
   const dispatch = useDispatch();
   const comparedProducts = useSelector(
     (state) => state.compare.comparedProducts
   );
+  const products = useSelector((state) => state.products.products);
+  console.log("products", products);
 
   const handleAddToCompare = (productId) => {
     dispatch(addToCompare(productId));
@@ -34,38 +32,14 @@ const ProductCard = ({ item, onAddToCart }) => {
   const handleRemoveFromCompare = (productId) => {
     dispatch(removeFromCompare(productId));
   };
-
-  const isProductInComparison = comparedProducts.includes(item.id);
-
-  const [isHeartSelected, setHeartSelected] = useState(false);
-  const [isInCart, setIsInCart] = useState(false);
-
-  useEffect(() => {
-    // Перевірка, чи товар вже є у локальному сховищі
-    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-    setIsInCart(storedItems.includes(item.id));
-  }, [item.id]);
-
+  const isProductLiked = products.find(
+    (product) => product.id === item.id
+  )?.like;
   const handleHeartClick = () => {
-    setHeartSelected(!isHeartSelected);
-    onAddToCart(item.id);
+    dispatch(likeProduct(item.id));
   };
-
-  const handleAddToCartClick = () => {
-    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-    if (isInCart) {
-      // Видалення товару з локального сховища
-      const updatedItems = storedItems.filter((id) => id !== item.id);
-      localStorage.setItem("cart", JSON.stringify(updatedItems));
-      setIsInCart(false);
-    } else {
-      // Додавання товару до локального сховища
-      localStorage.setItem("cart", JSON.stringify([...storedItems, item.id]));
-      setIsInCart(true);
-    }
-  };
+  console.log("likeProduct", likeProduct);
+  const isProductInComparison = comparedProducts.includes(item.id);
 
   return (
     <div className="section__card">
@@ -88,17 +62,11 @@ const ProductCard = ({ item, onAddToCart }) => {
             <div className="section__card-oldprice">$ 250.99</div>
             <div className="section__card-newprice">{item.price}$</div>
           </div>
-          <Button
-            type="violet"
-            title={"Add to Cart"}
-            onClick={handleAddToCartClick}
-          />
+          <Button type="violet" title={"Add to Cart"} />
         </div>
         <IconsHeart
-          className={`heart-product ${isHeartSelected ? "selected" : ""}`}
-          onClick={() => {
-            handleHeartClick();
-          }}
+          className={`heart-product ${isProductLiked ? "selected" : ""}`}
+          onClick={handleHeartClick}
         />
 
         <IconsWeight
