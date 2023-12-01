@@ -42,11 +42,11 @@
   }
 
   &__Tablet {
-    width: 100%;
     height: 80px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 0 40px;
   }
 
   &__rating-stars {
@@ -65,12 +65,23 @@
   }
 
   &__price {
-    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /* margin-top: 32px; */
     align-items: center;
+    gap: 24px;
+    p {
+      color: $black;
+      font-weight: 700;
+    }
+  }
+
+  &__image_title {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
     p {
       color: $black;
       font-weight: 700;

@@ -106,7 +106,9 @@ const SignIn = () => {
 
   const noCyrillic = (e) =>
     e.isDirty &&
-    e.noCyrillic && <div className={styles.error}>Cyrillic symbols not allowed</div>;
+    e.noCyrillic && (
+      <div className={styles.error}>Cyrillic symbols not allowed</div>
+    );
 
   const digits = (e) =>
     e.isDirty &&
@@ -114,7 +116,9 @@ const SignIn = () => {
 
   const upperCaseLetter = (e) =>
     e.isDirty &&
-    e.upperCaseLetter && <div className={styles.error}>Must have at least 1 upper case letter</div>;
+    e.upperCaseLetter && (
+      <div className={styles.error}>Must have at least 1 upper case letter</div>
+    );
 
   const isLendth = (e, x) =>
     e.isDirty &&

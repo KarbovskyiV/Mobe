@@ -12,12 +12,14 @@ import {
   removeFromCompare,
 } from "../../redux/slices/compareSlice";
 
+import { addItem } from "../../redux/slices/cartAdd";
+
 import Image from "./Images/image.jpg";
 
 import "./style.scss";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ item, onAddToCart }) => {
+const ProductCard = ({ item, onAddToCart, title, img, price }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
 
@@ -67,6 +69,16 @@ const ProductCard = ({ item, onAddToCart }) => {
     }
   };
 
+  const addIntoCart = () => {
+    const itemCart = {
+      id: item.id,
+      title: item.name,
+      price: item.price,
+      img: Image,
+    };
+    dispatch(addItem(itemCart));
+  };
+
   return (
     <div className="section__card">
       <div className="section__inner">
@@ -91,7 +103,8 @@ const ProductCard = ({ item, onAddToCart }) => {
           <Button
             type="violet"
             title={"Add to Cart"}
-            onClick={handleAddToCartClick}
+            /* onClick={handleAddToCartClick} */
+            onClick={addIntoCart}
           />
         </div>
         <IconsHeart
