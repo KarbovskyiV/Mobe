@@ -6,12 +6,13 @@ import IconsWeight from "../IconsWeight/IconsWeight";
 
 import { useDispatch } from "react-redux";
 import { addToCompare } from "../../redux/slices/compareSlice";
+import { addItem } from "../../redux/slices/cartAdd";
 
 import Image from "./Images/image.jpg";
 
 import "./style.scss";
 
-const ProductCard = ({ item, onAddToCart }) => {
+const ProductCard = ({ item, id, title, price, img, onAddToCart }) => {
   const dispatch = useDispatch();
   const handleAddToCompare = () => {
     dispatch(addToCompare());
@@ -22,6 +23,16 @@ const ProductCard = ({ item, onAddToCart }) => {
   const handleHeartClick = () => {
     setHeartSelected(!isHeartSelected);
     onAddToCart(item.id);
+  };
+
+  const addIntoCart = () => {
+    const item = {
+      id,
+      title,
+      price,
+      img,
+    };
+    dispatch(addItem(item));
   };
 
   return (

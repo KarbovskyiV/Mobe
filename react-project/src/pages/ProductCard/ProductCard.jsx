@@ -11,6 +11,7 @@ import SwiperSlider2 from "../../components/Sliders/SliderProductCard/SwiperSlid
 import "./style.scss";
 import ProductCardBox from "../../components/ProductCardBox";
 import IconTick from "../../components/IconTick/";
+import Subscribe from "../../components/Subscribe/Subscribe.jsx";
 
 function ProductCard() {
   const { desktop } = React.useContext(DesktopContext);
@@ -347,7 +348,7 @@ function ProductCard() {
                 <div className="productCard__cardBlockRight">
                   <div className="productCard__cardBlockPart1">
                     <p>$ {characteristic.price}</p>
-                    <h4>$ {characteristic.price}</h4>
+                    <h4>$ {characteristic.price - 100}</h4>
                     <div className="productCard__cardBlockEconomy">
                       <p>Economy:</p>
                       <p>- $ 100</p>
@@ -798,6 +799,7 @@ function ProductCard() {
           </div>
           <Promotions />
           <BuyWithUs />
+          <Subscribe />
         </div>
       </div>
 
