@@ -46,6 +46,7 @@ const Catalog = () => {
         .get("/products")
         .then((res) => {
           setMenuData(res.data);
+          console.log("setMenuData", setMenuData);
           const transformedData = transformData(res.data);
 
           setCategory(transformedData);

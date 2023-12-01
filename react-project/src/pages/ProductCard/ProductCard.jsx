@@ -1,5 +1,8 @@
 import React from "react";
 
+import { useParams } from "react-router-dom";
+
+
 import Button from "../../components/Button.jsx";
 import { DesktopContext, MobileContext } from "../../App.js";
 import { useSelector } from "react-redux";
@@ -14,6 +17,7 @@ import IconTick from "../../components/IconTick/";
 import Subscribe from "../../components/Subscribe/Subscribe.jsx";
 
 function ProductCard() {
+  const { id } = useParams();
   const { desktop } = React.useContext(DesktopContext);
   const { mobile } = React.useContext(MobileContext);
 

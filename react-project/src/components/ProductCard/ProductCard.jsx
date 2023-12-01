@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
@@ -6,33 +6,41 @@ import IconsWeight from "../IconsWeight/IconsWeight";
 
 import { useDispatch } from "react-redux";
 import { addToCompare } from "../../redux/slices/compareSlice";
-import { addItem } from "../../redux/slices/cartAdd";
 
 import Image from "./Images/image.jpg";
 
 import "./style.scss";
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ item, id, title, price, img, onAddToCart }) => {
+const ProductCard = ({ item, onAddToCart }) => {
   const dispatch = useDispatch();
-  const handleAddToCompare = () => {
-    dispatch(addToCompare());
+  const comparedProducts = useSelector(
+    (state) => state.compare.comparedProducts
+  );
+
+  const handleAddToCompare = (productId) => {
+    dispatch(addToCompare(productId));
   };
 
+  const handleRemoveFromCompare = (productId) => {
+    dispatch(removeFromCompare(productId));
+  };
+
+  const isProductInComparison = comparedProducts.includes(item.id);
+
   const [isHeartSelected, setHeartSelected] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
+
+  useEffect(() => {
+    // Перевірка, чи товар вже є у локальному сховищі
+    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+    setIsInCart(storedItems.includes(item.id));
+  }, [item.id]);
 
   const handleHeartClick = () => {
     setHeartSelected(!isHeartSelected);
     onAddToCart(item.id);
-  };
-
-  const addIntoCart = () => {
-    const item = {
-      id,
-      title,
-      price,
-      img,
-    };
-    dispatch(addItem(item));
   };
 
   return (
@@ -42,7 +50,10 @@ const ProductCard = ({ item, id, title, price, img, onAddToCart }) => {
           <img src={Image} alt="" />
         </div>
         <div className="section__card-content">
-          <div className="section__card-title">{item.name}</div>
+          <Link to={`/product-card/${item.id}`} className="section__card-title">
+            {item.name}
+          </Link>
+
           <div className="section__card rating">
             <MyRating />
             <div className="rating__revews">198 відгуків</div>
@@ -55,19 +66,26 @@ const ProductCard = ({ item, id, title, price, img, onAddToCart }) => {
           </div>
           <Button
             type="violet"
-            title="Add to cart"
-            onClick={() => onAddToCart(item.id)}
+            title={"Add to Cart"}
+            onClick={handleAddToCartClick}
           />
         </div>
         <IconsHeart
           className={`heart-product ${isHeartSelected ? "selected" : ""}`}
-          onClick={handleHeartClick}
+          onClick={() => {
+            handleHeartClick();
+          }}
         />
+
         <IconsWeight
           className="weght-product"
           onClick={() => {
             onAddToCart(item.id);
-            handleAddToCompare();
+            if (isProductInComparison) {
+              handleRemoveFromCompare(item.id);
+            } else {
+              handleAddToCompare(item.id);
+            }
           }}
         />
       </div>

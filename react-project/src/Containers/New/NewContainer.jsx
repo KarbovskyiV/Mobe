@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchProducts } from "../../actions/productActions";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
-import axios from "axios";
+
 
 import Section from "../../components/Section/Section";
 import Title from "../../components/Title/Title";
 
 const NewContainer = () => {
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://mobe.publicvm.com:81/api/products"
-        );
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-        if (Array.isArray(response.data)) {
-          const slicedData = response.data.slice(8, 12);
-          setData(slicedData);
-        } else {
-          console.log("Дані не є масивом.");
-        }
-      } catch (error) {
-        console.error("Помилка при завантаженні даних:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  const products = useSelector((state) =>
+    state.products.products.slice(12, 16)
+  );
+  const loading = useSelector((state) => state.products.loading);
+  const error = useSelector((state) => state.products.error);
+
   return (
     <>
       <div className="new__container">
         <Title text="New" />
-        {!data.length ? <div>Loading</div> : <Section data={data} />}
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error: {error}</div>
+        ) : (
+          <Section data={products} />
+        )}
       </div>
     </>
   );
