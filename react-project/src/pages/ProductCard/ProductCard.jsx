@@ -1,5 +1,8 @@
 import React from "react";
 
+import { useParams } from "react-router-dom";
+
+
 import Button from "../../components/Button.jsx";
 import { DesktopContext, MobileContext } from "../../App.js";
 import { useSelector } from "react-redux";
@@ -11,6 +14,7 @@ import "./style.scss";
 import ProductCardBox from "../../components/ProductCardBox";
 
 function ProductCard() {
+  const { id } = useParams();
   const { desktop } = React.useContext(DesktopContext);
   const { mobile } = React.useContext(MobileContext);
 

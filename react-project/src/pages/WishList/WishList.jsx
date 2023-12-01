@@ -2,19 +2,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MyRating from "../../components/MyRating/MyRating";
-import Button from "../../components/Button";
+
 import IconsHeart from "../../components/IconsHeart/IconsHeart";
 import IconsWeight from "../../components/IconsWeight/IconsWeight";
 
 import { ReactComponent as Close } from "../ComparePage/images/close.svg";
+import { ReactComponent as Left } from "./Images/left.svg";
 
 import Title from "../../components/Title/Title";
 
 import Image from "./Images/1.png";
 
-import Buy from "./Images/2.png";
-
-import "./style.scss";
 import AdminLink from "../../components/AdminLink/AdminLink";
 import Chat from "../../components/Chat/Chat";
 import Subscribe from "../../components/Subscribe/Subscribe";
@@ -23,9 +21,25 @@ import Btn from "../../components/Btn/Btn";
 import More from "../../components/IconMore/IconMore";
 import MoreBtn from "../../components/IconMore/IconMore";
 
+import "./style.scss";
+import Button from "../../components/Button";
+
 const WishList = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const [allProducts, setAllProducts] = useState([]);
   const [comparedProducts, setComparedProducts] = useState([]);
+  const [isContentHidden, setIsContentHidden] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +78,9 @@ const WishList = () => {
   if (!Array.isArray(allProducts)) {
     return <div>Завантаження...</div>;
   }
-
+  const handleTitleClick = () => {
+    setIsContentHidden(!isContentHidden);
+  };
   const comparedProductsData = allProducts.filter((product) =>
     comparedProducts.includes(product.id)
   );
@@ -72,15 +88,20 @@ const WishList = () => {
   return (
     <div className="wish-list__section">
       <div className="wish-list__container">
-        <div className="wish-list__admin">
+        <div className={`wish-list__admin ${isContentHidden ? "visible" : ""}`}>
           <h2>Hello, USER</h2>
           <div className="wish-list__admin_inner">
             <AdminLink />
           </div>
         </div>
-        <div className="wish-list__content">
-          <div className="wish-list__title">
-            <Title text="Wish list" />
+        <div
+          className={`wish-list__content ${isContentHidden ? "hidden" : ""}`}
+        >
+          <div onClick={handleTitleClick} className="wish-list__title">
+            <div className="title-inner">
+              <Left />
+              <Title text="Wish list" />
+            </div>
           </div>
           <div className="wish-list__box">
             {comparedProductsData.length > 0 ? (
@@ -96,10 +117,12 @@ const WishList = () => {
                       <Close />{" "}
                     </button>
                   </div>
+
                   <div className="wish-list__inner">
                     <div className="wish-list__card-photo">
                       <img src={Image} alt="" />
                     </div>
+
                     <div className="wish-flex">
                       <div className="wish-list__card-content">
                         <div className="wish-list__card-title">
@@ -119,7 +142,11 @@ const WishList = () => {
                             {product.price}$
                           </div>
                         </div>
-                        <Btn />
+                        {windowWidth >= 490 ? (
+                          <Button type="violet" title="Add to cart" />
+                        ) : (
+                          <Btn />
+                        )}
                       </div>
                     </div>
                     <IconsHeart className="heart-wish" />

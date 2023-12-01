@@ -1,24 +1,33 @@
-// compareSlice.js (или ваш редюсер для сравнения товаров)
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-  comparedProductsCount: 0,
- 
-};
 
 const compareSlice = createSlice({
   name: "compare",
-  initialState,
+  initialState: {
+    comparedProducts: [],
+  },
   reducers: {
-    addToCompare: (state) => {
-      state.comparedProductsCount += 1;
+    addToCompare: (state, action) => {
+      const productId = action.payload;
+
+      if (
+        state.comparedProducts.length < 2 &&
+        !state.comparedProducts.includes(productId)
+      ) {
+        state.comparedProducts.push(productId);
+      } else {
+        console.log(
+          "Cannot add more than 2 products to comparison or product already in comparison"
+        );
+      }
     },
     removeFromCompare: (state, action) => {
-      const index = state.comparedProducts.findIndex(
-        (product) => product.id === action.payload
-      );
+      const productId = action.payload;
+      const index = state.comparedProducts.findIndex((id) => id === productId);
+
       if (index !== -1) {
         state.comparedProducts.splice(index, 1);
+      } else {
+        console.log("Product not found in comparison");
       }
     },
   },
