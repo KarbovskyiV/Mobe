@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
-
-import { likeProduct } from "../../actions/toogleLike";
-
+import { likeProduct, dislikeProduct } from "../../actions/toogleLike";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCompare,
@@ -13,7 +11,6 @@ import {
 } from "../../redux/slices/compareSlice";
 
 import Image from "./Images/image.jpg";
-
 import "./style.scss";
 import { Link } from "react-router-dom";
 
@@ -32,13 +29,19 @@ const ProductCard = ({ item, onAddToCart }) => {
   const handleRemoveFromCompare = (productId) => {
     dispatch(removeFromCompare(productId));
   };
+
   const isProductLiked = products.find(
     (product) => product.id === item.id
   )?.like;
+
   const handleHeartClick = () => {
-    dispatch(likeProduct(item.id));
+    if (isProductLiked) {
+      dispatch(dislikeProduct(item.id)); 
+    } else {
+      dispatch(likeProduct(item.id)); 
+    }
   };
-  console.log("likeProduct", likeProduct);
+
   const isProductInComparison = comparedProducts.includes(item.id);
 
   return (
