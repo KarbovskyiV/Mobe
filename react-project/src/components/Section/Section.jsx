@@ -10,7 +10,7 @@ import style from "./style.scss";
 
 const Section = ({ data }) => {
   const [isMobile, setIsMobile] = useState(false);
- 
+
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,6 @@ const Section = ({ data }) => {
 
   const handleAddToCart = (productId) => {
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-  
 
     if (!cartItems.includes(productId)) {
       cartItems.push(productId);
@@ -57,7 +56,7 @@ const Section = ({ data }) => {
               <ProductCard
                 key={index}
                 item={item}
-                onAddToCart={handleAddToCart}
+                /*  onAddToCart={handleAddToCart} */
               />
             ))}
           </div>

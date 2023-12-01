@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: $violet;
+  /* background-color: $violet; */
   height: 100%;
 }
 
@@ -28,7 +28,33 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  width: 100%;
+
+  p {
+    margin-left: 5px;
+    color: $violet;
+    font-weight: 700;
+  }
+}
+
+.empty {
+  padding: 10px;
+  border: 1px solid $greyLight;
+  margin: 20px auto;
+  width: 100%;
+  border-radius: 4px;
+
+  &__text {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  h2 {
+    color: $violetDark;
+  }
 }
 
 .auto-button {

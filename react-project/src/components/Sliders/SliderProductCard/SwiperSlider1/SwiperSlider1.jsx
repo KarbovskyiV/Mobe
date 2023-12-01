@@ -8,20 +8,139 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
-import slide1 from "../../../../assets/img/slideProduct/image1.jpg";
-import slide2 from "../../../../assets/img/slideProduct/image2.jpg";
-import slide3 from "../../../../assets/img/slideProduct/image3.jpg";
-import slide4 from "../../../../assets/img/slideProduct/image4.jpg";
-import slide5 from "../../../../assets/img/slideProduct/image5.jpg";
-
 import "./style.scss";
 
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
-export default function SwiperSlider() {
+export default function SwiperSlider({ colorActive }) {
   const { desktop } = React.useContext(DesktopContext);
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+  const colorFoto = () => {
+    if (colorActive === 1) {
+      return "./images/Purple/purpleDesktop.jpg";
+    } else if (colorActive === 2) {
+      return "./images/Black/blackDesktop.jpg";
+    } else return "./images/Silver/imageBig1.jpg";
+  };
+
+  const silverVertical = [
+    {
+      src: "./images/SilverVertical/image1.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image2.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image3.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image4.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image5.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image1.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image2.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image3.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image4.jpg",
+    },
+    {
+      src: "./images/SilverVertical/image5.jpg",
+    },
+  ];
+
+  const blackVertical = [
+    {
+      src: "./images/BlackVertical/image1.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image2.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image3.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image4.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image5.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image1.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image2.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image3.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image4.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image5.jpg",
+    },
+  ];
+
+  const purpleVertical = [
+    {
+      src: "./images/PurpleVertical/image1.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image2.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image3.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image4.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image5.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image1.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image2.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image3.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image4.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image5.jpg",
+    },
+  ];
+
+  const colorSlides = () => {
+    if (colorActive === 1) {
+      return purpleVertical;
+    } else if (colorActive === 2) {
+      return blackVertical;
+    } else {
+      return silverVertical;
+    }
+  };
+
+  const slidesRender = colorSlides().map((ob, i) => {
+    return (
+      <SwiperSlide key={i}>
+        <img className="slide-images2" src={ob.src} alt="slide" />
+      </SwiperSlide>
+    );
+  });
 
   return (
     <>
@@ -38,36 +157,7 @@ export default function SwiperSlider() {
           direction="vertical"
           className="mySwiper1"
         >
-          <SwiperSlide>
-            <img className="slide-images2" src={slide1} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide2} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide3} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide4} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide5} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide1} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide2} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide3} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide4} alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="slide-images2" src={slide5} alt="slide" />
-          </SwiperSlide>
+          {slidesRender}
         </Swiper>
 
         {/* Slider big  */}
@@ -89,9 +179,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -100,9 +188,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -111,9 +197,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -122,9 +206,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -133,9 +215,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -144,9 +224,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -155,9 +233,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -166,9 +242,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -177,9 +251,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />
@@ -188,9 +260,7 @@ export default function SwiperSlider() {
             <img
               className="slide-img2"
               src={
-                desktop
-                  ? "./images/imageBig1.jpg"
-                  : "./images/imageBig1Tablet.jpg"
+                desktop ? colorFoto() : "./images/Silver/imageBig1Tablet.jpg"
               }
               alt="slide"
             />

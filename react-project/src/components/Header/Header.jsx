@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Logo from "../Logo.jsx";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   SignInActiveContext,
   userContext,
@@ -24,6 +25,9 @@ import "./style.scss";
 import WishListPageLink from "../WishListPageLink/WishListPageLink.jsx";
 
 function Header() {
+  const { items } = useSelector((state) => state.cartAdd);
+  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+
   const { setSignInActive } = React.useContext(SignInActiveContext);
 
   const { setUser } = React.useContext(userContext);
@@ -329,7 +333,7 @@ function Header() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <div className="header__count">{totalCountShoppingCart}</div>
+                <div className="header__count">{totalCount}</div>
               </div>
             </div>
           </div>

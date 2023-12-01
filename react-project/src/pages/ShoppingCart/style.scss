@@ -11,7 +11,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: scroll;
 }
 
 .shoppingcart__window {
@@ -25,6 +24,7 @@
   padding: 32px 97px 80px 97px;
   align-items: center;
   gap: 26px;
+  height: 650px;
 }
 
 .shoppingcart__box {
@@ -34,6 +34,8 @@
   width: 100%;
   height: 100%;
   padding: 0 65px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .shoppingcart__krestik {
@@ -45,7 +47,7 @@
 .shoppingcart__cart {
   display: flex;
   flex-direction: column;
-  height: 55%;
+  /* height: 55%; */
   width: 100%;
 
   h4 {
@@ -68,8 +70,14 @@
 
 .shoppingcart__img {
   img {
-    width: auto;
+    width: 170px;
+    height: 170px;
   }
+}
+
+.delete_svg,
+.fav_svg {
+  cursor: pointer;
 }
 
 .shoppingcart__down {
@@ -88,8 +96,7 @@
 .shoppingcart__add {
   display: flex;
   flex-direction: column;
-  /* width: 50%; */
-  justify-content: space-between;
+  justify-content: space-around;
 
   label {
     font-size: 20px;
