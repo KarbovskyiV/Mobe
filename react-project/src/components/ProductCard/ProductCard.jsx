@@ -4,15 +4,26 @@ import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
 
-import { useDispatch } from "react-redux";
-import { addToCompare } from "../../redux/slices/compareSlice";
+import { useParams } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCompare,
+  removeFromCompare,
+} from "../../redux/slices/compareSlice";
+
+import { addItem } from "../../redux/slices/cartAdd";
 
 import Image from "./Images/image.jpg";
 
 import "./style.scss";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ item, onAddToCart }) => {
+const ProductCard = ({ item, onAddToCart, title, img, price }) => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+
+  const { id } = useParams();
   const dispatch = useDispatch();
   const comparedProducts = useSelector(
     (state) => state.compare.comparedProducts
@@ -43,6 +54,31 @@ const ProductCard = ({ item, onAddToCart }) => {
     onAddToCart(item.id);
   };
 
+  const handleAddToCartClick = () => {
+    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (isInCart) {
+      // Видалення товару з локального сховища
+      const updatedItems = storedItems.filter((id) => id !== item.id);
+      localStorage.setItem("cart", JSON.stringify(updatedItems));
+      setIsInCart(false);
+    } else {
+      // Додавання товару до локального сховища
+      localStorage.setItem("cart", JSON.stringify([...storedItems, item.id]));
+      setIsInCart(true);
+    }
+  };
+
+  const addIntoCart = () => {
+    const itemCart = {
+      id: item.id,
+      title: item.name,
+      price: item.price,
+      img: Image,
+    };
+    dispatch(addItem(itemCart));
+  };
+
   return (
     <div className="section__card">
       <div className="section__inner">
@@ -67,7 +103,8 @@ const ProductCard = ({ item, onAddToCart }) => {
           <Button
             type="violet"
             title={"Add to Cart"}
-            onClick={handleAddToCartClick}
+            /* onClick={handleAddToCartClick} */
+            onClick={addIntoCart}
           />
         </div>
         <IconsHeart

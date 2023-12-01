@@ -9,7 +9,6 @@ import Alert from "./images/alert.png";
 import style from "./style.scss";
 
 const Section = ({ data }) => {
-  console.log(data, 33);
   const [isMobile, setIsMobile] = useState(false);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -57,7 +56,7 @@ const Section = ({ data }) => {
               <ProductCard
                 key={index}
                 item={item}
-                onAddToCart={handleAddToCart}
+                /*  onAddToCart={handleAddToCart} */
               />
             ))}
           </div>
