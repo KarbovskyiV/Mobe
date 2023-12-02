@@ -11,7 +11,6 @@ import IconsWeight from "../IconsWeight/IconsWeight";
 function ProductsCart({ id, name }) {
   const { desktop } = React.useContext(DesktopContext);
   const { mobile } = React.useContext(MobileContext);
-  const { tablet } = React.useContext(TabletContext);
 
   return (
     <>
@@ -99,11 +98,11 @@ function ProductsCart({ id, name }) {
             </div>
           </div>
         </div>
-      ) : tablet ? (
+      ) : (
         <div className="productscart__Tablet">
-          <div className="productscart__price">
-            <img src={fotoTablet} alt="img" />
-            <p>Apple iPhone 15 128GB Black</p>
+          <div className="productscart__image_title">
+            <img src={mobile ? fotoMobile : fotoTablet} alt="img" />
+            {!mobile ? <p>Apple iPhone 15 128GB Black</p> : ""}
           </div>
 
           <div className="productscart__price">
@@ -111,8 +110,6 @@ function ProductsCart({ id, name }) {
             <Button type="violet" title="Add to order" />
           </div>
         </div>
-      ) : (
-        ""
       )}
     </>
   );

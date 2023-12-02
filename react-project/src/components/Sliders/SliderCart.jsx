@@ -49,7 +49,7 @@ const slides = [
   },
 ];
 
-const Slider = () => {
+const Slider = ({ id, title, price, count, img }) => {
   const swiperElRef = useRef(null);
 
   const slidesRender = slides.map(

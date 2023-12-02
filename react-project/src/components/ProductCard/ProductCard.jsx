@@ -12,11 +12,19 @@ import {
   removeFromCompare,
 } from "../../redux/slices/compareSlice";
 
+import { addItem } from "../../redux/slices/cartAdd";
+
 import Image from "./Images/image.jpg";
 import "./style.scss";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ item, onAddToCart }) => {
+
+const ProductCard = ({ item, onAddToCart, title, img, price }) => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+
+  const { id } = useParams();
+
   const dispatch = useDispatch();
   const comparedProducts = useSelector(
     (state) => state.compare.comparedProducts
@@ -39,6 +47,16 @@ const ProductCard = ({ item, onAddToCart }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
 
+  const addIntoCart = () => {
+    const itemCart = {
+      id: item.id,
+      title: item.name,
+      price: item.price,
+      img: Image,
+    };
+    dispatch(addItem(itemCart));
+  };
+
   return (
     <div className="section__card">
       <div className="section__inner">
@@ -60,7 +78,12 @@ const ProductCard = ({ item, onAddToCart }) => {
             <div className="section__card-oldprice">$ 250.99</div>
             <div className="section__card-newprice">{item.price}$</div>
           </div>
-          <Button type="violet" title={"Add to Cart"} />
+          <Button
+            type="violet"
+            title={"Add to Cart"}
+            /* onClick={handleAddToCartClick} */
+            onClick={addIntoCart}
+          />
         </div>
         <IconsHeart
           className={`heart-product ${isWishlisted ? "selected" : ""}`}
