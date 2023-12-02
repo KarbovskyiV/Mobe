@@ -18,7 +18,7 @@ export const fetchProductsFailure = (error) => ({
   payload: error,
 });
 
-// Async action to fetch products
+
 export const fetchProducts = () => {
   return (dispatch) => {
     dispatch(fetchProductsRequest());
@@ -27,7 +27,7 @@ export const fetchProducts = () => {
       .get("http://mobe.publicvm.com:81/api/products")
       /* .get("http://mobe.local/api/products") */
       .then((response) => {
-        console.log("111", response);
+        console.log("redux", response);
         const products = response.data;
         dispatch(fetchProductsSuccess(products));
       })
