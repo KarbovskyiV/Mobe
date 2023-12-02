@@ -30,10 +30,7 @@ const ComparePage = () => {
 
   const products = useSelector((state) => state.products.products);
   console.log("products", products);
-  //const loading = useSelector((state) => state.products.loading);
-  //const error = useSelector((state) => state.products.error);
-
-  //const [allProducts, setAllProducts] = useState([]);
+ 
   const [comparedProducts, setComparedProducts] = useState([]);
 
   const [showDifferences, setShowDifferences] = useState(false);

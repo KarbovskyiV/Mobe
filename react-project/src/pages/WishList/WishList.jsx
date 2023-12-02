@@ -11,19 +11,25 @@ import Subscribe from "../../components/Subscribe/Subscribe";
 import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
 import Btn from "../../components/Btn/Btn";
 import MoreBtn from "../../components/IconMore/IconMore";
-import "./style.scss";
+
+import { removeWishlist } from '../../redux/slices/wishlistSlice';
+
 import Button from "../../components/Button";
 
 import { useDispatch, useSelector } from "react-redux";
 import { likeProduct, dislikeProduct } from "../../actions/toogleLike";
 
+import "./style.scss";
+
 const WishList = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
 
-  console.log("products", products);
+  const { wishlistsItems } = useSelector((state) => state?.wishlists);
+  
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isContentHidden, setIsContentHidden] = useState(false);
+  
+ 
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,13 +43,10 @@ const WishList = () => {
     };
   }, []);
 
-  const likedProductsData = products.filter((product) => product.like);
-
-  const handleClearComparison = (productId) => {
-    // Додайте код для очистки порівняння в Redux
-    // dispatch(removeFromCompare(productId));
+    const removeWishlishHandler = (productId) => {
+    dispatch(removeWishlist(productId));
   };
-
+  
   const handleTitleClick = () => {
     setIsContentHidden(!isContentHidden);
   };
@@ -67,14 +70,14 @@ const WishList = () => {
             </div>
           </div>
           <div className="wish-list__box">
-            {likedProductsData.length > 0 ? (
-              likedProductsData.map((product) => (
+            {wishlistsItems.length > 0 ? (
+              wishlistsItems.map((product) => (
                 <div className="wish-list__card" key={product.id}>
                   <MoreBtn />
                   <div className="wish-list__close">
                     <button
                       className="wish-list__clear-btn"
-                      onClick={() => handleClearComparison(product.id)}
+                      onClick={() => removeWishlishHandler(product.id)}
                     >
                       <Close />
                     </button>

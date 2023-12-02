@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
-import { likeProduct, dislikeProduct } from "../../actions/toogleLike";
+
+import { addToWishList } from '../../redux/slices/wishlistSlice';
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCompare,
@@ -19,8 +21,6 @@ const ProductCard = ({ item, onAddToCart }) => {
   const comparedProducts = useSelector(
     (state) => state.compare.comparedProducts
   );
-  const products = useSelector((state) => state.products.products);
-  console.log("products", products);
 
   const handleAddToCompare = (productId) => {
     dispatch(addToCompare(productId));
@@ -30,19 +30,14 @@ const ProductCard = ({ item, onAddToCart }) => {
     dispatch(removeFromCompare(productId));
   };
 
-  const isProductLiked = products.find(
-    (product) => product.id === item.id
-  )?.like;
+  const addToWishHandler = (item) => {
+    dispatch(addToWishList(item))
+    setIsWishlisted(!isWishlisted);
 
-  const handleHeartClick = () => {
-    if (isProductLiked) {
-      dispatch(dislikeProduct(item.id)); 
-    } else {
-      dispatch(likeProduct(item.id)); 
-    }
-  };
-
+  }
   const isProductInComparison = comparedProducts.includes(item.id);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
 
   return (
     <div className="section__card">
@@ -68,8 +63,8 @@ const ProductCard = ({ item, onAddToCart }) => {
           <Button type="violet" title={"Add to Cart"} />
         </div>
         <IconsHeart
-          className={`heart-product ${isProductLiked ? "selected" : ""}`}
-          onClick={handleHeartClick}
+          className={`heart-product ${isWishlisted ? "selected" : ""}`}
+          onClick={() => addToWishHandler(item)}
         />
 
         <IconsWeight

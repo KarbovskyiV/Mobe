@@ -1,5 +1,3 @@
-// reducers/productReducer.js
-
 import {
   FETCH_PRODUCTS_REQUEST,
   FETCH_PRODUCTS_SUCCESS,
@@ -37,17 +35,18 @@ const productReducer = (state = initialState, action) => {
         products: [],
         error: action.payload,
       };
-    case LIKE_PRODUCT:
-    case DISLIKE_PRODUCT:
-      const productId = action.payload.productId;
-      const likeValue = action.type === LIKE_PRODUCT;
-
-      return {
-        ...state,
-        products: state.products.map((product) =>
-          product.id === productId ? { ...product, like: likeValue } : product
-        ),
-      };
+      case LIKE_PRODUCT:
+        case DISLIKE_PRODUCT:
+          const productId = action.payload.productId;
+          const likeValue = action.type === LIKE_PRODUCT;
+        
+          return {
+            ...state,
+            products: state.products.map((product) =>
+              product.id === productId ? { ...product, like: likeValue } : product
+            ),
+          };
+        
     default:
       return state;
   }
