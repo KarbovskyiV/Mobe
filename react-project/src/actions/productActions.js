@@ -18,7 +18,6 @@ export const fetchProductsFailure = (error) => ({
   payload: error,
 });
 
-// Async action to fetch products
 export const fetchProducts = () => {
   return (dispatch) => {
     dispatch(fetchProductsRequest());

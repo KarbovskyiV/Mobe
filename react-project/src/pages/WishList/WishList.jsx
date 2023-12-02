@@ -1,31 +1,36 @@
-// ComparePage.jsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import MyRating from "../../components/MyRating/MyRating";
-
 import IconsHeart from "../../components/IconsHeart/IconsHeart";
-import IconsWeight from "../../components/IconsWeight/IconsWeight";
-
 import { ReactComponent as Close } from "../ComparePage/images/close.svg";
 import { ReactComponent as Left } from "./Images/left.svg";
-
 import Title from "../../components/Title/Title";
-
 import Image from "./Images/1.png";
-
 import AdminLink from "../../components/AdminLink/AdminLink";
 import Chat from "../../components/Chat/Chat";
 import Subscribe from "../../components/Subscribe/Subscribe";
 import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
 import Btn from "../../components/Btn/Btn";
-import More from "../../components/IconMore/IconMore";
 import MoreBtn from "../../components/IconMore/IconMore";
 
-import "./style.scss";
+import { removeWishlist } from '../../redux/slices/wishlistSlice';
+
 import Button from "../../components/Button";
 
+import { useDispatch, useSelector } from "react-redux";
+import { likeProduct, dislikeProduct } from "../../actions/toogleLike";
+
+import "./style.scss";
+
 const WishList = () => {
+  const dispatch = useDispatch();
+
+  const { wishlistsItems } = useSelector((state) => state?.wishlists);
+  
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isContentHidden, setIsContentHidden] = useState(false);
+  
+ 
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -37,53 +42,14 @@ const WishList = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const [allProducts, setAllProducts] = useState([]);
-  const [comparedProducts, setComparedProducts] = useState([]);
-  const [isContentHidden, setIsContentHidden] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://mobe.publicvm.com:81/api/products"
-        );
-        if (Array.isArray(response.data)) {
-          setAllProducts(response.data);
-        } else {
-          console.log("Дані не є масивом.");
-        }
-      } catch (error) {
-        console.error("Помилка при завантаженні даних:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
-    const firstTwoItems = storedItems.slice(0, 6);
-    setComparedProducts(firstTwoItems);
-  }, []);
-
-  const handleClearComparison = (productId) => {
-    const updatedComparedProducts = comparedProducts.filter(
-      (id) => id !== productId
-    );
-
-    localStorage.setItem("cart", JSON.stringify(updatedComparedProducts));
-    setComparedProducts(updatedComparedProducts);
+    const removeWishlishHandler = (productId) => {
+    dispatch(removeWishlist(productId));
   };
-
-  if (!Array.isArray(allProducts)) {
-    return <div>Завантаження...</div>;
-  }
+  
   const handleTitleClick = () => {
     setIsContentHidden(!isContentHidden);
   };
-  const comparedProductsData = allProducts.filter((product) =>
-    comparedProducts.includes(product.id)
-  );
 
   return (
     <div className="wish-list__section">
@@ -104,17 +70,16 @@ const WishList = () => {
             </div>
           </div>
           <div className="wish-list__box">
-            {comparedProductsData.length > 0 ? (
-              comparedProductsData.map((product) => (
+            {wishlistsItems.length > 0 ? (
+              wishlistsItems.map((product) => (
                 <div className="wish-list__card" key={product.id}>
                   <MoreBtn />
                   <div className="wish-list__close">
                     <button
                       className="wish-list__clear-btn"
-                      onClick={() => handleClearComparison(product.id)}
+                      onClick={() => removeWishlishHandler(product.id)}
                     >
-                      {" "}
-                      <Close />{" "}
+                      <Close />
                     </button>
                   </div>
 
@@ -149,8 +114,16 @@ const WishList = () => {
                         )}
                       </div>
                     </div>
-                    <IconsHeart className="heart-wish" />
-                    <IconsWeight className="weight-wish" />
+                    <IconsHeart
+                      className={`heart-wish ${product.like ? "selected" : ""}`}
+                      onClick={() => {
+                        if (product.like) {
+                          dispatch(dislikeProduct(product.id));
+                        } else {
+                          dispatch(likeProduct(product.id));
+                        }
+                      }}
+                    />
                   </div>
                 </div>
               ))

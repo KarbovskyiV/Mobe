@@ -214,12 +214,29 @@
   gap: 15px;
   width: 100%;
   align-items: center;
+  cursor: pointer;
+  &.selected svg,
+  &.selected svg path {
+    fill: red;
+    stroke: red;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.selected svg,
+  &.selected svg path {
+    fill: red;
+    stroke: red;
+  }
+}
 
   p {
     text-decoration-line: underline;
     font-size: 14px;
   }
-}
+
 
 .delete-box2 {
   display: flex;
@@ -227,6 +244,7 @@
   gap: 15px;
   width: 100%;
   align-items: center;
+  cursor: pointer;
 
   p {
     font-size: 14px;
