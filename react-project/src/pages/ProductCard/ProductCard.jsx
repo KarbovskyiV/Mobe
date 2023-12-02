@@ -2,7 +2,6 @@ import React from "react";
 
 import { useParams } from "react-router-dom";
 
-
 import Button from "../../components/Button.jsx";
 import { DesktopContext, MobileContext } from "../../App.js";
 import { useSelector } from "react-redux";
@@ -27,7 +26,7 @@ function ProductCard() {
     (state) => state.cardReducer.characteristics
   );
 
-  console.log(characteristic, "characteristics2");
+  /* console.log(characteristic, "characteristics2"); */
 
   const [about, setAbout] = React.useState(true);
   const [characteristics, setCharacteristics] = React.useState(false);
