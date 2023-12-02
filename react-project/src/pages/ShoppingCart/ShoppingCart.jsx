@@ -6,7 +6,6 @@ import SliderCart from "../../components/Sliders/SliderCart/SliderCart.jsx";
 import CartItems from "../../components/CartItems.jsx";
 import CartIsEmpty from "../CartIsEmpty.jsx";
 import "./style.scss";
-import { useSelector } from "react-redux";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,8 +13,10 @@ import {
   removeFromCompare,
 } from "../../redux/slices/compareSlice";
 import { removeWishlist } from "../../redux/slices/wishlistSlice";
+import { clearItems } from "../../redux/slices/cartAdd";
 
 const ShoppingCart = ({ title, img, price }) => {
+  const dispatch = useDispatch();
   const { items, totalPrice } = useSelector((state) => state.cartAdd);
 
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
@@ -27,7 +28,6 @@ const ShoppingCart = ({ title, img, price }) => {
   };
 
   const wrapRef = useRef(null);
-  const dispatch = useDispatch();
   const addToWishHandler = (item) => {
     dispatch(addToWishList(item));
     setIsWishlisted(!isWishlisted);
@@ -35,10 +35,6 @@ const ShoppingCart = ({ title, img, price }) => {
   const removeWishlishHandler = (productId) => {
     dispatch(removeWishlist(productId));
   };
-  const [countValue, setCountValue] = React.useState(0);
-  const [openMenuDelete, setOpenMenuDelete] = React.useState(false);
-  const [totalCount] = React.useState();
-  const { mobile } = React.useContext(MobileContext);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   const handClick = (event) => {
