@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import getCartFromLocalStorage from "../../utils/getCartFromLocalStorage";
+import getTotalPriceFromLocalStorage from "../../utils/getTotalPriceFromLocalStorage";
 
 const initialState = {
-  totalPrice: 0,
+  totalPrice: getTotalPriceFromLocalStorage(),
   totalCount: 0,
-  items: [],
+  items: getCartFromLocalStorage(),
 };
 
 const cartAdd = createSlice({
@@ -20,6 +22,7 @@ const cartAdd = createSlice({
           count: 1,
         });
       }
+
       state.totalPrice = state.items.reduce((sum, obj) => {
         return obj.price * obj.count + sum;
       }, 0);
@@ -45,9 +48,11 @@ const cartAdd = createSlice({
     },
     removeItem(state, action) {
       state.items = state.items.filter((obj) => obj.id !== action.payload);
+
       state.totalPrice = state.items.reduce((sum, obj) => {
         return obj.price * obj.count + sum;
       }, 0);
+
       state.totalCount = state.items.reduce((sum, obj) => {
         return obj.count + sum;
       }, 0);

@@ -16,11 +16,8 @@ import {
   GetCatalogContext,
 } from "../../App.js";
 import debounce from "lodash.debounce";
-import axios from "../../utils/axios.js";
-import IconsWeight from "../IconsWeight/IconsWeight.jsx";
 import ComparePageLink from "../ComparePageLink/ComparePageLink.jsx";
 import ContactUs from "../ContactUs";
-import IconsHeart from "../IconsHeart/IconsHeart.jsx";
 import "./style.scss";
 import WishListPageLink from "../WishListPageLink/WishListPageLink.jsx";
 
@@ -34,18 +31,13 @@ function Header() {
   const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
   const { setSearchValue } = React.useContext(SearchContext);
   const [value, setValue] = React.useState("");
-  const { totalCountShoppingCart } = React.useContext(
-    totalCountShoppingCartContext
-  );
+
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
   const { desktop } = React.useContext(DesktopContext);
   const { tablet } = React.useContext(TabletContext);
   const { mobile } = React.useContext(MobileContext);
   const { catalogOpened, setCatalogOpened } =
     React.useContext(CatalogOpenedContext);
-
-  const { setCategory } = React.useContext(GetCatalogContext);
-  const [openContacts, setOpenContacts] = React.useState(false);
 
   const logOutUser = () => {
     setUser({
@@ -84,6 +76,16 @@ function Header() {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
+
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem("cart", json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <div className="header">
