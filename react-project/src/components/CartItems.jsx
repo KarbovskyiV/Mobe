@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { MobileContext } from "../App.js";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartAdd";
+import WishListPageLink from "./WishListPageLink/WishListPageLink.jsx";
 
 const CartItems = ({ id, title, price, count, img }) => {
   const { mobile } = React.useContext(MobileContext);
@@ -104,8 +105,8 @@ const CartItems = ({ id, title, price, count, img }) => {
           ref={wrapRef}
         >
           <div className="delete-box1">
-            <svg
-              className="fav_svg"
+            {/* <svg
+              className="fav_svg selected"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -119,8 +120,8 @@ const CartItems = ({ id, title, price, count, img }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </svg>
-
+            </svg> */}
+            <WishListPageLink className="selected" />
             <p>Add to favourite</p>
           </div>
           <div className="delete-box2">
