@@ -2,12 +2,19 @@ import React, { useRef, useEffect } from "react";
 import { MobileContext } from "../App.js";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartAdd";
-import WishListPageLink from "./WishListPageLink/WishListPageLink.jsx";
+import { addToWishList } from "../redux/slices/wishlistSlice";
 
-const CartItems = ({ id, title, price, count, img }) => {
+const CartItems = ({ item, id, title, price, count, img }) => {
   const { mobile } = React.useContext(MobileContext);
   const [openMenuDelete, setOpenMenuDelete] = React.useState(false);
   const dispatch = useDispatch();
+
+  const [isWishlisted, setIsWishlisted] = React.useState(false);
+
+  const addToWishHandler = (item) => {
+    dispatch(addToWishList(item));
+    setIsWishlisted(!isWishlisted);
+  };
 
   const onClickPlus = () => {
     if (count >= 0) {
@@ -104,8 +111,11 @@ const CartItems = ({ id, title, price, count, img }) => {
           }
           ref={wrapRef}
         >
-          <div className="delete-box1">
-            {/* <svg
+          <div
+            onClick={() => addToWishHandler(item)}
+            className={`delete-box1 ${isWishlisted ? "selected" : ""}`}
+          >
+            <svg
               className="fav_svg selected"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -120,8 +130,7 @@ const CartItems = ({ id, title, price, count, img }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </svg> */}
-            <WishListPageLink className="selected" />
+            </svg>
             <p>Add to favourite</p>
           </div>
           <div className="delete-box2">
