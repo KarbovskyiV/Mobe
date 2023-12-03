@@ -10,6 +10,12 @@ import CartIsEmpty from "../CartIsEmpty.jsx";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { clearItems } from "../../redux/slices/cartAdd";
+import { addToWishList } from "../../redux/slices/wishlistSlice";
+import {
+  addToCompare,
+  removeFromCompare,
+} from "../../redux/slices/compareSlice";
+import { removeWishlist } from "../../redux/slices/wishlistSlice";
 
 const ShoppingCart = ({ title, img, price }) => {
   const dispatch = useDispatch();
@@ -20,27 +26,12 @@ const ShoppingCart = ({ title, img, price }) => {
       dispatch(clearItems());
     }
   };
-
-
-import { addToWishList } from '../../redux/slices/wishlistSlice';
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addToCompare,
-  removeFromCompare,
-} from "../../redux/slices/compareSlice";
-import { removeWishlist } from '../../redux/slices/wishlistSlice';
-
   const wrapRef = useRef(null);
-
-
-const ShoppingCart = (item) => {
-  const wrapRef = useRef(null);
-  const dispatch = useDispatch();
   const addToWishHandler = (item) => {
-    dispatch(addToWishList(item))
+    dispatch(addToWishList(item));
     setIsWishlisted(!isWishlisted);
-   }
-   const removeWishlishHandler = (productId) => {
+  };
+  const removeWishlishHandler = (productId) => {
     dispatch(removeWishlist(productId));
   };
   const [countValue, setCountValue] = React.useState(0);

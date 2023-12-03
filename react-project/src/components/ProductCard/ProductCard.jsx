@@ -3,8 +3,9 @@ import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
+import { useParams } from "react-router-dom";
 
-import { addToWishList } from '../../redux/slices/wishlistSlice';
+import { addToWishList } from "../../redux/slices/wishlistSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,7 +18,6 @@ import { addItem } from "../../redux/slices/cartAdd";
 import Image from "./Images/image.jpg";
 import "./style.scss";
 import { Link } from "react-router-dom";
-
 
 const ProductCard = ({ item, onAddToCart, title, img, price }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -39,13 +39,11 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
   };
 
   const addToWishHandler = (item) => {
-    dispatch(addToWishList(item))
+    dispatch(addToWishList(item));
     setIsWishlisted(!isWishlisted);
-
-  }
+  };
   const isProductInComparison = comparedProducts.includes(item.id);
   const [isWishlisted, setIsWishlisted] = useState(false);
-
 
   const addIntoCart = () => {
     const itemCart = {
