@@ -46,7 +46,6 @@ const Catalog = () => {
         .get("/products")
         .then((res) => {
           setMenuData(res.data);
-          console.log("setMenuData", setMenuData);
           const transformedData = transformData(res.data);
 
           setCategory(transformedData);
@@ -90,7 +89,7 @@ const Catalog = () => {
 
   const catalogList = category;
 
-  console.log(menuData);
+  /* console.log(menuData); */
 
   const MenuItem = ({ item }) => {
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);

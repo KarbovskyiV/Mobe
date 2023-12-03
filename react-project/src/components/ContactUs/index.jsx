@@ -4,7 +4,7 @@ function ContactUs() {
   const [openContacts, setOpenContacts] = React.useState(false);
 
   return (
-    <>
+    <div className="box__contacts">
       <div className="header__contactus">
         <a href="##">Contact us</a>
         {!openContacts ? (
@@ -163,7 +163,7 @@ function ContactUs() {
           <span>Sun: 09:00 - 18:00</span>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

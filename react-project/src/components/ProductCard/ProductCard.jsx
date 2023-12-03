@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
-
 import { useParams } from "react-router-dom";
+
+import { addToWishList } from "../../redux/slices/wishlistSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,7 +16,6 @@ import {
 import { addItem } from "../../redux/slices/cartAdd";
 
 import Image from "./Images/image.jpg";
-
 import "./style.scss";
 import { Link } from "react-router-dom";
 
@@ -24,6 +24,7 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
   const [popupMessage, setPopupMessage] = useState("");
 
   const { id } = useParams();
+
   const dispatch = useDispatch();
   const comparedProducts = useSelector(
     (state) => state.compare.comparedProducts
@@ -37,37 +38,12 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
     dispatch(removeFromCompare(productId));
   };
 
+  const addToWishHandler = (item) => {
+    dispatch(addToWishList(item));
+    setIsWishlisted(!isWishlisted);
+  };
   const isProductInComparison = comparedProducts.includes(item.id);
-
-  const [isHeartSelected, setHeartSelected] = useState(false);
-  const [isInCart, setIsInCart] = useState(false);
-
-  useEffect(() => {
-    // Перевірка, чи товар вже є у локальному сховищі
-    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-    setIsInCart(storedItems.includes(item.id));
-  }, [item.id]);
-
-  const handleHeartClick = () => {
-    setHeartSelected(!isHeartSelected);
-    onAddToCart(item.id);
-  };
-
-  const handleAddToCartClick = () => {
-    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-    if (isInCart) {
-      // Видалення товару з локального сховища
-      const updatedItems = storedItems.filter((id) => id !== item.id);
-      localStorage.setItem("cart", JSON.stringify(updatedItems));
-      setIsInCart(false);
-    } else {
-      // Додавання товару до локального сховища
-      localStorage.setItem("cart", JSON.stringify([...storedItems, item.id]));
-      setIsInCart(true);
-    }
-  };
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
   const addIntoCart = () => {
     const itemCart = {
@@ -108,10 +84,8 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
           />
         </div>
         <IconsHeart
-          className={`heart-product ${isHeartSelected ? "selected" : ""}`}
-          onClick={() => {
-            handleHeartClick();
-          }}
+          className={`heart-product ${isWishlisted ? "selected" : ""}`}
+          onClick={() => addToWishHandler(item)}
         />
 
         <IconsWeight
