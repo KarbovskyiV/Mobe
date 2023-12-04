@@ -20,9 +20,6 @@ import "./style.scss";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ item, onAddToCart, title, img, price }) => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-
   const { id } = useParams();
 
   const dispatch = useDispatch();
@@ -91,7 +88,7 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
         <IconsWeight
           className="weght-product"
           onClick={() => {
-            onAddToCart(item.id);
+            
             if (isProductInComparison) {
               handleRemoveFromCompare(item.id);
             } else {
