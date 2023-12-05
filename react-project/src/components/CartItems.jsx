@@ -11,10 +11,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
 
   const [isWishlisted, setIsWishlisted] = React.useState(false);
 
-  const addToWishHandler = (item) => {
-    dispatch(addToWishList(item));
-    setIsWishlisted(!isWishlisted);
-  };
+
 
   const onClickPlus = () => {
     if (count >= 0) {
@@ -112,7 +109,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
           ref={wrapRef}
         >
           <div
-            onClick={() => addToWishHandler(item)}
+           
             className={`delete-box1 ${isWishlisted ? "selected" : ""}`}
           >
             <svg

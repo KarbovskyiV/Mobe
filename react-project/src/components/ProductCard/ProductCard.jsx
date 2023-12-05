@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
-import { useParams } from "react-router-dom";
 
-import { addToWishList } from "../../redux/slices/wishlistSlice";
+import {
+  addLikedProduct,
+  removeLikedProduct,
+} from "../../redux/slices/wishlistSlice";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addToCompare,
-  removeFromCompare,
-} from "../../redux/slices/compareSlice";
 
 import { addItem } from "../../redux/slices/cartAdd";
 
@@ -20,27 +18,22 @@ import "./style.scss";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ item, onAddToCart, title, img, price }) => {
-  const { id } = useParams();
-
   const dispatch = useDispatch();
-  const comparedProducts = useSelector(
-    (state) => state.compare.comparedProducts
+
+  const likedProducts = useSelector(
+    (state) => state.likedProducts.likedProducts
   );
 
-  const handleAddToCompare = (productId) => {
-    dispatch(addToCompare(productId));
+  const isWishlisted =
+    item && likedProducts.some((product) => product === item);
+
+  const handleLike = () => {
+    dispatch(addLikedProduct(item));
   };
 
-  const handleRemoveFromCompare = (productId) => {
-    dispatch(removeFromCompare(productId));
+  const handleUnlike = () => {
+    dispatch(removeLikedProduct(item.id));
   };
-
-  const addToWishHandler = (item) => {
-    dispatch(addToWishList(item));
-    setIsWishlisted(!isWishlisted);
-  };
-  const isProductInComparison = comparedProducts.includes(item.id);
-  const [isWishlisted, setIsWishlisted] = useState(false);
 
   const addIntoCart = () => {
     const itemCart = {
@@ -82,20 +75,10 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
         </div>
         <IconsHeart
           className={`heart-product ${isWishlisted ? "selected" : ""}`}
-          onClick={() => addToWishHandler(item)}
+          onClick={isWishlisted ? handleUnlike : handleLike}
         />
 
-        <IconsWeight
-          className="weght-product"
-          onClick={() => {
-            
-            if (isProductInComparison) {
-              handleRemoveFromCompare(item.id);
-            } else {
-              handleAddToCompare(item.id);
-            }
-          }}
-        />
+        <IconsWeight className="weght-product" />
       </div>
     </div>
   );
