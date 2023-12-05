@@ -16,13 +16,29 @@ import { addItem } from "../../redux/slices/cartAdd";
 import Image from "./Images/image.jpg";
 import "./style.scss";
 import { Link } from "react-router-dom";
-
+import { addComparedProduct, removeComparedProduct } from "../../redux/slices/compareSlice";
+import { hidePopup } from "../../redux/slices/compareSlice";
 const ProductCard = ({ item, onAddToCart, title, img, price }) => {
   const dispatch = useDispatch();
 
   const likedProducts = useSelector(
     (state) => state.likedProducts.likedProducts
   );
+  const comparedProducts = useSelector(
+    (state) => state.comparedProducts.comparedProducts
+  );
+  const showPopup = useSelector((state) => state.comparedProducts.showPopup);
+  const handleHidePopup = () => {
+    dispatch(hidePopup());
+  };
+  const isCompareProducts = item && comparedProducts.some((product) => product === item);
+
+  const handleCompare = () => {
+    dispatch(addComparedProduct(item));
+  };
+  const handleUnCompare = () => {
+    dispatch(removeComparedProduct(item.id));
+  };
 
   const isWishlisted =
     item && likedProducts.some((product) => product === item);
@@ -78,8 +94,18 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
           onClick={isWishlisted ? handleUnlike : handleLike}
         />
 
-        <IconsWeight className="weght-product" />
+        <IconsWeight
+          onClick={isCompareProducts ? handleUnCompare : handleCompare}
+          className="weght-product"
+        />
       </div>
+      {showPopup && (
+        <div className="popup__compare">
+          <button onClick={handleHidePopup}>X</button>
+          <p>Only two products can be added to the comparison list</p>
+          
+        </div>
+      )}
     </div>
   );
 };

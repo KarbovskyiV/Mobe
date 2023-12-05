@@ -1,7 +1,7 @@
 // Import the necessary dependencies
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../../actions/productActions";
+
 import MyRating from "../../components/MyRating/MyRating";
 import Button from "../../components/Button";
 import IconsHeart from "../../components/IconsHeart/IconsHeart";
@@ -12,17 +12,16 @@ import Image from "./images/1.jpg";
 import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
 import "./style.scss";
 import PageLink from "../../components/PageLink/PageLink";
-
+import { removeComparedProduct } from "../../redux/slices/compareSlice";
 const ComparePage = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
-
   const comparedProducts = useSelector(
-    (state) => state.compare.comparedProducts
+    (state) => state.comparedProducts.comparedProducts
   );
+  const handleRemoveButtonClick = (productId) => {
+    dispatch(removeComparedProduct(productId));
+  };
 
   return (
     <div className="compare__section">
@@ -35,7 +34,10 @@ const ComparePage = () => {
           {comparedProducts.map((product) => (
             <div className="compare__card" key={product.id}>
               <div className="compare__close">
-                <button className="compare__clear-btn">
+                <button
+                  className="compare__clear-btn" onClick={() => handleRemoveButtonClick(product.id)}>
+
+
                   <Close />
                 </button>
               </div>

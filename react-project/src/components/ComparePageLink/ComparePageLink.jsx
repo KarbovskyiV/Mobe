@@ -5,16 +5,21 @@ import "./style.scss";
 
 const ComparePageLink = ({ className }) => {
   const comparedProductsCount = useSelector(
-    (state) => state.compare.comparedProducts.length
+    (state) => state.comparedProducts.comparedProducts.length
   );
-
+  console.log("comparedProductsCount", comparedProductsCount);
   return (
-    <a href="/compare">
-      <IconsWeight className={className} />
-      {comparedProductsCount > 0 && (
-        <span className="compare__link">{comparedProductsCount}</span>
-      )}
-    </a>
+
+    <div>
+      <a href="/compare">
+        <IconsWeight className={className} />
+        {comparedProductsCount > 0 && (
+
+          <span className="compare__link">{comparedProductsCount}</span>
+        )}
+
+      </a>
+    </div>
   );
 };
 
