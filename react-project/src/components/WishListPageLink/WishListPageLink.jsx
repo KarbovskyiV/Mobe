@@ -6,10 +6,12 @@ import "./style.scss";
 
 const WishListPageLink = ({ className }) => {
 
-  const { wishlistsItems } = useSelector((state) => state.wishlists);
+  const likedProducts = useSelector(
+    (state) => state.likedProducts.likedProducts
+  );
 
 
-  const wishlistItemCount = wishlistsItems.length;
+  const wishlistItemCount = likedProducts.length;
 
   return (
     <a href="/wishList">
