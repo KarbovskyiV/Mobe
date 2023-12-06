@@ -1,5 +1,5 @@
 // Import the necessary dependencies
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import MyRating from "../../components/MyRating/MyRating";
@@ -15,14 +15,37 @@ import PageLink from "../../components/PageLink/PageLink";
 import { removeComparedProduct } from "../../redux/slices/compareSlice";
 const ComparePage = () => {
   const dispatch = useDispatch();
-
+  const [activeTab, setActiveTab] = useState("All");
   const comparedProducts = useSelector(
     (state) => state.comparedProducts.comparedProducts
   );
+  console.log(comparedProducts);
   const handleRemoveButtonClick = (productId) => {
     dispatch(removeComparedProduct(productId));
   };
 
+  const excludedCharacteristics = [
+    "category_id",
+    "is_new",
+    "is_popular",
+    "created_at",
+    "category",
+    "name",
+    "image",
+    "is_promotion",
+    "is_hot_price",
+    "like",
+  ];
+  const characteristics =
+    comparedProducts.length > 0
+      ? Object.keys(comparedProducts[0]).filter(
+          (characteristic) => !excludedCharacteristics.includes(characteristic)
+        )
+      : [];
+  const hasDifferences = (characteristic, products) => {
+    const values = products.map((product) => product[characteristic]);
+    return new Set(values).size > 1;
+  };
   return (
     <div className="compare__section">
       <div className="compare__container">
@@ -35,9 +58,9 @@ const ComparePage = () => {
             <div className="compare__card" key={product.id}>
               <div className="compare__close">
                 <button
-                  className="compare__clear-btn" onClick={() => handleRemoveButtonClick(product.id)}>
-
-
+                  className="compare__clear-btn"
+                  onClick={() => handleRemoveButtonClick(product.id)}
+                >
                   <Close />
                 </button>
               </div>
@@ -71,6 +94,41 @@ const ComparePage = () => {
               Немає товарів для порівняння.
             </div>
           )}
+        </div>
+        <div class="comparison">
+          <div className="thead">
+            <thead
+              onClick={() => setActiveTab("All")}
+              className={activeTab === "All" ? "active" : ""}
+            >
+              All characteristics
+            </thead>
+            <thead
+              onClick={() => setActiveTab("Differences")}
+              className={activeTab === "Differences" ? "active" : ""}
+            >
+              Differences
+            </thead>
+          </div>
+          <tbody>
+            {characteristics.map((characteristic) => (
+              <tr key={characteristic}>
+                {comparedProducts.map((product, index) => (
+                  <React.Fragment key={product.id}>
+                    {index === 0 && (
+                      <td className="wrap-text char">{characteristic}</td>
+                    )}
+                    {(activeTab === "All" ||
+                      hasDifferences(characteristic, comparedProducts)) && (
+                      <td key={product.id}>
+                        {String(product[characteristic])}
+                      </td>
+                    )}
+                  </React.Fragment>
+                ))}
+              </tr>
+            ))}
+          </tbody>
         </div>
 
         <HotPriceContainer />

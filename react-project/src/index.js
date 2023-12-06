@@ -7,15 +7,11 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
-import { createBrowserHistory } from "history";
-const history = createBrowserHistory();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 console.log("store", store);
 root.render(
-
   <Provider store={store}>
-
-    <BrowserRouter history={history}>
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>
