@@ -2,13 +2,16 @@ import React, { useRef, useEffect } from "react";
 import { MobileContext } from "../App.js";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartAdd";
-import phone from "../assets/img/phone.png";
-import phoneMobile from "../assets/img/imageS.jpg";
+import { addToWishList } from "../redux/slices/wishlistSlice";
 
-const CartItems = ({ id, title, price, count, img }) => {
+const CartItems = ({ item, id, title, price, count, img }) => {
   const { mobile } = React.useContext(MobileContext);
   const [openMenuDelete, setOpenMenuDelete] = React.useState(false);
   const dispatch = useDispatch();
+
+  const [isWishlisted, setIsWishlisted] = React.useState(false);
+
+
 
   const onClickPlus = () => {
     if (count >= 0) {
@@ -51,48 +54,50 @@ const CartItems = ({ id, title, price, count, img }) => {
 
   return (
     <div className="shoppingcart__up">
-      <div className="shoppingcart__img">
-        <img src={mobile ? img : img} alt="img" />
-      </div>
-      <div className="shoppingcart__add">
-        <label>{title}</label>
-        <div className="shoppingcart__plusminus">
-          {activeMinusCount ? (
+      <div className="shoppingcart__up__box">
+        <div className="shoppingcart__img">
+          <img src={mobile ? img : img} alt="img" />
+        </div>
+        <div className="shoppingcart__add">
+          <label>{title}</label>
+          <div className="shoppingcart__plusminus">
+            {activeMinusCount ? (
+              <svg
+                onClick={onClickMinus}
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="M5 13V11H19V13H5Z" fill="#28003E" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="M5 13V11H19V13H5Z" fill="#747474" />
+              </svg>
+            )}
+            <div className="shoppingcart__number">{count}</div>
             <svg
-              onClick={onClickMinus}
+              onClick={onClickPlus}
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
               viewBox="0 0 24 24"
               fill="none"
             >
-              <path d="M5 13V11H19V13H5Z" fill="#28003E" />
+              <path
+                d="M11 13H5V11H11V5H13V11H19V13H13V19H11V13Z"
+                fill="#28003E"
+              />
             </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path d="M5 13V11H19V13H5Z" fill="#747474" />
-            </svg>
-          )}
-          <div className="shoppingcart__number">{count}</div>
-          <svg
-            onClick={onClickPlus}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M11 13H5V11H11V5H13V11H19V13H13V19H11V13Z"
-              fill="#28003E"
-            />
-          </svg>
+          </div>
         </div>
       </div>
       <div className="shoppingcart__summDelete">
@@ -103,9 +108,12 @@ const CartItems = ({ id, title, price, count, img }) => {
           }
           ref={wrapRef}
         >
-          <div className="delete-box1">
+          <div
+           
+            className={`delete-box1 ${isWishlisted ? "selected" : ""}`}
+          >
             <svg
-              className="fav_svg"
+              className="fav_svg selected"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -120,7 +128,6 @@ const CartItems = ({ id, title, price, count, img }) => {
                 strokeLinejoin="round"
               />
             </svg>
-
             <p>Add to favourite</p>
           </div>
           <div className="delete-box2">
@@ -180,8 +187,10 @@ const CartItems = ({ id, title, price, count, img }) => {
           />
         </svg>
         <div className="shoppingcart__summs">
-          <div className="shoppingcart__summ1">{price}</div>
-          <div className="shoppingcart__summ2">{price}</div>
+          <div className="shoppingcart__summ1">{count * price}</div>
+          <div className="shoppingcart__summ2">
+            {(count * price * 0.9).toFixed(2)}
+          </div>
         </div>
       </div>
     </div>

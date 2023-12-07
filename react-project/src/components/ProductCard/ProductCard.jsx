@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
 import { useParams } from "react-router-dom";
-
 import { addToWishList } from "../../redux/slices/wishlistSlice";
+import {
+  addLikedProduct,
+  removeLikedProduct,
+} from "../../redux/slices/wishlistSlice";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addToCompare,
-  removeFromCompare,
-} from "../../redux/slices/compareSlice";
 
 import { addItem } from "../../redux/slices/cartAdd";
 
@@ -19,31 +18,45 @@ import Image from "./Images/image.jpg";
 import "./style.scss";
 import { Link } from "react-router-dom";
 
+import {
+  addComparedProduct,
+  removeComparedProduct,
+} from "../../redux/slices/compareSlice";
+import { hidePopup } from "../../redux/slices/compareSlice";
+
 const ProductCard = ({ item, onAddToCart, title, img, price }) => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-
-  const { id } = useParams();
-
   const dispatch = useDispatch();
-  const comparedProducts = useSelector(
-    (state) => state.compare.comparedProducts
+
+  const likedProducts = useSelector(
+    (state) => state.likedProducts.likedProducts
   );
+  const comparedProducts = useSelector(
+    (state) => state.comparedProducts.comparedProducts
+  );
+  const showPopup = useSelector((state) => state.comparedProducts.showPopup);
+  const handleHidePopup = () => {
+    dispatch(hidePopup());
+  };
+  const isCompareProducts =
+    item && comparedProducts.some((product) => product === item);
 
-  const handleAddToCompare = (productId) => {
-    dispatch(addToCompare(productId));
+  const handleCompare = () => {
+    dispatch(addComparedProduct(item));
+  };
+  const handleUnCompare = () => {
+    dispatch(removeComparedProduct(item.id));
   };
 
-  const handleRemoveFromCompare = (productId) => {
-    dispatch(removeFromCompare(productId));
+  const isWishlisted =
+    item && likedProducts.some((product) => product === item);
+
+  const handleLike = () => {
+    dispatch(addLikedProduct(item));
   };
 
-  const addToWishHandler = (item) => {
-    dispatch(addToWishList(item));
-    setIsWishlisted(!isWishlisted);
+  const handleUnlike = () => {
+    dispatch(removeLikedProduct(item.id));
   };
-  const isProductInComparison = comparedProducts.includes(item.id);
-  const [isWishlisted, setIsWishlisted] = useState(false);
 
   const addIntoCart = () => {
     const itemCart = {
@@ -85,21 +98,20 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
         </div>
         <IconsHeart
           className={`heart-product ${isWishlisted ? "selected" : ""}`}
-          onClick={() => addToWishHandler(item)}
+          onClick={isWishlisted ? handleUnlike : handleLike}
         />
 
         <IconsWeight
+          onClick={isCompareProducts ? handleUnCompare : handleCompare}
           className="weght-product"
-          onClick={() => {
-            onAddToCart(item.id);
-            if (isProductInComparison) {
-              handleRemoveFromCompare(item.id);
-            } else {
-              handleAddToCompare(item.id);
-            }
-          }}
         />
       </div>
+      {showPopup && (
+        <div className="popup__compare">
+          <button onClick={handleHidePopup}>X</button>
+          <p>Only two products can be added to the comparison list</p>
+        </div>
+      )}
     </div>
   );
 };

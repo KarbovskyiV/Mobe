@@ -37,7 +37,7 @@
     position: absolute;
     background: $gray-100;
     z-index: 1500;
-    right: 150px;
+    /* right: 5px; */
     top: 66px;
     justify-content: center;
     display: flex;
@@ -242,6 +242,12 @@
   }
 }
 
+.box__contacts {
+  display: flex;
+  width: 300px;
+  justify-content: flex-end;
+}
+
 @media (max-width: 850px) {
   .header {
     &__signin {
@@ -249,7 +255,7 @@
     }
 
     &__contacts {
-      right: 40px;
+      right: 5px;
     }
   }
 }

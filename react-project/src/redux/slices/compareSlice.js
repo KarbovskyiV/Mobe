@@ -1,37 +1,53 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const compareSlice = createSlice({
-  name: "compare",
+const loadComparedProductsFromStorage = () => {
+  try {
+    const comparedProductsString = localStorage.getItem("comparedProducts");
+    return comparedProductsString !== null ? JSON.parse(comparedProductsString) : [];
+  } catch (error) {
+    console.error("Error parsing comparedProductsString:", error);
+    return [];
+  }
+};
+
+
+const saveComparedProductsToStorage = (comparedProducts) => {
+  localStorage.setItem("comparedProducts", JSON.stringify(comparedProducts));
+};
+
+const MAX_PRODUCTS = 2;
+
+const comparedProductsSlice = createSlice({
+  name: "comparedProducts",
   initialState: {
-    comparedProducts: [],
+    comparedProducts: loadComparedProductsFromStorage(),
+    showPopup: false,
   },
   reducers: {
-    addToCompare: (state, action) => {
-      const productId = action.payload;
-
-      if (
-        state.comparedProducts.length < 2 &&
-        !state.comparedProducts.includes(productId)
-      ) {
-        state.comparedProducts.push(productId);
+    addComparedProduct: (state, action) => {
+      if (state.comparedProducts.length < MAX_PRODUCTS) {
+        state.comparedProducts.push(action.payload);
+        saveComparedProductsToStorage(state.comparedProducts);
       } else {
-        console.log(
-          "Cannot add more than 2 products to comparison or product already in comparison"
-        );
+        state.showPopup = true;
       }
     },
-    removeFromCompare: (state, action) => {
-      const productId = action.payload;
-      const index = state.comparedProducts.findIndex((id) => id === productId);
-
-      if (index !== -1) {
-        state.comparedProducts.splice(index, 1);
-      } else {
-        console.log("Product not found in comparison");
-      }
+    removeComparedProduct: (state, action) => {
+      state.comparedProducts = state.comparedProducts.filter(
+        (product) => product.id !== action.payload
+      );
+      saveComparedProductsToStorage(state.comparedProducts);
+    },
+    clearComparedProducts: (state) => {
+      state.comparedProducts = [];
+      saveComparedProductsToStorage(state.comparedProducts);
+    },
+    hidePopup: (state) => {
+      state.showPopup = false;
     },
   },
 });
 
-export const { addToCompare, removeFromCompare } = compareSlice.actions;
-export default compareSlice.reducer;
+export const { addComparedProduct, removeComparedProduct, clearComparedProducts, hidePopup } =
+  comparedProductsSlice.actions;
+export default comparedProductsSlice.reducer;

@@ -18,16 +18,15 @@ export const fetchProductsFailure = (error) => ({
   payload: error,
 });
 
-
 export const fetchProducts = () => {
   return (dispatch) => {
     dispatch(fetchProductsRequest());
 
     axios
       .get("http://mobe.publicvm.com:81/api/products")
-      /* .get("http://mobe.local/api/products") */
+      /*  .get("http://mobe.local/api/products") */
       .then((response) => {
-        console.log("redux", response);
+        /*  console.log("111", response); */
         const products = response.data;
         dispatch(fetchProductsSuccess(products));
       })

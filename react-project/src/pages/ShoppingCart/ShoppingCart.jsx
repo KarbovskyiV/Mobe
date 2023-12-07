@@ -1,46 +1,27 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCartActiveContext, MobileContext } from "../../App.js";
+import { ShoppingCartActiveContext } from "../../App.js";
 import Button from "../../components/Button.jsx";
-import phone from "../../assets/img/phone.png";
-import phoneMobile from "../../assets/img/imageS.jpg";
-import SliderCart from "../../components/Sliders/SliderCart.jsx";
+import SliderCart from "../../components/Sliders/SliderCart/SliderCart.jsx";
 import CartItems from "../../components/CartItems.jsx";
 import CartIsEmpty from "../CartIsEmpty.jsx";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { clearItems } from "../../redux/slices/cartAdd";
-import { addToWishList } from "../../redux/slices/wishlistSlice";
-import {
-  addToCompare,
-  removeFromCompare,
-} from "../../redux/slices/compareSlice";
-import { removeWishlist } from "../../redux/slices/wishlistSlice";
 
 const ShoppingCart = ({ title, img, price }) => {
   const dispatch = useDispatch();
+
   const { items, totalPrice } = useSelector((state) => state.cartAdd);
+  const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
 
   const onClickClear = () => {
     if (window.confirm("To clean a shopping cart?")) {
       dispatch(clearItems());
     }
   };
-  const wrapRef = useRef(null);
-  const addToWishHandler = (item) => {
-    dispatch(addToWishList(item));
-    setIsWishlisted(!isWishlisted);
-  };
-  const removeWishlishHandler = (productId) => {
-    dispatch(removeWishlist(productId));
-  };
-  const [countValue, setCountValue] = React.useState(0);
-  const [openMenuDelete, setOpenMenuDelete] = React.useState(false);
-  const [totalCount] = React.useState();
 
-  const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
-  const { mobile } = React.useContext(MobileContext);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const wrapRef = useRef(null);
 
   const handClick = (event) => {
     if (wrapRef.current && !wrapRef.current.contains(event.target))
@@ -53,6 +34,18 @@ const ShoppingCart = ({ title, img, price }) => {
       document.removeEventListener("mousedown", handClick);
     };
   }, []);
+
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(totalPrice);
+      localStorage.setItem("totalPrice", json);
+    }
+    isMounted.current = true;
+  }, [totalPrice]);
+
+  /* console.log(items, "items"); */
 
   return (
     <div className="shoppingcart__container">
@@ -99,7 +92,7 @@ const ShoppingCart = ({ title, img, price }) => {
                 <div className="shoppingcart__down">
                   <Button type="white" title="Continue shopping" />
                   <div className="shoppingcart__down-summ">
-                    <h5>$ {totalPrice}</h5>
+                    <h5>$ {parseFloat((totalPrice * 0.9).toFixed(2))}</h5>
                     <Button type="violet" title="Complete the order" />
                   </div>
                 </div>
@@ -107,11 +100,6 @@ const ShoppingCart = ({ title, img, price }) => {
               <div className="shoppingcart__cheaper">
                 <h5>Together it's cheaper</h5>
                 <SliderCart />
-
-                <div className="shoppingcart__down-summ2">
-                  <h5>$ 749</h5>
-                  <Button type="violet" title="Add to order" />
-                </div>
               </div>
             </>
           ) : (

@@ -2,12 +2,11 @@ import React from "react";
 
 import { useParams } from "react-router-dom";
 
-
 import Button from "../../components/Button.jsx";
 import { DesktopContext, MobileContext } from "../../App.js";
 import { useSelector } from "react-redux";
 
-import Promotions from "../../Containers/Promotions/PromotionContainer.jsx";
+import PromotionContainer from "../../Containers/PromotionsContainer/PromotionsContainer.jsx";
 import BuyWithUs from "../../components/BuyWithUs/index.jsx";
 import SwiperSlider1 from "../../components/Sliders/SliderProductCard/SwiperSlider1/SwiperSlider1.jsx";
 import SwiperSlider2 from "../../components/Sliders/SliderProductCard/SwiperSlider2/SwiperSlider2.jsx";
@@ -27,7 +26,7 @@ function ProductCard() {
     (state) => state.cardReducer.characteristics
   );
 
-  console.log(characteristic, "characteristics2");
+  /* console.log(characteristic, "characteristics2"); */
 
   const [about, setAbout] = React.useState(true);
   const [characteristics, setCharacteristics] = React.useState(false);
@@ -801,7 +800,7 @@ function ProductCard() {
               </tbody>
             </table>
           </div>
-          <Promotions />
+          <PromotionContainer />
           <BuyWithUs />
           <Subscribe />
         </div>

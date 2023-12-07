@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { ReactComponent as Chats } from "./Image/chat.svg";
 
-import style from "./style.scss"
+import style from "./style.scss";
 
 const Chat = ({ onClick, className, selected }) => {
   const handleClick = () => {
@@ -11,14 +12,18 @@ const Chat = ({ onClick, className, selected }) => {
     }
   };
   return (
-   <a href="/order-page">
-      <div
-        className={`chat ${className} ${selected ? "selected" : ""}`}
-        onClick={handleClick}
-      >
-       <Chats/>
+    <Link to="/order-page">
+      <div className="chat__container">
+        <div className="chat__cont">
+          <div
+            className={`chat ${className} ${selected ? "selected" : ""}`}
+            onClick={handleClick}
+          >
+            <Chats />
+          </div>
+        </div>
       </div>
-   </a>
+    </Link>
   );
 };
 
