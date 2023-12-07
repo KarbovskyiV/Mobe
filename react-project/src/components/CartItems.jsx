@@ -133,10 +133,9 @@ const CartItems = ({ item, id, title, price, count, img }) => {
             </svg>
             <p>Add to favourite</p>
           </div>
-          <div className="delete-box2">
+          <div className="delete-box2" onClick={onClickDelete}>
             <svg
               className="delete_svg"
-              onClick={onClickDelete}
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"

@@ -7,13 +7,11 @@ import {
   userContext,
   isLoggedInContext,
   SearchContext,
-  totalCountShoppingCartContext,
   ShoppingCartActiveContext,
   DesktopContext,
   TabletContext,
   MobileContext,
   CatalogOpenedContext,
-  GetCatalogContext,
 } from "../../App.js";
 import debounce from "lodash.debounce";
 import ComparePageLink from "../ComparePageLink/ComparePageLink.jsx";

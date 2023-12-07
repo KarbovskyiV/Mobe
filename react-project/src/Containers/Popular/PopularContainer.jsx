@@ -17,7 +17,9 @@ const PopularContainer = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const products = useSelector((state) => state.products.products.slice(16, 20));
+  const products = useSelector((state) =>
+    state.products.products.slice(16, 20)
+  );
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
 
@@ -38,4 +40,3 @@ const PopularContainer = () => {
 };
 
 export default PopularContainer;
-
