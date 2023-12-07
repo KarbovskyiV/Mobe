@@ -11,25 +11,25 @@ import Subscribe from "../../components/Subscribe/Subscribe";
 import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
 import Btn from "../../components/Btn/Btn";
 import MoreBtn from "../../components/IconMore/IconMore";
-
-import { removeWishlist } from '../../redux/slices/wishlistSlice';
-
+import { removeLikedProduct } from "../../redux/slices/wishlistSlice";
 import Button from "../../components/Button";
 
 import { useDispatch, useSelector } from "react-redux";
-import { likeProduct, dislikeProduct } from "../../actions/toogleLike";
 
 import "./style.scss";
 
 const WishList = () => {
   const dispatch = useDispatch();
+  const likedProducts = useSelector(
+    (state) => state.likedProducts.likedProducts
+  );
+  console.log("likedProducts", likedProducts);
+  const handleRemoveButtonClick = (productId) => {
+    dispatch(removeLikedProduct(productId));
+  };
 
-  const { wishlistsItems } = useSelector((state) => state?.wishlists);
-  
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isContentHidden, setIsContentHidden] = useState(false);
-  
- 
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,10 +43,6 @@ const WishList = () => {
     };
   }, []);
 
-    const removeWishlishHandler = (productId) => {
-    dispatch(removeWishlist(productId));
-  };
-  
   const handleTitleClick = () => {
     setIsContentHidden(!isContentHidden);
   };
@@ -70,14 +66,14 @@ const WishList = () => {
             </div>
           </div>
           <div className="wish-list__box">
-            {wishlistsItems.length > 0 ? (
-              wishlistsItems.map((product) => (
+            {likedProducts.length > 0 ? (
+              likedProducts.map((product) => (
                 <div className="wish-list__card" key={product.id}>
                   <MoreBtn />
                   <div className="wish-list__close">
                     <button
                       className="wish-list__clear-btn"
-                      onClick={() => removeWishlishHandler(product.id)}
+                      onClick={() => handleRemoveButtonClick(product.id)}
                     >
                       <Close />
                     </button>
@@ -116,13 +112,6 @@ const WishList = () => {
                     </div>
                     <IconsHeart
                       className={`heart-wish ${product.like ? "selected" : ""}`}
-                      onClick={() => {
-                        if (product.like) {
-                          dispatch(dislikeProduct(product.id));
-                        } else {
-                          dispatch(likeProduct(product.id));
-                        }
-                      }}
                     />
                   </div>
                 </div>
