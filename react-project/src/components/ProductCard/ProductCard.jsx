@@ -3,6 +3,7 @@ import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
+
 import { useParams } from "react-router-dom";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
 import {
@@ -89,12 +90,7 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
             <div className="section__card-oldprice">$ 250.99</div>
             <div className="section__card-newprice">{item.price}$</div>
           </div>
-          <Button
-            type="violet"
-            title={"Add to Cart"}
-            /* onClick={handleAddToCartClick} */
-            onClick={addIntoCart}
-          />
+          <Button type="violet" title={"Add to Cart"} onClick={addIntoCart} />
         </div>
         <IconsHeart
           className={`heart-product ${isWishlisted ? "selected" : ""}`}

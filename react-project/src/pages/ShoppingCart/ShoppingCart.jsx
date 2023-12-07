@@ -45,8 +45,6 @@ const ShoppingCart = ({ title, img, price }) => {
     isMounted.current = true;
   }, [totalPrice]);
 
-  /* console.log(items, "items"); */
-
   return (
     <div className="shoppingcart__container">
       <div className="shoppingcart__window" ref={wrapRef}>
