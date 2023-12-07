@@ -11,10 +11,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
 
   const [isWishlisted, setIsWishlisted] = React.useState(false);
 
-  const addToWishHandler = (item) => {
-    dispatch(addToWishList(item));
-    setIsWishlisted(!isWishlisted);
-  };
+
 
   const onClickPlus = () => {
     if (count >= 0) {
@@ -112,7 +109,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
           ref={wrapRef}
         >
           <div
-            onClick={() => addToWishHandler(item)}
+           
             className={`delete-box1 ${isWishlisted ? "selected" : ""}`}
           >
             <svg
@@ -133,10 +130,9 @@ const CartItems = ({ item, id, title, price, count, img }) => {
             </svg>
             <p>Add to favourite</p>
           </div>
-          <div className="delete-box2">
+          <div className="delete-box2" onClick={onClickDelete}>
             <svg
               className="delete_svg"
-              onClick={onClickDelete}
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"

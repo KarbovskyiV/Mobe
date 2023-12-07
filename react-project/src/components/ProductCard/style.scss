@@ -13,9 +13,11 @@
   position: relative;
   padding-bottom: 40px;
 }
+
 .section__card-photo {
   max-width: 267px;
 }
+
 .section__card-content {
   padding: 12px;
   background: var(--Grey-light, #f5f5f5);
@@ -26,20 +28,23 @@
   text-align: center;
   margin-bottom: 12px;
 }
+
 .rating {
   display: flex;
   justify-content: space-between;
 }
-.rating__revews {
-}
+
+.rating__revews {}
 
 .section__price {
   display: flex;
   justify-content: space-between;
 }
+
 .section__card-oldprice {
   text-decoration: line-through;
 }
+
 .section__card-newprice {
   font-size: 16px;
   font-style: normal;
@@ -54,8 +59,31 @@
   right: 8px;
 }
 
-.weght-product{
-position: absolute;
-top: 40px;
-right: 8px;
+.weght-product {
+  position: absolute;
+  top: 40px;
+  right: 8px;
+}
+
+
+.popup__compare {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  text-align: center;
+  z-index: 2;
+  width: 330px;
+  border-radius: 4px;
+  padding: 12px 16px 24px 16px;
+  color: var(--black, #28003E);
+  text-align: center;
+  /* body regular 16 */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
 }

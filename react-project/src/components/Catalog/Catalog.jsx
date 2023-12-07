@@ -6,10 +6,11 @@ import IconClose from "../IconsClose/IconClose.jsx";
 import IconOpen from "../IconsClose/IconOpen.jsx";
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setCategoryProduct,
   setCharacteristics,
+  setAnalog,
 } from "../../redux/slices/cardSlice.js";
 
 import {
@@ -35,30 +36,49 @@ const Catalog = () => {
 
   const dispatch = useDispatch();
 
-  const onClickCatalog = (category, characteristics) => {
+  const onClickCatalog = (category, characteristics, name) => {
     dispatch(setCategoryProduct(category));
     dispatch(setCharacteristics(characteristics));
+    const analog = findMostSimilar(name, menuData);
+    dispatch(setAnalog(analog));
+    setCatalogOpened(false);
   };
+
+  function calculateSimilarity(str1, str2) {
+    const maxLength = Math.max(str1.length, str2.length);
+    const commonLength = str1
+      .split("")
+      .filter((char, index) => char === str2[index]).length;
+
+    return commonLength / maxLength;
+  }
+
+  function findMostSimilar(inputName, objects) {
+    let maxSimilarity = 0;
+    let mostSimilarObject = null;
+
+    objects.forEach((obj) => {
+      if (obj.name !== inputName) {
+        const similarity = calculateSimilarity(inputName, obj.name);
+        if (similarity > maxSimilarity) {
+          maxSimilarity = similarity;
+          mostSimilarObject = obj;
+        }
+      }
+    });
+
+    return mostSimilarObject;
+  }
+
+  const products = useSelector((state) => state.products.products);
 
   useEffect(() => {
     if (catalogOpened === true) {
-      axios
-        .get("/products")
-        .then((res) => {
-          setMenuData(res.data);
-          const transformedData = transformData(res.data);
-
-          setCategory(transformedData);
-        })
-        .catch((err) => {
-          console.log(22, err);
-        });
+      setMenuData(products);
+      const transformedData = transformData(products);
+      setCategory(transformedData);
     }
-
-    return () => {
-      /* setCatalogOpened(false); */
-    };
-  }, [catalogOpened]);
+  }, [catalogOpened, products, setCategory]);
 
   const transformData = (data) => {
     const transformedData = [];
@@ -88,8 +108,6 @@ const Catalog = () => {
   };
 
   const catalogList = category;
-
-  /* console.log(menuData); */
 
   const MenuItem = ({ item }) => {
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
@@ -227,7 +245,9 @@ const Catalog = () => {
                         <li key={i}>
                           <Link
                             to="/product-card"
-                            onClick={() => onClickCatalog(obj.label, object)}
+                            onClick={() =>
+                              onClickCatalog(obj.label, object, object.name)
+                            }
                           >
                             {object.name}
                           </Link>

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartActiveContext } from "../../App.js";
 import Button from "../../components/Button.jsx";
@@ -44,8 +44,6 @@ const ShoppingCart = ({ title, img, price }) => {
     }
     isMounted.current = true;
   }, [totalPrice]);
-
-  /* console.log(items, "items"); */
 
   return (
     <div className="shoppingcart__container">

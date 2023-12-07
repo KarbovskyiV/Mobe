@@ -1,12 +1,15 @@
-import React from "react";
-
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 import Button from "../../components/Button.jsx";
-import { DesktopContext, MobileContext } from "../../App.js";
-import { useSelector } from "react-redux";
-
-import Promotions from "../../Containers/Promotions/PromotionContainer.jsx";
+import {
+  DesktopContext,
+  MobileContext,
+  CatalogOpenedContext,
+} from "../../App.js";
+import { useSelector, useDispatch } from "react-redux";
+import Catalog from "../../components/Catalog/Catalog.jsx";
+import ErrorBoundary from "../../components/ErrorBoundary";
+import PromotionContainer from "../../Containers/PromotionsContainer/PromotionsContainer.jsx";
 import BuyWithUs from "../../components/BuyWithUs/index.jsx";
 import SwiperSlider1 from "../../components/Sliders/SliderProductCard/SwiperSlider1/SwiperSlider1.jsx";
 import SwiperSlider2 from "../../components/Sliders/SliderProductCard/SwiperSlider2/SwiperSlider2.jsx";
@@ -14,9 +17,25 @@ import "./style.scss";
 import ProductCardBox from "../../components/ProductCardBox";
 import IconTick from "../../components/IconTick/";
 import Subscribe from "../../components/Subscribe/Subscribe.jsx";
+import { addItem } from "../../redux/slices/cartAdd";
+import Image from "./image.jpg";
 
 function ProductCard() {
-  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const addIntoCart = () => {
+    const itemCart = {
+      title: activeAnalog,
+      price:
+        activeAnalog === analogCard.name
+          ? analogCard.price
+          : characteristic.price,
+      img: Image,
+    };
+    dispatch(addItem(itemCart));
+  };
+
+  const { catalogOpened } = React.useContext(CatalogOpenedContext);
   const { desktop } = React.useContext(DesktopContext);
   const { mobile } = React.useContext(MobileContext);
 
@@ -26,12 +45,45 @@ function ProductCard() {
     (state) => state.cardReducer.characteristics
   );
 
-  /* console.log(characteristic, "characteristics2"); */
+  const analogCard = useSelector((state) => state.cardReducer.analog);
 
   const [about, setAbout] = React.useState(true);
   const [characteristics, setCharacteristics] = React.useState(false);
   const [reviews, setReviews] = React.useState(false);
   const [colorActive, setColorActive] = React.useState(1);
+  const [activeAnalog, setActiveAnalog] = React.useState(characteristic.name);
+  const [activeMemory, setActiveMemory] = React.useState(
+    characteristic.built_in_memory
+  );
+
+  const products = useSelector((state) => state.products.products);
+
+  const [isMemory128, setIsMemory128] = useState([]);
+  const [isMemory256, setIsMemory256] = useState([]);
+  const [isMemory512, setIsMemory512] = useState([]);
+  const [isMemory1tb, setIsMemory1tb] = useState([]);
+
+  const isClick = React.useRef(false);
+
+  useEffect(() => {
+    if (!isClick.current) {
+      setActiveAnalog(characteristic.name);
+      setActiveMemory(characteristic.built_in_memory);
+    } else {
+      return;
+    }
+  }, [characteristic]);
+
+  useEffect(() => {
+    const filterProducts = products.filter(
+      (prod) => prod.name === activeAnalog
+    );
+
+    setIsMemory128(filterProducts.filter((i) => i.built_in_memory === "128GB"));
+    setIsMemory256(filterProducts.filter((i) => i.built_in_memory === "256GB"));
+    setIsMemory512(filterProducts.filter((i) => i.built_in_memory === "512GB"));
+    setIsMemory1tb(filterProducts.filter((i) => i.built_in_memory === "1TB"));
+  }, [products, activeAnalog]);
 
   function onClickAbout() {
     setAbout(true);
@@ -52,13 +104,37 @@ function ProductCard() {
   }
 
   const title = () => {
-    return `${
-      characteristic.name === null || undefined
-        ? "no data"
-        : characteristic.name
-    } ${
-      characteristic.name === null ? "no data" : characteristic.built_in_memory
-    } ${characteristic.color === null ? "no data" : characteristic.color}`;
+    if (activeAnalog === analogCard.name) {
+      return `${
+        analogCard.name === null || analogCard.name === undefined
+          ? ""
+          : analogCard.name
+      } ${
+        analogCard.built_in_memory === null ||
+        analogCard.built_in_memory === undefined
+          ? ""
+          : analogCard.built_in_memory
+      } ${
+        analogCard.color === null || analogCard.color === undefined
+          ? ""
+          : analogCard.color
+      }`;
+    } else {
+      return `${
+        characteristic.name === null || characteristic.name === undefined
+          ? ""
+          : characteristic.name
+      } ${
+        characteristic.built_in_memory === null ||
+        characteristic.built_in_memory === undefined
+          ? ""
+          : characteristic.built_in_memory
+      } ${
+        characteristic.color === null || characteristic.color === undefined
+          ? ""
+          : characteristic.color
+      }`;
+    }
   };
 
   const titleProduct = () => {
@@ -85,8 +161,37 @@ function ProductCard() {
     );
   };
 
+  function getCharacteristic(a) {
+    return activeAnalog === analogCard.name
+      ? analogCard[a]
+        ? analogCard[a]
+        : "-"
+      : characteristic[a]
+      ? characteristic[a]
+      : "-";
+  }
+
+  const getActive1 = () => {
+    setActiveAnalog(characteristic.name);
+    setActiveMemory(characteristic.built_in_memory);
+  };
+
+  const getActive2 = () => {
+    isClick.current = true;
+    setActiveAnalog(analogCard.name);
+    console.log(activeAnalog, "onclick");
+    setActiveMemory(analogCard.built_in_memory);
+  };
+
   return (
     <>
+      <div className="home__container">
+        {catalogOpened && (
+          <ErrorBoundary>
+            <Catalog />
+          </ErrorBoundary>
+        )}
+      </div>
       <div className="productCard">
         <div className="productCard__container">
           <div className="productCard__titlemenu">
@@ -257,25 +362,102 @@ function ProductCard() {
                 </div>
 
                 <p>
-                  Series: <span>{characteristic.name}</span>
+                  Series:
+                  <span>
+                    {activeAnalog === analogCard.name
+                      ? analogCard.name
+                      : characteristic.name}
+                  </span>
                 </p>
                 <div className="productCard__buttons">
-                  <button>
-                    <span>iPhone 14 Pro Max</span>
+                  <button
+                    onClick={getActive1}
+                    className={
+                      activeAnalog === characteristic.name
+                        ? "active"
+                        : "unactive"
+                    }
+                  >
+                    {characteristic.name}
                   </button>
-                  <button>iPhone 14 Pro</button>
-                  <button>iPhone 14</button>
+                  <button
+                    onClick={getActive2}
+                    className={
+                      activeAnalog === analogCard.name ? "active" : "unactive"
+                    }
+                  >
+                    {analogCard.name}
+                  </button>
                 </div>
                 <p>
-                  Internal memory: <span>{characteristic.built_in_memory}</span>
+                  Internal memory:{" "}
+                  <span>
+                    {activeAnalog === analogCard.name
+                      ? analogCard.built_in_memory
+                      : characteristic.built_in_memory}
+                  </span>
                 </p>
                 <div className="productCard__buttons">
-                  <button>
-                    <span>128 GB</span>
+                  <button
+                    onClick={
+                      isMemory128.length !== 0
+                        ? () => setActiveMemory("128GB")
+                        : null
+                    }
+                    className={activeMemory === "128GB" ? "active" : "unactive"}
+                    style={
+                      isMemory128.length === 0
+                        ? { textDecoration: "line-through" }
+                        : null
+                    }
+                  >
+                    128 GB
                   </button>
-                  <button>256 GB</button>
-                  <button>512 GB</button>
-                  <button>1 TB</button>
+                  <button
+                    onClick={
+                      isMemory256.length !== 0
+                        ? () => setActiveMemory("256GB")
+                        : null
+                    }
+                    className={activeMemory === "256GB" ? "active" : "unactive"}
+                    style={
+                      isMemory256.length === 0
+                        ? { textDecoration: "line-through" }
+                        : null
+                    }
+                  >
+                    256 GB
+                  </button>
+                  <button
+                    onClick={
+                      isMemory512.length !== 0
+                        ? () => setActiveMemory("512GB")
+                        : null
+                    }
+                    className={activeMemory === "512GB" ? "active" : "unactive"}
+                    style={
+                      isMemory512.length === 0
+                        ? { textDecoration: "line-through" }
+                        : null
+                    }
+                  >
+                    512 GB
+                  </button>
+                  <button
+                    onClick={
+                      isMemory1tb.length !== 0
+                        ? () => setActiveMemory("1TB")
+                        : null
+                    }
+                    className={activeMemory === "1TB" ? "active" : "unactive"}
+                    style={
+                      isMemory1tb.length === 0
+                        ? { textDecoration: "line-through" }
+                        : null
+                    }
+                  >
+                    1 TB
+                  </button>
                 </div>
               </div>
 
@@ -350,15 +532,25 @@ function ProductCard() {
                 </div>
                 <div className="productCard__cardBlockRight">
                   <div className="productCard__cardBlockPart1">
-                    <p>$ {characteristic.price}</p>
-                    <h4>$ {characteristic.price - 100}</h4>
+                    <p>
+                      $
+                      {activeAnalog === analogCard.name
+                        ? analogCard.price
+                        : characteristic.price}
+                    </p>
+                    <h4>
+                      $
+                      {activeAnalog === analogCard.name
+                        ? analogCard.price
+                        : characteristic.price - 100}
+                    </h4>
                     <div className="productCard__cardBlockEconomy">
                       <p>Economy:</p>
                       <p>- $ 100</p>
                     </div>
                   </div>
                   <div className="productCard__cardBlockPart2">
-                    <Button type="violet" title="Buy" />
+                    <Button type="violet" title="Buy" onClick={addIntoCart} />
                     <Button type="black" title="Credit" />
                   </div>
                 </div>
@@ -393,61 +585,37 @@ function ProductCard() {
                   <td>
                     <span>Display diagonal</span>
                   </td>
-                  <td>
-                    {!characteristic.display_diagonal
-                      ? "-"
-                      : characteristic.display_diagonal}
-                  </td>
+                  <td>{getCharacteristic("display_diagonal")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Display resolution</span>
                   </td>
-                  <td>
-                    {!characteristic.display_resolution
-                      ? "-"
-                      : characteristic.display_resolution}
-                  </td>
+                  <td>{getCharacteristic("display_resolution")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Matrix type</span>
                   </td>
-                  <td>
-                    {!characteristic.matrix_type
-                      ? "-"
-                      : characteristic.matrix_type}
-                  </td>
+                  <td>{getCharacteristic("matrix_type")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Screen refresh rate</span>
                   </td>
-                  <td>
-                    {!characteristic.screen_refresh_rate
-                      ? "-"
-                      : characteristic.screen_refresh_rate}
-                  </td>
+                  <td>{getCharacteristic("screen_refresh_rate")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Screen material</span>
                   </td>
-                  <td>
-                    {!characteristic.screen_material
-                      ? "-"
-                      : characteristic.screen_material}
-                  </td>
+                  <td>{getCharacteristic("screen_material")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Communication standard</span>
                   </td>
-                  <td>
-                    {!characteristic.communication_standard
-                      ? "-"
-                      : characteristic.communication_standard}
-                  </td>
+                  <td>{getCharacteristic("communication_standard")}</td>
                 </tr>
                 <tr>
                   <td></td>
@@ -457,111 +625,67 @@ function ProductCard() {
                   <td>
                     <span>SIM card dimensions</span>
                   </td>
-                  <td>
-                    {!characteristic.sim_card_dimensions
-                      ? "-"
-                      : characteristic.sim_card_dimensions}
-                  </td>
+                  <td>{getCharacteristic("sim_card_dimensions")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Built-in memory</span>
                   </td>
-                  <td>
-                    {!characteristic.built_in_memory
-                      ? "-"
-                      : characteristic.built_in_memory}
-                  </td>
+                  <td>{getCharacteristic("built_in_memory")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Operating System</span>
                   </td>
-                  <td>
-                    {!characteristic.operating_system
-                      ? "-"
-                      : characteristic.operating_system}
-                  </td>
+                  <td>{getCharacteristic("operating_system")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Front camera</span>
                   </td>
-                  <td>
-                    {!characteristic.front_camera
-                      ? "-"
-                      : characteristic.front_camera}
-                  </td>
+                  <td>{getCharacteristic("front_camera")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Features of the front camera</span>
                   </td>
-                  <td>
-                    {!characteristic.features_of_the_front_camera
-                      ? "-"
-                      : characteristic.features_of_the_front_camera}
-                  </td>
+                  <td>{getCharacteristic("features_of_the_front_camera")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Placement of the front camera</span>
                   </td>
-                  <td>
-                    {!characteristic.placement_of_the_front_camera
-                      ? "-"
-                      : characteristic.placement_of_the_front_camera}
-                  </td>
+                  <td>{getCharacteristic("placement_of_the_front_camera")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Type of frontal flash</span>
                   </td>
-                  <td>
-                    {!characteristic.type_of_frontal_flash
-                      ? "-"
-                      : characteristic.type_of_frontal_flash}
-                  </td>
+                  <td>{getCharacteristic("type_of_frontal_flash")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Front camera video recording</span>
                   </td>
-                  <td>
-                    {!characteristic.front_camera_video_recording
-                      ? "-"
-                      : characteristic.front_camera_video_recording}
-                  </td>
+                  <td>{getCharacteristic("front_camera_video_recording")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Additionally</span>
                   </td>
-                  <td>
-                    {!characteristic.additionally
-                      ? "-"
-                      : characteristic.additionally}
-                  </td>
+                  <td>{getCharacteristic("additionally")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Name of the processor</span>
                   </td>
-                  <td>
-                    {!characteristic.name_of_the_processor
-                      ? "-"
-                      : characteristic.name_of_the_processor}
-                  </td>
+                  <td>{getCharacteristic("name_of_the_processor")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Number of cores</span>
                   </td>
-                  <td>
-                    {!characteristic.number_of_cores
-                      ? "-"
-                      : characteristic.number_of_cores}
-                  </td>
+                  <td>{getCharacteristic("number_of_cores")}</td>
                 </tr>
                 <tr>
                   <td>
@@ -573,42 +697,26 @@ function ProductCard() {
                   <td>
                     <span>Main camera</span>
                   </td>
-                  <td>
-                    {!characteristic.main_camera
-                      ? "-"
-                      : characteristic.main_camera}
-                  </td>
+                  <td>{getCharacteristic("main_camera")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Features of the main camera</span>
                   </td>
-                  <td>
-                    {!characteristic.features_of_the_main_camera
-                      ? "-"
-                      : characteristic.features_of_the_main_camera}
-                  </td>
+                  <td>{getCharacteristic("features_of_the_main_camera")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Number of main cameras</span>
                   </td>
-                  <td>
-                    {" "}
-                    {!characteristic.number_of_main_cameras
-                      ? "-"
-                      : characteristic.number_of_main_cameras}
-                  </td>
+                  <td>{getCharacteristic("number_of_main_cameras")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Record video of the main camera</span>
                   </td>
                   <td>
-                    {" "}
-                    {!characteristic.record_video_of_the_main_camera
-                      ? "-"
-                      : characteristic.record_video_of_the_main_camera}
+                    {getCharacteristic("record_video_of_the_main_camera")}
                   </td>
                 </tr>
                 <tr>
@@ -616,191 +724,131 @@ function ProductCard() {
                     <span>Additional information on the camera</span>
                   </td>
                   <td>
-                    {!characteristic.additional_information_on_the_camera
-                      ? "-"
-                      : characteristic.additional_information_on_the_camera}
+                    {getCharacteristic("additional_information_on_the_camera")}
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Video recording</span>
                   </td>
-                  <td>
-                    {!characteristic.video_recording
-                      ? "-"
-                      : characteristic.video_recording}
-                  </td>
+                  <td>{getCharacteristic("video_recording")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Stabilization method</span>
                   </td>
-                  <td>
-                    {!characteristic.stabilization_method
-                      ? "-"
-                      : characteristic.stabilization_method}
-                  </td>
+                  <td>{getCharacteristic("stabilization_method")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Body material</span>
                   </td>
-                  <td>
-                    {!characteristic.body_material
-                      ? "-"
-                      : characteristic.body_material}
-                  </td>
+                  <td>{getCharacteristic("body_material")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Connectors</span>
                   </td>
-                  <td>
-                    {!characteristic.connectors
-                      ? "-"
-                      : characteristic.connectors}
-                  </td>
+                  <td>{getCharacteristic("connectors")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Navigation</span>
                   </td>
-                  <td>
-                    {!characteristic.navigation
-                      ? "-"
-                      : characteristic.navigation}
-                  </td>
+                  <td>{getCharacteristic("navigation")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Weight, g</span>
                   </td>
-                  <td>
-                    {!characteristic.weight_g ? "-" : characteristic.weight_g}
-                  </td>
+                  <td>{getCharacteristic("weight_g")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Dimensions</span>
                   </td>
-                  <td>
-                    {!characteristic.dimensions
-                      ? "-"
-                      : characteristic.dimensions}
-                  </td>
+                  <td>{getCharacteristic("dimensions")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Security</span>
                   </td>
-                  <td>
-                    {!characteristic.security ? "-" : characteristic.security}
-                  </td>
+                  <td>{getCharacteristic("security")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Degree of dust/moisture protection</span>
                   </td>
                   <td>
-                    {!characteristic.degree_of_dust_moisture_protection
-                      ? "-"
-                      : characteristic.degree_of_dust_moisture_protection}
+                    {getCharacteristic("degree_of_dust_moisture_protection")}
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <span>Sensors</span>
                   </td>
-                  <td>
-                    {!characteristic.sensors ? "-" : characteristic.sensors}
-                  </td>
+                  <td>{getCharacteristic("sensors")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Supply set</span>
                   </td>
-                  <td>
-                    {!characteristic.supply_set
-                      ? "-"
-                      : characteristic.supply_set}
-                  </td>
+                  <td>{getCharacteristic("supply_set")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Wireless technologies</span>
                   </td>
-                  <td>
-                    {!characteristic.wireless_technologies
-                      ? "-"
-                      : characteristic.wireless_technologies}
-                  </td>
+                  <td>{getCharacteristic("wireless_technologies")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Equipment</span>
                   </td>
-                  <td>
-                    {!characteristic.equipment ? "-" : characteristic.equipment}
-                  </td>
+                  <td>{getCharacteristic("equipment")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Form factor</span>
                   </td>
-                  <td>
-                    {!characteristic.form_factor
-                      ? "-"
-                      : characteristic.form_factor}
-                  </td>
+                  <td>{getCharacteristic("form_factor")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Features of the case</span>
                   </td>
-                  <td>
-                    {!characteristic.features_of_the_case
-                      ? "-"
-                      : characteristic.features_of_the_case}
-                  </td>
+                  <td>{getCharacteristic("features_of_the_case")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Color</span>
                   </td>
-                  <td>{!characteristic.color ? "-" : characteristic.color}</td>
+                  <td>{getCharacteristic("color")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Brand registration country</span>
                   </td>
-                  <td>
-                    {!characteristic.brand_registration_country
-                      ? "-"
-                      : characteristic.brand_registration_country}
-                  </td>
+                  <td>{getCharacteristic("brand_registration_country")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Warranty</span>
                   </td>
-                  <td>
-                    {!characteristic.warranty ? "-" : characteristic.warranty}
-                  </td>
+                  <td>{getCharacteristic("warranty")}</td>
                 </tr>
                 <tr>
                   <td>
                     <span>Country-producer of the product</span>
                   </td>
                   <td>
-                    {!characteristic.country_producer_of_the_product
-                      ? "-"
-                      : characteristic.country_producer_of_the_product}
+                    {getCharacteristic("country_producer_of_the_product")}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <Promotions />
+          <PromotionContainer />
           <BuyWithUs />
           <Subscribe />
         </div>

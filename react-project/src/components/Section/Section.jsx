@@ -52,9 +52,9 @@ const Section = ({ data }) => {
           <ProductSlider data={data} onAddToCart={handleAddToCart} />
         ) : (
           <div className="section__content">
-            {data.map((item, index) => (
+            {data.map((item) => (
               <ProductCard
-                key={index}
+                key={item.id}
                 item={item}
                 /*  onAddToCart={handleAddToCart} */
               />
