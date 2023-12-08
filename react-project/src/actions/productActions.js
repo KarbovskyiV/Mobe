@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export const FETCH_PRODUCTS_REQUEST = "FETCH_PRODUCTS_REQUEST";
 export const FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_SUCCESS";
 export const FETCH_PRODUCTS_FAILURE = "FETCH_PRODUCTS_FAILURE";
@@ -19,16 +18,16 @@ export const fetchProductsFailure = (error) => ({
   payload: error,
 });
 
-// Async action to fetch products
 export const fetchProducts = () => {
   return (dispatch) => {
     dispatch(fetchProductsRequest());
 
     axios
-      .get("https://dummyjson.com/products/")
-		 .then((response) => {
-			 console.log("111",response);
+      /* .get("http://mobe.publicvm.com:81/api/products") */
+      .get("http://mobe.local/api/products")
+      .then((response) => {
         const products = response.data;
+        /*  console.log("111", products); */
         dispatch(fetchProductsSuccess(products));
       })
       .catch((error) => {

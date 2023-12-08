@@ -3,11 +3,13 @@ import ErrorBoundary from "../components/ErrorBoundary";
 import Slider from "../components/Sliders/SliderHome/Slider.jsx";
 import LogosBlock from "../components/LogosBlock/LogosBlock.jsx";
 import { CatalogOpenedContext } from "../App.js";
-import PromotionContainer from "../Containers/Promotions/PromotionContainer.jsx";
-import NewContainer from "../Containers/New/NewContainer.jsx";
-import PopularContainer from "../Containers/Popular/PopularContainer.jsx";
+import MainContainer from "../Containers/MainContainer/MainContainer.jsx";
 import Subscribe from "../components/Subscribe/Subscribe.jsx";
 import Catalog from "../components/Catalog/Catalog.jsx";
+import Chat from "../components/Chat/Chat";
+
+import style from "./style.scss";
+
 
 const Home = () => {
   const { catalogOpened } = React.useContext(CatalogOpenedContext);
@@ -23,11 +25,8 @@ const Home = () => {
       </div>
       <Slider />
       <LogosBlock />
-
-      <PromotionContainer />
-      <NewContainer />
-      <PopularContainer />
-      <PopularContainer />
+      <Chat className="chat-home" />
+      <MainContainer />
       <Subscribe />
     </div>
   );

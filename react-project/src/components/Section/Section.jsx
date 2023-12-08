@@ -1,16 +1,17 @@
 // Section.jsx
 import React, { useEffect, useState } from "react";
-
 import "swiper/css";
 import "swiper/css/pagination";
-
 import ProductCard from "../ProductCard/ProductCard";
 import ProductSlider from "../ProductSlider/ProductSlider";
-
+import Close from "./images/close.png";
+import Alert from "./images/alert.png";
 import style from "./style.scss";
 
 const Section = ({ data }) => {
   const [isMobile, setIsMobile] = useState(false);
+
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 800px)");
@@ -28,7 +29,8 @@ const Section = ({ data }) => {
   }, []);
 
   const handleAddToCart = (productId) => {
-      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
     if (!cartItems.includes(productId)) {
       cartItems.push(productId);
       localStorage.setItem("cart", JSON.stringify(cartItems));
@@ -37,7 +39,11 @@ const Section = ({ data }) => {
       console.log(`Товар з ID ${productId} вже є у кошику!`);
     }
   };
- 
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    document.body.classList.remove("popup-open");
+  };
 
   return (
     <section className="section">
@@ -46,16 +52,29 @@ const Section = ({ data }) => {
           <ProductSlider data={data} onAddToCart={handleAddToCart} />
         ) : (
           <div className="section__content">
-            {data.map((item, index) => (
+            {data.map((item) => (
               <ProductCard
-                key={index}
+                key={item.id}
                 item={item}
-                onAddToCart={handleAddToCart}
+                /*  onAddToCart={handleAddToCart} */
               />
             ))}
           </div>
         )}
       </div>
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-btn">
+            <button onClick={handleClosePopup}>
+              <img src={Close} alt="" />
+            </button>
+          </div>
+          <div className="popup__inner">
+            <img src={Alert} alt="" />
+            <p>Only two products can be added to the comparison list</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

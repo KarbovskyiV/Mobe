@@ -8,16 +8,18 @@ import axios from "axios";
 import Section from "../../components/Section/Section";
 import Title from "../../components/Title/Title";
 
-const HotPriceContainer = () => {
+const HotPriceContainer = ({ className }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products/");
+        const response = await axios.get(
+          "http://mobe.publicvm.com:81/api/products"
+        );
 
-        if (Array.isArray(response.data.products)) {
-          const slicedData = response.data.products.slice(16, 20);
+        if (Array.isArray(response.data)) {
+          const slicedData = response.data.slice(10, 14);
           setData(slicedData);
         } else {
           console.log("Дані не є масивом.");
@@ -29,7 +31,7 @@ const HotPriceContainer = () => {
     fetchData();
   }, []);
   return <>
-    <div className="hotprice__container">
+    <div className={`hotprice__container ${className}`}>
       <Title text="HOT price"/>
       {!data.length ? <div>Loading</div> : <Section data={data} />}
     </div>

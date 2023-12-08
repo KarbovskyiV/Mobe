@@ -11,12 +11,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: scroll;
 }
 
 .shoppingcart__window {
   width: 55%;
-  margin: auto 247px;
+  margin: auto;
   background-color: $white;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
   border-radius: 4px;
@@ -25,6 +24,7 @@
   padding: 32px 97px 80px 97px;
   align-items: center;
   gap: 26px;
+  height: 650px;
 }
 
 .shoppingcart__box {
@@ -34,6 +34,8 @@
   width: 100%;
   height: 100%;
   padding: 0 65px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .shoppingcart__krestik {
@@ -45,7 +47,7 @@
 .shoppingcart__cart {
   display: flex;
   flex-direction: column;
-  height: 55%;
+  /* height: 55%; */
   width: 100%;
 
   h4 {
@@ -64,12 +66,23 @@
   width: 100%;
   margin-bottom: 42px;
   justify-content: space-between;
+
+  &__box {
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 .shoppingcart__img {
   img {
-    width: auto;
+    width: 170px;
+    height: 170px;
   }
+}
+
+.delete_svg,
+.fav_svg {
+  cursor: pointer;
 }
 
 .shoppingcart__down {
@@ -88,8 +101,7 @@
 .shoppingcart__add {
   display: flex;
   flex-direction: column;
-  /* width: 50%; */
-  justify-content: space-between;
+  justify-content: space-around;
 
   label {
     font-size: 20px;
@@ -145,6 +157,10 @@
   padding: 0;
   background-color: transparent;
   width: 100%;
+  margin-bottom: 45px;
+  position: absolute;
+  top: 80%;
+  transform: translateY(-80%);
 }
 
 .shoppingcart__summ {
@@ -198,11 +214,27 @@
   gap: 15px;
   width: 100%;
   align-items: center;
-
-  p {
-    text-decoration-line: underline;
-    font-size: 14px;
+  cursor: pointer;
+  &.selected svg,
+  &.selected svg path {
+    fill: red;
+    stroke: red;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.selected svg,
+  &.selected svg path {
+    fill: red;
+    stroke: red;
+  }
+}
+
+p {
+  text-decoration-line: underline;
+  font-size: 14px;
 }
 
 .delete-box2 {
@@ -211,6 +243,7 @@
   gap: 15px;
   width: 100%;
   align-items: center;
+  cursor: pointer;
 
   p {
     font-size: 14px;
@@ -219,8 +252,8 @@
 
 @media (max-width: 850px) {
   .shoppingcart__window {
-    width: 75%;
-    margin: auto 40px;
+    width: 70vw;
+    height: 70vh;
     padding: 32px 64px 80px 64px;
   }
 }
@@ -236,6 +269,22 @@
     h4 {
       font-size: 24px;
     }
+  }
+
+  .shoppingcart__img {
+    img {
+      width: 119px;
+      height: 119px;
+    }
+  }
+
+  .shoppingcart__window {
+    width: 90vw;
+    height: 90vh;
+  }
+
+  .shoppingcart__up {
+    height: 140px;
   }
 
   .shoppingcart__add {
@@ -265,5 +314,15 @@
 
   .shoppingcart__box {
     padding: 0 45px;
+  }
+
+  .shoppingcart__krestik {
+    width: 100%;
+    padding-top: 30px;
+  }
+
+  .shoppingcart__down-summ2 {
+    top: 93%;
+    transform: translateY(-85%);
   }
 }
