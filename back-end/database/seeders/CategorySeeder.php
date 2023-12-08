@@ -18,7 +18,6 @@ class CategorySeeder extends Seeder
             'Xiaomi phones',
             'Motorola phones',
             'Nokia phones',
-            'Phones’ accessories',
         ];
 
         foreach ($categories as $categoryName) {
