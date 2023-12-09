@@ -43,7 +43,7 @@ class ProductController extends Controller
      */
     public function index(): JsonResponse
     {
-        $products = Product::with('category')->get();
+        $products = Product::with(['category', 'product_memories'])->get();
 
         return response()->json($products);
     }
@@ -89,7 +89,7 @@ class ProductController extends Controller
      */
     public function show(Product $product): JsonResponse
     {
-        $product->load('category');
+        $product->load(['category', 'product_memories']);
 
         return response()->json($product);
     }
