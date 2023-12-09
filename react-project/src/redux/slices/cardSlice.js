@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import getCharacteristicLocalStorage from "../../utils/getCharacteristicLocalStorage";
+import getAnalogLocalStorage from "../../utils/getAnalogLocalStorage";
 
 const initialState = {
   category: "",
-  characteristics: [],
-  analog: [],
+  characteristics: getCharacteristicLocalStorage(),
+  analog: getAnalogLocalStorage(),
 };
 
 const cardSlice = createSlice({

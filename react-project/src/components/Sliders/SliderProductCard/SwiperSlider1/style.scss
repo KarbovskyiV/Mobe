@@ -53,12 +53,8 @@
   align-items: center;
   width: 464px;
   height: 528px;
-  /* padding: 68px 30px; */
   border-radius: 4px;
   border: 1px solid var(--Grey-50, #bababa);
-  /* .swiper-wrapper {
-    gap: 70px;
-  } */
 }
 
 .swiper-button-prev,
@@ -82,16 +78,10 @@
   align-items: center;
   height: 100vh;
   width: auto;
-
-  /*  .slide-img2 {
-    width: 403px;
-    height: 393px;
-  } */
 }
 
 .mySwiper2 .swiper-slide-active {
   width: 464px;
-  /*  margin-left: 120px; */
 }
 
 @media (max-width: 850px) {

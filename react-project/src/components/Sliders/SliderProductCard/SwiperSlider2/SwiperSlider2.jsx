@@ -6,18 +6,174 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
-import slide1 from "../../../../assets/img/slideProduct/image1.jpg";
-import slide2 from "../../../../assets/img/slideProduct/image2.jpg";
-import slide3 from "../../../../assets/img/slideProduct/image3.jpg";
-import slide4 from "../../../../assets/img/slideProduct/image4.jpg";
-import slide5 from "../../../../assets/img/slideProduct/image5.jpg";
-
 import "./style2.scss";
 
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
-export default function SwiperSlider() {
+export default function SwiperSlider({ colorActive }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+  const silverVertical = [
+    {
+      src: "./images/SilverVertical/silverVertical1.jpg",
+    },
+    {
+      src: "./images/SilverVertical/silverVertical2.jpg",
+    },
+    {
+      src: "./images/SilverVertical/silverVertical3.jpg",
+    },
+    {
+      src: "./images/SilverVertical/silverVertical4.jpg",
+    },
+    {
+      src: "./images/SilverVertical/silverVertical5.jpg",
+    },
+    {
+      src: "./images/SilverVertical/silverVertical6.jpg",
+    },
+  ];
+
+  const silverBig = [
+    {
+      src: "./images/Silver/silver1.jpg",
+    },
+    {
+      src: "./images/Silver/silver2.jpg",
+    },
+    {
+      src: "./images/Silver/silver3.jpg",
+    },
+    {
+      src: "./images/Silver/silver4.jpg",
+    },
+    {
+      src: "./images/Silver/silver5.jpg",
+    },
+    {
+      src: "./images/Silver/silver6.jpg",
+    },
+  ];
+
+  const blackVertical = [
+    {
+      src: "./images/BlackVertical/image1.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image2.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image3.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image4.jpg",
+    },
+    {
+      src: "./images/BlackVertical/image5.jpg",
+    },
+    /*  {
+      src: "./images/BlackVertical/image6.jpg",
+    }, */
+  ];
+
+  const blackBig = [
+    {
+      src: "./images/Black/black1.jpg",
+    },
+    {
+      src: "./images/Black/black2.jpg",
+    },
+    {
+      src: "./images/Black/black3.jpg",
+    },
+    {
+      src: "./images/Black/black4.jpg",
+    },
+    {
+      src: "./images/Black/black5.jpg",
+    },
+    /*  {
+      src: "./images/Black/black6.jpg",
+    }, */
+  ];
+
+  const purpleVertical = [
+    {
+      src: "./images/PurpleVertical/image1.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image2.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image3.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image4.jpg",
+    },
+    {
+      src: "./images/PurpleVertical/image5.jpg",
+    },
+    /*  {
+      src: "./images/PurpleVertical/image6.jpg",
+    }, */
+  ];
+
+  const purpleBig = [
+    {
+      src: "./images/Purple/purpleBig1.jpg",
+    },
+    {
+      src: "./images/Purple/purpleBig2.jpg",
+    },
+    {
+      src: "./images/Purple/purpleBig3.jpg",
+    },
+    {
+      src: "./images/Purple/purpleBig4.jpg",
+    },
+    {
+      src: "./images/Purple/purpleBig5.jpg",
+    },
+    /* {
+      src: "./images/Purple/purpleBig6.jpg",
+    }, */
+  ];
+
+  const colorSlides = () => {
+    if (colorActive === 1) {
+      return purpleVertical;
+    } else if (colorActive === 2) {
+      return blackVertical;
+    } else {
+      return silverVertical;
+    }
+  };
+
+  const colorSlidesBig = () => {
+    if (colorActive === 1) {
+      return purpleBig;
+    } else if (colorActive === 2) {
+      return blackBig;
+    } else {
+      return silverBig;
+    }
+  };
+
+  const slidesRender = colorSlides().map((ob, i) => {
+    return (
+      <SwiperSlide key={i}>
+        <img className="slide-images2" src={ob.src} alt="slide" />
+      </SwiperSlide>
+    );
+  });
+
+  const slidesRenderBig = colorSlidesBig().map((ob, i) => {
+    return (
+      <SwiperSlide key={i}>
+        <img className="slide-images2" src={ob.src} alt="slide" />
+      </SwiperSlide>
+    );
+  });
 
   return (
     <>
@@ -36,76 +192,7 @@ export default function SwiperSlider() {
           modules={[FreeMode, Navigation, Thumbs]}
           className="mySwiper3"
         >
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              className="slide-img"
-              src="./images/imageBig1Mobile.jpg"
-              alt="slide"
-            />
-          </SwiperSlide>
+          {slidesRenderBig}
         </Swiper>
       </div>
 
@@ -120,36 +207,7 @@ export default function SwiperSlider() {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <img className="slide-images" src={slide1} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide2} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide3} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide4} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide5} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide1} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide2} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide3} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide4} alt="slide" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="slide-images" src={slide5} alt="slide" />
-        </SwiperSlide>
+        {slidesRender}
       </Swiper>
     </>
   );
