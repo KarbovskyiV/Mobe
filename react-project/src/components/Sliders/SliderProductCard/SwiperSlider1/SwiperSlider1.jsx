@@ -17,14 +17,6 @@ export default function SwiperSlider({ colorActive }) {
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  const colorFoto = () => {
-    if (colorActive === 1) {
-      return "./images/Purple/purpleDesktop.jpg";
-    } else if (colorActive === 2) {
-      return "./images/Black/blackDesktop.jpg";
-    } else return "./images/Silver/imageBig1.jpg";
-  };
-
   const silverVertical = [
     {
       src: "./images/SilverVertical/silverVertical1.jpg",
