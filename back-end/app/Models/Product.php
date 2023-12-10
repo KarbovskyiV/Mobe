@@ -10,18 +10,10 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'category_id',
-        'name',
-    ];
+    protected $guarded = false;
 
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function product_memories()
-    {
-        return $this->hasMany(ProductMemory::class);
     }
 }

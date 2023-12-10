@@ -12,14 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('built_in_memory');
-        });
-
-        Schema::create('product_memories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id');
-            $table->enum('built_in_memory', ['64GB', '128GB', '256GB', '512GB']);
-            $table->timestamps();
+            $table->string('series')->nullable()->after('name');
         });
     }
 
@@ -29,9 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('built_in_memory')->nullable();
+            $table->dropColumn('series');
         });
-
-        Schema::dropIfExists('product_memories');
     }
 };
