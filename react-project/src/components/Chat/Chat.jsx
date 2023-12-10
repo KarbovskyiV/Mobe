@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as Chats } from "./Image/chat.svg";
 
-import style from "./style.scss";
+import "./style.scss";
 
 const Chat = ({ onClick, className, selected }) => {
   const handleClick = () => {

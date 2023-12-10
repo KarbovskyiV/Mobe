@@ -39,8 +39,15 @@ const Catalog = () => {
   const onClickCatalog = (category, characteristics, name) => {
     dispatch(setCategoryProduct(category));
     dispatch(setCharacteristics(characteristics));
+
+    const jsonCharacteristic = JSON.stringify(characteristics);
+    localStorage.setItem("characteristic", jsonCharacteristic);
+
     const analog = findMostSimilar(name, menuData);
     dispatch(setAnalog(analog));
+    const jsonAnalog = JSON.stringify(analog);
+    localStorage.setItem("analog", jsonAnalog);
+
     setCatalogOpened(false);
   };
 
