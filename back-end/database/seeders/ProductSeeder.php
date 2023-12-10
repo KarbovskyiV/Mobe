@@ -44,6 +44,7 @@ class ProductSeeder extends Seeder
                         'screen_material' => $faker->randomElement(['Gorilla Glass', 'AMOLED', 'LCD']),
                         'communication_standard' => $faker->randomElement(['4G LTE', '5G']),
                         'sim_card_dimensions' => $faker->randomElement(['Nano-SIM', 'Micro-SIM']),
+                        'built_in_memory' => $faker->randomElement(['64GB', '128GB', '256GB', '512GB']),
                         'the_maximum_volume_of_the_supported_memory_card' => $faker->randomElement(['256GB', '512GB']),
                         'operating_system' => $faker->randomElement(["iOS", 'HarmonyOS', 'Android']),
                         'front_camera' => $faker->randomElement(['12MP', '16MP', '20MP']),
