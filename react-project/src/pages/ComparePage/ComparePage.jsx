@@ -13,6 +13,7 @@ import HotPriceContainer from "../../Containers/HotPrice/HotPriceContainer";
 import "./style.scss";
 import PageLink from "../../components/PageLink/PageLink";
 import { removeComparedProduct } from "../../redux/slices/compareSlice";
+import Btn from "../../components/Btn/Btn";
 const ComparePage = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("All");
@@ -35,12 +36,15 @@ const ComparePage = () => {
     "is_promotion",
     "is_hot_price",
     "like",
+    "id",
+    "price",
+    "updated_at",
   ];
   const characteristics =
     comparedProducts.length > 0
       ? Object.keys(comparedProducts[0]).filter(
-          (characteristic) => !excludedCharacteristics.includes(characteristic)
-        )
+        (characteristic) => !excludedCharacteristics.includes(characteristic)
+      )
       : [];
   const hasDifferences = (characteristic, products) => {
     const values = products.map((product) => product[characteristic]);
@@ -82,10 +86,14 @@ const ComparePage = () => {
                       {product.price}$
                     </div>
                   </div>
-                  <Button type="violet" title="Add to cart" />
+                  {window.innerWidth < 550 ? (
+                <Btn type="violet" title="Add to cart" />
+              ) : (
+                <Button type="violet" title="Add to cart" />
+              )}
                 </div>
                 <IconsHeart className="compare-heart" />
-                <IconsWeight className="compare-weight" />
+                <IconsWeight className="compare-weight" isCompared={true}/>
               </div>
             </div>
           ))}
@@ -95,42 +103,43 @@ const ComparePage = () => {
             </div>
           )}
         </div>
-        <div class="comparison">
-          <div className="thead">
-            <thead
-              onClick={() => setActiveTab("All")}
-              className={activeTab === "All" ? "active" : ""}
-            >
-              All characteristics
-            </thead>
-            <thead
-              onClick={() => setActiveTab("Differences")}
-              className={activeTab === "Differences" ? "active" : ""}
-            >
-              Differences
-            </thead>
+        {comparedProducts.length > 0 && (  // Only render if there are items in comparison
+          <div className="comparison">
+            <div className="thead">
+              <div
+                onClick={() => setActiveTab("All")}
+                className={activeTab === "All" ? "active" : "none"}
+              >
+                All characteristics
+              </div>
+              <div
+                onClick={() => setActiveTab("Differences")}
+                className={activeTab === "Differences" ? "active" : "none"}
+              >
+                Differences
+              </div>
+            </div>
+            <div className="wrap-inner">
+              {characteristics.map((characteristic) => (
+                <div className="wrap-flex" key={characteristic}>
+                  {comparedProducts.map((product, index) => (
+                    <React.Fragment key={product.id}>
+                      {index === 0 && (
+                        <div className="wrap-text char">{characteristic}</div>
+                      )}
+                      {(activeTab === "All" ||
+                        hasDifferences(characteristic, comparedProducts)) && (
+                          <div className="wrap__content" key={product.id}>
+                            {String(product[characteristic])}
+                          </div>
+                        )}
+                    </React.Fragment>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
-          <tbody>
-            {characteristics.map((characteristic) => (
-              <tr key={characteristic}>
-                {comparedProducts.map((product, index) => (
-                  <React.Fragment key={product.id}>
-                    {index === 0 && (
-                      <td className="wrap-text char">{characteristic}</td>
-                    )}
-                    {(activeTab === "All" ||
-                      hasDifferences(characteristic, comparedProducts)) && (
-                      <td key={product.id}>
-                        {String(product[characteristic])}
-                      </td>
-                    )}
-                  </React.Fragment>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </div>
-
+        )}
         <HotPriceContainer />
       </div>
     </div>
