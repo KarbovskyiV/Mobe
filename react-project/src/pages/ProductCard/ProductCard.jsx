@@ -19,6 +19,18 @@ import IconTick from "../../components/IconTick/";
 import Subscribe from "../../components/Subscribe/Subscribe.jsx";
 import { addItem } from "../../redux/slices/cartAdd";
 import Image from "./image.jpg";
+import IconsHeart from "../../components/IconsHeart/IconsHeart";
+import IconsWeight from "../../components/IconsWeight/IconsWeight";
+import {
+  addLikedProduct,
+  removeLikedProduct,
+} from "../../redux/slices/wishlistSlice";
+import {
+  addComparedProduct,
+  removeComparedProduct,
+} from "../../redux/slices/compareSlice";
+import Reviews from "../../components/Reviews/Reviews.jsx";
+import reviewsList from "./reviews.json";
 
 function ProductCard() {
   const dispatch = useDispatch();
@@ -64,8 +76,6 @@ function ProductCard() {
   const [isMemory1tb, setIsMemory1tb] = useState([]);
 
   const isClick = React.useRef(false);
-
-  console.log(analogCard, 2);
 
   useEffect(() => {
     if (!isClick.current) {
@@ -120,7 +130,7 @@ function ProductCard() {
         analogCard.color === null || analogCard.color === undefined
           ? ""
           : analogCard.color
-      }`;
+      }  ${analogCard.id}`;
     } else {
       return `${
         characteristic.name === null || characteristic.name === undefined
@@ -135,7 +145,7 @@ function ProductCard() {
         characteristic.color === null || characteristic.color === undefined
           ? ""
           : characteristic.color
-      }`;
+      } ${characteristic.id}`;
     }
   };
 
@@ -183,6 +193,45 @@ function ProductCard() {
     setActiveAnalog(analogCard.name);
     console.log(activeAnalog, "onclick");
     setActiveMemory(analogCard.built_in_memory);
+  };
+
+  const likedProducts = useSelector(
+    (state) => state.likedProducts.likedProducts
+  );
+
+  const items = () => {
+    if (activeAnalog === characteristic.name) {
+      return characteristic;
+    } else {
+      return analogCard;
+    }
+  };
+
+  const item = items();
+
+  const isWishlisted =
+    item && likedProducts.some((product) => product === item);
+
+  const handleUnlike = () => {
+    dispatch(removeLikedProduct(item.id));
+  };
+
+  const handleLike = () => {
+    dispatch(addLikedProduct(item));
+  };
+
+  const comparedProducts = useSelector(
+    (state) => state.comparedProducts.comparedProducts
+  );
+
+  const isCompareProducts =
+    item && comparedProducts.some((product) => product === item);
+
+  const handleCompare = () => {
+    dispatch(addComparedProduct(item));
+  };
+  const handleUnCompare = () => {
+    dispatch(removeComparedProduct(item.id));
   };
 
   return (
@@ -277,67 +326,22 @@ function ProductCard() {
                     style={!desktop ? { display: "flex" } : { display: "none" }}
                     className="productCard__cardBlockLeft"
                   >
-                    <div className="productCard__cardBlockLeft-tip">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M20.8401 4.60987C20.3294 4.09888 19.7229 3.69352 19.0555 3.41696C18.388 3.14039 17.6726 2.99805 16.9501 2.99805C16.2276 2.99805 15.5122 3.14039 14.8448 3.41696C14.1773 3.69352 13.5709 4.09888 13.0601 4.60987L12.0001 5.66987L10.9401 4.60987C9.90843 3.57818 8.50915 2.99858 7.05012 2.99858C5.59109 2.99858 4.19181 3.57818 3.16012 4.60987C2.12843 5.64156 1.54883 7.04084 1.54883 8.49987C1.54883 9.95891 2.12843 11.3582 3.16012 12.3899L4.22012 13.4499L12.0001 21.2299L19.7801 13.4499L20.8401 12.3899C21.3511 11.8791 21.7565 11.2727 22.033 10.6052C22.3096 9.93777 22.4519 9.22236 22.4519 8.49987C22.4519 7.77738 22.3096 7.06198 22.033 6.39452C21.7565 5.72706 21.3511 5.12063 20.8401 4.60987V4.60987Z"
-                          stroke="#28003E"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                    <div className="productCard__PCbox">
+                      <IconsHeart
+                        className={`heart-productPC ${
+                          isWishlisted ? "selected" : ""
+                        }`}
+                        onClick={isWishlisted ? handleUnlike : handleLike}
+                      />
                       <p>Favorite</p>
                     </div>
-                    <div className="productCard__cardBlockLeft-tip">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="24"
-                        viewBox="0 0 25 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M12.4195 1.95312V9.54544M2.21387 12.389L22.3183 6.7874"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                        />
-                        <path
-                          d="M2.38672 17.9712L6.30018 11.3721L10.3863 17.9712H2.38672Z"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M2.36719 18.0098C2.50147 19.3398 3.48751 22 6.35738 22C9.22725 22 10.1302 19.3398 10.3859 18.0098"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M14.8174 14.5186L18.7308 7.91943L22.8169 14.5186H14.8174Z"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M14.7988 14.5566C14.9331 15.8867 15.9192 18.5468 18.789 18.5468C21.6589 18.5468 22.5618 15.8867 22.8176 14.5566"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                    <div className="productCard__PCbox">
+                      <IconsWeight
+                        onClick={
+                          isCompareProducts ? handleUnCompare : handleCompare
+                        }
+                        className="weght-productPC"
+                      />
                       <p>Compare</p>
                     </div>
                   </div>
@@ -561,6 +565,71 @@ function ProductCard() {
           </div>
           <div className="productCard__titleBox">
             {characteristics || reviews ? title() : ""}
+            <div className="productCard__rating-box">
+              <div className="productCard__rating">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+              </div>
+              <span>281 reviews</span>
+            </div>
           </div>
           <div
             style={characteristics ? { display: "flex" } : { display: "none" }}
@@ -572,12 +641,17 @@ function ProductCard() {
           >
             {characteristics && desktop ? (
               <div className="productCard__absoluteDesktop">
-                <ProductCardBox />
+                <div className="productCard__container">
+                  <ProductCardBox
+                    active={activeAnalog === characteristic.name ? 1 : 2}
+                  />
+                </div>
               </div>
             ) : (
               ""
             )}
-            <table border="1">
+
+            <table className="table1" border="1">
               <tbody>
                 <tr>
                   <th className="part1"></th>
@@ -849,6 +923,51 @@ function ProductCard() {
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div
+            style={reviews ? { display: "flex" } : { display: "none" }}
+            className="productCard__cardBox3"
+          >
+            {reviews && desktop ? (
+              <div className="productCard__absoluteDesktop">
+                <div className="productCard__container">
+                  <ProductCardBox
+                    active={activeAnalog === characteristic.name ? 1 : 2}
+                  />
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            <div className="productCard__sort-box">
+              <div className="productCard__sort">
+                <p>Newest first</p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M6 9L12 15L18 9"
+                    stroke="#28003E"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+            {reviewsList.length > 0 ? (
+              <>
+                {reviewsList.map((item) => (
+                  <Reviews key={item.id} {...item} />
+                ))}
+              </>
+            ) : (
+              ""
+            )}
           </div>
           <PromotionContainer />
           <BuyWithUs />

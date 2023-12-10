@@ -11,8 +11,6 @@ const CartItems = ({ item, id, title, price, count, img }) => {
 
   const [isWishlisted, setIsWishlisted] = React.useState(false);
 
-
-
   const onClickPlus = () => {
     if (count >= 0) {
       setActiveMinusCount(true);
@@ -26,11 +24,18 @@ const CartItems = ({ item, id, title, price, count, img }) => {
 
   const [activeMinusCount, setActiveMinusCount] = React.useState(true);
 
-  const onClickMinus = () => {
+  useEffect(() => {
     if (count === 1) {
       setActiveMinusCount(false);
+    } else {
+      setActiveMinusCount(true);
     }
-    dispatch(minusItem(id));
+  }, [count, dispatch, id]);
+
+  const onClickMinus = () => {
+    if (activeMinusCount === true) {
+      dispatch(minusItem(id));
+    }
   };
 
   const onClickDelete = () => {
@@ -108,10 +113,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
           }
           ref={wrapRef}
         >
-          <div
-           
-            className={`delete-box1 ${isWishlisted ? "selected" : ""}`}
-          >
+          <div className={`delete-box1 ${isWishlisted ? "selected" : ""}`}>
             <svg
               className="fav_svg selected"
               xmlns="http://www.w3.org/2000/svg"
