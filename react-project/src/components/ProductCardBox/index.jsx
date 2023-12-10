@@ -13,7 +13,7 @@ function ProductsCart({ id, name }) {
   const { mobile } = React.useContext(MobileContext);
 
   return (
-    <div className="productscart__container">
+    <>
       {desktop ? (
         <div className="productscart">
           <div className="productscart__korb">
@@ -111,7 +111,7 @@ function ProductsCart({ id, name }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

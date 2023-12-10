@@ -1,4 +1,4 @@
-import axios from "../utils/axios.js";
+import axios from "axios";
 
 export const FETCH_PRODUCTS_REQUEST = "FETCH_PRODUCTS_REQUEST";
 export const FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_SUCCESS";
@@ -23,7 +23,8 @@ export const fetchProducts = () => {
     dispatch(fetchProductsRequest());
 
     axios
-      .get("/products")
+      /* .get("http://mobe.publicvm.com:81/api/products") */
+      .get("http://mobe.local/api/products")
       .then((response) => {
         const products = response.data;
         /*  console.log("111", products); */

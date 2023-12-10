@@ -8,6 +8,9 @@ import Subscribe from "../components/Subscribe/Subscribe.jsx";
 import Catalog from "../components/Catalog/Catalog.jsx";
 import Chat from "../components/Chat/Chat";
 
+import style from "./style.scss";
+
+
 const Home = () => {
   const { catalogOpened } = React.useContext(CatalogOpenedContext);
 

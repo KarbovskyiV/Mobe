@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "../../components/Button.jsx";
 import {
@@ -64,8 +64,6 @@ function ProductCard() {
   const [isMemory1tb, setIsMemory1tb] = useState([]);
 
   const isClick = React.useRef(false);
-
-  console.log(analogCard, 2);
 
   useEffect(() => {
     if (!isClick.current) {
