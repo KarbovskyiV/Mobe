@@ -305,6 +305,41 @@
   }
 }
 
+.reviews__feedback {
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid $greyLight;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.button__feedback {
+  cursor: pointer;
+  background: $violet;
+  padding: 10px;
+}
+
+.input__feedback {
+  width: auto;
+  height: 100px;
+  padding: 5px;
+  display: flex;
+  justify-content: flex-start;
+  border: 1px solid $greyLight;
+}
+
+.advantages__feedback {
+  border-bottom: 1px solid $greyLight;
+}
+
+.boxStars__feedback {
+  display: flex;
+  flex-direction: row;
+}
+
 .table1 {
   width: 100%;
   tr {

@@ -48,8 +48,6 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
     dispatch(removeComparedProduct(item.id));
   };
 
-  console.log(item, "item");
-
   const isWishlisted =
     item && likedProducts.some((product) => product === item);
 

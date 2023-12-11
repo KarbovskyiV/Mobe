@@ -9,7 +9,7 @@ const MyRating = () => {
   return (
     <>
       <Rating
-        placeholderRating={3}
+        placeholderRating={4}
         emptySymbol={<img src={Grey} className="icon" />}
         placeholderSymbol={<img src={Yellow} className="icon" />}
         fullSymbol={<img src={Yellow} className="icon" />}
