@@ -35,15 +35,16 @@ Route::post('/reset-password', [PasswordController::class, 'resetPassword'])->na
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-Route::get('/recommended/{product}', [ProductController::class, 'recommendedProducts'])->name(
-    'products.recommendedProducts'
-);
+Route::get('/recommended/{product}', [ProductController::class, 'recommendedProducts'])
+    ->name('products.recommendedProducts');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products/{product}/add-to-favourites', [ProductController::class, 'addToFavourites'])
         ->name('products.add.favourite');
     Route::post('/products/{product}/remove-from-favourites', [ProductController::class, 'removeFromFavourites'])
         ->name('products.remove.favourite');
+
+    Route::post('/products/{product}/reviews', [\App\Http\Controllers\ReviewController::class, 'store']);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
