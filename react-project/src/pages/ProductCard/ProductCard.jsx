@@ -39,12 +39,13 @@ function ProductCard() {
   const dispatch = useDispatch();
 
   const { user, setUser } = React.useContext(userContext);
-  console.log(user);
+
   const [value, setValue] = React.useState("");
 
   const ratingStars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
   const [nummerStar, setNummerStar] = React.useState(0);
+  const [userCurrenty, setUserCurrenty] = React.useState("");
 
   const reviewsSending = (e) => {
     e.preventDefault();
@@ -53,13 +54,25 @@ function ProductCard() {
       setUser(JSON.parse(localStorage.getItem("user")));
     }
 
+    /*  axios
+      .get("/users")
+      .then((res) => {
+        console.log(res);
+        setUserCurrenty(res.data.filter((ob) => ob.email === user.email));
+      })
+      .catch((error) => {
+        return;
+      }); */
+
     axios
-      .post("/reviews", {
+      .post("/products/1/reviews", {
         rate: e.target[0].value,
         content: e.target[1].value,
         advantages: e.target[2].value,
         disadvantages: e.target[3].value,
-        user_id: `${user.name} ${user.surname}`,
+        user_id: "Vitalina Gurina",
+        /*  user_id: `${userCurrenty.name} ${userCurrenty.surname}`, */
+        product_id: 1,
       })
       .then((res) => {
         setReviews({
@@ -1043,7 +1056,7 @@ function ProductCard() {
               To leave feedback
             </button>
             <form
-              /* onSubmit={reviewsSending} */
+              onSubmit={reviewsSending}
               className="reviews__feedback"
               style={
                 openFeedbackWindow === true
