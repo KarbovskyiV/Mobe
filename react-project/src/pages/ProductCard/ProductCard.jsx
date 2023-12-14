@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { Element, scroller } from "react-scroll";
 
 import Button from "../../components/Button.jsx";
 import {
@@ -34,6 +35,7 @@ import Reviews from "../../components/Reviews/Reviews.jsx";
 import reviewsList from "./reviews.json";
 import { setCharacteristics } from "../../redux/slices/cardSlice.js";
 import axios from "../../utils/axios.js";
+import SliderReviews from "../../components/Sliders/SliderReviews/SliderReviews.jsx";
 
 function ProductCard() {
   const dispatch = useDispatch();
@@ -54,15 +56,15 @@ function ProductCard() {
       setUser(JSON.parse(localStorage.getItem("user")));
     }
 
-    /*  axios
+    axios
       .get("/users")
       .then((res) => {
-        console.log(res);
-        setUserCurrenty(res.data.filter((ob) => ob.email === user.email));
+        console.log(res.data);
+        /*  setUserCurrenty(res.data.filter((ob) => ob.email === user.email)); */
       })
       .catch((error) => {
         return;
-      }); */
+      });
 
     axios
       .post("/products/1/reviews", {
@@ -83,6 +85,45 @@ function ProductCard() {
         alert(error.response.data.message);
       });
   };
+
+  const getReviews = () => {
+    axios
+      .get("/reviews")
+      .then((response) => {
+        console.log("111", response);
+      })
+      .catch((error) => {
+        return;
+      });
+  };
+
+  const [isProductCardVisible, setIsProductCardVisible] = useState(true);
+
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+    const promotionContainer = document.getElementById(
+      "yourPromotionContainerID"
+    );
+
+    if (promotionContainer) {
+      const promotionContainerRect = promotionContainer.getBoundingClientRect();
+
+      if (scrollPosition >= promotionContainerRect.top) {
+        setIsProductCardVisible(false);
+      } else {
+        setIsProductCardVisible(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.scrollYPrev = window.scrollY;
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const addIntoCart = () => {
     const itemCart = {
@@ -188,7 +229,7 @@ function ProductCard() {
         analogCard.color === null || analogCard.color === undefined
           ? ""
           : analogCard.color
-      }  ${analogCard.id}`;
+      } `;
     } else {
       return `${
         characteristic.name === null || characteristic.name === undefined
@@ -198,7 +239,7 @@ function ProductCard() {
         characteristic.color === null || characteristic.color === undefined
           ? ""
           : characteristic.color
-      } ${characteristic.id}`;
+      } `;
     }
   };
 
@@ -720,17 +761,20 @@ function ProductCard() {
                 : "productCard__cardBox"
             }
           >
-            {characteristic2 && desktop ? (
-              <div className="productCard__absoluteDesktop">
-                <div className="productCard__container">
-                  <ProductCardBox
-                    active={activeAnalog === characteristic.name ? 1 : 2}
-                  />
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
+            {characteristic2 && desktop
+              ? isProductCardVisible && (
+                  <div
+                    id="yourProductCardID"
+                    className="productCard__absoluteDesktop"
+                  >
+                    <div className="productCard__container">
+                      <ProductCardBox
+                        active={activeAnalog === characteristic.name ? 1 : 2}
+                      />
+                    </div>
+                  </div>
+                )
+              : ""}
 
             <table className="table1" border="1">
               <tbody>
@@ -1009,17 +1053,20 @@ function ProductCard() {
             style={reviews ? { display: "flex" } : { display: "none" }}
             className="productCard__cardBox3"
           >
-            {reviews && desktop ? (
-              <div className="productCard__absoluteDesktop">
-                <div className="productCard__container">
-                  <ProductCardBox
-                    active={activeAnalog === characteristic.name ? 1 : 2}
-                  />
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
+            {reviews && desktop
+              ? isProductCardVisible && (
+                  <div
+                    id="yourProductCardID"
+                    className="productCard__absoluteDesktop"
+                  >
+                    <div className="productCard__container">
+                      <ProductCardBox
+                        active={activeAnalog === characteristic.name ? 1 : 2}
+                      />
+                    </div>
+                  </div>
+                )
+              : ""}
             <div className="productCard__sort-box">
               <div className="productCard__sort">
                 <p>Newest first</p>
@@ -1056,7 +1103,8 @@ function ProductCard() {
               To leave feedback
             </button>
             <form
-              onSubmit={reviewsSending}
+              /* onSubmit={reviewsSending} */
+              onSubmit={getReviews}
               className="reviews__feedback"
               style={
                 openFeedbackWindow === true
@@ -1105,19 +1153,32 @@ function ProductCard() {
               <button className="button__feedback">To leave feedback</button>
             </form>
           </div>
-          <PromotionContainer />
+          <div id="yourPromotionContainerID">
+            <PromotionContainer />
+          </div>
           <BuyWithUs />
+          {about ? (
+            <div className="slide-box">
+              <SliderReviews />
+            </div>
+          ) : (
+            ""
+          )}
+
           <Subscribe />
         </div>
       </div>
 
-      {characteristic2 && !desktop ? (
-        <div className="productCard__absoluteMobileTablet">
-          <ProductCardBox />
-        </div>
-      ) : (
-        ""
-      )}
+      {characteristic2 && !desktop
+        ? isProductCardVisible && (
+            <div
+              id="yourProductCardID"
+              className="productCard__absoluteMobileTablet"
+            >
+              <ProductCardBox />
+            </div>
+          )
+        : ""}
     </>
   );
 }
