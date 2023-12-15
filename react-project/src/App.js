@@ -22,7 +22,8 @@ import ComparePage from "./pages/ComparePage/ComparePage.jsx";
 import WishList from "./pages/WishList/WishList.jsx";
 import PersonalData from "./pages/PersonalData/PersonalData.jsx";
 import OrderPage from "./components/OrderPage/OrderPage.jsx";
-import ProductPage from "../src/pages/FilteredProducts/FilteredProducts.jsx";
+
+import ProductList from "./pages/FilteredProducts/ProductList.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -240,7 +241,7 @@ function App() {
                                             />
                                             <Route
                                               path="/product-page"
-                                              element={<ProductPage />}
+                                              element={<ProductList />}
                                             />
                                             <Route
                                               path={`/product-card/:id`}

@@ -1,3 +1,37 @@
-.filter__container{
-    margin-top: 150px;
+    .filter__container{
+    margin-top: 240px;
+}
+.filter__brand{
+    display: block;
+}
+.filter__model{
+    display: block;
+}
+.filter__inner{
+    display: flex;
+    gap: 24px;
+}
+.products-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+.filter__top{
+    display: flex;
+    justify-content: space-between;
+}
+.series-inner{
+    display: flex;
+    justify-content: space-between;
+}
+.choice {
+
+}
+.selected-products {
+}
+.selected-brand {
+}
+.selected-series {
+}
+.sort {
 }
