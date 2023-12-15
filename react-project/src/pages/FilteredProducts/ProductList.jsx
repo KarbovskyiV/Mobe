@@ -101,6 +101,22 @@ const ProductList = ({}) => {
 
   return (
     <div className="filter__container">
+      <div className="filter choice">
+        <div className="selected-products">
+          {filteredProducts.length} Products are selected
+        </div>
+        <div className="selected-brand">{selectedBrands}</div>
+        <div className="selected-series">{selectedModels}</div>
+      </div>
+
+      <div className="sort">
+        <select value={sortOption} onChange={handleSortChange}>
+          <option value="newest">Newest first</option>
+          <option value="lowToHigh">Ціна від низької до високої</option>
+          <option value="highToLow">Ціна від високої до низької</option>
+        </select>
+      </div>
+
       <div className="filter__inner">
         <div className="filter">
           <div className="brands">
@@ -153,14 +169,6 @@ const ProductList = ({}) => {
                 onChange={handleMaxPriceChange}
               />
             </label>
-          </div>
-          <div className="sort">
-            <h2>Сортування</h2>
-            <select value={sortOption} onChange={handleSortChange}>
-              <option value="newest">Newest first</option>
-              <option value="lowToHigh">Ціна від низької до високої</option>
-              <option value="highToLow">Ціна від високої до низької</option>
-            </select>
           </div>
         </div>
         <div className="products">
