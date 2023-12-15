@@ -4,9 +4,9 @@ import { fetchProducts } from "../../actions/productActions";
 import { connect } from "react-redux";
 
 import Image from "./Image/image.jpg";
-
 import Button from "../../components/Button";
 import MyRating from "../../components/MyRating/MyRating";
+import { useLocation } from "react-router-dom";
 
 import style from "./style.scss";
 
@@ -14,12 +14,27 @@ const ProductList = ({}) => {
   const products = useSelector((state) => state.products.products);
   console.log("products", products);
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const [showSeriesCheckboxes, setShowSeriesCheckboxes] = useState(false);
+  const [allSeries, setAllSeries] = useState([]);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const [selectedBrands, setSelectedBrands] = useState([]);
+  useEffect(() => {
+    const allSeries = Array.from(
+      new Set(products.map((product) => product.name))
+    );
+    setAllSeries(allSeries);
+  }, [products]);
+
+  const initialBrand = new URLSearchParams(location.search).get("brand");
+
+  const [selectedBrands, setSelectedBrands] = useState(
+    initialBrand ? [initialBrand] : []
+  );
   const [selectedModels, setSelectedModels] = useState([]);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -38,14 +53,29 @@ const ProductList = ({}) => {
   };
 
   const handleBrandChange = (brand) => {
-    if (selectedBrands.includes(brand)) {
-      setSelectedBrands(
-        selectedBrands.filter((selectedBrand) => selectedBrand !== brand)
-      );
-    } else {
-      setSelectedBrands([...selectedBrands, brand]);
-    }
-    setSelectedModels([]);
+    const updatedBrands = selectedBrands.includes(brand)
+      ? selectedBrands.filter((selectedBrand) => selectedBrand !== brand)
+      : [...selectedBrands, brand];
+
+    const brandSeries = Array.from(
+      new Set(
+        products
+          .filter(
+            (product) =>
+              updatedBrands.length === 0 ||
+              updatedBrands.includes(product.category.name)
+          )
+          .map((product) => product.name)
+      )
+    );
+
+    setAllSeries(brandSeries);
+
+    setSelectedBrands(updatedBrands);
+
+    setSelectedModels(
+      selectedModels.filter((model) => brandSeries.includes(model))
+    );
   };
 
   const handleModelChange = (model) => {
@@ -135,10 +165,18 @@ const ProductList = ({}) => {
               </label>
             ))}
           </div>
-          <div className="models">
+
+          <div className="series-inner">
             <h2>Series</h2>
-            {Array.from(new Set(products.map((product) => product.name))).map(
-              (model) => (
+            <button
+              onClick={() => setShowSeriesCheckboxes(!showSeriesCheckboxes)}
+            >
+              {showSeriesCheckboxes ? "Hide Series" : "Show Series"}
+            </button>
+          </div>
+          {showSeriesCheckboxes && (
+            <div className="models">
+              {allSeries.map((model) => (
                 <label className="filter__model" key={model}>
                   <input
                     type="checkbox"
@@ -148,9 +186,9 @@ const ProductList = ({}) => {
                   />
                   {model} ({countProductsInModel(model)})
                 </label>
-              )
-            )}
-          </div>
+              ))}
+            </div>
+          )}
           <div className="price">
             <h2>Price</h2>
             <label>
@@ -211,6 +249,5 @@ const ProductList = ({}) => {
 const mapStateToProps = (state) => ({
   products: state.products.products,
 });
-console.log("mapStateToProps", mapStateToProps);
 
 export default connect(mapStateToProps)(ProductList);
