@@ -3,6 +3,8 @@ import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
+import { ReactComponent as Close} from "./Images/X.svg";
+import { ReactComponent as Alert} from "./Images/alert.svg";
 
 import { useParams } from "react-router-dom";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
@@ -100,12 +102,16 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
         <IconsWeight
           onClick={isCompareProducts ? handleUnCompare : handleCompare}
           className="weght-product"
+          isCompared={isCompareProducts}
         />
       </div>
       {showPopup && (
         <div className="popup__compare">
-          <button onClick={handleHidePopup}>X</button>
-          <p>Only two products can be added to the comparison list</p>
+          <button className="popup-btn" onClick={handleHidePopup}><Close/></button>
+          <div className="popup__content">
+            <Alert />
+            <p>Only two products can be added to the comparison list</p>
+          </div>
         </div>
       )}
     </div>

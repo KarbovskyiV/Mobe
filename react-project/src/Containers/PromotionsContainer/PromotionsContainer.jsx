@@ -13,6 +13,8 @@ const PromotionContainer = () => {
 
   const allProducts = useSelector((state) => state.products.products);
 
+  console.log("allProducts", allProducts);
+
   const promotionProducts = allProducts
     .filter((product) => product.is_promotion)
     .slice(0, 4);
