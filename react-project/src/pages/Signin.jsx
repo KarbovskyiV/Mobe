@@ -47,10 +47,10 @@ const SignIn = () => {
         });
 
         if (res.data.user.email_verified_at === null) {
-          alert("Registration not confirmed");
+          alert("Email not confirmed");
           return;
         }
-
+        localStorage.setItem("userToken", res.data.authorization.token);
         localStorage.setItem(
           "user",
           JSON.stringify({

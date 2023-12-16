@@ -18,15 +18,8 @@ const CartItems = ({ item, id, title, price, count, img }) => {
     (state) => state.likedProducts.likedProducts
   );
 
-  /* console.log(item, "itemCartItems");
-  console.log(likedProducts); */
-
-  /* const [isWishlisted, setIsWishlisted] = React.useState(false); */
-
   const isWishlisted =
     item && likedProducts.some((product) => product === item);
-
-  /* console.log(item, "item"); */
 
   const handleLike = () => {
     dispatch(addLikedProduct(item));

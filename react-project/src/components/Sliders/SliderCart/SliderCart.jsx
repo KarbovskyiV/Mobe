@@ -10,66 +10,61 @@ import { addItem } from "../../../redux/slices/cartAdd";
 
 register();
 
-const Slider = ({
-  id,
-  idPlus,
-  title,
-  titlePlus,
-  price,
-  pricePlus,
-  count,
-  img,
-}) => {
+const Slider = () => {
   const dispatch = useDispatch();
 
   const swiperElRef = useRef(null);
 
   const { items } = useSelector((state) => state.cartAdd);
 
-  let resultArray = items.map((obj1, i) => {
+  const filterItems = items.filter((ob) => ob.buytogether !== true);
+
+  let resultArray = filterItems.map((obj1, i) => {
     let matchingObj = slides.find((obj2, a) => i === a);
     return { ...obj1, ...matchingObj };
   });
 
-  const addIntoCart = () => {
-    addIntoCart1();
-    addIntoCart2();
+  const addIntoCart = (obj) => {
+    addIntoCart1(obj);
+    addIntoCart2(obj);
   };
 
-  const addIntoCart1 = () => {
+  const addIntoCart1 = (obj) => {
     const itemCart = {
-      id: id,
-      title: title,
-      price: price,
-      img: <img src={img} alt="img" />,
+      id: obj.id,
+      title: obj.title,
+      price: obj.price,
+      img: obj.img,
+      count: 1,
+      buytogether: true,
     };
 
-    console.log(itemCart, "itemCart");
     dispatch(addItem(itemCart));
   };
 
-  const addIntoCart2 = () => {
+  const addIntoCart2 = (obj) => {
     const itemCart2 = {
-      id: idPlus,
-      title: titlePlus,
-      price: pricePlus,
-      img: <img src={srcPlus} alt="img" />,
+      id: obj.id + 1,
+      title: obj.titlePlus,
+      price: obj.pricePlus,
+      img: srcPlus,
+      count: 1,
+      buytogether: true,
     };
-    console.log(itemCart2, "itemCart2");
+
     dispatch(addItem(itemCart2));
   };
 
   const slidesRender = resultArray.map((obj, i) => {
-    console.log(obj, i);
     return (
       <swiper-slide key={i}>
         <div className="swiper__box">
           <div className="slide__box1">
-            <img src={img} alt="img" />
+            <img src={obj.img} alt="img" />
             <div className="slide__title">
               <p>{obj.title}</p>
 
-              <span>$ {obj.price}</span>
+              <span>$ {(obj.price * 0.9).toFixed(2)}</span>
             </div>
           </div>
           <svg
@@ -88,7 +83,7 @@ const Slider = ({
             />
           </svg>
           <div className="slide__box2">
-            <img src={obj.srcPlus} alt="img" />
+            <img src={srcPlus} alt="img" />
             <div className="slide__title">
               <p>{obj.titlePlus}</p>
               <span>$ {obj.pricePlus}</span>
@@ -96,8 +91,12 @@ const Slider = ({
           </div>
         </div>
         <div className="shoppingcart__down-summ2">
-          <h5>$ {obj.price + obj.pricePlus}</h5>
-          <Button onClick={addIntoCart} type="violet" title="Add to order" />
+          <h5>$ {(obj.price * 0.9 + obj.pricePlus).toFixed(2)}</h5>
+          <Button
+            onClick={() => addIntoCart(obj)}
+            type="violet"
+            title="Add to order"
+          />
         </div>
       </swiper-slide>
     );

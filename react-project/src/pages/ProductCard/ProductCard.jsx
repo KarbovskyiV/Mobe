@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Element, scroller } from "react-scroll";
 
 import Button from "../../components/Button.jsx";
 import {
@@ -40,14 +39,20 @@ import SliderReviews from "../../components/Sliders/SliderReviews/SliderReviews.
 function ProductCard() {
   const dispatch = useDispatch();
 
-  const { user, setUser } = React.useContext(userContext);
-
-  const [value, setValue] = React.useState("");
+  const { setUser } = React.useContext(userContext);
 
   const ratingStars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
   const [nummerStar, setNummerStar] = React.useState(0);
-  const [userCurrenty, setUserCurrenty] = React.useState("");
+  const [product, setProduct] = React.useState([]);
+
+  const productId = () => {
+    if (activeAnalog === characteristic.name) {
+      return setProduct(characteristic);
+    } else {
+      return setProduct(analogCard);
+    }
+  };
 
   const reviewsSending = (e) => {
     e.preventDefault();
@@ -57,25 +62,22 @@ function ProductCard() {
     }
 
     axios
-      .get("/users")
-      .then((res) => {
-        console.log(res.data);
-        /*  setUserCurrenty(res.data.filter((ob) => ob.email === user.email)); */
-      })
-      .catch((error) => {
-        return;
-      });
-
-    axios
-      .post("/products/1/reviews", {
-        rate: e.target[0].value,
-        content: e.target[1].value,
-        advantages: e.target[2].value,
-        disadvantages: e.target[3].value,
-        user_id: "Vitalina Gurina",
-        /*  user_id: `${userCurrenty.name} ${userCurrenty.surname}`, */
-        product_id: 1,
-      })
+      .post(
+        `/products/${product.id}/reviews`,
+        {
+          rate: nummerStar,
+          content: e.target[0].value,
+          advantages: e.target[1].value,
+          disadvantages: e.target[2].value,
+          product_id: { productId },
+        },
+        {
+          // це потрібно додавати до кожного запиту який потребує авторизованого юзера
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      )
       .then((res) => {
         setReviews({
           ...res.reviews,
@@ -83,17 +85,6 @@ function ProductCard() {
       })
       .catch((error) => {
         alert(error.response.data.message);
-      });
-  };
-
-  const getReviews = () => {
-    axios
-      .get("/reviews")
-      .then((response) => {
-        console.log("111", response);
-      })
-      .catch((error) => {
-        return;
       });
   };
 
@@ -214,10 +205,22 @@ function ProductCard() {
   }
 
   function onClickChangeReviews() {
+    productId();
     setAbout(false);
     setCharacteristic2(false);
     setReviews(true);
+    getReviews();
   }
+
+  const getReviews = () => {
+    axios
+      .get(`/products/${product.id}/reviews`)
+      .then((response) => {
+        const products = response.data;
+        console.log(products, "products-reviews");
+      })
+      .catch((error) => {});
+  };
 
   const title = () => {
     if (activeAnalog === analogCard.name) {
@@ -229,7 +232,7 @@ function ProductCard() {
         analogCard.color === null || analogCard.color === undefined
           ? ""
           : analogCard.color
-      } `;
+      } ${analogCard.id}`;
     } else {
       return `${
         characteristic.name === null || characteristic.name === undefined
@@ -239,7 +242,7 @@ function ProductCard() {
         characteristic.color === null || characteristic.color === undefined
           ? ""
           : characteristic.color
-      } `;
+      } ${characteristic.id}`;
     }
   };
 
@@ -430,7 +433,7 @@ function ProductCard() {
               Characteristics
             </a>
             <a
-              onClick={onClickChangeReviews}
+              onClick={() => onClickChangeReviews()}
               className={reviews ? "unterline" : ""}
               href="##"
             >
@@ -1103,8 +1106,7 @@ function ProductCard() {
               To leave feedback
             </button>
             <form
-              /* onSubmit={reviewsSending} */
-              onSubmit={getReviews}
+              onSubmit={reviewsSending}
               className="reviews__feedback"
               style={
                 openFeedbackWindow === true
@@ -1133,20 +1135,16 @@ function ProductCard() {
               </div>
               <textarea
                 className="input__feedback"
-                /* value={value} */
-                onChange={(e) => setValue(e)}
                 placeholder="your feedback...."
                 type="text"
               />
               <input
                 className="advantages__feedback"
-                /* value={value} */
                 placeholder="advantages...."
                 type="text"
               />
               <input
                 className="advantages__feedback"
-                /* value={value} */
                 placeholder="disadvantages...."
                 type="text"
               />
