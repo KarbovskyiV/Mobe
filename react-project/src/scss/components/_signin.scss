@@ -23,6 +23,8 @@
   flex-direction: column;
   padding: 32px 32px 96px 32px;
   align-items: center;
+  max-width: 800px;
+  max-height: 550px;
 }
 
 .signin-box {
@@ -232,5 +234,18 @@
     p {
       font-size: 12px;
     }
+  }
+}
+
+@media (max-width: 430px) {
+  .signin-field,
+  .signin-box {
+    width: 80%;
+  }
+
+  .signin-window {
+    position: absolute;
+    width: 100%;
+    padding: 100%;
   }
 }

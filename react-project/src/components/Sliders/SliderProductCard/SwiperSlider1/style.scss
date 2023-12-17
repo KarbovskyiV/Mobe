@@ -7,9 +7,10 @@
 
 //Slider small vertikal
 ////////////////////////////////////////////////
-.swiper-wrapper {
-  align-items: center;
+.mySwiper1.swiper-wrapper {
   width: auto;
+  display: flex;
+  align-items: flex-start;
 }
 
 .mySwiper1 {
@@ -53,13 +54,16 @@
   align-items: center;
   width: 464px;
   height: 528px;
-  border-radius: 4px;
-  border: 1px solid var(--Grey-50, #bababa);
 }
 
 .swiper-button-prev,
 .swiper-button-next {
   color: #28003e;
+}
+
+.mySwiper2 .swiper-wrapper {
+  width: auto;
+  align-items: center;
 }
 
 .swiper-slide {
@@ -83,6 +87,11 @@
 .mySwiper2 .swiper-slide-active {
   width: 464px;
 }
+.slide-boxBig {
+  /*  width: 100%; */
+  border-radius: 4px;
+  border: 1px solid var(--Grey-50, #bababa);
+}
 
 @media (max-width: 850px) {
   .mySwiper2 .swiper-slide {
@@ -90,5 +99,8 @@
       width: 492px;
       height: 480px;
     }
+  }
+  .slide-boxBig {
+    width: 100%;
   }
 }

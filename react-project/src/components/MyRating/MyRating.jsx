@@ -5,14 +5,14 @@ import Yellow from "./images/yellow.png";
 
 import Rating from "react-rating";
 
-const MyRating = () => {
+const MyRating = ({ rating }) => {
   return (
     <>
       <Rating
-        placeholderRating={3}
-        emptySymbol={<img src={Grey} className="icon" />}
-        placeholderSymbol={<img src={Yellow} className="icon" />}
-        fullSymbol={<img src={Yellow} className="icon" />}
+        placeholderRating={rating}
+        emptySymbol={<img src={Grey} className="icon" alt="grey" />}
+        placeholderSymbol={<img src={Yellow} className="icon" alt="yellow" />}
+        fullSymbol={<img src={Yellow} className="icon" alt="sym" />}
       />
     </>
   );

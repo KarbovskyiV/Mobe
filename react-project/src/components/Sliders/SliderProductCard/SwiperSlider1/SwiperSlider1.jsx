@@ -196,24 +196,25 @@ export default function SwiperSlider({ colorActive }) {
         >
           {slidesRender}
         </Swiper>
-
-        {/* Slider big  */}
-        <Swiper
-          style={{
-            "--swiper-navigation-color": "#28003e",
-            "--swiper-pagination-color": "#28003e",
-          }}
-          speed={500}
-          slidestoshow={1}
-          slidesPerView={1}
-          spaceBetween={10}
-          navigation={true}
-          thumbs={{ swiper: thumbsSwiper }}
-          modules={[FreeMode, Navigation, Thumbs]}
-          className="mySwiper2"
-        >
-          {slidesRenderBig}
-        </Swiper>
+        <div className="slide-boxBig">
+          {/* Slider big  */}
+          <Swiper
+            style={{
+              "--swiper-navigation-color": "#28003e",
+              "--swiper-pagination-color": "#28003e",
+            }}
+            speed={500}
+            slidestoshow={1}
+            slidesPerView={1}
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="mySwiper2"
+          >
+            {slidesRenderBig}
+          </Swiper>
+        </div>
       </div>
     </>
   );

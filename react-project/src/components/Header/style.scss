@@ -170,6 +170,7 @@
     flex-direction: row;
     width: 80%;
     margin: 0 auto;
+    gap: 32px;
   }
 
   &__buttons {
@@ -239,6 +240,12 @@
     background-color: $violet;
     margin-left: 20px;
     font-size: 12px;
+  }
+
+  &__svg-box {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
   }
 }
 

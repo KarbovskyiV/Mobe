@@ -1,10 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import Button from "../../components/Button.jsx";
+import { Link } from "react-router-dom";
 import {
+  userContext,
   DesktopContext,
   MobileContext,
   CatalogOpenedContext,
+  ReviewsActiveContext,
+  GetNummerStar,
 } from "../../App.js";
 import { useSelector, useDispatch } from "react-redux";
 import Catalog from "../../components/Catalog/Catalog.jsx";
@@ -19,9 +24,118 @@ import IconTick from "../../components/IconTick/";
 import Subscribe from "../../components/Subscribe/Subscribe.jsx";
 import { addItem } from "../../redux/slices/cartAdd";
 import Image from "./image.jpg";
+import IconsHeart from "../../components/IconsHeart/IconsHeart";
+import IconsWeight from "../../components/IconsWeight/IconsWeight";
+import {
+  addLikedProduct,
+  removeLikedProduct,
+} from "../../redux/slices/wishlistSlice";
+import {
+  addComparedProduct,
+  removeComparedProduct,
+} from "../../redux/slices/compareSlice";
+import Reviews from "../../components/Reviews/Reviews.jsx";
+
+import { setCharacteristics } from "../../redux/slices/cardSlice.js";
+import axios from "../../utils/axios.js";
+import SliderReviews from "../../components/Sliders/SliderReviews/SliderReviews.jsx";
 
 function ProductCard() {
+  const wrapRef = useRef(null);
+
+  const { reviewsActive, setReviewsActive } =
+    React.useContext(ReviewsActiveContext);
+
+  const handClick = (event) => {
+    if (wrapRef.current && !wrapRef.current.contains(event.target))
+      setReviewsActive(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handClick);
+    return () => {
+      document.removeEventListener("mousedown", handClick);
+    };
+  }, []);
   const dispatch = useDispatch();
+
+  const { setUser } = React.useContext(userContext);
+
+  const { nummerStar, setNummerStar } = React.useContext(GetNummerStar);
+
+  const characteristic = useSelector(
+    (state) => state.cardReducer.characteristics
+  );
+
+  const analogCard = useSelector((state) => state.cardReducer.analog);
+  const ratingStars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
+
+  const reviewsSending = (e) => {
+    e.preventDefault();
+
+    if (localStorage.getItem("user") !== null) {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    }
+
+    axios
+      .post(
+        `/products/${
+          activeAnalog === characteristic.name
+            ? characteristic.id
+            : analogCard.id
+        }/reviews`,
+        {
+          rate: nummerStar,
+          content: e.target[0].value,
+          advantages: e.target[1].value,
+          disadvantages: e.target[2].value,
+          product_id:
+            activeAnalog === characteristic.name ? characteristic : analogCard,
+        },
+        {
+          // це потрібно додавати до кожного запиту який потребує авторизованого юзера
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setReviews({
+          ...res.reviews,
+        });
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const [isProductCardVisible, setIsProductCardVisible] = useState(true);
+
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+    const promotionContainer = document.getElementById(
+      "yourPromotionContainerID"
+    );
+
+    if (promotionContainer) {
+      const promotionContainerRect = promotionContainer.getBoundingClientRect();
+
+      if (scrollPosition >= promotionContainerRect.top) {
+        setIsProductCardVisible(false);
+      } else {
+        setIsProductCardVisible(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.scrollYPrev = window.scrollY;
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const addIntoCart = () => {
     const itemCart = {
@@ -41,14 +155,8 @@ function ProductCard() {
 
   const categoryProduct = useSelector((state) => state.cardReducer.category);
 
-  const characteristic = useSelector(
-    (state) => state.cardReducer.characteristics
-  );
-
-  const analogCard = useSelector((state) => state.cardReducer.analog);
-
   const [about, setAbout] = React.useState(true);
-  const [characteristics, setCharacteristics] = React.useState(false);
+  const [characteristic2, setCharacteristic2] = React.useState(false);
   const [reviews, setReviews] = React.useState(false);
   const [colorActive, setColorActive] = React.useState(1);
   const [activeAnalog, setActiveAnalog] = React.useState(characteristic.name);
@@ -65,8 +173,6 @@ function ProductCard() {
 
   const isClick = React.useRef(false);
 
-  console.log(analogCard, 2);
-
   useEffect(() => {
     if (!isClick.current) {
       setActiveAnalog(characteristic.name);
@@ -77,33 +183,72 @@ function ProductCard() {
   }, [characteristic]);
 
   useEffect(() => {
+    getReviews();
+    const getSeries = () => {
+      if (activeAnalog === characteristic.name) {
+        return characteristic.series;
+      } else {
+        return analogCard.series;
+      }
+    };
     const filterProducts = products.filter(
-      (prod) => prod.name === activeAnalog
+      (prod) => prod.series === getSeries()
     );
 
     setIsMemory128(filterProducts.filter((i) => i.built_in_memory === "128GB"));
     setIsMemory256(filterProducts.filter((i) => i.built_in_memory === "256GB"));
     setIsMemory512(filterProducts.filter((i) => i.built_in_memory === "512GB"));
     setIsMemory1tb(filterProducts.filter((i) => i.built_in_memory === "1TB"));
-  }, [products, activeAnalog]);
+  }, [
+    products,
+    activeAnalog,
+    analogCard.series,
+    characteristic.name,
+    characteristic.series,
+  ]);
 
   function onClickAbout() {
     setAbout(true);
-    setCharacteristics(false);
+    setCharacteristic2(false);
     setReviews(false);
   }
 
   function onClickChangeCharacteristics() {
     setAbout(false);
-    setCharacteristics(true);
+    setCharacteristic2(true);
     setReviews(false);
   }
+  const [reviewsProduct, setReviewsProduct] = React.useState([]);
 
   function onClickChangeReviews() {
     setAbout(false);
-    setCharacteristics(false);
+    setCharacteristic2(false);
     setReviews(true);
+    getReviews();
   }
+
+  const getReviews = () => {
+    axios
+      .get(`/reviews`)
+      .then((response) => {
+        const analog = () => {
+          if (activeAnalog === characteristic.name) {
+            return characteristic;
+          } else {
+            return analogCard;
+          }
+        };
+
+        const rewProd = response.data.filter(
+          (prod) => prod.product_id === analog().id
+        );
+
+        setReviewsProduct(rewProd);
+      })
+      .catch((error) => {
+        alert("mistake reviews-dats");
+      });
+  };
 
   const title = () => {
     if (activeAnalog === analogCard.name) {
@@ -111,12 +256,7 @@ function ProductCard() {
         analogCard.name === null || analogCard.name === undefined
           ? ""
           : analogCard.name
-      } ${
-        analogCard.built_in_memory === null ||
-        analogCard.built_in_memory === undefined
-          ? ""
-          : analogCard.built_in_memory
-      } ${
+      }  ${
         analogCard.color === null || analogCard.color === undefined
           ? ""
           : analogCard.color
@@ -126,11 +266,6 @@ function ProductCard() {
         characteristic.name === null || characteristic.name === undefined
           ? ""
           : characteristic.name
-      } ${
-        characteristic.built_in_memory === null ||
-        characteristic.built_in_memory === undefined
-          ? ""
-          : characteristic.built_in_memory
       } ${
         characteristic.color === null || characteristic.color === undefined
           ? ""
@@ -181,9 +316,89 @@ function ProductCard() {
   const getActive2 = () => {
     isClick.current = true;
     setActiveAnalog(analogCard.name);
-    console.log(activeAnalog, "onclick");
     setActiveMemory(analogCard.built_in_memory);
   };
+
+  const likedProducts = useSelector(
+    (state) => state.likedProducts.likedProducts
+  );
+
+  const items = () => {
+    if (activeAnalog === characteristic.name) {
+      return characteristic;
+    } else {
+      return analogCard;
+    }
+  };
+
+  const item = items();
+
+  const isWishlisted =
+    item && likedProducts.some((product) => product === item);
+
+  const handleUnlike = () => {
+    dispatch(removeLikedProduct(item.id));
+  };
+
+  const handleLike = () => {
+    dispatch(addLikedProduct(item));
+  };
+
+  const comparedProducts = useSelector(
+    (state) => state.comparedProducts.comparedProducts
+  );
+
+  const isCompareProducts =
+    item && comparedProducts.some((product) => product === item);
+
+  const handleCompare = () => {
+    dispatch(addComparedProduct(item));
+  };
+  const handleUnCompare = () => {
+    dispatch(removeComparedProduct(item.id));
+  };
+
+  const changeAnalogActive = (memory) => {
+    const getSeries = () => {
+      if (activeAnalog === characteristic.name) {
+        return characteristic.series;
+      } else {
+        return analogCard.series;
+      }
+    };
+
+    const filterProducts = products.filter(
+      (prod) => prod.series === getSeries() && prod.built_in_memory === memory
+    );
+
+    if (
+      filterProducts[0] &&
+      filterProducts[0].id !== analogCard.id &&
+      filterProducts[0].id !== characteristic.id
+    ) {
+      dispatch(setCharacteristics(filterProducts[0]));
+      const jsonCharacteristic = JSON.stringify(filterProducts[0]);
+      localStorage.setItem("characteristic", jsonCharacteristic);
+    } else {
+      if (filterProducts[0].id === analogCard.id) {
+        setActiveAnalog(analogCard.name);
+        setActiveMemory(analogCard.built_in_memory);
+      } else {
+        setActiveAnalog(characteristic.name);
+        setActiveMemory(characteristic.built_in_memory);
+      }
+    }
+  };
+
+  useEffect(() => {
+    setActiveAnalog(characteristic.name);
+    setActiveMemory(characteristic.built_in_memory);
+  }, [characteristic, dispatch]);
+
+  const getProduct = (memory) => {
+    changeAnalogActive(memory);
+  };
+  const location = useLocation();
 
   return (
     <>
@@ -241,13 +456,13 @@ function ProductCard() {
             </a>
             <a
               onClick={onClickChangeCharacteristics}
-              className={characteristics ? "unterline" : ""}
+              className={characteristic2 ? "unterline" : ""}
               href="##"
             >
               Characteristics
             </a>
             <a
-              onClick={onClickChangeReviews}
+              onClick={() => onClickChangeReviews()}
               className={reviews ? "unterline" : ""}
               href="##"
             >
@@ -277,67 +492,22 @@ function ProductCard() {
                     style={!desktop ? { display: "flex" } : { display: "none" }}
                     className="productCard__cardBlockLeft"
                   >
-                    <div className="productCard__cardBlockLeft-tip">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M20.8401 4.60987C20.3294 4.09888 19.7229 3.69352 19.0555 3.41696C18.388 3.14039 17.6726 2.99805 16.9501 2.99805C16.2276 2.99805 15.5122 3.14039 14.8448 3.41696C14.1773 3.69352 13.5709 4.09888 13.0601 4.60987L12.0001 5.66987L10.9401 4.60987C9.90843 3.57818 8.50915 2.99858 7.05012 2.99858C5.59109 2.99858 4.19181 3.57818 3.16012 4.60987C2.12843 5.64156 1.54883 7.04084 1.54883 8.49987C1.54883 9.95891 2.12843 11.3582 3.16012 12.3899L4.22012 13.4499L12.0001 21.2299L19.7801 13.4499L20.8401 12.3899C21.3511 11.8791 21.7565 11.2727 22.033 10.6052C22.3096 9.93777 22.4519 9.22236 22.4519 8.49987C22.4519 7.77738 22.3096 7.06198 22.033 6.39452C21.7565 5.72706 21.3511 5.12063 20.8401 4.60987V4.60987Z"
-                          stroke="#28003E"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                    <div className="productCard__PCbox">
+                      <IconsHeart
+                        className={`heart-productPC ${
+                          isWishlisted ? "selected" : ""
+                        }`}
+                        onClick={isWishlisted ? handleUnlike : handleLike}
+                      />
                       <p>Favorite</p>
                     </div>
-                    <div className="productCard__cardBlockLeft-tip">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="24"
-                        viewBox="0 0 25 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M12.4195 1.95312V9.54544M2.21387 12.389L22.3183 6.7874"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                        />
-                        <path
-                          d="M2.38672 17.9712L6.30018 11.3721L10.3863 17.9712H2.38672Z"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M2.36719 18.0098C2.50147 19.3398 3.48751 22 6.35738 22C9.22725 22 10.1302 19.3398 10.3859 18.0098"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M14.8174 14.5186L18.7308 7.91943L22.8169 14.5186H14.8174Z"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M14.7988 14.5566C14.9331 15.8867 15.9192 18.5468 18.789 18.5468C21.6589 18.5468 22.5618 15.8867 22.8176 14.5566"
-                          stroke="#28003E"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                    <div className="productCard__PCbox">
+                      <IconsWeight
+                        onClick={
+                          isCompareProducts ? handleUnCompare : handleCompare
+                        }
+                        className="weght-productPC"
+                      />
                       <p>Compare</p>
                     </div>
                   </div>
@@ -367,8 +537,8 @@ function ProductCard() {
                   Series:
                   <span>
                     {activeAnalog === analogCard.name
-                      ? analogCard.name
-                      : characteristic.name}
+                      ? analogCard.series
+                      : characteristic.series}
                   </span>
                 </p>
                 <div className="productCard__buttons">
@@ -401,62 +571,50 @@ function ProductCard() {
                 </p>
                 <div className="productCard__buttons">
                   <button
-                    onClick={
-                      isMemory128.length !== 0
-                        ? () => setActiveMemory("128GB")
-                        : null
-                    }
+                    onClick={() => getProduct("128GB")}
                     className={activeMemory === "128GB" ? "active" : "unactive"}
                     style={
                       isMemory128.length === 0
                         ? { textDecoration: "line-through" }
                         : null
                     }
+                    disabled={isMemory128.length === 0}
                   >
                     128 GB
                   </button>
                   <button
-                    onClick={
-                      isMemory256.length !== 0
-                        ? () => setActiveMemory("256GB")
-                        : null
-                    }
+                    onClick={() => getProduct("256GB")}
                     className={activeMemory === "256GB" ? "active" : "unactive"}
                     style={
                       isMemory256.length === 0
                         ? { textDecoration: "line-through" }
                         : null
                     }
+                    disabled={isMemory256.length === 0}
                   >
                     256 GB
                   </button>
                   <button
-                    onClick={
-                      isMemory512.length !== 0
-                        ? () => setActiveMemory("512GB")
-                        : null
-                    }
+                    onClick={() => getProduct("512GB")}
                     className={activeMemory === "512GB" ? "active" : "unactive"}
                     style={
                       isMemory512.length === 0
                         ? { textDecoration: "line-through" }
                         : null
                     }
+                    disabled={isMemory512.length === 0}
                   >
                     512 GB
                   </button>
                   <button
-                    onClick={
-                      isMemory1tb.length !== 0
-                        ? () => setActiveMemory("1TB")
-                        : null
-                    }
+                    onClick={() => getProduct("1TB")}
                     className={activeMemory === "1TB" ? "active" : "unactive"}
                     style={
                       isMemory1tb.length === 0
                         ? { textDecoration: "line-through" }
                         : null
                     }
+                    disabled={isMemory1tb.length === 0}
                   >
                     1 TB
                   </button>
@@ -560,24 +718,97 @@ function ProductCard() {
             </div>
           </div>
           <div className="productCard__titleBox">
-            {characteristics || reviews ? title() : ""}
+            {characteristic2 || reviews ? title() : ""}
+            <div className="productCard__rating-box">
+              <div className="productCard__rating">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                    fill="#FFE500"
+                  />
+                </svg>
+              </div>
+              <span>281 reviews</span>
+            </div>
           </div>
           <div
-            style={characteristics ? { display: "flex" } : { display: "none" }}
+            style={characteristic2 ? { display: "flex" } : { display: "none" }}
             className={
-              characteristics || reviews
+              characteristic2 || reviews
                 ? "productCard__cardBox2"
                 : "productCard__cardBox"
             }
           >
-            {characteristics && desktop ? (
-              <div className="productCard__absoluteDesktop">
-                <ProductCardBox />
-              </div>
-            ) : (
-              ""
-            )}
-            <table border="1">
+            {characteristic2 && desktop
+              ? isProductCardVisible && (
+                  <div
+                    id="yourProductCardID"
+                    className="productCard__absoluteDesktop"
+                  >
+                    <div className="productCard__container">
+                      <ProductCardBox
+                        active={activeAnalog === characteristic.name ? 1 : 2}
+                      />
+                    </div>
+                  </div>
+                )
+              : ""}
+
+            <table className="table1" border="1">
               <tbody>
                 <tr>
                   <th className="part1"></th>
@@ -850,19 +1081,175 @@ function ProductCard() {
               </tbody>
             </table>
           </div>
-          <PromotionContainer />
+          <div className="productCard__sort-box">
+            <button
+              className="button__feedback"
+              onClick={() => setReviewsActive(true)}
+            >
+              To leave feedback
+            </button>
+
+            <div className="productCard__sort">
+              <p>Newest first</p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M6 9L12 15L18 9"
+                  stroke="#28003E"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            style={reviews ? { display: "flex" } : { display: "none" }}
+            className="productCard__cardBox3"
+          >
+            {reviews && desktop
+              ? isProductCardVisible && (
+                  <div
+                    id="yourProductCardID"
+                    className="productCard__absoluteDesktop"
+                  >
+                    <div className="productCard__container">
+                      <ProductCardBox
+                        active={activeAnalog === characteristic.name ? 1 : 2}
+                      />
+                    </div>
+                  </div>
+                )
+              : ""}
+
+            <div
+              style={
+                reviewsActive === true
+                  ? { display: "flex" }
+                  : { display: "none" }
+              }
+              className="overlayReviews"
+            >
+              <form
+                onSubmit={reviewsSending}
+                ref={wrapRef}
+                className="reviews-window"
+              >
+                <div className="signin-box">
+                  <Link to="/product-card/:id">
+                    <svg
+                      onClick={() => {
+                        setReviewsActive(false);
+                      }}
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_258_7121)">
+                        <path
+                          d="M18 6L6 18M6 6L18 18"
+                          stroke="#28003E"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_258_7121">
+                          <rect width="24" height="24" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </Link>
+                </div>
+                <h2>Leave a review</h2>
+                <div className="boxStars__feedback-stars">
+                  <p>Rate this product</p>
+                  <div className="boxStars__feedback">
+                    {ratingStars.map((obj, i) => (
+                      <svg
+                        onClick={() => setNummerStar(obj.id)}
+                        key={obj.id}
+                        {...obj}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="30"
+                        height="30"
+                        viewBox="0 0 16 15"
+                        fill="none"
+                      >
+                        <path
+                          d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                          fill={nummerStar >= obj.id ? "#FFE500" : "#E3E3E3"}
+                        />
+                      </svg>
+                    ))}
+                  </div>
+                </div>
+                <textarea
+                  className="input__feedback"
+                  placeholder="Your review"
+                  type="text"
+                />
+                <input
+                  className="advantages__feedback"
+                  placeholder="Advantages"
+                  type="text"
+                />
+                <input
+                  className="advantages__feedback"
+                  placeholder="Disadvantages"
+                  type="text"
+                />
+                <button className="button__feedback2">Add a review</button>
+              </form>
+            </div>
+            {reviewsProduct.length > 0 ? (
+              <>
+                {reviewsProduct.map((item) => (
+                  <Reviews item={item} key={item.id} {...item} />
+                ))}
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+          <div id="yourPromotionContainerID">
+            <PromotionContainer />
+          </div>
           <BuyWithUs />
+          {about || characteristic ? (
+            <div className="slide-boxCard">
+              <div className="slide-boxCard__title">
+                <h2>Reviews</h2>
+                <p>All reviews</p>
+              </div>
+              <SliderReviews reviewsProduct={reviewsProduct} />
+            </div>
+          ) : (
+            ""
+          )}
+
           <Subscribe />
         </div>
       </div>
 
-      {characteristics && !desktop ? (
-        <div className="productCard__absoluteMobileTablet">
-          <ProductCardBox />
-        </div>
-      ) : (
-        ""
-      )}
+      {characteristic2 && !desktop
+        ? isProductCardVisible && (
+            <div
+              id="yourProductCardID"
+              className="productCard__absoluteMobileTablet"
+            >
+              <ProductCardBox />
+            </div>
+          )
+        : ""}
     </>
   );
 }

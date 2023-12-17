@@ -198,3 +198,16 @@
     width: 70%;
   }
 }
+
+@media (max-width: 430px) {
+  .registration-field,
+  .registration-box {
+    width: 80%;
+  }
+
+  .registration-window {
+    position: absolute;
+    width: 100%;
+    padding: 100%;
+  }
+}
