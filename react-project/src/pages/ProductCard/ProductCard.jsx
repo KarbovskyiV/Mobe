@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import MyRating from "../../components/MyRating/MyRating.jsx";
+import getSort from "../../utils/getSort.jsx";
 
 import Button from "../../components/Button.jsx";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import {
   CatalogOpenedContext,
   ReviewsActiveContext,
   GetNummerStar,
+  GetTypeSort,
 } from "../../App.js";
 import { useSelector, useDispatch } from "react-redux";
 import Catalog from "../../components/Catalog/Catalog.jsx";
@@ -41,6 +42,8 @@ import { setCharacteristics } from "../../redux/slices/cardSlice.js";
 import axios from "../../utils/axios.js";
 import SliderReviews from "../../components/Sliders/SliderReviews/SliderReviews.jsx";
 
+import Sort from "../../components/Sort";
+
 function ProductCard() {
   const wrapRef = useRef(null);
 
@@ -63,6 +66,8 @@ function ProductCard() {
   const { setUser } = React.useContext(userContext);
 
   const { nummerStar, setNummerStar } = React.useContext(GetNummerStar);
+
+  const { typeSort, setTypeSort } = React.useContext(GetTypeSort);
 
   const characteristic = useSelector(
     (state) => state.cardReducer.characteristics
@@ -411,6 +416,14 @@ function ProductCard() {
 
   // Округляем среднее значение до целого
   const roundedAverageRate = Math.round(averageRate);
+
+  const [sortReviews, setSortReviews] = React.useState(
+    getSort(reviewsProduct, typeSort)
+  );
+
+  useEffect(() => {
+    setSortReviews(getSort(reviewsProduct, typeSort));
+  }, [typeSort, reviewsProduct]);
 
   return (
     <>
@@ -1101,25 +1114,7 @@ function ProductCard() {
             >
               To leave feedback
             </button>
-
-            <div className="productCard__sort">
-              <p>Newest first</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M6 9L12 15L18 9"
-                  stroke="#28003E"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+            <Sort />
           </div>
           <div
             style={reviews ? { display: "flex" } : { display: "none" }}
@@ -1225,7 +1220,7 @@ function ProductCard() {
             </div>
             {reviewsProduct.length > 0 ? (
               <>
-                {reviewsProduct.map((item) => (
+                {sortReviews.map((item) => (
                   <Reviews item={item} key={item.id} {...item} />
                 ))}
               </>
