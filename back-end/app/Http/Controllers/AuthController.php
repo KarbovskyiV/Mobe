@@ -136,7 +136,7 @@ class AuthController extends Controller
                 return response()->json([
                     'user' => $user,
                     'authorization' => [
-                        'token' => $user->createToken('ApiToken')->plainTextToken,
+                         'token' => $user->createToken('userToken')->plainTextToken,
                         'type' => 'bearer',
                     ]
                 ]);

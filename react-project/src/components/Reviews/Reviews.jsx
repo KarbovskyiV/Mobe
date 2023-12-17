@@ -1,14 +1,17 @@
 import React from "react";
 import "./style.scss";
 import MyRating from "../MyRating/MyRating.jsx";
+import { format } from "date-fns";
 
 const Reviews = ({ item }) => {
+  const originalDate = new Date(item.created_at);
+  const formattedDate = format(originalDate, "dd.MM.yyyy");
   return (
     <div className="reviews">
       <div className="reviews__title">
         <p>{`${item.user.name} ${item.user.surname}`}</p>
         <MyRating rating={item.rate} />
-        <span>{item.created_at}</span>
+        <span>{formattedDate}</span>
       </div>
       <p>{item.content}</p>
       <span>Advantages:</span>

@@ -429,6 +429,18 @@
     &__cardPart2 {
       padding: 24px 83px;
     }
+    &__cardBox3 {
+      width: 100%;
+    }
+    &__titleBox {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    &__sort-box {
+      flex-direction: row-reverse;
+      width: 100%;
+    }
   }
 }
 
@@ -475,6 +487,33 @@
 
     &__buttons {
       flex-wrap: wrap;
+    }
+
+    &__rating-box {
+      flex-direction: column;
+      gap: 0;
+      justify-content: flex-end;
+    }
+
+    &__titleBox {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    &__sort-box {
+      flex-direction: row-reverse;
+      width: 100%;
+    }
+
+    &__cardBox3 {
+      width: 100%;
+    }
+
+    &__sort {
+      justify-content: flex-start;
+    }
+    .reviews__title {
+      width: 100%;
     }
   }
 }
