@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import MyRating from "../../components/MyRating/MyRating.jsx";
 
 import Button from "../../components/Button.jsx";
 import { Link } from "react-router-dom";
@@ -246,7 +247,7 @@ function ProductCard() {
         setReviewsProduct(rewProd);
       })
       .catch((error) => {
-        alert("mistake reviews-dats");
+        return;
       });
   };
 
@@ -398,7 +399,18 @@ function ProductCard() {
   const getProduct = (memory) => {
     changeAnalogActive(memory);
   };
-  const location = useLocation();
+
+  const formattedData = reviewsProduct.map((item) => ({
+    ...item,
+    rate: parseFloat(item.rate) || 0,
+  }));
+
+  const totalRate = formattedData.reduce((sum, item) => sum + item.rate, 0);
+
+  const averageRate = totalRate / reviewsProduct.length;
+
+  // Округляем среднее значение до целого
+  const roundedAverageRate = Math.round(averageRate);
 
   return (
     <>
@@ -721,7 +733,8 @@ function ProductCard() {
             {characteristic2 || reviews ? title() : ""}
             <div className="productCard__rating-box">
               <div className="productCard__rating">
-                <svg
+                <MyRating rating={roundedAverageRate} />
+                {/*  <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
                   height="15"
@@ -780,9 +793,9 @@ function ProductCard() {
                     d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
                     fill="#FFE500"
                   />
-                </svg>
+                </svg> */}
               </div>
-              <span>281 reviews</span>
+              <span>{reviewsProduct.length} reviews</span>
             </div>
           </div>
           <div
@@ -1240,7 +1253,7 @@ function ProductCard() {
         </div>
       </div>
 
-      {characteristic2 && !desktop
+      {(characteristic2 || reviews) && !desktop
         ? isProductCardVisible && (
             <div
               id="yourProductCardID"

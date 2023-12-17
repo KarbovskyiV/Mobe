@@ -228,7 +228,8 @@
     cursor: pointer;
   }
 
-  &__count {
+  &__count,
+  &__count2 {
     position: absolute;
     width: 17px;
     height: 17px;
@@ -238,8 +239,16 @@
     color: $white;
     border-radius: 50%;
     background-color: $violet;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     font-size: 12px;
+  }
+
+  &__count {
+    margin-left: 20px;
+  }
+
+  &__count2 {
+    margin-left: 50px;
   }
 
   &__svg-box {

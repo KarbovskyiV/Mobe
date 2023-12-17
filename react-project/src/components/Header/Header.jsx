@@ -195,6 +195,7 @@ function Header() {
                   strokeLinejoin="round"
                 />
               </svg>
+              <div className="header__count2">{totalCount}</div>
             </div>
           </div>
         </div>
