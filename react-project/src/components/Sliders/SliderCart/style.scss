@@ -43,6 +43,10 @@ swiper-container {
   }
 }
 
+.span.old {
+  text-decoration: line-through;
+}
+
 .swiper-container.slider1 .swiper-slide-active,
 .swiper-container.slider1 .swiper-slide {
   width: 100% !important;

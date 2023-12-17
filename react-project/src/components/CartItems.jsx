@@ -1,41 +1,60 @@
 import React, { useRef, useEffect } from "react";
 import { MobileContext } from "../App.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartAdd";
-import { addToWishList } from "../redux/slices/wishlistSlice";
 
-const CartItems = ({ item, id, title, price, count, img }) => {
+import {
+  addLikedProduct,
+  removeLikedProduct,
+} from "../redux/slices/wishlistSlice";
+import IconsHeart from "./IconsHeart/IconsHeart";
+
+const CartItems = ({ item }) => {
   const { mobile } = React.useContext(MobileContext);
   const [openMenuDelete, setOpenMenuDelete] = React.useState(false);
   const dispatch = useDispatch();
 
-  const [isWishlisted, setIsWishlisted] = React.useState(false);
+  const likedProducts = useSelector(
+    (state) => state.likedProducts.likedProducts
+  );
 
+  const isWishlisted =
+    item && likedProducts.some((product) => product.id === item.id);
 
+  const handleLike = () => {
+    dispatch(addLikedProduct(item));
+  };
+
+  const handleUnlike = () => {
+    dispatch(removeLikedProduct(item.id));
+  };
 
   const onClickPlus = () => {
-    if (count >= 0) {
+    if (item.count >= 0) {
       setActiveMinusCount(true);
     }
-    dispatch(
-      addItem({
-        id,
-      })
-    );
+    dispatch(addItem(item.id));
   };
 
   const [activeMinusCount, setActiveMinusCount] = React.useState(true);
 
-  const onClickMinus = () => {
-    if (count === 1) {
+  useEffect(() => {
+    if (item.count === 1) {
       setActiveMinusCount(false);
+    } else {
+      setActiveMinusCount(true);
     }
-    dispatch(minusItem(id));
+  }, [item.count, dispatch, item.id]);
+
+  const onClickMinus = () => {
+    if (activeMinusCount === true) {
+      dispatch(minusItem(item.id));
+    }
   };
 
   const onClickDelete = () => {
     if (window.confirm("Are you sure you want to delete it?")) {
-      dispatch(removeItem(id));
+      dispatch(removeItem(item.id));
     }
   };
   const wrapRef = useRef(null);
@@ -56,10 +75,10 @@ const CartItems = ({ item, id, title, price, count, img }) => {
     <div className="shoppingcart__up">
       <div className="shoppingcart__up__box">
         <div className="shoppingcart__img">
-          <img src={mobile ? img : img} alt="img" />
+          <img src={mobile ? item.img : item.img} alt="img" />
         </div>
         <div className="shoppingcart__add">
-          <label>{title}</label>
+          <label>{item.title}</label>
           <div className="shoppingcart__plusminus">
             {activeMinusCount ? (
               <svg
@@ -83,7 +102,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
                 <path d="M5 13V11H19V13H5Z" fill="#747474" />
               </svg>
             )}
-            <div className="shoppingcart__number">{count}</div>
+            <div className="shoppingcart__number">{item.count}</div>
             <svg
               onClick={onClickPlus}
               xmlns="http://www.w3.org/2000/svg"
@@ -108,26 +127,11 @@ const CartItems = ({ item, id, title, price, count, img }) => {
           }
           ref={wrapRef}
         >
-          <div
-           
-            className={`delete-box1 ${isWishlisted ? "selected" : ""}`}
-          >
-            <svg
-              className="fav_svg selected"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M20.8401 4.60999C20.3294 4.099 19.7229 3.69364 19.0555 3.41708C18.388 3.14052 17.6726 2.99817 16.9501 2.99817C16.2276 2.99817 15.5122 3.14052 14.8448 3.41708C14.1773 3.69364 13.5709 4.099 13.0601 4.60999L12.0001 5.66999L10.9401 4.60999C9.90843 3.5783 8.50915 2.9987 7.05012 2.9987C5.59109 2.9987 4.19181 3.5783 3.16012 4.60999C2.12843 5.64169 1.54883 7.04096 1.54883 8.49999C1.54883 9.95903 2.12843 11.3583 3.16012 12.39L4.22012 13.45L12.0001 21.23L19.7801 13.45L20.8401 12.39C21.3511 11.8792 21.7565 11.2728 22.033 10.6053C22.3096 9.93789 22.4519 9.22248 22.4519 8.49999C22.4519 7.77751 22.3096 7.0621 22.033 6.39464C21.7565 5.72718 21.3511 5.12075 20.8401 4.60999V4.60999Z"
-                stroke="#28003E"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+          <div className="delete-box1">
+            <IconsHeart
+              className={`heart-card ${isWishlisted ? "selected" : ""}`}
+              onClick={isWishlisted ? handleUnlike : handleLike}
+            />
             <p>Add to favourite</p>
           </div>
           <div className="delete-box2" onClick={onClickDelete}>
@@ -186,9 +190,9 @@ const CartItems = ({ item, id, title, price, count, img }) => {
           />
         </svg>
         <div className="shoppingcart__summs">
-          <div className="shoppingcart__summ1">{count * price}</div>
+          <div className="shoppingcart__summ1">{item.count * item.price}</div>
           <div className="shoppingcart__summ2">
-            {(count * price * 0.9).toFixed(2)}
+            {(item.count * item.price * 0.9).toFixed(2)}
           </div>
         </div>
       </div>

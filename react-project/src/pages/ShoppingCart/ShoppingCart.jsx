@@ -6,20 +6,11 @@ import SliderCart from "../../components/Sliders/SliderCart/SliderCart.jsx";
 import CartItems from "../../components/CartItems.jsx";
 import CartIsEmpty from "../CartIsEmpty.jsx";
 import "./style.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { clearItems } from "../../redux/slices/cartAdd";
+import { useSelector } from "react-redux";
 
-const ShoppingCart = ({ title, img, price }) => {
-  const dispatch = useDispatch();
-
+const ShoppingCart = ({ name, title, img, price }) => {
   const { items, totalPrice } = useSelector((state) => state.cartAdd);
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
-
-  const onClickClear = () => {
-    if (window.confirm("To clean a shopping cart?")) {
-      dispatch(clearItems());
-    }
-  };
 
   const wrapRef = useRef(null);
 
@@ -49,7 +40,7 @@ const ShoppingCart = ({ title, img, price }) => {
     <div className="shoppingcart__container">
       <div className="shoppingcart__window" ref={wrapRef}>
         <div className="shoppingcart__krestik">
-          <Link to="/">
+          <a href="close">
             <svg
               onClick={() => {
                 setShoppingCartActive(false);
@@ -75,7 +66,7 @@ const ShoppingCart = ({ title, img, price }) => {
                 </clipPath>
               </defs>
             </svg>
-          </Link>
+          </a>
         </div>
         <div className="shoppingcart__box">
           {items.length > 0 ? (
@@ -84,7 +75,7 @@ const ShoppingCart = ({ title, img, price }) => {
                 <h4>Shopping cart</h4>
 
                 {items.map((item) => (
-                  <CartItems key={item.id} {...item} />
+                  <CartItems item={item} key={item.id} {...item} />
                 ))}
 
                 <div className="shoppingcart__down">

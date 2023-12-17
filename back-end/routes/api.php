@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,9 +45,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/products/{product}/remove-from-favourites', [ProductController::class, 'removeFromFavourites'])
         ->name('products.remove.favourite');
 
-    Route::post('/products/{product}/reviews', [\App\Http\Controllers\ReviewController::class, 'store']);
+    Route::post('/products/{product}/reviews', [ReviewController::class, 'store']);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
+
+Route::get('/reviews', [ReviewController::class, 'index']);

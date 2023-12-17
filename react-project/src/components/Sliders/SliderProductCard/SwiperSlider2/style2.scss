@@ -32,7 +32,10 @@
     height: 272px;
   }
 }
-
+.mySwiper3 .swiper-wrapper {
+  width: auto;
+  align-items: center;
+}
 //Slider small gorizontal
 ////////////////////////////////////////////////
 .mySwiper {
@@ -44,6 +47,8 @@
   margin-right: auto;
   gap: 10px;
   border: none;
+  overflow-x: scroll;
+  scrollbar-color: purple #f1f1f1;
 }
 
 .mySwiper .swiper-slide {
