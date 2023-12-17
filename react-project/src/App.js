@@ -22,7 +22,8 @@ import ComparePage from "./pages/ComparePage/ComparePage.jsx";
 import WishList from "./pages/WishList/WishList.jsx";
 import PersonalData from "./pages/PersonalData/PersonalData.jsx";
 import OrderPage from "./components/OrderPage/OrderPage.jsx";
-import ProductPage from "../src/pages/FilteredProducts/FilteredProducts.jsx";
+
+import ProductPage from "./pages/FilteredProducts/ProductList.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -208,68 +209,76 @@ function App() {
                                               setResetPasswordActive,
                                             }}
                                           >
+                                            <Header />
+
+                                            <Routes>
+                                              <Route
+                                                path="/NotFound"
+                                                element={<NotFound />}
+                                              />
+                                              <Route
+                                                path="/login"
+                                                element={<LoginPage />}
+                                              />
+                                              <Route
+                                                path="/"
+                                                element={<Home />}
+                                              />
+
+                                              <Route
+                                                path="/*"
+                                                element={<Home />}
+                                              />
+                                              <Route
+                                                path="/compare"
+                                                element={<ComparePage />}
+                                              />
+                                              <Route
+                                                path="/wishList"
+                                                element={<WishList />}
+                                              />
+                                              <Route
+                                                path="/order-page"
+                                                element={<OrderPage />}
+                                              />
+                                              <Route
+                                                path="/personal-data"
+                                                element={<PersonalData />}
+                                              />
+                                              <Route
+                                                path="/product-card"
+                                                element={<ProductCard />}
+                                              />
+                                              <Route
+                                                path="/product-page"
+                                                element={<ProductPage />}
+                                              />
+                                              <Route
+                                                path={`/product-card/:id`}
+                                                element={<ProductCard />}
+                                              />
+                                              <Route
+                                                path="/reset-password"
+                                                element={<ResetPassword />}
+                                              />
+                                            </Routes>
+
+                                            <Footer />
+
+                                            <div
+                                              style={
+                                                signInActive === true
+                                                  ? { display: "flex" }
+                                                  : { display: "none" }
+                                              }
+                                              className="overlaySignIn"
+                                            />
                                             <CategoryContext.Provider
                                               value={{
                                                 categoryValue,
                                                 setCategoryValue,
                                               }}
                                             >
-                                              <Header />
-
-                                              <Routes>
-                                                <Route
-                                                  path="/NotFound"
-                                                  element={<NotFound />}
-                                                />
-                                                <Route
-                                                  path="/login"
-                                                  element={<LoginPage />}
-                                                />
-                                                <Route
-                                                  path="/"
-                                                  element={<Home />}
-                                                />
-
-                                                <Route
-                                                  path="/*"
-                                                  element={<Home />}
-                                                />
-                                                <Route
-                                                  path="/compare"
-                                                  element={<ComparePage />}
-                                                />
-                                                <Route
-                                                  path="/wishList"
-                                                  element={<WishList />}
-                                                />
-                                                <Route
-                                                  path="/order-page"
-                                                  element={<OrderPage />}
-                                                />
-                                                <Route
-                                                  path="/personal-data"
-                                                  element={<PersonalData />}
-                                                />
-                                                <Route
-                                                  path="/product-card"
-                                                  element={<ProductCard />}
-                                                />
-                                                <Route
-                                                  path="/product-page"
-                                                  element={<ProductPage />}
-                                                />
-                                                <Route
-                                                  path={`/product-card/:id`}
-                                                  element={<ProductCard />}
-                                                />
-                                                <Route
-                                                  path="/reset-password"
-                                                  element={<ResetPassword />}
-                                                />
-                                              </Routes>
-
-                                              <Footer />
-
                                               <div
                                                 style={
                                                   signInActive === true
