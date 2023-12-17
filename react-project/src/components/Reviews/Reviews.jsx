@@ -2,26 +2,19 @@ import React from "react";
 import "./style.scss";
 import MyRating from "../MyRating/MyRating.jsx";
 
-const Reviews = () => {
+const Reviews = ({ item }) => {
   return (
     <div className="reviews">
       <div className="reviews__title">
-        <p>Veronica Scott</p>
-        <MyRating />
-        <span>01/01/2020</span>
+        <p>{`${item.user.name} ${item.user.surname}`}</p>
+        <MyRating rating={item.rate} />
+        <span>{item.created_at}</span>
       </div>
-      <p>
-        This smartphone is simply incredible! As a fan of Apple products, I was
-        really looking forward to the release of the new iPhone 14 Pro, and it
-        actually exceeded all my expectations. The design of the smartphone is
-        impressive at first glance. It's incredibly stylish in Silver, and its
-        glittering body looks simply adorable. In addition, the slim profile and
-        water resistance make it very convenient to use.
-      </p>
+      <p>{item.content}</p>
       <span>Advantages:</span>
-      <p>It has a good camera.</p>
+      <p>{item.advantages}</p>
       <span>Disadvantages:</span>
-      <p>No one.</p>
+      <p>{item.disadvantages}</p>
       <div className="reviews__reply">
         <div className="reviews__svg-reply">
           <svg

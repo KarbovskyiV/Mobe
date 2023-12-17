@@ -2,17 +2,14 @@ import React from "react";
 import "./style.scss";
 import MyRating from "../../MyRating/MyRating.jsx";
 
-const Reviews = () => {
+const Reviews = ({ item }) => {
   return (
     <div className="reviewsSlide">
       <div className="reviewsSlide__title">
-        <p>Veronica Scott</p>
-        <MyRating />
+        <span>{`${item.user.name} ${item.user.surname}`}</span>
+        <MyRating rating={item.rate} />
       </div>
-      <p>
-        This smartphone is simply incredible! As a fan of Apple products, I was
-        really looking forward to the release of the new iPhone 14 Pro, and it
-      </p>
+      <p>{item.content}</p>
     </div>
   );
 };

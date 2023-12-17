@@ -7,9 +7,10 @@
 
 //Slider small vertikal
 ////////////////////////////////////////////////
-.swiper-wrapper {
-  align-items: center;
+.mySwiper1.swiper-wrapper {
   width: auto;
+  display: flex;
+  align-items: flex-start;
 }
 
 .mySwiper1 {
@@ -58,6 +59,11 @@
 .swiper-button-prev,
 .swiper-button-next {
   color: #28003e;
+}
+
+.mySwiper2 .swiper-wrapper {
+  width: auto;
+  align-items: center;
 }
 
 .swiper-slide {

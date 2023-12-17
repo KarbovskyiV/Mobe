@@ -75,7 +75,7 @@ const ShoppingCart = ({ name, title, img, price }) => {
                 <h4>Shopping cart</h4>
 
                 {items.map((item) => (
-                  <CartItems key={item.id} {...item} />
+                  <CartItems item={item} key={item.id} {...item} />
                 ))}
 
                 <div className="shoppingcart__down">

@@ -1,17 +1,17 @@
 import React from "react";
 import { register } from "swiper/element/bundle";
-import reviewsList from "../../../pages/ProductCard/reviews.json";
+
 import ReviewsSlide from "./Slide-Reviews.jsx";
 import { DesktopContext, TabletContext } from "../../../App.js";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 
 import "./style.scss";
 
 register();
 
-const Slider = () => {
+const Slider = ({ reviewsProduct }) => {
   const { desktop } = React.useContext(DesktopContext);
   const { tablet } = React.useContext(TabletContext);
 
@@ -24,10 +24,11 @@ const Slider = () => {
       return 1;
     }
   };
-  const slidesRender = reviewsList.map((item) => {
+
+  const slidesRender = reviewsProduct.map((item) => {
     return (
       <SwiperSlide key={item.id}>
-        <ReviewsSlide {...item} />
+        <ReviewsSlide item={item} {...item} />
       </SwiperSlide>
     );
   });

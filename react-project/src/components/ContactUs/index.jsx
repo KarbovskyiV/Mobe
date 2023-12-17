@@ -6,7 +6,7 @@ function ContactUs() {
   return (
     <div className="box__contacts">
       <div className="header__contactus">
-        <a href="##">Contact us</a>
+        <span>Contact us</span>
         {!openContacts ? (
           <svg
             onClick={() => setOpenContacts(true)}

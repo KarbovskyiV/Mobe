@@ -2,14 +2,14 @@ import React, { useRef, useEffect } from "react";
 import { MobileContext } from "../App.js";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartAdd";
-import { addToWishList } from "../redux/slices/wishlistSlice";
+
 import {
   addLikedProduct,
   removeLikedProduct,
 } from "../redux/slices/wishlistSlice";
 import IconsHeart from "./IconsHeart/IconsHeart";
 
-const CartItems = ({ item, id, title, price, count, img }) => {
+const CartItems = ({ item }) => {
   const { mobile } = React.useContext(MobileContext);
   const [openMenuDelete, setOpenMenuDelete] = React.useState(false);
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
   );
 
   const isWishlisted =
-    item && likedProducts.some((product) => product === item);
+    item && likedProducts.some((product) => product.id === item.id);
 
   const handleLike = () => {
     dispatch(addLikedProduct(item));
@@ -30,35 +30,31 @@ const CartItems = ({ item, id, title, price, count, img }) => {
   };
 
   const onClickPlus = () => {
-    if (count >= 0) {
+    if (item.count >= 0) {
       setActiveMinusCount(true);
     }
-    dispatch(
-      addItem({
-        id,
-      })
-    );
+    dispatch(addItem(item.id));
   };
 
   const [activeMinusCount, setActiveMinusCount] = React.useState(true);
 
   useEffect(() => {
-    if (count === 1) {
+    if (item.count === 1) {
       setActiveMinusCount(false);
     } else {
       setActiveMinusCount(true);
     }
-  }, [count, dispatch, id]);
+  }, [item.count, dispatch, item.id]);
 
   const onClickMinus = () => {
     if (activeMinusCount === true) {
-      dispatch(minusItem(id));
+      dispatch(minusItem(item.id));
     }
   };
 
   const onClickDelete = () => {
     if (window.confirm("Are you sure you want to delete it?")) {
-      dispatch(removeItem(id));
+      dispatch(removeItem(item.id));
     }
   };
   const wrapRef = useRef(null);
@@ -79,10 +75,10 @@ const CartItems = ({ item, id, title, price, count, img }) => {
     <div className="shoppingcart__up">
       <div className="shoppingcart__up__box">
         <div className="shoppingcart__img">
-          <img src={mobile ? img : img} alt="img" />
+          <img src={mobile ? item.img : item.img} alt="img" />
         </div>
         <div className="shoppingcart__add">
-          <label>{title}</label>
+          <label>{item.title}</label>
           <div className="shoppingcart__plusminus">
             {activeMinusCount ? (
               <svg
@@ -106,7 +102,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
                 <path d="M5 13V11H19V13H5Z" fill="#747474" />
               </svg>
             )}
-            <div className="shoppingcart__number">{count}</div>
+            <div className="shoppingcart__number">{item.count}</div>
             <svg
               onClick={onClickPlus}
               xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +129,7 @@ const CartItems = ({ item, id, title, price, count, img }) => {
         >
           <div className="delete-box1">
             <IconsHeart
-              className={`heart ${isWishlisted ? "selected" : ""}`}
+              className={`heart-card ${isWishlisted ? "selected" : ""}`}
               onClick={isWishlisted ? handleUnlike : handleLike}
             />
             <p>Add to favourite</p>
@@ -194,9 +190,9 @@ const CartItems = ({ item, id, title, price, count, img }) => {
           />
         </svg>
         <div className="shoppingcart__summs">
-          <div className="shoppingcart__summ1">{count * price}</div>
+          <div className="shoppingcart__summ1">{item.count * item.price}</div>
           <div className="shoppingcart__summ2">
-            {(count * price * 0.9).toFixed(2)}
+            {(item.count * item.price * 0.9).toFixed(2)}
           </div>
         </div>
       </div>

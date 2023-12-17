@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import Button from "../../components/Button.jsx";
+import { Link } from "react-router-dom";
 import {
   userContext,
   DesktopContext,
   MobileContext,
   CatalogOpenedContext,
+  ReviewsActiveContext,
+  GetNummerStar,
 } from "../../App.js";
 import { useSelector, useDispatch } from "react-redux";
 import Catalog from "../../components/Catalog/Catalog.jsx";
@@ -31,28 +35,40 @@ import {
   removeComparedProduct,
 } from "../../redux/slices/compareSlice";
 import Reviews from "../../components/Reviews/Reviews.jsx";
-import reviewsList from "./reviews.json";
+
 import { setCharacteristics } from "../../redux/slices/cardSlice.js";
 import axios from "../../utils/axios.js";
 import SliderReviews from "../../components/Sliders/SliderReviews/SliderReviews.jsx";
 
 function ProductCard() {
+  const wrapRef = useRef(null);
+
+  const { reviewsActive, setReviewsActive } =
+    React.useContext(ReviewsActiveContext);
+
+  const handClick = (event) => {
+    if (wrapRef.current && !wrapRef.current.contains(event.target))
+      setReviewsActive(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handClick);
+    return () => {
+      document.removeEventListener("mousedown", handClick);
+    };
+  }, []);
   const dispatch = useDispatch();
 
   const { setUser } = React.useContext(userContext);
 
+  const { nummerStar, setNummerStar } = React.useContext(GetNummerStar);
+
+  const characteristic = useSelector(
+    (state) => state.cardReducer.characteristics
+  );
+
+  const analogCard = useSelector((state) => state.cardReducer.analog);
   const ratingStars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
-
-  const [nummerStar, setNummerStar] = React.useState(0);
-  const [product, setProduct] = React.useState([]);
-
-  const productId = () => {
-    if (activeAnalog === characteristic.name) {
-      return setProduct(characteristic);
-    } else {
-      return setProduct(analogCard);
-    }
-  };
 
   const reviewsSending = (e) => {
     e.preventDefault();
@@ -63,13 +79,18 @@ function ProductCard() {
 
     axios
       .post(
-        `/products/${product.id}/reviews`,
+        `/products/${
+          activeAnalog === characteristic.name
+            ? characteristic.id
+            : analogCard.id
+        }/reviews`,
         {
           rate: nummerStar,
           content: e.target[0].value,
           advantages: e.target[1].value,
           disadvantages: e.target[2].value,
-          product_id: { productId },
+          product_id:
+            activeAnalog === characteristic.name ? characteristic : analogCard,
         },
         {
           // це потрібно додавати до кожного запиту який потребує авторизованого юзера
@@ -134,12 +155,6 @@ function ProductCard() {
 
   const categoryProduct = useSelector((state) => state.cardReducer.category);
 
-  const characteristic = useSelector(
-    (state) => state.cardReducer.characteristics
-  );
-
-  const analogCard = useSelector((state) => state.cardReducer.analog);
-
   const [about, setAbout] = React.useState(true);
   const [characteristic2, setCharacteristic2] = React.useState(false);
   const [reviews, setReviews] = React.useState(false);
@@ -148,7 +163,6 @@ function ProductCard() {
   const [activeMemory, setActiveMemory] = React.useState(
     characteristic.built_in_memory
   );
-  const [openFeedbackWindow, setOpenFeedbackWindow] = React.useState(false);
 
   const products = useSelector((state) => state.products.products);
 
@@ -169,6 +183,7 @@ function ProductCard() {
   }, [characteristic]);
 
   useEffect(() => {
+    getReviews();
     const getSeries = () => {
       if (activeAnalog === characteristic.name) {
         return characteristic.series;
@@ -203,9 +218,9 @@ function ProductCard() {
     setCharacteristic2(true);
     setReviews(false);
   }
+  const [reviewsProduct, setReviewsProduct] = React.useState([]);
 
   function onClickChangeReviews() {
-    productId();
     setAbout(false);
     setCharacteristic2(false);
     setReviews(true);
@@ -214,12 +229,25 @@ function ProductCard() {
 
   const getReviews = () => {
     axios
-      .get(`/products/${product.id}/reviews`)
+      .get(`/reviews`)
       .then((response) => {
-        const products = response.data;
-        console.log(products, "products-reviews");
+        const analog = () => {
+          if (activeAnalog === characteristic.name) {
+            return characteristic;
+          } else {
+            return analogCard;
+          }
+        };
+
+        const rewProd = response.data.filter(
+          (prod) => prod.product_id === analog().id
+        );
+
+        setReviewsProduct(rewProd);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        alert("mistake reviews-dats");
+      });
   };
 
   const title = () => {
@@ -232,7 +260,7 @@ function ProductCard() {
         analogCard.color === null || analogCard.color === undefined
           ? ""
           : analogCard.color
-      } ${analogCard.id}`;
+      }`;
     } else {
       return `${
         characteristic.name === null || characteristic.name === undefined
@@ -242,7 +270,7 @@ function ProductCard() {
         characteristic.color === null || characteristic.color === undefined
           ? ""
           : characteristic.color
-      } ${characteristic.id}`;
+      }`;
     }
   };
 
@@ -370,6 +398,7 @@ function ProductCard() {
   const getProduct = (memory) => {
     changeAnalogActive(memory);
   };
+  const location = useLocation();
 
   return (
     <>
@@ -1052,6 +1081,33 @@ function ProductCard() {
               </tbody>
             </table>
           </div>
+          <div className="productCard__sort-box">
+            <button
+              className="button__feedback"
+              onClick={() => setReviewsActive(true)}
+            >
+              To leave feedback
+            </button>
+
+            <div className="productCard__sort">
+              <p>Newest first</p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M6 9L12 15L18 9"
+                  stroke="#28003E"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
           <div
             style={reviews ? { display: "flex" } : { display: "none" }}
             className="productCard__cardBox3"
@@ -1070,94 +1126,111 @@ function ProductCard() {
                   </div>
                 )
               : ""}
-            <div className="productCard__sort-box">
-              <div className="productCard__sort">
-                <p>Newest first</p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6 9L12 15L18 9"
-                    stroke="#28003E"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
+
+            <div
+              style={
+                reviewsActive === true
+                  ? { display: "flex" }
+                  : { display: "none" }
+              }
+              className="overlayReviews"
+            >
+              <form
+                onSubmit={reviewsSending}
+                ref={wrapRef}
+                className="reviews-window"
+              >
+                <div className="signin-box">
+                  <Link to="/product-card/:id">
+                    <svg
+                      onClick={() => {
+                        setReviewsActive(false);
+                      }}
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_258_7121)">
+                        <path
+                          d="M18 6L6 18M6 6L18 18"
+                          stroke="#28003E"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_258_7121">
+                          <rect width="24" height="24" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </Link>
+                </div>
+                <h2>Leave a review</h2>
+                <div className="boxStars__feedback-stars">
+                  <p>Rate this product</p>
+                  <div className="boxStars__feedback">
+                    {ratingStars.map((obj, i) => (
+                      <svg
+                        onClick={() => setNummerStar(obj.id)}
+                        key={obj.id}
+                        {...obj}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="30"
+                        height="30"
+                        viewBox="0 0 16 15"
+                        fill="none"
+                      >
+                        <path
+                          d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
+                          fill={nummerStar >= obj.id ? "#FFE500" : "#E3E3E3"}
+                        />
+                      </svg>
+                    ))}
+                  </div>
+                </div>
+                <textarea
+                  className="input__feedback"
+                  placeholder="Your review"
+                  type="text"
+                />
+                <input
+                  className="advantages__feedback"
+                  placeholder="Advantages"
+                  type="text"
+                />
+                <input
+                  className="advantages__feedback"
+                  placeholder="Disadvantages"
+                  type="text"
+                />
+                <button className="button__feedback2">Add a review</button>
+              </form>
             </div>
-            {reviewsList.length > 0 ? (
+            {reviewsProduct.length > 0 ? (
               <>
-                {reviewsList.map((item) => (
-                  <Reviews key={item.id} {...item} />
+                {reviewsProduct.map((item) => (
+                  <Reviews item={item} key={item.id} {...item} />
                 ))}
               </>
             ) : (
               ""
             )}
-            <button
-              className="button__feedback"
-              onClick={() => setOpenFeedbackWindow(true)}
-            >
-              To leave feedback
-            </button>
-            <form
-              onSubmit={reviewsSending}
-              className="reviews__feedback"
-              style={
-                openFeedbackWindow === true
-                  ? { display: "flex" }
-                  : { display: "none" }
-              }
-            >
-              <div className="boxStars__feedback">
-                {ratingStars.map((obj, i) => (
-                  <svg
-                    onClick={() => setNummerStar(obj.id)}
-                    key={obj.id}
-                    {...obj}
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="30"
-                    height="30"
-                    viewBox="0 0 16 15"
-                    fill="none"
-                  >
-                    <path
-                      d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z"
-                      fill={nummerStar >= obj.id ? "#FFE500" : "#E3E3E3"}
-                    />
-                  </svg>
-                ))}
-              </div>
-              <textarea
-                className="input__feedback"
-                placeholder="your feedback...."
-                type="text"
-              />
-              <input
-                className="advantages__feedback"
-                placeholder="advantages...."
-                type="text"
-              />
-              <input
-                className="advantages__feedback"
-                placeholder="disadvantages...."
-                type="text"
-              />
-              <button className="button__feedback">To leave feedback</button>
-            </form>
           </div>
           <div id="yourPromotionContainerID">
             <PromotionContainer />
           </div>
           <BuyWithUs />
-          {about ? (
-            <div className="slide-box">
-              <SliderReviews />
+          {about || characteristic ? (
+            <div className="slide-boxCard">
+              <div className="slide-boxCard__title">
+                <h2>Reviews</h2>
+                <p>All reviews</p>
+              </div>
+              <SliderReviews reviewsProduct={reviewsProduct} />
             </div>
           ) : (
             ""
