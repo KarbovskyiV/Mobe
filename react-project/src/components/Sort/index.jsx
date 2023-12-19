@@ -5,7 +5,7 @@ import "./style.scss";
 function Sort() {
   const [openSort, setOpenSort] = React.useState(false);
 
-  const { typeSort, setTypeSort } = React.useContext(GetTypeSort);
+  const { setTypeSort } = React.useContext(GetTypeSort);
 
   return (
     <div className="productCard__sort">
