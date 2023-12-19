@@ -3,8 +3,8 @@ import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
-import { ReactComponent as Close} from "./Images/X.svg";
-import { ReactComponent as Alert} from "./Images/alert.svg";
+import { ReactComponent as Close } from "./Images/X.svg";
+import { ReactComponent as Alert } from "./Images/alert.svg";
 
 import { useParams } from "react-router-dom";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
@@ -107,7 +107,9 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
       </div>
       {showPopup && (
         <div className="popup__compare">
-          <button className="popup-btn" onClick={handleHidePopup}><Close/></button>
+          <button className="popup-btn" onClick={handleHidePopup}>
+            <Close />
+          </button>
           <div className="popup__content">
             <Alert />
             <p>Only two products can be added to the comparison list</p>

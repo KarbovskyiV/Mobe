@@ -8,7 +8,7 @@ import CartIsEmpty from "../CartIsEmpty.jsx";
 import "./style.scss";
 import { useSelector } from "react-redux";
 
-const ShoppingCart = ({ name, title, img, price }) => {
+const ShoppingCart = () => {
   const { items, totalPrice } = useSelector((state) => state.cartAdd);
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
 
