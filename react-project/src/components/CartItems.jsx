@@ -33,7 +33,7 @@ const CartItems = ({ item }) => {
     if (item.count >= 0) {
       setActiveMinusCount(true);
     }
-    dispatch(addItem(item.id));
+    dispatch(addItem(item));
   };
 
   const [activeMinusCount, setActiveMinusCount] = React.useState(true);
@@ -48,13 +48,21 @@ const CartItems = ({ item }) => {
 
   const onClickMinus = () => {
     if (activeMinusCount === true) {
-      dispatch(minusItem(item.id));
+      dispatch(minusItem(item));
     }
   };
 
   const onClickDelete = () => {
-    if (window.confirm("Are you sure you want to delete it?")) {
-      dispatch(removeItem(item.id));
+    if (item.buytogether === undefined) {
+      if (window.confirm("Are you sure you want to delete it?")) {
+        dispatch(removeItem(item));
+      }
+    } else {
+      if (
+        window.confirm("Are you sure you want to remove the accessory kit?")
+      ) {
+        dispatch(removeItem(item));
+      }
     }
   };
   const wrapRef = useRef(null);

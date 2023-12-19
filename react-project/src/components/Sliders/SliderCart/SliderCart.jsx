@@ -17,11 +17,21 @@ const Slider = () => {
 
   const { items } = useSelector((state) => state.cartAdd);
 
-  const filterItems = items.filter((ob) => ob.buytogether !== true);
+  const filterItems = items.filter((ob) => ob.buytogether === undefined);
 
   let resultArray = filterItems.map((obj1, i) => {
-    let matchingObj = slides.find((obj2, a) => i === a);
-    return { ...obj1, ...matchingObj };
+    let matchingObj = slides.find((obj2, a) => obj1.id === obj2.id);
+
+    return {
+      id1: obj1.id,
+      title: obj1.title,
+      price: obj1.price,
+      img: obj1.img,
+      id2: `${obj1.id}"acsessuare"`,
+      title2: matchingObj.titlePlus,
+      price2: matchingObj.pricePlus,
+      img2: srcPlus,
+    };
   });
 
   const addIntoCart = (obj) => {
@@ -31,12 +41,12 @@ const Slider = () => {
 
   const addIntoCart1 = (obj) => {
     const itemCart = {
-      id: obj.id,
+      id: obj.id1,
       title: obj.title,
       price: obj.price,
       img: obj.img,
       count: 1,
-      buytogether: true,
+      buytogether: obj.id1,
     };
 
     dispatch(addItem(itemCart));
@@ -44,12 +54,12 @@ const Slider = () => {
 
   const addIntoCart2 = (obj) => {
     const itemCart2 = {
-      id: obj.id + 1,
-      title: obj.titlePlus,
-      price: obj.pricePlus,
+      id: obj.id2,
+      title: obj.title2,
+      price: obj.price2,
       img: srcPlus,
       count: 1,
-      buytogether: true,
+      buytogether: obj.id1,
     };
 
     dispatch(addItem(itemCart2));
@@ -85,13 +95,13 @@ const Slider = () => {
           <div className="slide__box2">
             <img src={srcPlus} alt="img" />
             <div className="slide__title">
-              <p>{obj.titlePlus}</p>
-              <span>$ {obj.pricePlus}</span>
+              <p>{obj.title2}</p>
+              <span>$ {obj.price2}</span>
             </div>
           </div>
         </div>
         <div className="shoppingcart__down-summ2">
-          <h5>$ {(obj.price * 0.9 + obj.pricePlus).toFixed(2)}</h5>
+          <h5>$ {(obj.price * 0.9 + obj.price2).toFixed(2)}</h5>
           <Button
             onClick={() => addIntoCart(obj)}
             type="violet"

@@ -67,7 +67,7 @@ function ProductCard() {
 
   const { nummerStar, setNummerStar } = React.useContext(GetNummerStar);
 
-  const { typeSort, setTypeSort } = React.useContext(GetTypeSort);
+  const { typeSort } = React.useContext(GetTypeSort);
 
   const characteristic = useSelector(
     (state) => state.cardReducer.characteristics
@@ -150,6 +150,7 @@ function ProductCard() {
         activeAnalog === analogCard.name
           ? analogCard.price
           : characteristic.price,
+      id: activeAnalog === analogCard.name ? analogCard.id : characteristic.id,
       img: Image,
     };
     dispatch(addItem(itemCart));
@@ -1107,7 +1108,10 @@ function ProductCard() {
               </tbody>
             </table>
           </div>
-          <div className="productCard__sort-box">
+          <div
+            style={reviews ? { display: "flex" } : { display: "none" }}
+            className="productCard__sort-box"
+          >
             <button
               className="button__feedback"
               onClick={() => setReviewsActive(true)}
