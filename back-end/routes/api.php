@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LikeableController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
@@ -47,9 +48,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/products/{product}/reviews', [ReviewController::class, 'store']);
 
+    Route::post('/{product}/like', [LikeableController::class, 'like']);
+    Route::post('/{product}/dislike', [LikeableController::class, 'dislike']);
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
 
 Route::get('/reviews', [ReviewController::class, 'index']);
+
+Route::get('/{product}/likeCount', [LikeableController::class, 'likeCount']);
+Route::get('/{product}/dislikeCount', [LikeableController::class, 'dislikeCount']);

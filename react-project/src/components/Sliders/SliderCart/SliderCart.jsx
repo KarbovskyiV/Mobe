@@ -19,19 +19,36 @@ const Slider = () => {
 
   const filterItems = items.filter((ob) => ob.buytogether === undefined);
 
+  console.log(filterItems);
+
   let resultArray = filterItems.map((obj1, i) => {
     let matchingObj = slides.find((obj2, a) => obj1.id === obj2.id);
 
-    return {
-      id1: obj1.id,
-      title: obj1.title,
-      price: obj1.price,
-      img: obj1.img,
-      id2: `${obj1.id}"acsessuare"`,
-      title2: matchingObj.titlePlus,
-      price2: matchingObj.pricePlus,
-      img2: srcPlus,
-    };
+    if (matchingObj) {
+      return {
+        id1: obj1.id,
+        title: obj1.title,
+        price: obj1.price,
+        img: obj1.img,
+        id2: `${obj1.id}"acsessuare"`,
+        title2: matchingObj.titlePlus,
+        price2: matchingObj.pricePlus,
+        img2: srcPlus,
+      };
+    } else {
+      let matchingObj2 = slides.find((obj2, a) => obj2.id === 1);
+
+      return {
+        id1: obj1.id,
+        title: obj1.title,
+        price: obj1.price,
+        img: obj1.img,
+        id2: `${obj1.id}"acsessuare"`,
+        title2: matchingObj2.titlePlus,
+        price2: matchingObj2.pricePlus,
+        img2: srcPlus,
+      };
+    }
   });
 
   const addIntoCart = (obj) => {
