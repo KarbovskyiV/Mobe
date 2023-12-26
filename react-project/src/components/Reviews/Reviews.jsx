@@ -2,10 +2,76 @@ import React from "react";
 import "./style.scss";
 import MyRating from "../MyRating/MyRating.jsx";
 import { format } from "date-fns";
+import axios from "../../utils/axios.js";
+import { userContext } from "../../App.js";
 
 const Reviews = ({ item }) => {
+  const { setUser } = React.useContext(userContext);
   const originalDate = new Date(item.created_at);
   const formattedDate = format(originalDate, "dd.MM.yyyy");
+  const [like, setLike] = React.useState(false);
+  const [countLikes, setCountLikes] = React.useState(0);
+  const [countDislikes, setCountDislikes] = React.useState(0);
+
+  /* console.log(item, "item"); */
+
+  const getlikes = () => {
+    /*  axios
+      .get(`/${item.id}/likeCount`)
+      .then((res) => {
+        console.log(res.data, 6699);
+        const likesID = res.data;
+        const ID = likesID.filter((ob) => ob.id === item.id);
+        setCountLikes(ID);
+      })
+      .catch((error) => {
+        alert(error);
+      }); */
+  };
+
+  const getDislikes = () => {
+    /*  axios
+      .get(`/${item.product_id}/dislikeCount`)
+      .then((res) => {
+        const dislikesID = res;
+        const gg = dislikesID.filter((ob) => ob.id === item.id);
+        setCountDislikes(gg);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      }); */
+  };
+
+  const toMakeLikeDislike = (liked) => {
+    if (localStorage.getItem("user") !== null) {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    }
+    axios
+      .post(
+        `/${item.id}/${liked}`,
+        {
+          is_liked: liked === "like" ? true : false,
+          product_id: item.id,
+        },
+        {
+          // це потрібно додавати до кожного запиту який потребує авторизованого юзера
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setLike({
+          ...res.like,
+        });
+        getlikes();
+        getDislikes();
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
   return (
     <div className="reviews">
       <div className="reviews__title">
@@ -40,6 +106,7 @@ const Reviews = ({ item }) => {
         <div className="reviews__svg-likes">
           <div className="reviews__svg-like">
             <svg
+              onClick={() => toMakeLikeDislike("like")}
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -61,10 +128,11 @@ const Reviews = ({ item }) => {
                 </clipPath>
               </defs>
             </svg>
-            <p>10</p>
+            <p>{countLikes}</p>
           </div>
           <div className="reviews__svg-like"></div>
           <svg
+            onClick={() => toMakeLikeDislike("dislike")}
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -86,7 +154,7 @@ const Reviews = ({ item }) => {
               </clipPath>
             </defs>
           </svg>
-          <p>10</p>
+          <p>{countDislikes}</p>
         </div>
       </div>
     </div>

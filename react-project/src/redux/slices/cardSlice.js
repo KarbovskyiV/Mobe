@@ -6,6 +6,7 @@ const initialState = {
   category: "",
   characteristics: getCharacteristicLocalStorage(),
   analog: getAnalogLocalStorage(),
+  currentPage: 1,
 };
 
 const cardSlice = createSlice({
@@ -21,10 +22,23 @@ const cardSlice = createSlice({
     setAnalog(state, action) {
       state.analog = action.payload;
     },
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
+    setFilters(state, action) {
+      /* state.sort = action.payload.sort; */
+      state.currentPage = Number(action.payload.currentPage);
+      /* state.category = Number(action.payload.category); */
+    },
   },
 });
 
-export const { setCharacteristics, setCategoryProduct, setAnalog } =
-  cardSlice.actions;
+export const {
+  setCharacteristics,
+  setCategoryProduct,
+  setAnalog,
+  setCurrentPage,
+  setFilters,
+} = cardSlice.actions;
 
 export default cardSlice.reducer;

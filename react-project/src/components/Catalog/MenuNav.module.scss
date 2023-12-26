@@ -109,6 +109,12 @@
   }
 }
 
+.li_box {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 @media (max-width: 430px) {
   .mobileMenuBoxShow {
     left: 0px;

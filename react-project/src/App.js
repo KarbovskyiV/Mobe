@@ -254,11 +254,11 @@ function App() {
                                                   element={<ProductCard />}
                                                 />
                                                 <Route
-                                                  path="/product-page"
+                                                  path="/product-page/:label/:page/:series"
                                                   element={<ProductPage />}
                                                 />
                                                 <Route
-                                                  path={`/product-card/:id`}
+                                                  path={`/product-card/:itemDate`}
                                                   element={<ProductCard />}
                                                 />
                                                 <Route
