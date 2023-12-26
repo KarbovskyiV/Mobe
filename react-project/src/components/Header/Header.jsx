@@ -212,11 +212,11 @@ function Header() {
               <button
                 style={mobile ? { display: "none" } : { display: "flex" }}
                 className="header__catalog"
+                onClick={() => setCatalogOpened(!catalogOpened)}
               >
                 Catalog of goods
                 {!catalogOpened ? (
                   <svg
-                    onClick={() => setCatalogOpened(true)}
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="24"
@@ -233,7 +233,6 @@ function Header() {
                   </svg>
                 ) : (
                   <svg
-                    onClick={() => setCatalogOpened(false)}
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="24"

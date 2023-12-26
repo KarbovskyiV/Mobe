@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MyRating from "../MyRating/MyRating";
 import Button from "../Button";
 import IconsHeart from "../IconsHeart/IconsHeart";
 import IconsWeight from "../IconsWeight/IconsWeight";
 import { ReactComponent as Close } from "./Images/X.svg";
 import { ReactComponent as Alert } from "./Images/alert.svg";
+import navigateToProductCard from "../../utils/navigateToProductCard.jsx";
 
-import { useParams } from "react-router-dom";
-import { addToWishList } from "../../redux/slices/wishlistSlice";
 import {
   addLikedProduct,
   removeLikedProduct,
@@ -19,7 +18,7 @@ import { addItem } from "../../redux/slices/cartAdd";
 
 import Image from "./Images/image.jpg";
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   addComparedProduct,
@@ -27,8 +26,9 @@ import {
 } from "../../redux/slices/compareSlice";
 import { hidePopup } from "../../redux/slices/compareSlice";
 
-const ProductCard = ({ item, onAddToCart, title, img, price }) => {
+const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const likedProducts = useSelector(
     (state) => state.likedProducts.likedProducts
@@ -71,16 +71,23 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
     dispatch(addItem(itemCart));
   };
 
+  const products = useSelector((state) => state.products.products);
+
+  const navigateCard = (item) => {
+    navigateToProductCard(dispatch, navigate, item, products);
+  };
+
   return (
     <div className="section__card">
       <div className="section__inner">
-        <div className="section__card-photo">
+        <div
+          onClick={() => navigateCard({ ...item })}
+          className="section__card-photo"
+        >
           <img src={Image} alt="" />
         </div>
         <div className="section__card-content">
-          <Link to={`/product-card/${item.id}`} className="section__card-title">
-            {item.name}
-          </Link>
+          <div className="section__card-title">{item.name}</div>
 
           <div className="section__card rating">
             <MyRating />
@@ -89,8 +96,17 @@ const ProductCard = ({ item, onAddToCart, title, img, price }) => {
         </div>
         <div className="section__price">
           <div className="promotion__price-inner">
-            <div className="section__card-oldprice">$ 250.99</div>
-            <div className="section__card-newprice">{item.price}$</div>
+            <div
+              style={
+                item.is_promotion === 1
+                  ? { display: "flex" }
+                  : { display: "none" }
+              }
+              className="section__card-oldprice"
+            >
+              $ {item.price * 0.95}
+            </div>
+            <div className="section__card-newprice">$ {item.price}</div>
           </div>
           <Button type="violet" title={"Add to Cart"} onClick={addIntoCart} />
         </div>

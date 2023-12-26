@@ -56,6 +56,7 @@ const Section = ({ data }) => {
               <ProductCard
                 key={item.id}
                 item={item}
+
                 /*  onAddToCart={handleAddToCart} */
               />
             ))}
