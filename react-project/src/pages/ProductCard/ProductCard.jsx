@@ -3,7 +3,7 @@ import MyRating from "../../components/MyRating/MyRating.jsx";
 import getSort from "../../utils/getSort.jsx";
 
 import Button from "../../components/Button.jsx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   userContext,
   DesktopContext,
@@ -41,10 +41,15 @@ import Reviews from "../../components/Reviews/Reviews.jsx";
 import { setCharacteristics } from "../../redux/slices/cardSlice.js";
 import axios from "../../utils/axios.js";
 import SliderReviews from "../../components/Sliders/SliderReviews/SliderReviews.jsx";
+import MenuStep from "../../components/MenuStep/MenuStep.jsx";
 
 import Sort from "../../components/Sort";
 
 function ProductCard() {
+  const { state } = useLocation();
+
+  const itemID = state && state.product;
+
   const wrapRef = useRef(null);
 
   const { reviewsActive, setReviewsActive } =
@@ -63,7 +68,7 @@ function ProductCard() {
   }, []);
   const dispatch = useDispatch();
 
-  const { setUser } = React.useContext(userContext);
+  const { user, setUser } = React.useContext(userContext);
 
   const { nummerStar, setNummerStar } = React.useContext(GetNummerStar);
 
@@ -109,6 +114,8 @@ function ProductCard() {
         setReviews({
           ...res.reviews,
         });
+        console.log(res.data, "555");
+        setReviewsActive(false);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -173,6 +180,8 @@ function ProductCard() {
 
   const products = useSelector((state) => state.products.products);
 
+  const [isMemory32, setIsMemory32] = useState([]);
+  const [isMemory64, setIsMemory64] = useState([]);
   const [isMemory128, setIsMemory128] = useState([]);
   const [isMemory256, setIsMemory256] = useState([]);
   const [isMemory512, setIsMemory512] = useState([]);
@@ -202,6 +211,8 @@ function ProductCard() {
       (prod) => prod.series === getSeries()
     );
 
+    setIsMemory32(filterProducts.filter((i) => i.built_in_memory === "32GB"));
+    setIsMemory64(filterProducts.filter((i) => i.built_in_memory === "64GB"));
     setIsMemory128(filterProducts.filter((i) => i.built_in_memory === "128GB"));
     setIsMemory256(filterProducts.filter((i) => i.built_in_memory === "256GB"));
     setIsMemory512(filterProducts.filter((i) => i.built_in_memory === "512GB"));
@@ -263,20 +274,12 @@ function ProductCard() {
         analogCard.name === null || analogCard.name === undefined
           ? ""
           : analogCard.name
-      }  ${
-        analogCard.color === null || analogCard.color === undefined
-          ? ""
-          : analogCard.color
-      }`;
+      } `;
     } else {
       return `${
         characteristic.name === null || characteristic.name === undefined
           ? ""
           : characteristic.name
-      } ${
-        characteristic.color === null || characteristic.color === undefined
-          ? ""
-          : characteristic.color
       }`;
     }
   };
@@ -437,41 +440,7 @@ function ProductCard() {
       </div>
       <div className="productCard">
         <div className="productCard__container">
-          <div className="productCard__titlemenu">
-            <a href="##">Main</a>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M10 16L14 12L10 8"
-                stroke="#30293D"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <a href="##">{categoryProduct}</a>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M10 16L14 12L10 8"
-                stroke="#30293D"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <a href="##">{characteristic.name}</a>
-          </div>
+          <MenuStep label={categoryProduct} name={characteristic.name} />
           <div className="productCard__menu">
             <a
               onClick={onClickAbout}
@@ -596,6 +565,30 @@ function ProductCard() {
                   </span>
                 </p>
                 <div className="productCard__buttons">
+                  <button
+                    onClick={() => getProduct("32GB")}
+                    className={activeMemory === "32GB" ? "active" : "unactive"}
+                    style={
+                      isMemory32.length === 0
+                        ? { textDecoration: "line-through" }
+                        : null
+                    }
+                    disabled={isMemory32.length === 0}
+                  >
+                    32 GB
+                  </button>
+                  <button
+                    onClick={() => getProduct("64GB")}
+                    className={activeMemory === "64GB" ? "active" : "unactive"}
+                    style={
+                      isMemory64.length === 0
+                        ? { textDecoration: "line-through" }
+                        : null
+                    }
+                    disabled={isMemory64.length === 0}
+                  >
+                    64 GB
+                  </button>
                   <button
                     onClick={() => getProduct("128GB")}
                     className={activeMemory === "128GB" ? "active" : "unactive"}

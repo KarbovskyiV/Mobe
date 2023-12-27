@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import axios from "../../utils/axios.js";
 import styles from "./MenuNav.module.scss";
 import cn from "classnames";
 import IconClose from "../IconsClose/IconClose.jsx";
 import IconOpen from "../IconsClose/IconOpen.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -36,46 +36,17 @@ const Catalog = () => {
 
   const dispatch = useDispatch();
 
-  const onClickCatalog = (category, characteristics, name) => {
-    dispatch(setCategoryProduct(category));
-    dispatch(setCharacteristics(characteristics));
+  const navigate = useNavigate();
+  const uniqueSeries = [];
 
-    const jsonCharacteristic = JSON.stringify(characteristics);
-    localStorage.setItem("characteristic", jsonCharacteristic);
-
-    const analog = findMostSimilar(name, menuData);
-    dispatch(setAnalog(analog));
-    const jsonAnalog = JSON.stringify(analog);
-    localStorage.setItem("analog", jsonAnalog);
-
+  const getFilterPage = (label, page, series) => {
     setCatalogOpened(false);
+    if (page === "sortBrand") {
+      navigate(`/product-page/${label}/${page}/${series}`);
+    } else if (page === "sortSeries") {
+      navigate(`/product-page/${label}/${page}/${series}`);
+    }
   };
-
-  function calculateSimilarity(str1, str2) {
-    const maxLength = Math.max(str1.length, str2.length);
-    const commonLength = str1
-      .split("")
-      .filter((char, index) => char === str2[index]).length;
-
-    return commonLength / maxLength;
-  }
-
-  function findMostSimilar(inputName, objects) {
-    let maxSimilarity = 0;
-    let mostSimilarObject = null;
-
-    objects.forEach((obj) => {
-      if (obj.name !== inputName) {
-        const similarity = calculateSimilarity(inputName, obj.name);
-        if (similarity > maxSimilarity) {
-          maxSimilarity = similarity;
-          mostSimilarObject = obj;
-        }
-      }
-    });
-
-    return mostSimilarObject;
-  }
 
   const products = useSelector((state) => state.products.products);
 
@@ -159,6 +130,19 @@ const Catalog = () => {
     return 200 + x * 42 + x * 6;
   };
 
+  const wrapRef = useRef(null);
+  const handClick = (event) => {
+    if (wrapRef.current && !wrapRef.current.contains(event.target))
+      setCatalogOpened(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handClick);
+    return () => {
+      document.removeEventListener("mousedown", handClick);
+    };
+  }, []);
+
   return (
     <>
       {category && (
@@ -170,6 +154,7 @@ const Catalog = () => {
             })}
           />
           <div
+            ref={wrapRef}
             className={cn(styles.mobileMenuBox, {
               [styles.mobileMenuBoxShow]: catalogOpened,
             })}
@@ -198,40 +183,45 @@ const Catalog = () => {
                   onMouseLeave={handleMouseLeave}
                   onMouseEnter={handleMouseEnter}
                 >
-                  <a href="##">{obj.label}</a>
-                  {mobile ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="#FDFDFD"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M9 18L15 12L9 6"
-                        stroke="#FDFDFD"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
+                  <div
+                    className={styles.li_box}
+                    onClick={() => getFilterPage(obj.label, "sortBrand")}
+                  >
+                    <a href="">{`${obj.label} phones`}</a>
+                    {mobile ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M6 9L12 15L18 9"
+                          stroke="#FDFDFD"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M9 18L15 12L9 6"
+                          stroke="#FDFDFD"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </div>
 
                   <ul
                     style={
@@ -248,19 +238,32 @@ const Catalog = () => {
                   >
                     {menuData
                       .filter((cat) => cat.category_id === obj.category_id)
-                      .map((object, i) => (
-                        <li key={i}>
-                          <Link
-                            to="/product-card"
-                            onClick={() =>
-                              onClickCatalog(obj.label, object, object.name)
-                            }
-                          >
-                            {object.name}
-                          </Link>
-                        </li>
-                      ))}
-                    <div className={styles.cat_log}>
+                      .map((object, i) => {
+                        if (!uniqueSeries.includes(object.series)) {
+                          uniqueSeries.push(object.series);
+                          return (
+                            <li key={i}>
+                              <a
+                                href=""
+                                onClick={() =>
+                                  getFilterPage(
+                                    obj.label,
+                                    "sortSeries",
+                                    object.series
+                                  )
+                                }
+                              >
+                                {object.series}
+                              </a>
+                            </li>
+                          );
+                        }
+                        return null; // Если серия уже отображена, возвращаем null
+                      })}
+                    <div
+                      onClick={() => getFilterPage(obj.label, "sortBrand")}
+                      className={styles.cat_log}
+                    >
                       <span>View all</span>
                     </div>
                   </ul>

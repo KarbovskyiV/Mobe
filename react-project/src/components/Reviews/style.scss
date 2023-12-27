@@ -21,6 +21,7 @@
     flex-direction: row;
     width: 60%;
     justify-content: space-between;
+    cursor: not-allowed;
 
     span {
       font-size: 12px;
@@ -45,6 +46,7 @@
     width: auto;
     gap: 4px;
     align-items: center;
+    cursor: pointer;
   }
 
   &__svg-like {

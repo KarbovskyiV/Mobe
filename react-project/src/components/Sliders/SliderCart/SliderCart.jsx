@@ -19,8 +19,6 @@ const Slider = () => {
 
   const filterItems = items.filter((ob) => ob.buytogether === undefined);
 
-  console.log(filterItems);
-
   let resultArray = filterItems.map((obj1, i) => {
     let matchingObj = slides.find((obj2, a) => obj1.id === obj2.id);
 
