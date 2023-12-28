@@ -135,10 +135,12 @@ const CartItems = ({ item }) => {
           }
           ref={wrapRef}
         >
-          <div className="delete-box1">
+          <div
+            className="delete-box1"
+            onClick={isWishlisted ? handleUnlike : handleLike}
+          >
             <IconsHeart
               className={`heart-card ${isWishlisted ? "selected" : ""}`}
-              onClick={isWishlisted ? handleUnlike : handleLike}
             />
             <p>Add to favourite</p>
           </div>

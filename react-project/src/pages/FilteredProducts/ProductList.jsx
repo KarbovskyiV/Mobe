@@ -5,14 +5,9 @@ import { connect } from "react-redux";
 import { CatalogOpenedContext } from "../../App.js";
 import { useParams } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
-
-import Image from "./Image/image.jpg";
 import Cross from "./Image/iconCross.svg";
-import Arrow from "./Image/iconArrow.svg";
 import Open from "./Image/iconOpen.svg";
 import Close from "./Image/iconClose.svg";
-import Button from "../../components/Button";
-import MyRating from "../../components/MyRating/MyRating";
 import { useLocation } from "react-router-dom";
 import MenuStep from "../../components/MenuStep/MenuStep.jsx";
 import ErrorBoundary from "../../components/ErrorBoundary";
@@ -283,20 +278,12 @@ const ProductList = () => {
   };
 
   //Пагинация
-  // количество продуктов, отображаемых на странице.
   const productsPerPage = 21;
-
-  // рассчет начальный и конечный индексы отображаемых продуктов
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
-
   const productsToShow = sortedProducts.slice(startIndex, endIndex);
-
-  //автоматический расчет количества страниц
   const totalProducts = sortedProducts.length;
-
   const pageCount = Math.ceil(totalProducts / productsPerPage);
-
   //конец пагинации
 
   return (

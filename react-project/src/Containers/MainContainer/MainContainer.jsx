@@ -13,18 +13,11 @@ const MainContainer = () => {
 
   const allProducts = useSelector((state) => state.products.products);
 
-  const promotionProducts = allProducts
-    .filter((product) => product.is_promotion)
-    .slice(0, 4);
-
-  const newProducts = allProducts
-    .filter((product) => product.is_new)
-    .slice(0, 4);
-
-  const popularProducts = allProducts
-    .filter((product) => product.is_popular)
-    .slice(0, 4);
-
+  const promotionProducts = allProducts.filter(
+    (product) => product.is_promotion
+  );
+  const newProducts = allProducts.filter((product) => product.is_new);
+  const popularProducts = allProducts.filter((product) => product.is_popular);
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
 
