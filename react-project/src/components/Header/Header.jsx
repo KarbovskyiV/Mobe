@@ -85,6 +85,8 @@ function Header() {
     isMounted.current = true;
   }, [items]);
 
+  console.log(catalogOpened);
+
   return (
     <div className="header">
       <div className="header__light">
