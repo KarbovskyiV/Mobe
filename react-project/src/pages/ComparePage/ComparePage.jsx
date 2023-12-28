@@ -1,7 +1,9 @@
 // Import the necessary dependencies
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { CatalogOpenedContext } from "../../App.js";
+import ErrorBoundary from "../../components/ErrorBoundary";
+import { fetchProducts } from "../../actions/productActions";
 import MyRating from "../../components/MyRating/MyRating";
 import Button from "../../components/Button";
 import IconsHeart from "../../components/IconsHeart/IconsHeart";
@@ -14,7 +16,10 @@ import "./style.scss";
 import PageLink from "../../components/PageLink/PageLink";
 import { removeComparedProduct } from "../../redux/slices/compareSlice";
 import Btn from "../../components/Btn/Btn";
+import Catalog from "../../components/Catalog/Catalog.jsx";
+
 const ComparePage = () => {
+  const { catalogOpened } = React.useContext(CatalogOpenedContext);
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("All");
   const comparedProducts = useSelector(
@@ -24,6 +29,10 @@ const ComparePage = () => {
   const handleRemoveButtonClick = (productId) => {
     dispatch(removeComparedProduct(productId));
   };
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   const excludedCharacteristics = [
     "category_id",
@@ -43,8 +52,8 @@ const ComparePage = () => {
   const characteristics =
     comparedProducts.length > 0
       ? Object.keys(comparedProducts[0]).filter(
-        (characteristic) => !excludedCharacteristics.includes(characteristic)
-      )
+          (characteristic) => !excludedCharacteristics.includes(characteristic)
+        )
       : [];
   const hasDifferences = (characteristic, products) => {
     const values = products.map((product) => product[characteristic]);
@@ -53,6 +62,11 @@ const ComparePage = () => {
   return (
     <div className="compare__section">
       <div className="compare__container">
+        {catalogOpened && (
+          <ErrorBoundary>
+            <Catalog />
+          </ErrorBoundary>
+        )}
         <PageLink text="Comparable goods" />
         <div className="compare__title">
           <Title text="Comparable goods" />
@@ -87,13 +101,13 @@ const ComparePage = () => {
                     </div>
                   </div>
                   {window.innerWidth < 550 ? (
-                <Btn type="violet" title="Add to cart" />
-              ) : (
-                <Button type="violet" title="Add to cart" />
-              )}
+                    <Btn type="violet" title="Add to cart" />
+                  ) : (
+                    <Button type="violet" title="Add to cart" />
+                  )}
                 </div>
                 <IconsHeart className="compare-heart" />
-                <IconsWeight className="compare-weight" isCompared={true}/>
+                <IconsWeight className="compare-weight" isCompared={true} />
               </div>
             </div>
           ))}
@@ -103,7 +117,7 @@ const ComparePage = () => {
             </div>
           )}
         </div>
-        {comparedProducts.length > 0 && (  // Only render if there are items in comparison
+        {comparedProducts.length > 0 && ( // Only render if there are items in comparison
           <div className="comparison">
             <div className="thead">
               <div
@@ -129,10 +143,10 @@ const ComparePage = () => {
                       )}
                       {(activeTab === "All" ||
                         hasDifferences(characteristic, comparedProducts)) && (
-                          <div className="wrap__content" key={product.id}>
-                            {String(product[characteristic])}
-                          </div>
-                        )}
+                        <div className="wrap__content" key={product.id}>
+                          {String(product[characteristic])}
+                        </div>
+                      )}
                     </React.Fragment>
                   ))}
                 </div>

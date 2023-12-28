@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MyRating from "../../components/MyRating/MyRating";
 import IconsHeart from "../../components/IconsHeart/IconsHeart";
+import { fetchProducts } from "../../actions/productActions";
 import { ReactComponent as Close } from "../ComparePage/images/close.svg";
 import { ReactComponent as Left } from "./Images/left.svg";
 import Title from "../../components/Title/Title";
@@ -13,12 +14,17 @@ import Btn from "../../components/Btn/Btn";
 import MoreBtn from "../../components/IconMore/IconMore";
 import { removeLikedProduct } from "../../redux/slices/wishlistSlice";
 import Button from "../../components/Button";
+import Catalog from "../../components/Catalog/Catalog.jsx";
+import { CatalogOpenedContext } from "../../App.js";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import "./style.scss";
 
 const WishList = () => {
+  const { catalogOpened } = React.useContext(CatalogOpenedContext);
+
   const dispatch = useDispatch();
   const likedProducts = useSelector(
     (state) => state.likedProducts.likedProducts
@@ -30,6 +36,10 @@ const WishList = () => {
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isContentHidden, setIsContentHidden] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,6 +60,11 @@ const WishList = () => {
   return (
     <div className="wish-list__section">
       <div className="wish-list__container">
+        {catalogOpened && (
+          <ErrorBoundary>
+            <Catalog />
+          </ErrorBoundary>
+        )}
         <div className={`wish-list__admin ${isContentHidden ? "visible" : ""}`}>
           <h2>Hello, USER</h2>
           <div className="wish-list__admin_inner">
