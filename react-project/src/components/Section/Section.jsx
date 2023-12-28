@@ -2,11 +2,10 @@
 import React, { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
-import ProductCard from "../ProductCard/ProductCard";
-import ProductSlider from "../ProductSlider/ProductSlider";
+import ProductSlider from "../Sliders/ProductSlider/ProductSlider.jsx";
 import Close from "./images/close.png";
 import Alert from "./images/alert.png";
-import style from "./style.scss";
+import "./style.scss";
 
 const Section = ({ data }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -47,22 +46,8 @@ const Section = ({ data }) => {
 
   return (
     <section className="section">
-      <div className="section__container">
-        {isMobile ? (
-          <ProductSlider data={data} onAddToCart={handleAddToCart} />
-        ) : (
-          <div className="section__content">
-            {data.map((item) => (
-              <ProductCard
-                key={item.id}
-                item={item}
+      <ProductSlider data={data} onAddToCart={handleAddToCart} />
 
-                /*  onAddToCart={handleAddToCart} */
-              />
-            ))}
-          </div>
-        )}
-      </div>
       {showPopup && (
         <div className="popup">
           <div className="popup-btn">

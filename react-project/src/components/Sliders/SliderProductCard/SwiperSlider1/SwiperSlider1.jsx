@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { DesktopContext } from "../../../../App";
-
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import silverVertical from "../silverVertical.js";
+import silverBig from "../silverBig.js";
+import blackVertical from "../blackVertical.js";
+import blackBig from "../blackBig.js";
+import purpleVertical from "../purpleVertical.js";
+import purpleBig from "../purpleBig.js";
 
 import "./style.scss";
 
@@ -14,138 +18,6 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 export default function SwiperSlider({ colorActive }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
-  const silverVertical = [
-    {
-      src:
-        process.env.PUBLIC_URL + "/images/SilverVertical/silverVertical1.jpg",
-    },
-    {
-      src:
-        process.env.PUBLIC_URL + "/images/SilverVertical/silverVertical2.jpg",
-    },
-    {
-      src:
-        process.env.PUBLIC_URL + "/images/SilverVertical/silverVertical3.jpg",
-    },
-    {
-      src:
-        process.env.PUBLIC_URL + "/images/SilverVertical/silverVertical4.jpg",
-    },
-    {
-      src:
-        process.env.PUBLIC_URL + "/images/SilverVertical/silverVertical5.jpg",
-    },
-    {
-      src:
-        process.env.PUBLIC_URL + "/images/SilverVertical/silverVertical6.jpg",
-    },
-  ];
-
-  const silverBig = [
-    {
-      src: process.env.PUBLIC_URL + "/images/Silver/silver1.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Silver/silver2.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Silver/silver3.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Silver/silver4.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Silver/silver5.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Silver/silver6.jpg",
-    },
-  ];
-
-  const blackVertical = [
-    {
-      src: process.env.PUBLIC_URL + "/images/BlackVertical/image1.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/BlackVertical/image2.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/BlackVertical/image3.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/BlackVertical/image4.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/BlackVertical/image5.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/BlackVertical/image6.jpg",
-    },
-  ];
-
-  const blackBig = [
-    {
-      src: process.env.PUBLIC_URL + "/images/Black/black1.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Black/black2.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Black/black3.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Black/black4.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Black/black5.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Black/black6.jpg",
-    },
-  ];
-
-  const purpleVertical = [
-    {
-      src: process.env.PUBLIC_URL + "/images/PurpleVertical/image1.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/PurpleVertical/image2.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/PurpleVertical/image3.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/PurpleVertical/image4.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/PurpleVertical/image5.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/PurpleVertical/image6.jpg",
-    },
-  ];
-
-  const purpleBig = [
-    {
-      src: process.env.PUBLIC_URL + "/images/Purple/purpleBig1.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Purple/purpleBig2.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Purple/purpleBig3.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Purple/purpleBig4.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Purple/purpleBig5.jpg",
-    },
-    {
-      src: process.env.PUBLIC_URL + "/images/Purple/purpleBig6.jpg",
-    },
-  ];
 
   const colorSlides = () => {
     if (colorActive === 1) {

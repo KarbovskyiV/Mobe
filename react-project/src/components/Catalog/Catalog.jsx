@@ -7,11 +7,6 @@ import IconOpen from "../IconsClose/IconOpen.jsx";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setCategoryProduct,
-  setCharacteristics,
-  setAnalog,
-} from "../../redux/slices/cardSlice.js";
 
 import {
   MobileContext,

@@ -20,18 +20,18 @@ const PromotionContainer = () => {
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
 
+  console.log(promotionProducts, "promotionProducts");
+
   return (
     <>
-      <div className="promotion__container">
-        <Title text="Promotions" />
-        {loading ? (
-          <div>Loading...</div>
-        ) : error ? (
-          <div>Error: {error}</div>
-        ) : (
-          <Section data={promotionProducts} />
-        )}
-      </div>
+      <Title text="Promotions" />
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error: {error}</div>
+      ) : (
+        <Section data={promotionProducts} />
+      )}
     </>
   );
 };

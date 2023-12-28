@@ -61,10 +61,10 @@
   text-align: center;
   margin-bottom: 12px;
 }
-.rating {
+/* .rating {
   display: flex;
   justify-content: space-between;
-}
+} */
 .wish-list__price {
   display: flex;
   justify-content: space-between;
@@ -128,13 +128,11 @@
   display: none;
 }
 .wish-list__content.hidden {
-display: none;
-}
-.title-inner svg{
   display: none;
 }
-
-
+.title-inner svg {
+  display: none;
+}
 
 @media (max-width: 850px) {
   .wish-chat {
@@ -142,7 +140,7 @@ display: none;
     margin-bottom: 32px;
     padding-right: 16px;
   }
-  .wish-list__card{
+  .wish-list__card {
     max-width: 343px;
   }
   .wish-subscribe {
@@ -163,17 +161,14 @@ display: none;
   .wish-list__card {
     padding-top: 16px;
     padding-bottom: 16px;
-    
   }
   .wish-list__card-photo img {
-  
     margin-bottom: 0;
   }
   .wish-list__box {
     gap: 24px;
     flex-wrap: nowrap;
     flex-direction: column;
-    
   }
   .title-inner {
     display: flex;
@@ -184,20 +179,19 @@ display: none;
   }
 }
 @media (max-width: 490px) {
-  .wish-list__close{
-display: none;
+  .wish-list__close {
+    display: none;
   }
-  .title-inner svg{
+  .title-inner svg {
     display: block;
   }
-  .wish-list__title{
-    background: var(--violet-400, #D4D9E8);
+  .wish-list__title {
+    background: var(--violet-400, #d4d9e8);
     cursor: pointer;
     margin-bottom: 40px;
   }
   .wish-list__inner {
     display: flex;
-   
   }
   .wish-list__card-content {
     padding: 0;
@@ -255,8 +249,7 @@ display: none;
   .wish-list__title h3 {
     font-size: 16px;
   }
-  .wish-list__admin.visible{
+  .wish-list__admin.visible {
     display: block;
   }
- 
- }
+}

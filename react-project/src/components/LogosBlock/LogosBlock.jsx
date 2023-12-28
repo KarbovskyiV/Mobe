@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../../scss/components/_logosBlock.scss";
+import { useNavigate } from "react-router-dom";
 
 import apple from "../../assets/img/logos/Apple.svg";
 import samsung from "../../assets/img/logos/Samsung.svg";
@@ -64,6 +65,7 @@ const logosItemMobile = [
 
 const LogosBlock = () => {
   const { mobile } = React.useContext(MobileContext);
+  const navigate = useNavigate();
 
   const logos = () => {
     if (mobile) {
@@ -73,11 +75,19 @@ const LogosBlock = () => {
     }
   };
 
+  const getFilterPage = (label, page, series) => {
+    navigate(`/product-page/${label}/${page}/${series}`);
+  };
+
   const logosRender = logos().map(({ src, title }, i) => {
     return (
       <li key={i}>
         <a href="##">
-          <img src={src} alt={title} />
+          <img
+            onClick={() => getFilterPage(title, "sortBrand")}
+            src={src}
+            alt={title}
+          />
         </a>
       </li>
     );
