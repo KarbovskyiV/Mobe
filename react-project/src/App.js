@@ -18,6 +18,7 @@ import Registration from "./pages/Registration.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ShoppingCart from "./pages/ShoppingCart/ShoppingCart.jsx";
 import ProductCard from "./pages/ProductCard/ProductCard.jsx";
+import AccessoriesCard from "./pages/AccessoriesCard/AccessoriesCard.jsx";
 import ComparePage from "./pages/ComparePage/ComparePage.jsx";
 import WishList from "./pages/WishList/WishList.jsx";
 import PersonalData from "./pages/PersonalData/PersonalData.jsx";
@@ -260,6 +261,10 @@ function App() {
                                                 <Route
                                                   path={`/product-card/:itemDate`}
                                                   element={<ProductCard />}
+                                                />
+                                                <Route
+                                                  path={`/accessories-card`}
+                                                  element={<AccessoriesCard />}
                                                 />
                                                 <Route
                                                   path="/reset-password"

@@ -86,12 +86,14 @@ const ProductCard = ({ item }) => {
         >
           <img src={Image} alt="" />
         </div>
-        <div className="section__card-content">
-          <div className="section__card-title">{item.name}</div>
+        <div className="section__card-content-box">
+          <div className="section__card-content">
+            <div className="section__card-title">{item.name}</div>
 
-          <div className="section__card rating">
-            <MyRating />
-            <div className="rating__revews">198 відгуків</div>
+            <div className="section__card rating">
+              <MyRating />
+              <div className="rating__revews">198 reviews</div>
+            </div>
           </div>
         </div>
         <div className="section__price">
