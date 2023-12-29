@@ -14,6 +14,7 @@ import ErrorBoundary from "../../components/ErrorBoundary";
 import Catalog from "../../components/Catalog/Catalog.jsx";
 import Pagination from "../../components/Pagination/Pagination.jsx";
 import PromotionContainer from "../../Containers/PromotionsContainer/PromotionsContainer.jsx";
+import Skeleton from "../../components/Skeleton/Skeleton.jsx";
 
 import "./style.scss";
 import Subscribe from "../../components/Subscribe/Subscribe.jsx";
@@ -117,8 +118,6 @@ const ProductList = () => {
     const updatedBrands = selectedBrands.includes(brand)
       ? selectedBrands.filter((selectedBrand) => selectedBrand !== brand)
       : [...selectedBrands, brand];
-
-    console.log(updatedBrands, 77);
 
     const filterProducts = Array.from(
       new Set(
@@ -282,9 +281,18 @@ const ProductList = () => {
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const productsToShow = sortedProducts.slice(startIndex, endIndex);
+
   const totalProducts = sortedProducts.length;
   const pageCount = Math.ceil(totalProducts / productsPerPage);
   //конец пагинации
+
+  const loading = useSelector((state) => state.products.loading);
+
+  const error = useSelector((state) => state.products.error);
+
+  const skeletons = [...new Array(productsPerPage)].map((_, index) => (
+    <Skeleton key={index} />
+  ));
 
   return (
     <div className="filter__container">
@@ -464,9 +472,15 @@ const ProductList = () => {
           </div>
         </div>
         <div className="products-list">
-          {productsToShow.map((item) => (
-            <ProductCard key={item.id} item={item} />
-          ))}
+          {loading ? (
+            skeletons
+          ) : error ? (
+            <div>Error: {error}</div>
+          ) : (
+            productsToShow.map((item) => (
+              <ProductCard key={item.id} item={item} />
+            ))
+          )}
           <Pagination
             currentPage={currentPage}
             pageCount={pageCount}

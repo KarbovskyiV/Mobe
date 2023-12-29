@@ -92,9 +92,28 @@ function App() {
 
   const location = useLocation();
 
-  const [catalogOpened, setCatalogOpened] = React.useState(
+  const [catalogOpened, setCatalogOpened] = React.useState(false);
+
+  React.useEffect(() => {
+    console.log("!!&&");
+    const savedCatalogOpened = JSON.parse(
+      localStorage.getItem("catalogOpened")
+    );
+    if (
+      desktop &&
+      location.pathname === "/" &&
+      !catalogOpened &&
+      savedCatalogOpened !== true
+    ) {
+      setCatalogOpened(true);
+      localStorage.setItem("firstRender", JSON.stringify(true));
+      console.log("!!!!");
+    }
+  }, []);
+
+  /* const [catalogOpened, setCatalogOpened] = React.useState(
     desktop && location.pathname === "/" ? true : false
-  );
+  ); */
 
   const [productsOpened, setProductsOpened] = React.useState(false);
 
