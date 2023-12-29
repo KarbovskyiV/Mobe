@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Logo from "../Logo.jsx";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -91,6 +91,13 @@ function Header() {
       setCatalogOpened((prevState) => !prevState);
   };
 
+  const wrapRef3 = useRef(null);
+
+  const handClick3 = (event) => {
+    if (wrapRef3.current && wrapRef3.current.contains(event.target))
+      setCatalogOpened((prevState) => !prevState);
+  };
+
   const wrapRef = useRef(null);
   const handClick = (event) => {
     if (wrapRef.current && wrapRef.current.contains(event.target))
@@ -98,20 +105,53 @@ function Header() {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handClick2 || handClick);
+    document.addEventListener(
+      "mousedown",
+      handClick3 || handClick2 || handClick
+    );
     return () => {
-      document.removeEventListener("mousedown", handClick2 || handClick);
+      document.removeEventListener(
+        "mousedown",
+        handClick3 || handClick2 || handClick
+      );
     };
   }, []);
+
+  console.log(catalogOpened, 787879);
 
   return (
     <div className="header">
       <div className="header__light">
         <div className="header__container">
           <div className="header__light2">
-            {catalogOpened === true ? (
+            {catalogOpened ? (
               <svg
-                onClick={() => setCatalogOpened((prevState) => !prevState)}
+                ref={wrapRef3}
+                style={mobile ? { display: "flex" } : { display: "none" }}
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+              >
+                <path
+                  d="M0.999756 17L16.9996 1.00013"
+                  stroke="#28003E"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M16.9998 17L0.999888 1.00013"
+                  stroke="#28003E"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                ref={wrapRef3}
                 style={mobile ? { display: "flex" } : { display: "none" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="26"
@@ -135,31 +175,6 @@ function Header() {
                 />
                 <path
                   d="M21 17H0.999999"
-                  stroke="#28003E"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            ) : (
-              <svg
-                onClick={() => setCatalogOpened((prevState) => !prevState)}
-                style={mobile ? { display: "flex" } : { display: "none" }}
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-              >
-                <path
-                  d="M0.999756 17L16.9996 1.00013"
-                  stroke="#28003E"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M16.9998 17L0.999888 1.00013"
                   stroke="#28003E"
                   strokeWidth="2"
                   strokeLinecap="round"
@@ -390,6 +405,7 @@ function Header() {
       >
         <div className="header__mobile-box">
           <ContactUs />
+
           <div className="header__mobile-icons">
             <WishListPageLink className="mobile" />
             <ComparePageLink className="mobile" />
