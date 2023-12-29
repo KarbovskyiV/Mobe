@@ -126,13 +126,19 @@ const Catalog = () => {
   const wrapRef = useRef(null);
   const handClick = (event) => {
     if (wrapRef.current && !wrapRef.current.contains(event.target))
-      setCatalogOpened(false);
+      setCatalogOpened((prevState) => !prevState);
+  };
+
+  const wrapRef2 = useRef(null);
+  const handClick2 = (event) => {
+    if (wrapRef2.current && !wrapRef2.current.contains(event.target))
+      setCatalogOpened((prevState) => !prevState);
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handClick);
+    document.addEventListener("mousedown", handClick || handClick2);
     return () => {
-      document.removeEventListener("mousedown", handClick);
+      document.removeEventListener("mousedown", handClick || handClick2);
     };
   }, []);
 
@@ -141,13 +147,13 @@ const Catalog = () => {
       {category && catalogOpened && (
         <nav className={styles.menu} role="navigation">
           <div
-            onClick={() => setCatalogOpened((prevState) => !prevState)}
+            ref={mobile ? null : wrapRef2}
             className={cn(styles.cover, {
               [styles.coverShow]: catalogOpened,
             })}
           />
           <div
-            ref={wrapRef}
+            ref={mobile ? null : wrapRef}
             className={cn(styles.mobileMenuBox, {
               [styles.mobileMenuBoxShow]: catalogOpened,
             })}
@@ -176,13 +182,14 @@ const Catalog = () => {
                   onMouseLeave={handleMouseLeave}
                   onMouseEnter={handleMouseEnter}
                 >
-                  <div
-                    className={styles.li_box}
-                    onClick={() => getFilterPage(obj.label, "sortBrand")}
-                  >
-                    <a href="">{`${obj.label} phones`}</a>
+                  <div className={styles.li_box}>
+                    <a
+                      href=""
+                      onClick={() => getFilterPage(obj.label, "sortBrand")}
+                    >{`${obj.label} phones`}</a>
                     {mobile ? (
                       <svg
+                        onClick={() => setProductsOpened(true)}
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -199,6 +206,7 @@ const Catalog = () => {
                       </svg>
                     ) : (
                       <svg
+                        onClick={() => setProductsOpened(false)}
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"

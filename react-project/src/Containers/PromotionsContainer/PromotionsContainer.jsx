@@ -25,8 +25,6 @@ const PromotionContainer = () => {
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
 
-  console.log(promotionProducts, "promotionProducts");
-
   return (
     <>
       <Title text="Promotions" />
