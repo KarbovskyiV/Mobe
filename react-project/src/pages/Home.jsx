@@ -11,6 +11,8 @@ import Chat from "../components/Chat/Chat";
 const Home = () => {
   const { catalogOpened } = React.useContext(CatalogOpenedContext);
 
+  console.log(catalogOpened, "home");
+
   return (
     <div className="home">
       <div className="home__container">

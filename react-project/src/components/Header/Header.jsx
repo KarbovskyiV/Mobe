@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Logo from "../Logo.jsx";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -85,16 +85,33 @@ function Header() {
     isMounted.current = true;
   }, [items]);
 
-  console.log(catalogOpened);
+  const wrapRef2 = useRef(null);
+  const handClick2 = (event) => {
+    if (wrapRef2.current && wrapRef2.current.contains(event.target))
+      setCatalogOpened((prevState) => !prevState);
+  };
+
+  const wrapRef = useRef(null);
+  const handClick = (event) => {
+    if (wrapRef.current && wrapRef.current.contains(event.target))
+      setCatalogOpened((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handClick2 || handClick);
+    return () => {
+      document.removeEventListener("mousedown", handClick2 || handClick);
+    };
+  }, []);
 
   return (
     <div className="header">
       <div className="header__light">
         <div className="header__container">
           <div className="header__light2">
-            {!catalogOpened === true ? (
+            {catalogOpened === true ? (
               <svg
-                onClick={() => setCatalogOpened(true)}
+                onClick={() => setCatalogOpened((prevState) => !prevState)}
                 style={mobile ? { display: "flex" } : { display: "none" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="26"
@@ -126,7 +143,7 @@ function Header() {
               </svg>
             ) : (
               <svg
-                onClick={() => setCatalogOpened(false)}
+                onClick={() => setCatalogOpened((prevState) => !prevState)}
                 style={mobile ? { display: "flex" } : { display: "none" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -211,14 +228,15 @@ function Header() {
         <div className="header__container">
           <div className="header__buttons">
             <div className="header__boxbuttons">
-              <button
+              <div
                 style={mobile ? { display: "none" } : { display: "flex" }}
                 className="header__catalog"
-                onClick={() => setCatalogOpened(!catalogOpened)}
+                ref={wrapRef2}
               >
-                Catalog of goods
+                <p>Catalog of goods</p>
                 {!catalogOpened ? (
                   <svg
+                    ref={wrapRef}
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="24"
@@ -235,6 +253,7 @@ function Header() {
                   </svg>
                 ) : (
                   <svg
+                    ref={wrapRef}
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="24"
@@ -250,7 +269,7 @@ function Header() {
                     />
                   </svg>
                 )}
-              </button>
+              </div>
 
               <div className="header__searchinput">
                 <div className="header__input">
