@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
-import axios from "../../utils/axios.js";
+
 import styles from "./MenuNav.module.scss";
 import cn from "classnames";
 import IconClose from "../IconsClose/IconClose.jsx";
 import IconOpen from "../IconsClose/IconOpen.jsx";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import {
   MobileContext,
@@ -28,8 +28,6 @@ const Catalog = () => {
   const { productsOpened, setProductsOpened } = React.useContext(
     ProductsOpenedContext
   );
-
-  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const uniqueSeries = [];
@@ -140,10 +138,10 @@ const Catalog = () => {
 
   return (
     <>
-      {category && (
+      {category && catalogOpened && (
         <nav className={styles.menu} role="navigation">
           <div
-            onClick={() => setCatalogOpened(false)}
+            onClick={() => setCatalogOpened((prevState) => !prevState)}
             className={cn(styles.cover, {
               [styles.coverShow]: catalogOpened,
             })}
@@ -162,7 +160,7 @@ const Catalog = () => {
               style={mobile ? { display: "flex" } : { display: "none" }}
             >
               <p>Catalog of goods</p>
-              {!menuCatalogMobileOpened === true ? <IconClose /> : <IconOpen />}
+              {!menuCatalogMobileOpened ? <IconClose /> : <IconOpen />}
             </div>
             <ul
               style={

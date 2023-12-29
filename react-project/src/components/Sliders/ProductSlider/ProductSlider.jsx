@@ -15,7 +15,7 @@ const ProductSlider = ({ data, onAddToCart, sliderSettings }) => {
 
   const NextArrow = (props) => (
     <div
-      /*  {...props} */
+      {...props}
       className="slick-arrow slick-next"
       style={desktop ? { visibility: "visible" } : { visibility: "hidden" }}
     >
@@ -25,7 +25,7 @@ const ProductSlider = ({ data, onAddToCart, sliderSettings }) => {
 
   const PrevArrow = (props) => (
     <div
-      /*  {...props} */
+      {...props}
       className="slick-arrow slick-prev"
       style={desktop ? { visibility: "visible" } : { visibility: "hidden" }}
     >
