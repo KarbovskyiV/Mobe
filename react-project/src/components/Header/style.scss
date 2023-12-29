@@ -104,6 +104,7 @@
     flex-direction: row;
     gap: 16px;
     align-items: center;
+    cursor: pointer;
   }
 
   &__dark {
@@ -276,7 +277,7 @@
 .box__contacts {
   display: flex;
   width: 300px;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 @media (max-width: 850px) {
@@ -312,5 +313,8 @@
       width: 100%;
       top: 60px;
     }
+  }
+  .box__contacts {
+    justify-content: flex-start;
   }
 }

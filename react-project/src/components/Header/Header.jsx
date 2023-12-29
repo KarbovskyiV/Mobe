@@ -85,18 +85,18 @@ function Header() {
     isMounted.current = true;
   }, [items]);
 
-  const wrapRef2 = useRef(null);
-  const handClick2 = (event) => {
-    if (wrapRef2.current && wrapRef2.current.contains(event.target))
+  const wrapRef4 = useRef(null);
+  const handClick4 = (event) => {
+    if (wrapRef4.current && wrapRef4.current.contains(event.target))
       setCatalogOpened((prevState) => !prevState);
   };
 
-  const wrapRef3 = useRef(null);
+  /* const wrapRef3 = useRef(null);
 
   const handClick3 = (event) => {
     if (wrapRef3.current && wrapRef3.current.contains(event.target))
       setCatalogOpened((prevState) => !prevState);
-  };
+  }; */
 
   const wrapRef = useRef(null);
   const handClick = (event) => {
@@ -105,19 +105,11 @@ function Header() {
   };
 
   useEffect(() => {
-    document.addEventListener(
-      "mousedown",
-      handClick3 || handClick2 || handClick
-    );
+    document.addEventListener("mousedown", handClick4 || handClick);
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handClick3 || handClick2 || handClick
-      );
+      document.removeEventListener("mousedown", handClick4 || handClick);
     };
   }, []);
-
-  console.log(catalogOpened, 787879);
 
   return (
     <div className="header">
@@ -126,7 +118,7 @@ function Header() {
           <div className="header__light2">
             {catalogOpened ? (
               <svg
-                ref={wrapRef3}
+                onClick={() => setCatalogOpened(false)}
                 style={mobile ? { display: "flex" } : { display: "none" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -151,7 +143,7 @@ function Header() {
               </svg>
             ) : (
               <svg
-                ref={wrapRef3}
+                onClick={() => setCatalogOpened(true)}
                 style={mobile ? { display: "flex" } : { display: "none" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="26"
@@ -246,7 +238,7 @@ function Header() {
               <div
                 style={mobile ? { display: "none" } : { display: "flex" }}
                 className="header__catalog"
-                ref={wrapRef2}
+                ref={wrapRef4}
               >
                 <p>Catalog of goods</p>
                 {!catalogOpened ? (
