@@ -95,7 +95,6 @@ function App() {
   const [catalogOpened, setCatalogOpened] = React.useState(false);
 
   React.useEffect(() => {
-    console.log("!!&&");
     const savedCatalogOpened = JSON.parse(
       localStorage.getItem("catalogOpened")
     );
@@ -107,7 +106,6 @@ function App() {
     ) {
       setCatalogOpened(true);
       localStorage.setItem("firstRender", JSON.stringify(true));
-      console.log("!!!!");
     }
   }, []);
 
