@@ -142,6 +142,8 @@ const Catalog = () => {
     };
   }, []);
 
+  console.log(category && catalogOpened, 74747);
+
   return (
     <>
       {category && catalogOpened && (
