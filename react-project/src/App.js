@@ -109,10 +109,6 @@ function App() {
     }
   }, []);
 
-  /* const [catalogOpened, setCatalogOpened] = React.useState(
-    desktop && location.pathname === "/" ? true : false
-  ); */
-
   const [productsOpened, setProductsOpened] = React.useState(false);
 
   const [category, setCategory] = React.useState([]);
@@ -123,9 +119,13 @@ function App() {
 
   window.addEventListener("scroll", function () {
     const scrollPosition = window.scrollY;
-    if (scrollPosition > 50 || !mobile) {
-      setCatalogOpened(false);
-      setProductsOpened(false);
+    if (!mobile) {
+      if (scrollPosition > 50) {
+        setCatalogOpened(false);
+        setProductsOpened(false);
+      }
+    } else {
+      return;
     }
   });
 
@@ -270,6 +270,10 @@ function App() {
                                                 <Route
                                                   path="/product-card"
                                                   element={<ProductCard />}
+                                                />
+                                                <Route
+                                                  path="/product-page"
+                                                  element={<ProductPage />}
                                                 />
                                                 <Route
                                                   path="/product-page/:label/:page/:series"

@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { MobileContext } from "../App.js";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartAdd";
+import useOutsideClick from "../utils/useOutsideClick.jsx";
 
 import {
   addLikedProduct,
@@ -65,19 +66,14 @@ const CartItems = ({ item }) => {
       }
     }
   };
+
   const wrapRef = useRef(null);
 
-  const handClick = (event) => {
-    if (wrapRef.current && !wrapRef.current.contains(event.target))
-      setOpenMenuDelete(false);
+  const closeContacts = () => {
+    setOpenMenuDelete(false);
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handClick);
-    return () => {
-      document.removeEventListener("mousedown", handClick);
-    };
-  }, []);
+  useOutsideClick(wrapRef, closeContacts);
 
   return (
     <div className="shoppingcart__up">

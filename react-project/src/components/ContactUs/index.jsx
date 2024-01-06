@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useRef } from "react";
 import arrowDown from "./Images/arrowDown.svg";
 import arrowTop from "./Images/arrowTop.svg";
 import viber from "./Images/viber.svg";
+import useOutsideClick from "../../utils/useOutsideClick.jsx";
 
 function ContactUs() {
   const [openContacts, setOpenContacts] = React.useState(false);
+
+  const wrapRef = useRef(null);
+
+  const closeContacts = () => {
+    setOpenContacts(false);
+  };
+
+  useOutsideClick(wrapRef, closeContacts);
 
   return (
     <div className="box__contacts">
       <div
         className="header__contactus"
+        ref={wrapRef}
         onClick={() => setOpenContacts(!openContacts)}
       >
         <span>Contact us</span>

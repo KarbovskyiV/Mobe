@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../actions/productActions";
 import { connect } from "react-redux";
-import { CatalogOpenedContext } from "../../App.js";
+import { CatalogOpenedContext, SearchContext } from "../../App.js";
 import { useParams } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Cross from "./Image/iconCross.svg";
@@ -23,6 +23,8 @@ const ProductList = () => {
   const { label } = useParams();
   const { page } = useParams();
   const { series } = useParams();
+
+  const { searchValue } = React.useContext(SearchContext);
 
   const [currentPage, setCurrentPage] = React.useState(1);
 
@@ -246,7 +248,9 @@ const ProductList = () => {
     );
   });
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
+  const sortedProducts = [
+    filteredProducts.length === 0 ? products : { ...filteredProducts },
+  ].sort((a, b) => {
     if (sortOption === "newest") {
       return new Date(b.date) - new Date(a.date);
     } else if (sortOption === "lowToHigh") {
@@ -280,9 +284,20 @@ const ProductList = () => {
   const productsPerPage = 21;
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
-  const productsToShow = sortedProducts.slice(startIndex, endIndex);
 
-  const totalProducts = sortedProducts.length;
+  const productsToShow1 = Object.keys(sortedProducts[0])
+    .filter((key) => {
+      const obj = sortedProducts[0][key];
+      if (obj.name.toLowerCase().includes(searchValue.toLowerCase())) {
+        return true;
+      }
+      return false;
+    })
+    .map((key) => sortedProducts[0][key]);
+
+  const productsToShow = productsToShow1.slice(startIndex, endIndex);
+
+  const totalProducts = productsToShow1.length;
   const pageCount = Math.ceil(totalProducts / productsPerPage);
   //конец пагинации
 
@@ -308,15 +323,22 @@ const ProductList = () => {
       <div className="filter__choice">
         <div className="filter__choice-box">
           <div className="selected-products">
-            {filteredProducts.length} products are selected
+            {productsToShow1.length} products are selected
           </div>
           <div className="selected-cancel" onClick={() => getCancel()}>
             Cancel
           </div>
           <div className="selected-brandbox">
-            {selectedBrands &&
+            {selectedBrands[0] !== undefined &&
               selectedBrands.map((brand) => (
-                <div className="selected-brand">
+                <div
+                  className="selected-brand"
+                  style={
+                    selectedBrands !== undefined
+                      ? { display: "flex" }
+                      : { display: "none" }
+                  }
+                >
                   {brand}
                   <img
                     onClick={() => handleBrandChange(brand)}
@@ -326,7 +348,7 @@ const ProductList = () => {
                 </div>
               ))}
 
-            {selectedModels &&
+            {selectedModels[0] !== undefined &&
               selectedModels.map((series) => (
                 <div className="selected-brand">
                   {series}
@@ -471,16 +493,18 @@ const ProductList = () => {
             )}
           </div>
         </div>
-        <div className="products-list">
-          {loading ? (
-            skeletons
-          ) : error ? (
-            <div>Error: {error}</div>
-          ) : (
-            productsToShow.map((item) => (
-              <ProductCard key={item.id} item={item} />
-            ))
-          )}
+        <div className="products-list-box">
+          <div className="products-list">
+            {loading ? (
+              skeletons
+            ) : error ? (
+              <div>Error: {error}</div>
+            ) : (
+              productsToShow.map((item) => (
+                <ProductCard key={item.id} item={item} />
+              ))
+            )}
+          </div>
           <Pagination
             currentPage={currentPage}
             pageCount={pageCount}
