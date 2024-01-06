@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Logo from "../Logo.jsx";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -13,22 +14,25 @@ import {
   MobileContext,
   CatalogOpenedContext,
 } from "../../App.js";
-import debounce from "lodash.debounce";
 import ComparePageLink from "../ComparePageLink/ComparePageLink.jsx";
 import ContactUs from "../ContactUs";
 import "./style.scss";
 import WishListPageLink from "../WishListPageLink/WishListPageLink.jsx";
+import Search from "../Search/Search.jsx";
 
 function Header() {
+  const location = useLocation(); //location.pathname
   const { items } = useSelector((state) => state.cartAdd);
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+
+  const isSearch = React.useRef(false);
+  const { searchValue } = React.useContext(SearchContext);
+  const search = searchValue ? `&search=${searchValue}` : "";
 
   const { setSignInActive } = React.useContext(SignInActiveContext);
 
   const { setUser } = React.useContext(userContext);
   const { isLoggedIn, setIsLoggedIn } = React.useContext(isLoggedInContext);
-  const { setSearchValue } = React.useContext(SearchContext);
-  const [value, setValue] = React.useState("");
 
   const { setShoppingCartActive } = React.useContext(ShoppingCartActiveContext);
   const { desktop } = React.useContext(DesktopContext);
@@ -55,26 +59,6 @@ function Header() {
     setSignInActive(true);
   };
 
-  const inputRef = React.useRef();
-
-  const onClickClear = () => {
-    setSearchValue("");
-    setValue("");
-    inputRef.current.focus();
-  };
-
-  const updateSearchValue = React.useCallback(
-    debounce((str) => {
-      setSearchValue(str);
-    }, 250),
-    []
-  );
-
-  const onChangeInput = (event) => {
-    setValue(event.target.value);
-    updateSearchValue(event.target.value);
-  };
-
   const isMounted = React.useRef(false);
 
   React.useEffect(() => {
@@ -90,13 +74,6 @@ function Header() {
     if (wrapRef4.current && wrapRef4.current.contains(event.target))
       setCatalogOpened((prevState) => !prevState);
   };
-
-  /* const wrapRef3 = useRef(null);
-
-  const handClick3 = (event) => {
-    if (wrapRef3.current && wrapRef3.current.contains(event.target))
-      setCatalogOpened((prevState) => !prevState);
-  }; */
 
   const wrapRef = useRef(null);
   const handClick = (event) => {
@@ -277,51 +254,7 @@ function Header() {
                   </svg>
                 )}
               </div>
-
-              <div className="header__searchinput">
-                <div className="header__input">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
-                      stroke="#28003E"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <input
-                    ref={inputRef}
-                    value={value}
-                    onChange={onChangeInput}
-                    type="text"
-                    placeholder="search..."
-                  ></input>
-                </div>
-                {value && (
-                  <svg
-                    onClick={onClickClear}
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      d="M18 6L6 18M6 6L18 18"
-                      stroke="#28003E"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </div>
+              <Search />
               {isLoggedIn ? (
                 <button className="header__signin" onClick={logOutUser}>
                   Sign out

@@ -21,6 +21,11 @@
   margin-bottom: 112px;
 }
 
+.products-list-box {
+  display: flex;
+  flex-direction: column;
+}
+
 .products-list {
   display: flex;
   flex-wrap: wrap;
