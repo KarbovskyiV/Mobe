@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-
+import useOutsideClick from "../../utils/useOutsideClick.jsx";
 import styles from "./MenuNav.module.scss";
 import cn from "classnames";
 import IconClose from "../IconsClose/IconClose.jsx";
@@ -124,32 +124,19 @@ const Catalog = () => {
   };
 
   const wrapRef = useRef(null);
-  const handClick = (event) => {
-    if (wrapRef.current && !wrapRef.current.contains(event.target))
-      setCatalogOpened((prevState) => !prevState);
+
+  const getCloseOpen = () => {
+    setCatalogOpened((prevState) => !prevState);
   };
 
-  const wrapRef2 = useRef(null);
-  const handClick2 = (event) => {
-    if (wrapRef2.current && !wrapRef2.current.contains(event.target))
-      setCatalogOpened((prevState) => !prevState);
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handClick || handClick2);
-    return () => {
-      document.removeEventListener("mousedown", handClick || handClick2);
-    };
-  }, []);
-
-  console.log(category && catalogOpened, 74747);
+  useOutsideClick(wrapRef, getCloseOpen);
 
   return (
     <>
       {category && catalogOpened && (
         <nav className={styles.menu} role="navigation">
           <div
-            ref={mobile ? null : wrapRef2}
+            ref={mobile ? null : wrapRef}
             className={cn(styles.cover, {
               [styles.coverShow]: catalogOpened,
             })}
