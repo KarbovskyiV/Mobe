@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../actions/productActions";
 import { connect } from "react-redux";
@@ -20,9 +20,9 @@ import "./style.scss";
 import Subscribe from "../../components/Subscribe/Subscribe.jsx";
 
 const ProductList = () => {
-  const { label } = useParams();
-  const { page } = useParams();
-  const { series } = useParams();
+  const label = useSelector((state) => state.filter.label);
+  const page = useSelector((state) => state.filter.page);
+  const series = useSelector((state) => state.filter.series);
 
   const { searchValue } = React.useContext(SearchContext);
 
@@ -288,6 +288,7 @@ const ProductList = () => {
   const productsToShow1 = Object.keys(sortedProducts[0])
     .filter((key) => {
       const obj = sortedProducts[0][key];
+
       if (obj.name.toLowerCase().includes(searchValue.toLowerCase())) {
         return true;
       }

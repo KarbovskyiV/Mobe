@@ -13,25 +13,33 @@ import "./style.scss";
 const ProductSlider = ({ data, onAddToCart, sliderSettings }) => {
   const { desktop } = React.useContext(DesktopContext);
 
-  const NextArrow = (props) => (
-    <div
-      {...props}
-      className="slick-arrow slick-next"
-      style={desktop ? { visibility: "visible" } : { visibility: "hidden" }}
-    >
-      <img src={arrowNext} alt="arrowNext" />
-    </div>
-  );
+  const NextArrow = (props) => {
+    return (
+      <div
+        {...props}
+        className="slick-arrow slick-next"
+        style={desktop ? { visibility: "visible" } : { visibility: "hidden" }}
+        data-currentslide={props.currentSlide}
+        data-slidecount={props.slideCount}
+      >
+        <img src={arrowNext} alt="arrowNext" />
+      </div>
+    );
+  };
 
-  const PrevArrow = (props) => (
-    <div
-      {...props}
-      className="slick-arrow slick-prev"
-      style={desktop ? { visibility: "visible" } : { visibility: "hidden" }}
-    >
-      <img src={arrowPrev} alt="arrowPrev" />
-    </div>
-  );
+  const PrevArrow = (props) => {
+    return (
+      <div
+        {...props}
+        className="slick-arrow slick-prev"
+        style={desktop ? { visibility: "visible" } : { visibility: "hidden" }}
+        data-currentslide={props.currentSlide}
+        data-slidecount={props.slideCount}
+      >
+        <img src={arrowPrev} alt="arrowPrev" />
+      </div>
+    );
+  };
 
   const settings = {
     dots: false,

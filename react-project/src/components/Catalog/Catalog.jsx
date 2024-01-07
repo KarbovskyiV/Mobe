@@ -6,7 +6,7 @@ import IconClose from "../IconsClose/IconClose.jsx";
 import IconOpen from "../IconsClose/IconOpen.jsx";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   MobileContext,
@@ -14,8 +14,10 @@ import {
   GetCatalogContext,
   ProductsOpenedContext,
 } from "../../App.js";
+import { setLabel, setPage, setSeries } from "../../redux/slices/filterSlice";
 
 const Catalog = () => {
+  const dispatch = useDispatch();
   const { mobile } = React.useContext(MobileContext);
   const [menuCatalogMobileOpened, setMenuCatalogMobileOpened] = React.useState(
     mobile ? false : true
@@ -31,15 +33,6 @@ const Catalog = () => {
 
   const navigate = useNavigate();
   const uniqueSeries = [];
-
-  const getFilterPage = (label, page, series) => {
-    setCatalogOpened(false);
-    if (page === "sortBrand") {
-      navigate(`/product-page/${label}/${page}/${series}`);
-    } else if (page === "sortSeries") {
-      navigate(`/product-page/${label}/${page}/${series}`);
-    }
-  };
 
   const products = useSelector((state) => state.products.products);
 
@@ -131,6 +124,15 @@ const Catalog = () => {
 
   useOutsideClick(wrapRef, getCloseOpen);
 
+  const getFilterPage = (label, page, series) => {
+    dispatch(setLabel(label));
+    dispatch(setPage(page));
+    dispatch(setSeries(series));
+    setCatalogOpened(false);
+    navigate(`/product-page`);
+    console.log("sams");
+  };
+
   return (
     <>
       {category && catalogOpened && (
@@ -173,8 +175,10 @@ const Catalog = () => {
                 >
                   <div className={styles.li_box}>
                     <a
-                      href=""
-                      onClick={() => getFilterPage(obj.label, "sortBrand")}
+                      href="##"
+                      onClick={() =>
+                        getFilterPage(obj.label, "sortBrand", "sams")
+                      }
                     >{`${obj.label} phones`}</a>
                     {mobile ? (
                       <svg
@@ -234,7 +238,7 @@ const Catalog = () => {
                           return (
                             <li key={i}>
                               <a
-                                href=""
+                                href="##"
                                 onClick={() =>
                                   getFilterPage(
                                     obj.label,
@@ -251,7 +255,9 @@ const Catalog = () => {
                         return null; // Если серия уже отображена, возвращаем null
                       })}
                     <div
-                      onClick={() => getFilterPage(obj.label, "sortBrand")}
+                      onClick={() =>
+                        getFilterPage(obj.label, "sortBrand", "sams")
+                      }
                       className={styles.cat_log}
                     >
                       <span>View all</span>
