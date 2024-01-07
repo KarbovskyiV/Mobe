@@ -92,11 +92,7 @@ const Slider = () => {
   const slidesRender = slides().map(({ src, title, oldPrice, newPrice }, i) => {
     return (
       <swiper-slide key={i}>
-        <img
-          src={src}
-          alt={title}
-          /*  style={mobile ? { width: "100%" } : { width: "auto" }} */
-        />
+        <img src={src} alt={title} />
       </swiper-slide>
     );
   });

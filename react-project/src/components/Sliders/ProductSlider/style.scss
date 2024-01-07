@@ -11,6 +11,16 @@
   z-index: 2000;
 }
 
+.slick-arrow.slick-next {
+  background-image: url(arrowNext.svg);
+  background-repeat: no-repeat;
+}
+
+.slick-arrow.slick-prev {
+  background-image: url(arrowPrev.svg);
+  background-repeat: no-repeat;
+}
+
 .slick-slide {
   flex: 0 0 auto;
   margin: 0px;
