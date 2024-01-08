@@ -218,6 +218,16 @@
     img {
       margin: 0 12px;
     }
+
+    ul {
+      li {
+        cursor: pointer;
+
+        &:hover {
+          background-color: $gray-100;
+        }
+      }
+    }
   }
 
   &__boxbuttons {
@@ -237,6 +247,10 @@
     display: flex;
     width: 100%;
     align-items: center;
+
+    img {
+      cursor: pointer;
+    }
   }
 
   &__wagen {
@@ -284,6 +298,10 @@
 
   li {
     margin: 5px 20px;
+  }
+
+  mark {
+    background-color: $violet-400;
   }
 }
 

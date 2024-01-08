@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../actions/productActions";
 import { connect } from "react-redux";
@@ -20,9 +20,9 @@ import "./style.scss";
 import Subscribe from "../../components/Subscribe/Subscribe.jsx";
 
 const ProductList = () => {
-  const { label } = useParams();
-  const { page } = useParams();
-  const { series } = useParams();
+  const label = useSelector((state) => state.filter.label);
+  const page = useSelector((state) => state.filter.page);
+  const series = useSelector((state) => state.filter.series);
 
   const { searchValue } = React.useContext(SearchContext);
 
@@ -288,6 +288,7 @@ const ProductList = () => {
   const productsToShow1 = Object.keys(sortedProducts[0])
     .filter((key) => {
       const obj = sortedProducts[0][key];
+
       if (obj.name.toLowerCase().includes(searchValue.toLowerCase())) {
         return true;
       }
@@ -330,8 +331,9 @@ const ProductList = () => {
           </div>
           <div className="selected-brandbox">
             {selectedBrands[0] !== undefined &&
-              selectedBrands.map((brand) => (
+              selectedBrands.map((brand, index) => (
                 <div
+                  key={`brand_${index}`}
                   className="selected-brand"
                   style={
                     selectedBrands !== undefined
@@ -349,8 +351,8 @@ const ProductList = () => {
               ))}
 
             {selectedModels[0] !== undefined &&
-              selectedModels.map((series) => (
-                <div className="selected-brand">
+              selectedModels.map((series, index) => (
+                <div key={`model_${index}`} className="selected-brand">
                   {series}
                   <img
                     onClick={() => handleModelChange(series)}
@@ -382,8 +384,8 @@ const ProductList = () => {
             {showBrandsCheckboxes &&
               Array.from(
                 new Set(products.map((product) => product.category.name))
-              ).map((brand) => (
-                <label className="filter__brand" key={brand}>
+              ).map((brand, index) => (
+                <label className="filter__brand" key={index}>
                   <input
                     type="checkbox"
                     value={brand}
@@ -402,8 +404,8 @@ const ProductList = () => {
             </div>
             {showSeriesCheckboxes && (
               <div className="models">
-                {allSeries.map((model) => (
-                  <label className="filter__model" key={model}>
+                {allSeries.map((model, index) => (
+                  <label className="filter__model" key={index}>
                     <input
                       type="checkbox"
                       value={model}
@@ -454,8 +456,8 @@ const ProductList = () => {
             </div>
             {showMemoriesCheckboxes && (
               <div className="memories">
-                {allMemories.map((memory) => (
-                  <label className="filter__memory" key={memory}>
+                {allMemories.map((memory, index) => (
+                  <label className="filter__memory" key={index}>
                     <input
                       type="checkbox"
                       value={memory}
@@ -478,8 +480,8 @@ const ProductList = () => {
             </div>
             {showDiagonalesCheckboxes && (
               <div className="diagonals">
-                {allDiagonales.map((diagonal) => (
-                  <label className="filter__diagonal" key={diagonal}>
+                {allDiagonales.map((diagonal, index) => (
+                  <label className="filter__diagonal" key={index}>
                     <input
                       type="checkbox"
                       value={diagonal}
@@ -500,8 +502,8 @@ const ProductList = () => {
             ) : error ? (
               <div>Error: {error}</div>
             ) : (
-              productsToShow.map((item) => (
-                <ProductCard key={item.id} item={item} />
+              productsToShow.map((item, index) => (
+                <ProductCard key={item.id} item={index} />
               ))
             )}
           </div>

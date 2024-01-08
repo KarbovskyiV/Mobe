@@ -4,13 +4,14 @@ import { SearchContext } from "../../App";
 import SearchSvg from "./Images/search.svg";
 import CleanIcon from "./Images/iconClean.svg";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLabel, setPage, setSeries } from "../../redux/slices/filterSlice";
 
 const Search = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState("");
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
   const [filteredItems, setFilteredItems] = React.useState([]);
-  const [nameBrand, setNameBrand] = React.useState("");
 
   const products = useSelector((state) => state.products.products);
 
@@ -37,7 +38,7 @@ const Search = () => {
     console.log(searchValue, "searchValue");
 
     if (searchValue !== "") {
-      const filtered = products.filter(
+      const filtered1 = products.filter(
         (item) =>
           item.category.name
             .toLowerCase()
@@ -45,23 +46,30 @@ const Search = () => {
           item.name.toLowerCase().startsWith(searchValue.toLowerCase())
       );
 
-      const uniqueFiltered = [...new Set(filtered)];
-
-      if (uniqueFiltered.length === 0) {
-        if (!location.pathname.includes("/product-page/")) {
-          navigate(`/product-page`);
-        }
-
-        setFilteredItems("");
+      if (filtered1.length === 0) {
+        /*  const filtered2 = products.filter(
+          (item) =>
+            item.category.name
+              .toLowerCase()
+              .includes(searchValue.toLowerCase()) ||
+            item.name.toLowerCase().includes(searchValue.toLowerCase())
+        ); */
+        navigate(`/product-page`);
       } else {
-        const List = uniqueFiltered.map((ob) => {
-          return ob.series.toLowerCase();
-        });
+        const uniqueFiltered = [...new Set(filtered1)];
 
-        const nameBrand = uniqueFiltered[0].category.name;
+        if (uniqueFiltered.length === 0) {
+          setFilteredItems("");
+        } else {
+          const List = uniqueFiltered.map((ob) => {
+            return ob.series;
+          });
 
-        List.unshift(nameBrand.toLowerCase());
-        setFilteredItems([...new Set(List)]);
+          const nameBrand = uniqueFiltered[0].category.name;
+
+          List.unshift(nameBrand);
+          setFilteredItems([...new Set(List)]);
+        }
       }
     }
   }, [searchValue]);
@@ -71,10 +79,27 @@ const Search = () => {
     updateSearchValue(event.target.value);
   };
 
+  const getFilterPage = (label, page, series) => {
+    dispatch(setLabel(label));
+    dispatch(setPage(page));
+    dispatch(setSeries(series));
+    setFilteredItems("");
+    setValue("");
+    if (!location.pathname.includes("/product-page/")) {
+      navigate(`/product-page`);
+    }
+  };
+
   return (
     <div className="header__searchinput">
       <div className="header__input">
-        <img src={SearchSvg} alt="search" />
+        <img
+          src={SearchSvg}
+          alt="search"
+          onClick={() =>
+            value !== "" ? { onChangeInput } : alert("No dates!")
+          }
+        />
         <input
           ref={inputRef}
           value={value}
@@ -91,14 +116,23 @@ const Search = () => {
       >
         {filteredItems && value
           ? filteredItems.map((item, index) => (
-              <li key={index}>
+              <li
+                key={index}
+                onClick={() =>
+                  getFilterPage(
+                    filteredItems[0],
+                    index === 0 ? "sortBrand" : "sortSeries",
+                    item
+                  )
+                }
+              >
                 {item
                   .split(new RegExp(`(${value})`, "gi"))
                   .map((part, i) =>
                     part.toLowerCase() === value.toLowerCase() ? (
-                      <mark key={i}>{part}</mark>
+                      <mark key={i}>{part.toLowerCase()}</mark>
                     ) : (
-                      part
+                      part.toLowerCase()
                     )
                   )}
               </li>
