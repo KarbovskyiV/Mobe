@@ -86,7 +86,9 @@
 .filter__titleSeries {
   padding: 46px 0;
 }
-.selected-products {
+.selected-brands {
+  display: flex;
+  gap: 8px;
 }
 .selected-brand,
 .selected-series {
@@ -118,7 +120,7 @@
 }
 
 .selected-cancel {
-  padding: 4px 16px;
+  padding: 5px 16px;
   border-radius: 4px;
   border: 1px solid var(--violet-accent, $violet);
   background: var(--white, $white);

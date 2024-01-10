@@ -14,7 +14,12 @@ import {
   GetCatalogContext,
   ProductsOpenedContext,
 } from "../../App.js";
-import { setLabel, setPage, setSeries } from "../../redux/slices/filterSlice";
+import {
+  setLabel,
+  setPage,
+  setSeries,
+  setSearch,
+} from "../../redux/slices/filterSlice";
 
 const Catalog = () => {
   const dispatch = useDispatch();
@@ -128,9 +133,9 @@ const Catalog = () => {
     dispatch(setLabel(label));
     dispatch(setPage(page));
     dispatch(setSeries(series));
+    dispatch(setSearch(""));
     setCatalogOpened(false);
     navigate(`/product-page`);
-    console.log("sams");
   };
 
   return (
@@ -176,9 +181,7 @@ const Catalog = () => {
                   <div className={styles.li_box}>
                     <a
                       href="##"
-                      onClick={() =>
-                        getFilterPage(obj.label, "sortBrand", "sams")
-                      }
+                      onClick={() => getFilterPage(obj.label, "sortBrand", "")}
                     >{`${obj.label} phones`}</a>
                     {mobile ? (
                       <svg
@@ -255,9 +258,7 @@ const Catalog = () => {
                         return null; // Если серия уже отображена, возвращаем null
                       })}
                     <div
-                      onClick={() =>
-                        getFilterPage(obj.label, "sortBrand", "sams")
-                      }
+                      onClick={() => getFilterPage(obj.label, "sortBrand", "")}
                       className={styles.cat_log}
                     >
                       <span>View all</span>

@@ -5,7 +5,12 @@ import SearchSvg from "./Images/search.svg";
 import CleanIcon from "./Images/iconClean.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setLabel, setPage, setSeries } from "../../redux/slices/filterSlice";
+import {
+  setLabel,
+  setPage,
+  setSeries,
+  setSearch,
+} from "../../redux/slices/filterSlice";
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -47,14 +52,24 @@ const Search = () => {
       );
 
       if (filtered1.length === 0) {
-        /*  const filtered2 = products.filter(
+        const filtered2 = products.filter(
           (item) =>
             item.category.name
               .toLowerCase()
               .includes(searchValue.toLowerCase()) ||
             item.name.toLowerCase().includes(searchValue.toLowerCase())
-        ); */
-        navigate(`/product-page`);
+        );
+
+        if (filtered2.length !== 0) {
+          dispatch(setLabel(`search results for the query '${searchValue}'`));
+          dispatch(setPage(""));
+          dispatch(setSeries(""));
+          setFilteredItems("");
+          setValue("");
+          navigate(`/product-page`);
+        } else {
+          return;
+        }
       } else {
         const uniqueFiltered = [...new Set(filtered1)];
 
@@ -79,10 +94,11 @@ const Search = () => {
     updateSearchValue(event.target.value);
   };
 
-  const getFilterPage = (label, page, series) => {
-    dispatch(setLabel(label));
-    dispatch(setPage(page));
-    dispatch(setSeries(series));
+  const getFilterPage = (search) => {
+    dispatch(setSearch(`search results for the query '${search}'`));
+    dispatch(setLabel(""));
+    dispatch(setPage(""));
+    dispatch(setSeries(""));
     setFilteredItems("");
     setValue("");
     if (!location.pathname.includes("/product-page/")) {
@@ -118,12 +134,13 @@ const Search = () => {
           ? filteredItems.map((item, index) => (
               <li
                 key={index}
-                onClick={() =>
-                  getFilterPage(
-                    filteredItems[0],
-                    index === 0 ? "sortBrand" : "sortSeries",
-                    item
-                  )
+                onClick={
+                  () => getFilterPage(item)
+                  /* filteredItems[0],
+                    "",
+                    "" */
+                  /* index === 0 ? "sortBrand" : "sortSeries",
+                    item */
                 }
               >
                 {item

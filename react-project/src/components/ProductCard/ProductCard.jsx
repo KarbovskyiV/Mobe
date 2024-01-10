@@ -106,9 +106,9 @@ const ProductCard = ({ item }) => {
               }
               className="section__card-oldprice"
             >
-              $ {item.price * 0.95}
+              $ {item.price}
             </div>
-            <div className="section__card-newprice">$ {item.price}</div>
+            <div className="section__card-newprice">$ {item.price * 0.95}</div>
           </div>
           <Button type="violet" title={"Add to Cart"} onClick={addIntoCart} />
         </div>

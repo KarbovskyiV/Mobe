@@ -23,6 +23,7 @@ const ProductList = () => {
   const label = useSelector((state) => state.filter.label);
   const page = useSelector((state) => state.filter.page);
   const series = useSelector((state) => state.filter.series);
+  const search = useSelector((state) => state.filter.search);
 
   const { searchValue } = React.useContext(SearchContext);
 
@@ -82,8 +83,9 @@ const ProductList = () => {
     label !== "undefined" ? [label] : []
   );
   const [selectedModels, setSelectedModels] = useState(
-    series !== "undefined" ? [series] : []
+    series[0] !== "undefined" ? [series] : []
   );
+
   const [selectedMemories, setSelectedMemories] = useState([]);
   const [selectedDiagonales, setSelectedDiagonales] = useState([]);
 
@@ -117,9 +119,10 @@ const ProductList = () => {
   };
 
   const handleBrandChange = (brand) => {
-    const updatedBrands = selectedBrands.includes(brand)
+    const selectedBrandsFilter = selectedBrands.filter((brand) => brand !== "");
+    const updatedBrands = selectedBrandsFilter.includes(brand)
       ? selectedBrands.filter((selectedBrand) => selectedBrand !== brand)
-      : [...selectedBrands, brand];
+      : [...selectedBrandsFilter, brand];
 
     const filterProducts = Array.from(
       new Set(
@@ -248,18 +251,26 @@ const ProductList = () => {
     );
   });
 
+  console.log(sortOption, 5585858);
+  console.log(filteredProducts);
+
   const sortedProducts = [
     filteredProducts.length === 0 ? products : { ...filteredProducts },
   ].sort((a, b) => {
     if (sortOption === "newest") {
-      return new Date(b.date) - new Date(a.date);
+      console.log("newest");
+      return new Date(b.created_at) - new Date(a.created_at);
     } else if (sortOption === "lowToHigh") {
+      console.log("lowToHigh");
       return parseFloat(a.price) - parseFloat(b.price);
     } else if (sortOption === "highToLow") {
+      console.log("highToLow");
       return parseFloat(b.price) - parseFloat(a.price);
     }
     return 0;
   });
+
+  console.log(sortedProducts[0]);
 
   const innerOpenClose = (toShow, setToShow) => {
     return (
@@ -310,6 +321,8 @@ const ProductList = () => {
     <Skeleton key={index} />
   ));
 
+  console.log(selectedBrands);
+
   return (
     <div className="filter__container">
       {catalogOpened && (
@@ -317,9 +330,9 @@ const ProductList = () => {
           <Catalog />
         </ErrorBoundary>
       )}
-      <MenuStep label={label} page={page} series={series} />
+      <MenuStep label={label} page={page} series={series} search={search} />
       <h1 className="filter__titleSeries">
-        {series === "undefined" ? `${label} phones` : series}
+        {series === "undefined" ? label : series}
       </h1>
       <div className="filter__choice">
         <div className="filter__choice-box">
@@ -330,29 +343,41 @@ const ProductList = () => {
             Cancel
           </div>
           <div className="selected-brandbox">
-            {selectedBrands[0] !== undefined &&
-              selectedBrands.map((brand, index) => (
+            {selectedBrands && selectedBrands.length !== 0 && (
+              <div
+                className="selected-brands"
+                style={
+                  selectedBrands && selectedBrands.length !== 0
+                    ? { display: "flex" }
+                    : { display: "none" }
+                }
+              >
+                {selectedBrands &&
+                  selectedBrands.length !== 0 &&
+                  selectedBrands.map((brand) => (
+                    <div key={brand} className="selected-brand">
+                      {brand}
+                      <img
+                        onClick={() => console.log(brand)}
+                        src={Cross}
+                        alt="cross"
+                      />
+                    </div>
+                  ))}
+              </div>
+            )}
+
+            {/* {selectedModels[0].length !== 0 &&
+              selectedModels.map((series, index) => (
                 <div
-                  key={`brand_${index}`}
+                  key={`model_${index}`}
                   className="selected-brand"
                   style={
-                    selectedBrands !== undefined
+                    selectedModels[0] !== 0
                       ? { display: "flex" }
                       : { display: "none" }
                   }
                 >
-                  {brand}
-                  <img
-                    onClick={() => handleBrandChange(brand)}
-                    src={Cross}
-                    alt="cross"
-                  />
-                </div>
-              ))}
-
-            {selectedModels[0] !== undefined &&
-              selectedModels.map((series, index) => (
-                <div key={`model_${index}`} className="selected-brand">
                   {series}
                   <img
                     onClick={() => handleModelChange(series)}
@@ -360,7 +385,7 @@ const ProductList = () => {
                     alt="cross"
                   />
                 </div>
-              ))}
+              ))} */}
           </div>
         </div>
 
@@ -502,8 +527,8 @@ const ProductList = () => {
             ) : error ? (
               <div>Error: {error}</div>
             ) : (
-              productsToShow.map((item, index) => (
-                <ProductCard key={item.id} item={index} />
+              productsToShow.map((item) => (
+                <ProductCard key={item.id} item={item} />
               ))
             )}
           </div>
