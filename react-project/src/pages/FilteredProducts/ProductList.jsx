@@ -226,21 +226,31 @@ const ProductList = () => {
     return isInRange;
   };
 
+  console.log(products, 99);
+
   const filteredProducts = products.filter((product) => {
     const isInSelectedBrands =
       selectedBrands.length === 0 ||
       selectedBrands.includes(product.category.name);
 
+    console.log(isInSelectedBrands, 1);
+
     const isInSelectedModels =
       selectedModels.length === 0 || selectedModels.includes(product.series);
+
+    console.log(selectedMemories, 12);
+
+    console.log(isInSelectedModels, 2);
 
     const isInSelectedMemories =
       selectedMemories.length === 0 ||
       selectedMemories.includes(product.built_in_memory);
+    console.log(isInSelectedMemories, 3);
 
     const isInSelectedDiagonales =
       selectedDiagonales.length === 0 ||
       selectedDiagonales.includes(product.display_diagonal);
+    console.log(isInSelectedDiagonales, 4);
 
     return (
       isInSelectedBrands &&
@@ -251,15 +261,20 @@ const ProductList = () => {
     );
   });
 
-  console.log(sortOption, 5585858);
-  console.log(filteredProducts);
+  console.log(filteredProducts, 7);
+  console.log(
+    Array.isArray(filteredProducts) &&
+      filteredProducts.every((item) => typeof item === "object")
+  );
+  console.log(
+    Array.isArray(products) &&
+      products.every((item) => typeof item === "object")
+  );
 
-  const sortedProducts = [
-    filteredProducts.length === 0 ? products : { ...filteredProducts },
-  ].sort((a, b) => {
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOption === "newest") {
       console.log("newest");
-      return new Date(b.created_at) - new Date(a.created_at);
+      return new Date(b.date) - new Date(a.date);
     } else if (sortOption === "lowToHigh") {
       console.log("lowToHigh");
       return parseFloat(a.price) - parseFloat(b.price);
@@ -270,7 +285,7 @@ const ProductList = () => {
     return 0;
   });
 
-  console.log(sortedProducts[0]);
+  /* console.log(sortedProducts[0]); */
 
   const innerOpenClose = (toShow, setToShow) => {
     return (
