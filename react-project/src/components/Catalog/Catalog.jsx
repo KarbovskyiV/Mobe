@@ -130,9 +130,9 @@ const Catalog = () => {
   useOutsideClick(wrapRef, getCloseOpen);
 
   const getFilterPage = (label, page, series) => {
-    dispatch(setLabel(label));
+    dispatch(setLabel([label]));
     dispatch(setPage(page));
-    dispatch(setSeries(series));
+    dispatch(setSeries(series.length === 0 ? series : [series]));
     dispatch(setSearch(""));
     setCatalogOpened(false);
     navigate(`/product-page`);
@@ -181,7 +181,10 @@ const Catalog = () => {
                   <div className={styles.li_box}>
                     <a
                       href="##"
-                      onClick={() => getFilterPage(obj.label, "sortBrand", "")}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        getFilterPage(obj.label, "sortBrand", []);
+                      }}
                     >{`${obj.label} phones`}</a>
                     {mobile ? (
                       <svg
@@ -242,13 +245,14 @@ const Catalog = () => {
                             <li key={i}>
                               <a
                                 href="##"
-                                onClick={() =>
+                                onClick={(e) => {
+                                  e.preventDefault();
                                   getFilterPage(
                                     obj.label,
                                     "sortSeries",
                                     object.series
-                                  )
-                                }
+                                  );
+                                }}
                               >
                                 {object.series}
                               </a>

@@ -18,6 +18,8 @@ const Search = () => {
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
   const [filteredItems, setFilteredItems] = React.useState([]);
 
+  console.log(searchValue);
+
   const products = useSelector((state) => state.products.products);
 
   const location = useLocation();
@@ -61,9 +63,10 @@ const Search = () => {
         );
 
         if (filtered2.length !== 0) {
-          dispatch(setLabel(`search results for the query '${searchValue}'`));
+          dispatch(setSearch(searchValue));
+          dispatch(setLabel([]));
           dispatch(setPage(""));
-          dispatch(setSeries(""));
+          dispatch(setSeries([]));
           setFilteredItems("");
           setValue("");
           navigate(`/product-page`);
@@ -86,6 +89,8 @@ const Search = () => {
           setFilteredItems([...new Set(List)]);
         }
       }
+    } else {
+      setValue(searchValue);
     }
   }, [searchValue]);
 
@@ -94,11 +99,11 @@ const Search = () => {
     updateSearchValue(event.target.value);
   };
 
-  const getFilterPage = (search) => {
-    dispatch(setSearch(`search results for the query '${search}'`));
-    dispatch(setLabel(""));
+  const getFilterPage = (item) => {
+    dispatch(setSearch(item));
+    dispatch(setLabel([]));
     dispatch(setPage(""));
-    dispatch(setSeries(""));
+    dispatch(setSeries([]));
     setFilteredItems("");
     setValue("");
     if (!location.pathname.includes("/product-page/")) {
@@ -132,17 +137,7 @@ const Search = () => {
       >
         {filteredItems && value
           ? filteredItems.map((item, index) => (
-              <li
-                key={index}
-                onClick={
-                  () => getFilterPage(item)
-                  /* filteredItems[0],
-                    "",
-                    "" */
-                  /* index === 0 ? "sortBrand" : "sortSeries",
-                    item */
-                }
-              >
+              <li key={index} onClick={() => getFilterPage(item)}>
                 {item
                   .split(new RegExp(`(${value})`, "gi"))
                   .map((part, i) =>

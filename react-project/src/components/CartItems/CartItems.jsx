@@ -1,14 +1,16 @@
 import React, { useRef, useEffect } from "react";
-import { MobileContext } from "../App.js";
+import { MobileContext } from "../../App.js";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, minusItem, removeItem } from "../redux/slices/cartAdd";
-import useOutsideClick from "../utils/useOutsideClick.jsx";
+import { addItem, minusItem, removeItem } from "../../redux/slices/cartAdd.js";
+import useOutsideClick from "../../utils/useOutsideClick.jsx";
 
 import {
   addLikedProduct,
   removeLikedProduct,
-} from "../redux/slices/wishlistSlice";
-import IconsHeart from "./IconsHeart/IconsHeart";
+} from "../../redux/slices/wishlistSlice.js";
+import IconsHeart from "../IconsHeart/IconsHeart.jsx";
+import iconDelete from "./Images/iconDelete.svg";
+import OpenPoints from "../OpenPoints/OpenPoints.jsx";
 
 const CartItems = ({ item }) => {
   const { mobile } = React.useContext(MobileContext);
@@ -141,60 +143,18 @@ const CartItems = ({ item }) => {
             <p>Add to favourite</p>
           </div>
           <div className="delete-box2" onClick={onClickDelete}>
-            <svg
-              className="delete_svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M3 6H5M5 6H21M5 6V20C5 20.5304 5.21071 21.0391 5.58579 21.4142C5.96086 21.7893 6.46957 22 7 22H17C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20V6H5ZM8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M10 11V17M14 11V17"
-                stroke="#28003E"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-
+            <img src={iconDelete} alt="to delete" />
             <p>Delete</p>
           </div>
         </div>
-
-        <svg
+        <div
           style={
             openMenuDelete === true ? { display: "none" } : { display: "flex" }
           }
           onClick={() => setOpenMenuDelete(true)}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
         >
-          <path
-            d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
-            stroke="#28003E"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z"
-            stroke="#28003E"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z"
-            stroke="#28003E"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+          <OpenPoints />
+        </div>
         <div className="shoppingcart__summs">
           <div className="shoppingcart__summ1">{item.count * item.price}</div>
           <div className="shoppingcart__summ2">

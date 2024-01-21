@@ -2,13 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../actions/productActions";
 import { connect } from "react-redux";
-import { CatalogOpenedContext, SearchContext } from "../../App.js";
-import { useParams } from "react-router-dom";
+import {
+  CatalogOpenedContext,
+  SearchContext,
+  MobileContext,
+} from "../../App.js";
+
 import ProductCard from "../../components/ProductCard/ProductCard";
+import debounce from "lodash.debounce";
 import Cross from "./Image/iconCross.svg";
+import iconCheckOpen from "./Image/iconCheckOpen.svg";
 import Open from "./Image/iconOpen.svg";
 import Close from "./Image/iconClose.svg";
-import { useLocation } from "react-router-dom";
 import MenuStep from "../../components/MenuStep/MenuStep.jsx";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import Catalog from "../../components/Catalog/Catalog.jsx";
@@ -19,21 +24,21 @@ import Skeleton from "../../components/Skeleton/Skeleton.jsx";
 import "./style.scss";
 import Subscribe from "../../components/Subscribe/Subscribe.jsx";
 
+import { setLabel, setSeries, setSearch } from "../../redux/slices/filterSlice";
+
 const ProductList = () => {
+  const dispatch = useDispatch();
   const label = useSelector((state) => state.filter.label);
-  const page = useSelector((state) => state.filter.page);
   const series = useSelector((state) => state.filter.series);
   const search = useSelector((state) => state.filter.search);
-
-  const { searchValue } = React.useContext(SearchContext);
+  const { mobile } = React.useContext(MobileContext);
 
   const [currentPage, setCurrentPage] = React.useState(1);
 
   const products = useSelector((state) => state.products.products);
 
-  const dispatch = useDispatch();
+  const { setSearchValue } = React.useContext(SearchContext);
 
-  const location = useLocation();
   const { catalogOpened } = React.useContext(CatalogOpenedContext);
 
   const [showSeriesCheckboxes, setShowSeriesCheckboxes] = useState(true);
@@ -42,10 +47,22 @@ const ProductList = () => {
   const [showMemoriesCheckboxes, setShowMemoriesCheckboxes] = useState(true);
   const [showDiagonalesCheckboxes, setShowDiagonalesCheckboxes] =
     useState(true);
+  const [showRefreshRateCheckboxes, setShowRefreshRateCheckboxes] =
+    useState(true);
+  const [showScreenResolutionsCheckboxes, setShowScreenResolutionsCheckboxes] =
+    useState(true);
+
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   const [allSeries, setAllSeries] = useState([]);
   const [allMemories, setAllMemories] = useState([]);
   const [allDiagonales, setAllDiagonales] = useState([]);
+  const [allRefreshRates, setAllRefreshRates] = useState([]);
+  const [allScreenResolutions, setAllScreenResolutions] = useState([]);
+  const [filterIsOpened, setFilterIsOpened] = useState(mobile ? false : true);
+
+  console.log(mobile, "mobile?", filterIsOpened, "filterIsOpened");
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -77,49 +94,46 @@ const ProductList = () => {
     setAllDiagonales(filterSeriesNull);
   }, [products]);
 
-  const initialBrand = new URLSearchParams(location.search).get("label");
+  useEffect(() => {
+    const allRefreshRate = Array.from(
+      new Set(products.map((product) => product.screen_refresh_rate))
+    );
 
-  const [selectedBrands, setSelectedBrands] = useState(
-    label !== "undefined" ? [label] : []
-  );
-  const [selectedModels, setSelectedModels] = useState(
-    series[0] !== "undefined" ? [series] : []
-  );
+    const filterRefreshRateNull = allRefreshRate.filter(
+      (rate) => rate !== null
+    );
+    setAllRefreshRates(filterRefreshRateNull);
+  }, [products]);
+
+  useEffect(() => {
+    const allScreenResolution = Array.from(
+      new Set(products.map((product) => product.display_resolution))
+    );
+
+    const filterScreenResolutionNull = allScreenResolution.filter(
+      (rate) => rate !== null
+    );
+    setAllScreenResolutions(filterScreenResolutionNull);
+  }, [products]);
+
+  const [selectedBrands, setSelectedBrands] = useState(label);
+
+  const [selectedModels, setSelectedModels] = useState(series);
 
   const [selectedMemories, setSelectedMemories] = useState([]);
   const [selectedDiagonales, setSelectedDiagonales] = useState([]);
 
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [selectedRefreshRates, setSelectedRefreshRates] = useState([]);
+
+  const [selectedScreenResolutions, setSelectedScreenResolutions] = useState(
+    []
+  );
+
   const [sortOption, setSortOption] = useState("newest");
-
-  const countProductsInBrand = (brand) => {
-    return products.filter(
-      (product) => product.category.name === brand && isInPriceRange(product)
-    ).length;
-  };
-
-  const countProductsInModel = (model) => {
-    return products.filter(
-      (product) => product.series === model && isInPriceRange(product)
-    ).length;
-  };
-
-  const countProductsInMemories = (memory) => {
-    return products.filter(
-      (product) => product.built_in_memory === memory && isInPriceRange(product)
-    ).length;
-  };
-
-  const countProductsInDiagonales = (diagonal) => {
-    return products.filter(
-      (product) =>
-        product.display_diagonal === diagonal && isInPriceRange(product)
-    ).length;
-  };
 
   const handleBrandChange = (brand) => {
     const selectedBrandsFilter = selectedBrands.filter((brand) => brand !== "");
+
     const updatedBrands = selectedBrandsFilter.includes(brand)
       ? selectedBrands.filter((selectedBrand) => selectedBrand !== brand)
       : [...selectedBrandsFilter, brand];
@@ -150,14 +164,22 @@ const ProductList = () => {
       .map((product) => product.display_diagonal)
       .filter((diag) => diag !== null);
 
+    const brandRefreshRates = filterProducts
+      .map((product) => product.screen_refresh_rate)
+      .filter((rate) => rate !== null);
+
+    const brandScreenResolutions = filterProducts
+      .map((product) => product.display_resolution)
+      .filter((resolution) => resolution !== null);
+
     const uniqueDiagonales = Array.from(new Set(brandDiagonales));
 
+    const uniqueRefreshRates = Array.from(new Set(brandRefreshRates));
+
     setAllSeries(uniqueSeries);
-
     setAllMemories(uniqueMemories);
-
     setAllDiagonales(uniqueDiagonales);
-
+    setAllRefreshRates(uniqueRefreshRates);
     setSelectedBrands(updatedBrands);
 
     setSelectedModels(
@@ -173,42 +195,97 @@ const ProductList = () => {
         brandDiagonales.includes(diagonal)
       )
     );
-  };
 
-  const handleModelChange = (model) => {
-    if (selectedModels.includes(model)) {
-      setSelectedModels(
-        selectedModels.filter((selectedModel) => selectedModel !== model)
-      );
-    } else {
-      setSelectedModels([...selectedModels, model]);
+    setSelectedRefreshRates(
+      selectedRefreshRates.filter((rate) => brandRefreshRates.includes(rate))
+    );
+
+    setSelectedScreenResolutions(
+      selectedScreenResolutions.filter((resolution) =>
+        brandScreenResolutions.includes(resolution)
+      )
+    );
+
+    dispatch(setLabel(updatedBrands));
+    if (productsToShow1.length > productsPerPage) {
+      setCurrentPage(1);
     }
   };
 
-  const handleMemoryChange = (memory) => {
-    if (selectedMemories.includes(memory)) {
-      setSelectedMemories(
-        selectedMemories.filter((selectedMemory) => selectedMemory !== memory)
+  const handleCheckboxChange = (type, value) => {
+    let selectedArray, setSelectedArray;
+
+    switch (type) {
+      case "model":
+        selectedArray = selectedModels;
+        setSelectedArray = setSelectedModels;
+        break;
+      case "memory":
+        selectedArray = selectedMemories;
+        setSelectedArray = setSelectedMemories;
+        break;
+      case "diagonal":
+        selectedArray = selectedDiagonales;
+        setSelectedArray = setSelectedDiagonales;
+        break;
+      case "refresh_rates":
+        selectedArray = selectedRefreshRates;
+        setSelectedArray = setSelectedRefreshRates;
+        break;
+      case "screen_resolutiones":
+        selectedArray = selectedScreenResolutions;
+        setSelectedArray = setSelectedScreenResolutions;
+        break;
+
+      default:
+        return;
+    }
+
+    if (selectedArray.includes(value)) {
+      setSelectedArray(
+        selectedArray.filter((selectedValue) => selectedValue !== value)
       );
     } else {
-      setSelectedMemories([...selectedMemories, memory]);
+      setSelectedArray([...selectedArray, value]);
     }
   };
 
-  const handleDiagonalChange = (diagonal) => {
-    if (selectedDiagonales.includes(diagonal)) {
-      setSelectedDiagonales(
-        selectedDiagonales.filter(
-          (selectedDiagonal) => selectedDiagonal !== diagonal
-        )
-      );
-    } else {
-      setSelectedDiagonales([...selectedDiagonales, diagonal]);
-    }
+  const countProductsInFilter = (filterType, value) => {
+    return products.filter((product) => {
+      switch (filterType) {
+        case "brand":
+          return product.category.name === value && isInPriceRange(product);
+        case "model":
+          return product.series === value && isInPriceRange(product);
+        case "memory":
+          return product.built_in_memory === value && isInPriceRange(product);
+        case "diagonal":
+          return product.display_diagonal === value && isInPriceRange(product);
+        case "refresh_rates":
+          return (
+            product.screen_refresh_rate === value && isInPriceRange(product)
+          );
+        case "screen_resolutiones":
+          return (
+            product.display_resolution === value && isInPriceRange(product)
+          );
+
+        default:
+          return false;
+      }
+    }).length;
   };
+
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      setMinPrice(str);
+    }, 20),
+    []
+  );
 
   const handleMinPriceChange = (e) => {
     setMinPrice(e.target.value);
+    updateSearchValue(e.target.value);
   };
 
   const handleMaxPriceChange = (e) => {
@@ -226,66 +303,55 @@ const ProductList = () => {
     return isInRange;
   };
 
-  console.log(products, 99);
+  useEffect(() => {
+    setSelectedModels(series);
+    setSelectedBrands(label);
+  }, [series, label]);
 
   const filteredProducts = products.filter((product) => {
     const isInSelectedBrands =
       selectedBrands.length === 0 ||
       selectedBrands.includes(product.category.name);
 
-    console.log(isInSelectedBrands, 1);
-
     const isInSelectedModels =
       selectedModels.length === 0 || selectedModels.includes(product.series);
-
-    console.log(selectedMemories, 12);
-
-    console.log(isInSelectedModels, 2);
 
     const isInSelectedMemories =
       selectedMemories.length === 0 ||
       selectedMemories.includes(product.built_in_memory);
-    console.log(isInSelectedMemories, 3);
 
     const isInSelectedDiagonales =
       selectedDiagonales.length === 0 ||
       selectedDiagonales.includes(product.display_diagonal);
-    console.log(isInSelectedDiagonales, 4);
+
+    const isInSelectedRefreshRate =
+      selectedRefreshRates.length === 0 ||
+      selectedRefreshRates.includes(product.screen_refresh_rate);
+    const isInSelectedScreenResolution =
+      selectedScreenResolutions.length === 0 ||
+      selectedScreenResolutions.includes(product.display_resolution);
 
     return (
       isInSelectedBrands &&
       isInSelectedModels &&
       isInSelectedMemories &&
       isInSelectedDiagonales &&
+      isInSelectedRefreshRate &&
+      isInSelectedScreenResolution &&
       isInPriceRange(product)
     );
   });
 
-  console.log(filteredProducts, 7);
-  console.log(
-    Array.isArray(filteredProducts) &&
-      filteredProducts.every((item) => typeof item === "object")
-  );
-  console.log(
-    Array.isArray(products) &&
-      products.every((item) => typeof item === "object")
-  );
-
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOption === "newest") {
-      console.log("newest");
       return new Date(b.date) - new Date(a.date);
     } else if (sortOption === "lowToHigh") {
-      console.log("lowToHigh");
       return parseFloat(a.price) - parseFloat(b.price);
     } else if (sortOption === "highToLow") {
-      console.log("highToLow");
       return parseFloat(b.price) - parseFloat(a.price);
     }
     return 0;
   });
-
-  /* console.log(sortedProducts[0]); */
 
   const innerOpenClose = (toShow, setToShow) => {
     return (
@@ -300,28 +366,22 @@ const ProductList = () => {
   };
 
   const getCancel = () => {
-    setSelectedBrands([]);
-    setSelectedModels([]);
-    setSelectedMemories([]);
-    setSelectedDiagonales([]);
+    dispatch(setLabel([]));
+    dispatch(setSeries([]));
+    dispatch(setSearch(""));
+    setSearchValue("");
+    setMinPrice("");
+    setMaxPrice("");
   };
 
   //Пагинация
-  const productsPerPage = 21;
+  const productsPerPage = mobile ? 4 : 21;
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
 
-  const productsToShow1 = Object.keys(sortedProducts[0])
-    .filter((key) => {
-      const obj = sortedProducts[0][key];
-
-      if (obj.name.toLowerCase().includes(searchValue.toLowerCase())) {
-        return true;
-      }
-      return false;
-    })
-    .map((key) => sortedProducts[0][key]);
-
+  const productsToShow1 = sortedProducts.filter((obj) =>
+    obj.name.toLowerCase().includes(search.toLowerCase())
+  );
   const productsToShow = productsToShow1.slice(startIndex, endIndex);
 
   const totalProducts = productsToShow1.length;
@@ -336,7 +396,20 @@ const ProductList = () => {
     <Skeleton key={index} />
   ));
 
-  console.log(selectedBrands);
+  const sortBox = () => {
+    return (
+      <div className="sort">
+        <select value={sortOption} onChange={handleSortChange}>
+          <option value="newest">Newest first</option>
+          <option value="lowToHigh">Price-low to hight</option>
+          <option value="highToLow">Price-hight to low</option>
+          <option value="highToLow">Most popular</option>
+        </select>
+      </div>
+    );
+  };
+
+  const filteredCard = true;
 
   return (
     <div className="filter__container">
@@ -345,215 +418,306 @@ const ProductList = () => {
           <Catalog />
         </ErrorBoundary>
       )}
-      <MenuStep label={label} page={page} series={series} search={search} />
-      <h1 className="filter__titleSeries">
-        {series === "undefined" ? label : series}
-      </h1>
-      <div className="filter__choice">
-        <div className="filter__choice-box">
-          <div className="selected-products">
-            {productsToShow1.length} products are selected
-          </div>
-          <div className="selected-cancel" onClick={() => getCancel()}>
-            Cancel
-          </div>
-          <div className="selected-brandbox">
-            {selectedBrands && selectedBrands.length !== 0 && (
-              <div
-                className="selected-brands"
-                style={
-                  selectedBrands && selectedBrands.length !== 0
-                    ? { display: "flex" }
-                    : { display: "none" }
-                }
-              >
-                {selectedBrands &&
-                  selectedBrands.length !== 0 &&
-                  selectedBrands.map((brand) => (
-                    <div key={brand} className="selected-brand">
-                      {brand}
-                      <img
-                        onClick={() => console.log(brand)}
-                        src={Cross}
-                        alt="cross"
-                      />
-                    </div>
-                  ))}
+      {mobile ? "" : <MenuStep />}
+      <div
+        className="filter__openContainer"
+        style={mobile ? { display: "flex" } : { display: "none" }}
+      >
+        {sortBox()}
+        <div className="filter__open">
+          <img
+            onClick={() => setFilterIsOpened(!filterIsOpened)}
+            src={iconCheckOpen}
+            alt="cross"
+            style={filterIsOpened ? { display: "none" } : { display: "flex" }}
+          />
+          <img
+            onClick={() => setFilterIsOpened(!filterIsOpened)}
+            src={Cross}
+            alt="cross"
+            style={!filterIsOpened ? { display: "none" } : { display: "flex" }}
+          />
+        </div>
+      </div>
+      <div
+        className="filter__isOpened"
+        /*  style={!filterIsOpened ? { display: "flex" } : { display: "none" }} */
+      >
+        <div className="filter__choice">
+          <div className="filter__choice-box">
+            <div className="selected-products-box">
+              <div className="selected-products">
+                {totalProducts} products are selected
               </div>
-            )}
-
-            {/* {selectedModels[0].length !== 0 &&
-              selectedModels.map((series, index) => (
+              <div className="selected-cancel" onClick={() => getCancel()}>
+                Cancel
+              </div>{" "}
+            </div>
+            <div className="selected-brandbox">
+              {selectedBrands && selectedBrands.length !== 0 && (
                 <div
-                  key={`model_${index}`}
-                  className="selected-brand"
+                  className="selected-brands"
                   style={
-                    selectedModels[0] !== 0
+                    selectedBrands && selectedBrands.length !== 0
                       ? { display: "flex" }
                       : { display: "none" }
                   }
                 >
-                  {series}
-                  <img
-                    onClick={() => handleModelChange(series)}
-                    src={Cross}
-                    alt="cross"
-                  />
+                  {selectedBrands &&
+                    selectedBrands.length !== 0 &&
+                    selectedBrands.map((brand) => (
+                      <div key={brand} className="selected-brand">
+                        {brand}
+                        <img
+                          onClick={() => handleBrandChange(brand)}
+                          src={Cross}
+                          alt="cross"
+                        />
+                      </div>
+                    ))}
                 </div>
-              ))} */}
-          </div>
-        </div>
+              )}
 
-        <div className="sort">
-          <select value={sortOption} onChange={handleSortChange}>
-            <option value="newest">Newest first</option>
-            <option value="lowToHigh">Price-low to hight</option>
-            <option value="highToLow">Price-hight to low</option>
-            <option value="highToLow">Most popular</option>
-          </select>
+              {selectedModels.length !== 0 &&
+                selectedModels.map((series, index) => (
+                  <div
+                    key={`model_${index}`}
+                    className="selected-brand"
+                    style={
+                      selectedModels !== 0
+                        ? { display: "flex" }
+                        : { display: "none" }
+                    }
+                  >
+                    {series}
+                    <img
+                      /* onClick={() => handleModelChange(series)} */
+                      onClick={() => handleCheckboxChange("model", series)}
+                      src={Cross}
+                      alt="cross"
+                    />
+                  </div>
+                ))}
+            </div>
+          </div>
+          {mobile ? "" : sortBox()}
+        </div>
+        <div className="filter__inner">
+          <div
+            className="filter"
+            style={!filterIsOpened ? { display: "none" } : { display: "flex" }}
+          >
+            <div className="inner-box">
+              <div className="all-inner">
+                <h2>Brand</h2>
+                {innerOpenClose(showBrandsCheckboxes, setShowBrandsCheckboxes)}
+              </div>
+              {showBrandsCheckboxes &&
+                Array.from(
+                  new Set(products.map((product) => product.category.name))
+                ).map((brand, index) => (
+                  <label className="filter__box" key={index}>
+                    <input
+                      type="checkbox"
+                      value={brand}
+                      checked={selectedBrands.includes(brand)}
+                      onChange={() => handleBrandChange(brand)}
+                      className="checkbox-custom"
+                    />
+                    {brand} ({countProductsInFilter("brand", brand)})
+                  </label>
+                ))}
+            </div>
+            <div className="inner-box">
+              <div className="all-inner">
+                <h2>Series</h2>
+                {innerOpenClose(showSeriesCheckboxes, setShowSeriesCheckboxes)}
+              </div>
+              {showSeriesCheckboxes && (
+                <div className="models">
+                  {allSeries.map((model, index) => (
+                    <label className="filter__box" key={index}>
+                      <input
+                        type="checkbox"
+                        value={model}
+                        checked={selectedModels.includes(model)}
+                        onChange={() => handleCheckboxChange("model", model)}
+                      />
+                      {model} ({countProductsInFilter("model", model)})
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="price">
+              <div className="all-inner">
+                <h2>Price, $</h2>
+                {innerOpenClose(showPrices, setShowPrices)}
+              </div>
+              {showPrices && (
+                <div className="price-block">
+                  <label>
+                    <p>$&nbsp;</p>
+                    <input
+                      type="number"
+                      value={minPrice}
+                      onChange={handleMinPriceChange}
+                      inputMode="none"
+                    />
+                  </label>
+                  <p>-</p>
+                  <label>
+                    <p>$&nbsp;</p>
+                    <input
+                      type="number"
+                      value={maxPrice}
+                      onChange={handleMaxPriceChange}
+                      inputMode="none"
+                    />
+                  </label>
+                </div>
+              )}
+            </div>
+            <div className="inner-box">
+              <div className="all-inner">
+                <h2>Internal storage</h2>
+                {innerOpenClose(
+                  showMemoriesCheckboxes,
+                  setShowMemoriesCheckboxes
+                )}
+              </div>
+              {showMemoriesCheckboxes && (
+                <div className="memories">
+                  {allMemories.map((memory, index) => (
+                    <label className="filter__box" key={index}>
+                      <input
+                        type="checkbox"
+                        value={memory}
+                        checked={selectedMemories.includes(memory)}
+                        onChange={() => handleCheckboxChange("memory", memory)}
+                      />
+                      {memory} ({countProductsInFilter("memory", memory)})
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="inner-box">
+              <div className="all-inner">
+                <h2>Display size</h2>
+                {innerOpenClose(
+                  showDiagonalesCheckboxes,
+                  setShowDiagonalesCheckboxes
+                )}
+              </div>
+              {showDiagonalesCheckboxes && (
+                <div className="diagonals">
+                  {allDiagonales.map((diagonal, index) => (
+                    <label className="filter__box" key={index}>
+                      <input
+                        type="checkbox"
+                        value={diagonal}
+                        checked={selectedDiagonales.includes(diagonal)}
+                        onChange={() =>
+                          handleCheckboxChange("diagonal", diagonal)
+                        }
+                      />
+                      {diagonal} ({countProductsInFilter("diagonal", diagonal)})
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="inner-box">
+              <div className="all-inner">
+                <h2>Refresh rate</h2>
+                {innerOpenClose(
+                  showRefreshRateCheckboxes,
+                  setShowRefreshRateCheckboxes
+                )}
+              </div>
+              {showRefreshRateCheckboxes && (
+                <div className="refresh_rates">
+                  {allRefreshRates.map((rate, index) => (
+                    <label className="filter__box" key={index}>
+                      <input
+                        type="checkbox"
+                        value={rate}
+                        checked={selectedRefreshRates.includes(rate)}
+                        onChange={() =>
+                          handleCheckboxChange("refresh_rates", rate)
+                        }
+                      />
+                      {rate} ({countProductsInFilter("refresh_rates", rate)})
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="inner-box">
+              <div className="all-inner">
+                <h2>Screen resolution</h2>
+                {innerOpenClose(
+                  showScreenResolutionsCheckboxes,
+                  setShowScreenResolutionsCheckboxes
+                )}
+              </div>
+              {showScreenResolutionsCheckboxes && (
+                <div className="screen-resolution">
+                  {allScreenResolutions.map((resolution, index) => (
+                    <label className="filter__box" key={index}>
+                      <input
+                        type="checkbox"
+                        value={resolution}
+                        checked={selectedScreenResolutions.includes(resolution)}
+                        onChange={() =>
+                          handleCheckboxChange(
+                            "screen_resolutiones",
+                            resolution
+                          )
+                        }
+                      />
+                      {resolution} (
+                      {countProductsInFilter("screen_resolutiones", resolution)}
+                      )
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <div
+            className="products-list-box"
+            style={
+              filterIsOpened && mobile
+                ? { display: "none" }
+                : { display: "flex" }
+            }
+          >
+            <div className="products-list">
+              {loading ? (
+                skeletons
+              ) : error ? (
+                <div>Error: {error}</div>
+              ) : (
+                productsToShow.map((item) => (
+                  <ProductCard
+                    key={item.id}
+                    item={item}
+                    filteredCard={filteredCard}
+                  />
+                ))
+              )}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              pageCount={pageCount}
+              onChangePage={(number) => setCurrentPage(number)}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="filter__inner">
-        <div className="filter">
-          <div className="brands">
-            <div className="brands-inner">
-              <h2>Brand</h2>
-              {innerOpenClose(showBrandsCheckboxes, setShowBrandsCheckboxes)}
-            </div>
-            {showBrandsCheckboxes &&
-              Array.from(
-                new Set(products.map((product) => product.category.name))
-              ).map((brand, index) => (
-                <label className="filter__brand" key={index}>
-                  <input
-                    type="checkbox"
-                    value={brand}
-                    checked={selectedBrands.includes(brand)}
-                    onChange={() => handleBrandChange(brand)}
-                    className="checkbox-custom"
-                  />
-                  {brand} ({countProductsInBrand(brand)})
-                </label>
-              ))}
-          </div>
-          <div className="series">
-            <div className="series-inner">
-              <h2>Series</h2>
-              {innerOpenClose(showSeriesCheckboxes, setShowSeriesCheckboxes)}
-            </div>
-            {showSeriesCheckboxes && (
-              <div className="models">
-                {allSeries.map((model, index) => (
-                  <label className="filter__model" key={index}>
-                    <input
-                      type="checkbox"
-                      value={model}
-                      checked={selectedModels.includes(model)}
-                      onChange={() => handleModelChange(model)}
-                    />
-                    {model} ({countProductsInModel(model)})
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="price">
-            <div className="price-inner">
-              <h2>Price, $</h2>
-              {innerOpenClose(showPrices, setShowPrices)}
-            </div>
-            {showPrices && (
-              <div className="price-block">
-                <label>
-                  <input
-                    placeholder="$"
-                    type="number"
-                    value={minPrice}
-                    onChange={handleMinPriceChange}
-                  />
-                </label>
-                <p> - </p>
-                <label>
-                  <input
-                    placeholder="$"
-                    type="number"
-                    value={maxPrice}
-                    onChange={handleMaxPriceChange}
-                  />
-                </label>
-                <button className="price__button">OK</button>
-              </div>
-            )}
-          </div>
-          <div className="memory">
-            <div className="memory-inner">
-              <h2>Internal storage</h2>
-              {innerOpenClose(
-                showMemoriesCheckboxes,
-                setShowMemoriesCheckboxes
-              )}
-            </div>
-            {showMemoriesCheckboxes && (
-              <div className="memories">
-                {allMemories.map((memory, index) => (
-                  <label className="filter__memory" key={index}>
-                    <input
-                      type="checkbox"
-                      value={memory}
-                      checked={selectedMemories.includes(memory)}
-                      onChange={() => handleMemoryChange(memory)}
-                    />
-                    {memory} ({countProductsInMemories(memory)})
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="diagonal">
-            <div className="diagonal-inner">
-              <h2>Display size</h2>
-              {innerOpenClose(
-                showDiagonalesCheckboxes,
-                setShowDiagonalesCheckboxes
-              )}
-            </div>
-            {showDiagonalesCheckboxes && (
-              <div className="diagonals">
-                {allDiagonales.map((diagonal, index) => (
-                  <label className="filter__diagonal" key={index}>
-                    <input
-                      type="checkbox"
-                      value={diagonal}
-                      checked={selectedDiagonales.includes(diagonal)}
-                      onChange={() => handleDiagonalChange(diagonal)}
-                    />
-                    {diagonal} ({countProductsInDiagonales(diagonal)})
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="products-list-box">
-          <div className="products-list">
-            {loading ? (
-              skeletons
-            ) : error ? (
-              <div>Error: {error}</div>
-            ) : (
-              productsToShow.map((item) => (
-                <ProductCard key={item.id} item={item} />
-              ))
-            )}
-          </div>
-          <Pagination
-            currentPage={currentPage}
-            pageCount={pageCount}
-            onChangePage={(number) => setCurrentPage(number)}
-          />
-        </div>
-      </div>
       <PromotionContainer />
       <Subscribe />
     </div>

@@ -25,6 +25,7 @@ import PersonalData from "./pages/PersonalData/PersonalData.jsx";
 import OrderPage from "./components/OrderPage/OrderPage.jsx";
 
 import ProductPage from "./pages/FilteredProducts/ProductList.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -271,10 +272,16 @@ function App() {
                                                   path="/product-card"
                                                   element={<ProductCard />}
                                                 />
+
                                                 <Route
                                                   path="/product-page"
-                                                  element={<ProductPage />}
+                                                  element={
+                                                    <ErrorBoundary>
+                                                      <ProductPage />
+                                                    </ErrorBoundary>
+                                                  }
                                                 />
+
                                                 <Route
                                                   path="/product-page/:label/:page/:series"
                                                   element={<ProductPage />}
