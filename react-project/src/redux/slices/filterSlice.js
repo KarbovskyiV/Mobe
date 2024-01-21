@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  label: "",
+  label: [],
   page: "",
-  series: "",
+  series: [],
+  search: "",
 };
 
 const filterSlice = createSlice({
@@ -19,9 +20,12 @@ const filterSlice = createSlice({
     setSeries(state, action) {
       state.series = action.payload;
     },
+    setSearch(state, action) {
+      state.search = action.payload;
+    },
   },
 });
 
-export const { setLabel, setPage, setSeries } = filterSlice.actions;
+export const { setLabel, setPage, setSeries, setSearch } = filterSlice.actions;
 
 export default filterSlice.reducer;

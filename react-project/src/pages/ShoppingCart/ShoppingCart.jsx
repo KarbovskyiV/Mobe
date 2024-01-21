@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ShoppingCartActiveContext } from "../../App.js";
 import Button from "../../components/Button.jsx";
 import SliderCart from "../../components/Sliders/SliderCart/SliderCart.jsx";
-import CartItems from "../../components/CartItems.jsx";
+import CartItems from "../../components/CartItems/CartItems.jsx";
 import CartIsEmpty from "../CartIsEmpty.jsx";
 import "./style.scss";
 import { useSelector } from "react-redux";

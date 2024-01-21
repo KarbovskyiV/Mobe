@@ -1,6 +1,4 @@
-.section__card {
-  width: 267px;
-}
+@import "../../scss/_variables.scss";
 
 .section__card-photo img {
   max-width: 267px;
@@ -14,12 +12,52 @@
   padding-bottom: 40px;
 }
 
+.section__card-photoMobile img {
+  max-width: 144px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.section__innerMobile {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 40px;
+  width: 100%;
+}
+
 .section__card-photo {
   max-width: 267px;
 }
 
+.section__card-photoMobile {
+  width: 144px;
+  height: 164px;
+}
+
+.rating__revewsMobile {
+  font-size: 14px;
+}
+
 .section__card-content-box {
   padding: 0 12px;
+}
+
+.section__points-box {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+}
+
+.shoppingcart__delete {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
 }
 
 .section__card-content {
@@ -33,10 +71,34 @@
   justify-content: space-between;
 }
 
+.section__card-contentMobile {
+  padding: 8px;
+  background: var(--Grey-light, #f5f5f5);
+  margin-bottom: 16px;
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.section__card-rating {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
 .section__card-title {
   text-align: center;
   margin-bottom: 12px;
   font-size: 14px;
+}
+
+.section__card-titleMobile {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 12px;
 }
 
 .section__price {
@@ -54,6 +116,16 @@
   font-style: normal;
   font-weight: 700;
   line-height: 20px;
+}
+
+.section__buttonAddToShopping {
+  width: 74px;
+  height: 44px;
+  border-radius: 4px;
+  background: var(--violet-accent, $violet);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .heart-product {
@@ -94,7 +166,6 @@
   padding: 12px 16px 24px 16px;
   color: var(--black, #28003e);
   text-align: center;
-  /* body regular 16 */
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
@@ -109,4 +180,18 @@
 
 .popup-btn {
   justify-content: end;
+}
+
+@media (max-width: 850px) {
+  .section__card-photo img {
+    max-width: 240px;
+    height: auto;
+  }
+  .section__card-photo {
+    max-width: 240px;
+    height: auto;
+  }
+  .section__card-content-box {
+    max-width: 218px;
+  }
 }

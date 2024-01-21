@@ -20,11 +20,17 @@ const ProductSlider = ({ data, onAddToCart, sliderSettings }) => {
     ...sliderSettings,
   };
 
+  const filteredCard = false;
+
   return (
     <Slider {...settings}>
       {data.map((item, index) => (
         <div key={index}>
-          <ProductCard item={item} onAddToCart={onAddToCart} />
+          <ProductCard
+            item={item}
+            onAddToCart={onAddToCart}
+            filteredCard={filteredCard}
+          />
         </div>
       ))}
     </Slider>

@@ -14,7 +14,12 @@ import {
   GetCatalogContext,
   ProductsOpenedContext,
 } from "../../App.js";
-import { setLabel, setPage, setSeries } from "../../redux/slices/filterSlice";
+import {
+  setLabel,
+  setPage,
+  setSeries,
+  setSearch,
+} from "../../redux/slices/filterSlice";
 
 const Catalog = () => {
   const dispatch = useDispatch();
@@ -125,12 +130,12 @@ const Catalog = () => {
   useOutsideClick(wrapRef, getCloseOpen);
 
   const getFilterPage = (label, page, series) => {
-    dispatch(setLabel(label));
+    dispatch(setLabel([label]));
     dispatch(setPage(page));
-    dispatch(setSeries(series));
+    dispatch(setSeries(series.length === 0 ? series : [series]));
+    dispatch(setSearch(""));
     setCatalogOpened(false);
     navigate(`/product-page`);
-    console.log("sams");
   };
 
   return (
@@ -176,9 +181,10 @@ const Catalog = () => {
                   <div className={styles.li_box}>
                     <a
                       href="##"
-                      onClick={() =>
-                        getFilterPage(obj.label, "sortBrand", "sams")
-                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        getFilterPage(obj.label, "sortBrand", []);
+                      }}
                     >{`${obj.label} phones`}</a>
                     {mobile ? (
                       <svg
@@ -239,13 +245,14 @@ const Catalog = () => {
                             <li key={i}>
                               <a
                                 href="##"
-                                onClick={() =>
+                                onClick={(e) => {
+                                  e.preventDefault();
                                   getFilterPage(
                                     obj.label,
                                     "sortSeries",
                                     object.series
-                                  )
-                                }
+                                  );
+                                }}
                               >
                                 {object.series}
                               </a>
@@ -255,9 +262,7 @@ const Catalog = () => {
                         return null; // Если серия уже отображена, возвращаем null
                       })}
                     <div
-                      onClick={() =>
-                        getFilterPage(obj.label, "sortBrand", "sams")
-                      }
+                      onClick={() => getFilterPage(obj.label, "sortBrand", "")}
                       className={styles.cat_log}
                     >
                       <span>View all</span>
