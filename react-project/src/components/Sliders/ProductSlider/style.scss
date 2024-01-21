@@ -11,13 +11,13 @@
   z-index: 2000;
 }
 
-.slick-arrow.slick-next {
-  background-image: url(arrowNext.svg);
+.slick-arrow.slick-prev {
+  background-image: url(arrowPrev.svg);
   background-repeat: no-repeat;
 }
 
-.slick-arrow.slick-prev {
-  background-image: url(arrowPrev.svg);
+.slick-arrow.slick-next {
+  background-image: url(arrowNext.svg);
   background-repeat: no-repeat;
 }
 
@@ -40,6 +40,11 @@
   .slick-slider {
     width: 2000px;
     overflow-x: scroll;
+  }
+
+  .slick-arrow.slick-prev,
+  .slick-arrow.slick-next {
+    background-image: none;
   }
 }
 

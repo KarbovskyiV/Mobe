@@ -5,13 +5,20 @@ import SearchSvg from "./Images/search.svg";
 import CleanIcon from "./Images/iconClean.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setLabel, setPage, setSeries } from "../../redux/slices/filterSlice";
+import {
+  setLabel,
+  setPage,
+  setSeries,
+  setSearch,
+} from "../../redux/slices/filterSlice";
 
 const Search = () => {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState("");
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
   const [filteredItems, setFilteredItems] = React.useState([]);
+
+  console.log(searchValue);
 
   const products = useSelector((state) => state.products.products);
 
@@ -47,14 +54,25 @@ const Search = () => {
       );
 
       if (filtered1.length === 0) {
-        /*  const filtered2 = products.filter(
+        const filtered2 = products.filter(
           (item) =>
             item.category.name
               .toLowerCase()
               .includes(searchValue.toLowerCase()) ||
             item.name.toLowerCase().includes(searchValue.toLowerCase())
-        ); */
-        navigate(`/product-page`);
+        );
+
+        if (filtered2.length !== 0) {
+          dispatch(setSearch(searchValue));
+          dispatch(setLabel([]));
+          dispatch(setPage(""));
+          dispatch(setSeries([]));
+          setFilteredItems("");
+          setValue("");
+          navigate(`/product-page`);
+        } else {
+          return;
+        }
       } else {
         const uniqueFiltered = [...new Set(filtered1)];
 
@@ -71,6 +89,8 @@ const Search = () => {
           setFilteredItems([...new Set(List)]);
         }
       }
+    } else {
+      setValue(searchValue);
     }
   }, [searchValue]);
 
@@ -79,10 +99,11 @@ const Search = () => {
     updateSearchValue(event.target.value);
   };
 
-  const getFilterPage = (label, page, series) => {
-    dispatch(setLabel(label));
-    dispatch(setPage(page));
-    dispatch(setSeries(series));
+  const getFilterPage = (item) => {
+    dispatch(setSearch(item));
+    dispatch(setLabel([]));
+    dispatch(setPage(""));
+    dispatch(setSeries([]));
     setFilteredItems("");
     setValue("");
     if (!location.pathname.includes("/product-page/")) {
@@ -116,16 +137,7 @@ const Search = () => {
       >
         {filteredItems && value
           ? filteredItems.map((item, index) => (
-              <li
-                key={index}
-                onClick={() =>
-                  getFilterPage(
-                    filteredItems[0],
-                    index === 0 ? "sortBrand" : "sortSeries",
-                    item
-                  )
-                }
-              >
+              <li key={index} onClick={() => getFilterPage(item)}>
                 {item
                   .split(new RegExp(`(${value})`, "gi"))
                   .map((part, i) =>
