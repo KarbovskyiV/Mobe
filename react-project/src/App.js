@@ -26,6 +26,7 @@ import OrderPage from "./components/OrderPage/OrderPage.jsx";
 
 import ProductPage from "./pages/FilteredProducts/ProductList.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
+import Navigation from "./routers";
 
 export const CategoryContext = React.createContext();
 export const RegistrationActiveContext = React.createContext();
@@ -172,7 +173,7 @@ function App() {
   });
 
   return (
-    <div className="App">
+    <div className='App'>
       <GetTypeSort.Provider value={{ typeSort, setTypeSort }}>
         <GetNummerStar.Provider value={{ nummerStar, setNummerStar }}>
           <ProductsOpenedContext.Provider
@@ -233,73 +234,7 @@ function App() {
                                               }}
                                             >
                                               <Header />
-
-                                              <Routes>
-                                                <Route
-                                                  path="/NotFound"
-                                                  element={<NotFound />}
-                                                />
-                                                <Route
-                                                  path="/login"
-                                                  element={<LoginPage />}
-                                                />
-                                                <Route
-                                                  path="/"
-                                                  element={<Home />}
-                                                />
-
-                                                <Route
-                                                  path="/*"
-                                                  element={<Home />}
-                                                />
-                                                <Route
-                                                  path="/compare"
-                                                  element={<ComparePage />}
-                                                />
-                                                <Route
-                                                  path="/wishList"
-                                                  element={<WishList />}
-                                                />
-                                                <Route
-                                                  path="/order-page"
-                                                  element={<OrderPage />}
-                                                />
-                                                <Route
-                                                  path="/personal-data"
-                                                  element={<PersonalData />}
-                                                />
-                                                <Route
-                                                  path="/product-card"
-                                                  element={<ProductCard />}
-                                                />
-
-                                                <Route
-                                                  path="/product-page"
-                                                  element={
-                                                    <ErrorBoundary>
-                                                      <ProductPage />
-                                                    </ErrorBoundary>
-                                                  }
-                                                />
-
-                                                <Route
-                                                  path="/product-page/:label/:page/:series"
-                                                  element={<ProductPage />}
-                                                />
-                                                <Route
-                                                  path={`/product-card/:itemDate`}
-                                                  element={<ProductCard />}
-                                                />
-                                                <Route
-                                                  path={`/accessories-card`}
-                                                  element={<AccessoriesCard />}
-                                                />
-                                                <Route
-                                                  path="/reset-password"
-                                                  element={<ResetPassword />}
-                                                />
-                                              </Routes>
-
+                                              <Navigation />
                                               <Footer />
 
                                               <div
@@ -308,7 +243,7 @@ function App() {
                                                     ? { display: "flex" }
                                                     : { display: "none" }
                                                 }
-                                                className="overlaySignIn"
+                                                className='overlaySignIn'
                                               />
                                               <CategoryContext.Provider
                                                 value={{
@@ -322,7 +257,7 @@ function App() {
                                                       ? { display: "flex" }
                                                       : { display: "none" }
                                                   }
-                                                  className="overlaySignIn"
+                                                  className='overlaySignIn'
                                                 >
                                                   <LoginPage />
                                                 </div>
@@ -335,7 +270,7 @@ function App() {
                                                         }
                                                       : { display: "none" }
                                                   }
-                                                  className="overlayRegistration"
+                                                  className='overlayRegistration'
                                                 >
                                                   <Registration />
                                                 </div>
@@ -349,7 +284,7 @@ function App() {
                                                         }
                                                       : { display: "none" }
                                                   }
-                                                  className="overlayForgotPassword"
+                                                  className='overlayForgotPassword'
                                                 >
                                                   <ForgotPassword />
                                                 </div>
@@ -362,7 +297,7 @@ function App() {
                                                         }
                                                       : { display: "none" }
                                                   }
-                                                  className="overlayShoppingCart"
+                                                  className='overlayShoppingCart'
                                                 >
                                                   <ShoppingCart />
                                                 </div>
