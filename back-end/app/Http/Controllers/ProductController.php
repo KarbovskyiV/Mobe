@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -269,4 +271,42 @@ class ProductController extends Controller
             'data' => $recommendedProducts,
         ]);
     }
+
+    public function uploadImage(Request $request, Product $product)
+    {
+        $images = $request->file('images');
+        $newImageUrls = [];
+
+        try {
+            $existingImageUrls = json_decode($product->image, true) ?? [];
+
+            foreach ($images as $image) {
+                $upload = Cloudinary::upload($image->getRealPath());
+                $newImageUrls[] = $upload->getSecurePath();
+            }
+
+            $combinedImageUrls = array_merge($existingImageUrls, $newImageUrls);
+            $product->update(['image' => json_encode($combinedImageUrls)]);
+
+            foreach ($newImageUrls as $imageUrl) {
+                Cloudinary::upload($imageUrl);
+            }
+
+            return response()->json([
+                'success' => 'Images uploaded successfully.'
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'error' => 'Failed to upload images. Please try again.'
+            ]);
+        }
+    }
+
+    public function showImage(Product $product)
+    {
+        return json_decode($product->image);
+    }
+
+    // TODO: create product, add swagger for upload and show image
 }
