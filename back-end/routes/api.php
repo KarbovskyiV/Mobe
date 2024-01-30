@@ -40,8 +40,11 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 Route::get('/recommended/{product}', [ProductController::class, 'recommendedProducts'])
     ->name('products.recommendedProducts');
 
-Route::get('/accessories', [\App\Http\Controllers\AccessoryController::class, 'index']);
+Route::post('/products/{product}/upload-image', [ProductController::class, 'uploadImage']);
+Route::get('/products/{product}/show-image', [ProductController::class, 'showImage']);
+//Route::get('/products/{product}/delete-image', [ProductController::class, 'deleteImage']);
 
+Route::get('/accessories', [\App\Http\Controllers\AccessoryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products/{product}/add-to-favourites', [ProductController::class, 'addToFavourites'])
