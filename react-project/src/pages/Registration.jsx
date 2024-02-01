@@ -28,7 +28,6 @@ const Registration = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name);
     setInputValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
@@ -42,43 +41,54 @@ const Registration = () => {
   const registerUser = (e) => {
     e.preventDefault();
 
-    axios
-      .post("/register", {
-        name: e.target[0].value,
-        surname: e.target[1].value,
-        phone: e.target[2].value,
-        email: e.target[3].value,
-        password: e.target[4].value,
-      })
-      .then((res) => {
-        setUser({
-          ...res.user,
-        });
+    if (
+      nameValid.isValid &&
+      surenameValid.isValid &&
+      phoneValid.isValid &&
+      emailValid.isValid &&
+      passwordValid.isValid
+    ) {
+      axios
+        .post("/register", {
+          name: e.target[0].value,
+          surname: e.target[1].value,
+          phone: e.target[2].value,
+          email: e.target[3].value,
+          password: e.target[4].value,
+        })
+        .then((res) => {
+          setUser({
+            ...res.user,
+          });
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            name: e.target[0].value,
-            surname: e.target[1].value,
-            phone: e.target[2].value,
-            email: e.target[3].value,
-            password: e.target[4].value,
-          })
-        );
-        setInputValues({
-          name: "",
-          surname: "",
-          phone: "",
-          email: "",
-          password: "",
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              name: e.target[0].value,
+              surname: e.target[1].value,
+              phone: e.target[2].value,
+              email: e.target[3].value,
+              password: e.target[4].value,
+            })
+          );
+          setInputValues({
+            name: "",
+            surname: "",
+            phone: "",
+            email: "",
+            password: "",
+          });
+          navigate("/");
+          setRegistrationActive(false);
+          setIsLoggedIn(true);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
         });
-        navigate("/");
-        setRegistrationActive(false);
-        setIsLoggedIn(true);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
+    } else {
+      // Validation failed, handle it accordingly (you can show an error message)
+      alert("Validation failed. Please check the form fields.");
+    }
   };
 
   const changePage = () => {
@@ -210,7 +220,10 @@ const Registration = () => {
         <p>Name</p>
         <input
           value={inputValues.name}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            handleInputChange(e);
+            nameValid.onChange(e);
+          }}
           onBlur={(e) => nameValid.onBlur(e)}
           type='text'
           placeholder='your name'
@@ -225,7 +238,10 @@ const Registration = () => {
         <p>Surname</p>
         <input
           value={inputValues.surname}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            handleInputChange(e);
+            surenameValid.onChange(e);
+          }}
           onBlur={(e) => surenameValid.onBlur(e)}
           type='text'
           name='surname'
@@ -240,7 +256,10 @@ const Registration = () => {
         <p>Phone number</p>
         <input
           value={inputValues.phone}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            handleInputChange(e);
+            phoneValid.onChange(e);
+          }}
           onBlur={(e) => phoneValid.onBlur(e)}
           type='number'
           placeholder='+380'
@@ -260,7 +279,10 @@ const Registration = () => {
         <p>Email</p>
         <input
           value={inputValues.email}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            handleInputChange(e);
+            emailValid.onChange(e);
+          }}
           onBlur={(e) => emailValid.onBlur(e)}
           type='email'
           name='email'
@@ -277,7 +299,10 @@ const Registration = () => {
           <div className='registration-eye'>
             <input
               value={inputValues.password}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                handleInputChange(e);
+                passwordValid.onChange(e);
+              }}
               onBlur={(e) => passwordValid.onBlur(e)}
               type={eye ? "password" : "text"}
               autoComplete='on'
