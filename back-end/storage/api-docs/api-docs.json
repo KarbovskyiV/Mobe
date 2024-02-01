@@ -6,9 +6,88 @@
     },
     "paths": {
         "/api/": {},
+        "/api/accessories": {
+            "get": {
+                "tags": [
+                    "Accessories"
+                ],
+                "summary": "Get a list of all accessories and category information",
+                "description": "Get a list of accessories with category.",
+                "operationId": "685bc8bad8049508db68c19e5685367c",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "category_id": {
+                                                "type": "integer"
+                                            },
+                                            "subcategory": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "string"
+                                            },
+                                            "compatible_model": {
+                                                "type": "string"
+                                            },
+                                            "color": {
+                                                "type": "string"
+                                            },
+                                            "form_factor": {
+                                                "type": "string"
+                                            },
+                                            "material": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "style": {
+                                                "type": "string"
+                                            },
+                                            "legal_information": {
+                                                "type": "string"
+                                            },
+                                            "features": {
+                                                "type": "string"
+                                            },
+                                            "category": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/register": {
             "post": {
-                "tags": ["Authentication"],
+                "tags": [
+                    "Authentication"
+                ],
                 "summary": "Register a new user",
                 "description": "Registers a new user and returns user data",
                 "operationId": "registerUser",
@@ -17,7 +96,11 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": ["name", "email", "password"],
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string"
@@ -49,7 +132,9 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "required": ["message"],
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
                                             "type": "string"
@@ -93,7 +178,9 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "required": ["message"],
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
                                             "type": "string"
@@ -120,7 +207,9 @@
         },
         "/api/login": {
             "post": {
-                "tags": ["Authentication"],
+                "tags": [
+                    "Authentication"
+                ],
                 "summary": "Authenticate a user",
                 "description": "Authenticate a user and return an authorization token if successful",
                 "operationId": "loginUser",
@@ -129,7 +218,10 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": ["email", "password"],
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
                                 "properties": {
                                     "email": {
                                         "type": "string",
@@ -186,7 +278,10 @@
                                             "type": "object"
                                         },
                                         "authorization": {
-                                            "required": ["token", "type"],
+                                            "required": [
+                                                "token",
+                                                "type"
+                                            ],
                                             "properties": {
                                                 "token": {
                                                     "type": "string"
@@ -208,7 +303,9 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "required": ["message"],
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
                                             "type": "string"
@@ -224,7 +321,9 @@
         },
         "/api/logout": {
             "post": {
-                "tags": ["Authentication"],
+                "tags": [
+                    "Authentication"
+                ],
                 "summary": "Logout the currently authenticated user",
                 "description": "Logout the currently authenticated user and revoke their access tokens",
                 "operationId": "logoutUser",
@@ -269,7 +368,9 @@
         },
         "/api/link/gmail": {
             "get": {
-                "tags": ["Authentication"],
+                "tags": [
+                    "Authentication"
+                ],
                 "summary": "Generate a Google OAuth link",
                 "description": "Generates a Google OAuth link for linking your account.",
                 "operationId": "linkWithGoogle",
@@ -295,7 +396,9 @@
         },
         "/api/categories": {
             "get": {
-                "tags": ["Categories"],
+                "tags": [
+                    "Categories"
+                ],
                 "summary": "List categories",
                 "description": "Get a list of categories with pagination.",
                 "operationId": "getCategories",
@@ -392,7 +495,9 @@
         },
         "/api/{product}/like": {
             "post": {
-                "tags": ["Likeable"],
+                "tags": [
+                    "Likeable"
+                ],
                 "summary": "Like a product",
                 "description": "Add a like to the specified product.",
                 "operationId": "likeProduct",
@@ -448,7 +553,9 @@
         },
         "/api/{product}/dislike": {
             "post": {
-                "tags": ["Likeable"],
+                "tags": [
+                    "Likeable"
+                ],
                 "summary": "Dislike a product",
                 "description": "Add a dislike to the specified product.",
                 "operationId": "dislikeProduct",
@@ -504,7 +611,9 @@
         },
         "/api/{product}/likeCount": {
             "get": {
-                "tags": ["Likeable"],
+                "tags": [
+                    "Likeable"
+                ],
                 "summary": "Get the like count for a product",
                 "description": "Retrieve the count of likes for the specified product.",
                 "operationId": "getLikeCount",
@@ -557,7 +666,9 @@
         },
         "/api/{product}/dislikeCount": {
             "get": {
-                "tags": ["Likeable"],
+                "tags": [
+                    "Likeable"
+                ],
                 "summary": "Get the dislike count for a product",
                 "description": "Retrieve the count of dislikes for the specified product.",
                 "operationId": "getDislikeCount",
@@ -610,7 +721,9 @@
         },
         "/api/forgot-password": {
             "post": {
-                "tags": ["Password"],
+                "tags": [
+                    "Password"
+                ],
                 "summary": "Send a password reset email",
                 "description": "Sends a password reset email to the user's registered email address.",
                 "operationId": "sendResetLinkEmail",
@@ -619,7 +732,9 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": ["email"],
+                                "required": [
+                                    "email"
+                                ],
                                 "properties": {
                                     "email": {
                                         "type": "string",
@@ -637,7 +752,10 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "required": ["message", "token"],
+                                    "required": [
+                                        "message",
+                                        "token"
+                                    ],
                                     "properties": {
                                         "message": {
                                             "type": "string"
@@ -656,7 +774,9 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "required": ["message"],
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
                                             "type": "string"
@@ -683,7 +803,9 @@
         },
         "/api/reset-password": {
             "post": {
-                "tags": ["Password"],
+                "tags": [
+                    "Password"
+                ],
                 "summary": "Reset the user's password",
                 "description": "Resets the user's password with a valid token.",
                 "operationId": "resetPassword",
@@ -726,7 +848,9 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "required": ["message"],
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
                                             "type": "string"
@@ -742,7 +866,9 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "required": ["message"],
+                                    "required": [
+                                        "message"
+                                    ],
                                     "properties": {
                                         "message": {
                                             "type": "string"
@@ -769,7 +895,9 @@
         },
         "/api/products": {
             "get": {
-                "tags": ["Products"],
+                "tags": [
+                    "Products"
+                ],
                 "summary": "Get a list of all products and category information",
                 "description": "Get a list of products with category.",
                 "operationId": "1bfaa78d1c2c3848ab8165c5dadcad3e",
@@ -835,7 +963,9 @@
         },
         "/api/products/{product}": {
             "get": {
-                "tags": ["Products"],
+                "tags": [
+                    "Products"
+                ],
                 "summary": "Show product details with category",
                 "description": "Retrieve details of a product along with its associated category",
                 "operationId": "showProduct",
@@ -912,7 +1042,9 @@
         },
         "/api/products/{product}/add-to-favourites": {
             "get": {
-                "tags": ["Favourite"],
+                "tags": [
+                    "Favourite"
+                ],
                 "summary": "Add a product to favourites",
                 "description": "Adds a product to the user's list of favourite products.",
                 "operationId": "addToFavourites",
@@ -983,7 +1115,9 @@
         },
         "/api/products/{product}/remove-from-favourites": {
             "post": {
-                "tags": ["Favourite"],
+                "tags": [
+                    "Favourite"
+                ],
                 "summary": "Remove a product from favourites",
                 "description": "Remove a product from the user's list of favourite products.",
                 "operationId": "removeFromFavourites",
@@ -1054,7 +1188,9 @@
         },
         "/api/recommended/{product}": {
             "get": {
-                "tags": ["Products"],
+                "tags": [
+                    "Products"
+                ],
                 "summary": "Get recommended products",
                 "description": "Get a list of recommended products based on the provided product's category.",
                 "operationId": "getRecommendedProducts",
@@ -1127,7 +1263,9 @@
         },
         "/api/reviews": {
             "get": {
-                "tags": ["Reviews"],
+                "tags": [
+                    "Reviews"
+                ],
                 "summary": "Get a list of reviews",
                 "description": "Get a list of all reviews with user and product details.",
                 "operationId": "getReviews",
@@ -1233,7 +1371,9 @@
         },
         "/api/products/{product}/reviews": {
             "post": {
-                "tags": ["Reviews"],
+                "tags": [
+                    "Reviews"
+                ],
                 "summary": "Create a new review for a product",
                 "description": "Create a new review for the specified product.",
                 "operationId": "storeProductReview",
@@ -1254,7 +1394,9 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": ["content"],
+                                "required": [
+                                    "content"
+                                ],
                                 "properties": {
                                     "rate": {
                                         "type": "integer",
