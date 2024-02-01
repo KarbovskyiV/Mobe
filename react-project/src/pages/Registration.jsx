@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
   SignInActiveContext,
   RegistrationActiveContext,
@@ -17,6 +17,20 @@ const Registration = () => {
   const { setUser } = React.useContext(userContext);
   const { setIsLoggedIn } = React.useContext(isLoggedInContext);
   const [eye, setEye] = React.useState(true);
+
+  const [inputValues, setInputValues] = useState({
+    name: "",
+    surname: "",
+    phone: "",
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name);
+    setInputValues((prevValues) => ({ ...prevValues, [name]: value }));
+  };
 
   const onClickLinkRegistration = () => {
     setRegistrationActive(false);
@@ -51,6 +65,13 @@ const Registration = () => {
             password: e.target[4].value,
           })
         );
+        setInputValues({
+          name: "",
+          surname: "",
+          phone: "",
+          email: "",
+          password: "",
+        });
         navigate("/");
         setRegistrationActive(false);
         setIsLoggedIn(true);
@@ -188,12 +209,13 @@ const Registration = () => {
         <h2>Registration</h2>
         <p>Name</p>
         <input
-          value={nameValid.value}
-          onChange={(e) => nameValid.onChange(e)}
+          value={inputValues.name}
+          onChange={handleInputChange}
           onBlur={(e) => nameValid.onBlur(e)}
           type='text'
           placeholder='your name'
           className={redColor(nameValid, 2, "")}
+          name='name'
         ></input>
         {isEmpty(nameValid)}
         {isLendth(nameValid, 2)}
@@ -202,10 +224,11 @@ const Registration = () => {
         )}
         <p>Surname</p>
         <input
-          value={surenameValid.value}
-          onChange={(e) => surenameValid.onChange(e)}
+          value={inputValues.surname}
+          onChange={handleInputChange}
           onBlur={(e) => surenameValid.onBlur(e)}
           type='text'
+          name='surname'
           placeholder='your surname'
           className={redColor(surenameValid, 2, "")}
         />
@@ -216,11 +239,12 @@ const Registration = () => {
         )}
         <p>Phone number</p>
         <input
-          value={phoneValid.value}
-          onChange={(e) => phoneValid.onChange(e)}
+          value={inputValues.phone}
+          onChange={handleInputChange}
           onBlur={(e) => phoneValid.onBlur(e)}
           type='number'
           placeholder='+380'
+          name='phone'
           className={
             (phoneValid.isDirty &&
               ((phoneValid.value.length < 10 &&
@@ -235,10 +259,11 @@ const Registration = () => {
         {maxLength(phoneValid, 15)}
         <p>Email</p>
         <input
-          value={emailValid.value}
-          onChange={(e) => emailValid.onChange(e)}
+          value={inputValues.email}
+          onChange={handleInputChange}
           onBlur={(e) => emailValid.onBlur(e)}
           type='email'
+          name='email'
           placeholder='example@email.com'
           className={redColor(emailValid, 2, "")}
         />
@@ -251,11 +276,12 @@ const Registration = () => {
         <div>
           <div className='registration-eye'>
             <input
-              value={passwordValid.value}
-              onChange={(e) => passwordValid.onChange(e)}
+              value={inputValues.password}
+              onChange={handleInputChange}
               onBlur={(e) => passwordValid.onBlur(e)}
               type={eye ? "password" : "text"}
               autoComplete='on'
+              name='password'
               placeholder='your password'
               className={redColor(passwordValid, 2, "2")}
             />
