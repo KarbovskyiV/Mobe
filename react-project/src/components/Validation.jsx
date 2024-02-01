@@ -29,7 +29,9 @@ export const useValidation = (value, validations) => {
           /(?=.*\d)/.test(value) ? setDigits(false) : setDigits(true);
           break;
         case "upperCaseLetter":
-          /(?=.*[A-Z])/.test(value) ? setUpperCaseLetter(false) : setUpperCaseLetter(true);
+          /(?=.*[A-Z])/.test(value)
+            ? setUpperCaseLetter(false)
+            : setUpperCaseLetter(true);
           break;
         case "falseSymbols":
           /[^a-z0-9\-@]+$/i.test(value)
