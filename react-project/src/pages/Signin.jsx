@@ -38,6 +38,22 @@ const SignIn = () => {
 
   const loginUser = (e) => {
     e.preventDefault();
+
+    if (
+      email ||
+      password ||
+      emailValid.isEmpty ||
+      emailValid.falseSymbols ||
+      passwordValid.isEmpty ||
+      passwordValid.value.length < 8 ||
+      passwordValid.noCyrillic ||
+      passwordValid.digits ||
+      passwordValid.upperCaseLetter
+    ) {
+      alert("Please fix validation errors before submitting.");
+      return;
+    }
+
     axios
       .post("/login", {
         email: e.target[0].value,
@@ -191,7 +207,10 @@ const SignIn = () => {
         <input
           id='myInput'
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            emailValid.onChange(e);
+          }}
           onBlur={(e) => emailValid.onBlur(e)}
           type='email'
           placeholder='example@email.com'
@@ -207,7 +226,10 @@ const SignIn = () => {
         <div className='signin-eye'>
           <input
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              passwordValid.onChange(e);
+            }}
             onBlur={(e) => passwordValid.onBlur(e)}
             type={eye ? "password" : "text"}
             autoComplete='on'
